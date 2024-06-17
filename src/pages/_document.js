@@ -36,6 +36,7 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap"
             rel="stylesheet"
           />
+          <link rel="icon" href="/murak-logo-removebg.png" />
         </Head>
         <body>
           <Main />
