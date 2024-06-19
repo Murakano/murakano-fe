@@ -1,30 +1,30 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
+// src/pages/index.js
+import Header from "@/components/common/organisms/Header";
+import styled from "styled-components";
 
 export default function Search() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const router = useRouter();
-
-  const handleSearch = () => {
-    router.push(`/search?query=${searchTerm}`);
-  };
-
   return (
-    <div>
-      <h1>Search Page</h1>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Search..."
-      />
-      <button onClick={handleSearch}>Search</button>
-      {router.query.query && (
-        <div>
-          <h2>Results for: {router.query.query}</h2>
-          {/* 검색 결과 표시 */}
-        </div>
-      )}
-    </div>
+    <Container>
+      <Header />
+      <Section>{/* 트루 여기에 검색결과 페이지 넣어주면 돼! */}</Section>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
+
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 200px;
+  height: 100vh;
+  width: 780px;
+`;
