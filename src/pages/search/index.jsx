@@ -13,7 +13,7 @@ export default function Search() {
 
   return (
     <Container>
-      <Header />
+      <Header isHome />
       <Section>
         <Title onClick={redirectToHome}>
           <Logo></Logo>

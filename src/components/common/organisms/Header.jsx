@@ -5,15 +5,17 @@ import SearchBar from "@/components/search/atoms/SearchBar";
 import { LogoText, Row } from "@/styles/commonStyles";
 import HeaderBtn from "../molecules/HeaderBtn";
 
-export default function Header() {
+export default function Header({ isHome }) {
   return (
-    <Container>
+    <Container isHome={isHome}>
       <Inner>
         <HeaderBtn />
-        <HeaderRow>
-          <SmallLogoText>머라카노</SmallLogoText>
-          <SearchBar header />
-        </HeaderRow>
+        {!isHome && (
+          <HeaderRow>
+            <SmallLogoText>머라카노</SmallLogoText>
+            <SearchBar header />
+          </HeaderRow>
+        )}
       </Inner>
     </Container>
   );
@@ -26,7 +28,7 @@ const Container = styled.div`
   justify-content: center;
   height: 130px;
   width: 100vw;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: ${(props) => (props.isHome ? "none" : "1px solid #cccccc")};
 `;
 
 const Inner = styled.div`
