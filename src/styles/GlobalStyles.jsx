@@ -1,5 +1,9 @@
+// src/pages/_app.js
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import { Pretendard } from "next/font/google";
+
+const pretendard = Pretendard({ weight: ["400", "700"], display: "swap" });
 
 const GlobalStyles = createGlobalStyle`
   /* CSS Reset */
@@ -20,7 +24,7 @@ const GlobalStyles = createGlobalStyle`
     vertical-align: baseline;
   }
   body { 
-    font-family: 'Pretendard', sans-serif;
+    font-family: ${pretendard.style.fontFamily}, sans-serif;
     background-color: #ffffff;
     margin-bottom: 0;
   }
@@ -34,4 +38,11 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-export default GlobalStyles;
+export default function MyApp({ Component, pageProps }) {
+  return (
+    <>
+      <GlobalStyles />
+      <Component {...pageProps} />
+    </>
+  );
+}

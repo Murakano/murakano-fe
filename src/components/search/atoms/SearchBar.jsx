@@ -23,7 +23,7 @@ export default function SearchBar({ header }) {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Search for words or phrases.."
+        placeholder="영어 개발 용어를 검색해보세요."
       />
       <Icon onClick={handleSearch}>
         <StyledSearchOutlined />

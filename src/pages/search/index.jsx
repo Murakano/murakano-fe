@@ -1,16 +1,8 @@
 // src/pages/index.js
 import Header from "@/components/common/organisms/Header";
 import styled from "styled-components";
-import { LogoText } from "@/styles/commonStyles";
-import SearchBar from "@/components/search/atoms/SearchBar";
-import router from "next/router";
 
 export default function Search() {
-  // 메인 홈 이동
-  const redirectToHome = () => {
-    router.push("/");
-  };
-
   return (
     <Container>
       <Header />
