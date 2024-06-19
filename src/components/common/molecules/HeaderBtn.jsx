@@ -1,13 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import { Row } from "@/styles/commonStyles";
+import Link from "next/link";
 
 export default function HeaderBtn() {
   return (
     <HeaderRow>
-      <Btn>전체 용어</Btn>
-      <Btn>회원가입</Btn>
-      <Btn>로그인</Btn>
+      <Btn>
+        <StyledLink href="/words">전체용어</StyledLink>
+      </Btn>
+      <Btn>
+        <StyledLink href="/auth/signup">회원가입</StyledLink>
+      </Btn>
+      <Btn>
+        <StyledLink href="/auth/login">로그인</StyledLink>
+      </Btn>
+      {/* 임시방편 */}
+      <Btn>
+        <StyledLink href="auth/requests">내요청</StyledLink>
+      </Btn>
     </HeaderRow>
   );
 }
@@ -29,4 +40,15 @@ const HeaderRow = styled(Row)`
   justify-content: flex-end;
   height: 38px;
   gap: 10px;
+`;
+
+const StyledLink = styled(Link)`
+  color: #666666;
+  font-size: 13px;
+  font-weight: 200;
+  text-decoration: none;
+
+  &:hover {
+    color: #000000;
+  }
 `;

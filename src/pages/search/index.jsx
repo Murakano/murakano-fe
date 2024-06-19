@@ -13,15 +13,8 @@ export default function Search() {
 
   return (
     <Container>
-      <Header isHome />
-      <Section>
-        <Title onClick={redirectToHome}>
-          <Logo></Logo>
-          <LogoText>머라카노</LogoText>
-        </Title>
-        <SubText>개발자들을 위한 한국어 발음 검색 서비스</SubText>
-        <SearchBar />
-      </Section>
+      <Header />
+      <Section></Section>
     </Container>
   );
 }
@@ -42,29 +35,4 @@ const Section = styled.div`
   padding-top: 200px;
   height: 100vh;
   width: 780px;
-`;
-
-const Logo = styled.div`
-  width: 70px;
-  height: 70px;
-  background-image: url("murak-logo-removebg.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-`;
-
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  cursor: pointer;
-`;
-
-const SubText = styled.div`
-  font-size: 24px;
-  font-weight: 600;
-  text-align: center;
-  color: #666666;
-  margin-bottom: 20px;
 `;
