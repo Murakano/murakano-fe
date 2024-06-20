@@ -32,6 +32,7 @@ export const Column = styled.div`
 
 // 검색창 스타일
 import { SearchOutlined } from "@ant-design/icons";
+import Link from "next/link";
 export const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
@@ -68,4 +69,9 @@ export const StyledSearchOutlined = styled(SearchOutlined)`
   height: 32px;
   font-size: 30px;
   color: #666666;
+`;
+
+export const ResetLink = styled(Link)`
+  text-decoration: none;
+  cursor: pointer;
 `;
