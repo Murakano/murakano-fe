@@ -33,8 +33,8 @@ export default function SearchBar({ header }) {
     };
   }, []);
   return (
-    <Column>
-      <SearchBarContainer header={header} ref={searchBarRef}>
+    <Column ref={searchBarRef}>
+      <SearchBarContainer header={header}>
         <SearchInput
           header={header}
           type="text"
