@@ -18,6 +18,7 @@ export default function SearchBar({ header }) {
 
   const handleSearch = () => {
     router.push(`/search?query=${searchTerm}`);
+    setDropdownVisible(false);
   };
 
   const handleClickOutside = (event) => {
