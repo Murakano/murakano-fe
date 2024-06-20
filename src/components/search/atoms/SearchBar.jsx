@@ -41,7 +41,7 @@ export default function SearchBar({ header }) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onClick={() => setDropdownVisible(true)}
-          placeholder="영어 개발 용어를 검색해보세요."
+          placeholder="발음이 궁금한 영어 개발 용어를 검색해보세요."
         />
         <Icon onClick={handleSearch}>
           <StyledSearchOutlined />

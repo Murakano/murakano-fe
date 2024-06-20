@@ -30,6 +30,21 @@ export const Column = styled.div`
   justify-content: center;
 `;
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 100;
+  background-color: white;
+  top: 0;
+  left: 0;
+  height: 130px;
+  width: 100vw;
+  border-bottom: ${(props) => (props.$isHome ? "none" : "1px solid #cccccc")};
+`;
+
 // 검색창 스타일
 import { SearchOutlined } from "@ant-design/icons";
 import Link from "next/link";
