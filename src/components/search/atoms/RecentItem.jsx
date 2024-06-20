@@ -13,7 +13,7 @@ export function RecentItem({ children, onRemove }) {
     </DDItem>
   );
 }
-
+c;
 const DDItem = styled.li`
   display: flex;
   justify-content: space-between;
