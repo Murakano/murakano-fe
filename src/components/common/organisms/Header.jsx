@@ -5,13 +5,14 @@ import SearchBar from "@/components/search/atoms/SearchBar";
 import { LogoText, Row } from "@/styles/commonStyles";
 import HeaderBtn from "../molecules/HeaderBtn";
 import Link from "next/link";
+import { Container } from "@/styles/commonStyles";
 
-export default function Header({ isHome }) {
+export default function Header({ $isHome }) {
   return (
-    <Container isHome={isHome}>
+    <Container $isHome={$isHome}>
       <Inner>
         <HeaderBtn />
-        {!isHome && (
+        {!$isHome && (
           <HeaderRow>
             <SmallLogoText>
               <StyledLink href="/">머라카노</StyledLink>
@@ -23,16 +24,6 @@ export default function Header({ isHome }) {
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 130px;
-  width: 100vw;
-  border-bottom: ${(props) => (props.isHome ? "none" : "1px solid #cccccc")};
-`;
 
 const Inner = styled.div`
   display: flex;

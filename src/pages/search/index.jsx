@@ -24,7 +24,7 @@ const Section = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 200px;
+  padding-top: 130px;
   height: 100vh;
   width: 780px;
 `;
