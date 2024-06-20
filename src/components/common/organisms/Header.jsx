@@ -5,11 +5,10 @@ import SearchBar from "@/components/search/atoms/SearchBar";
 import { LogoText, Row } from "@/styles/commonStyles";
 import HeaderBtn from "../molecules/HeaderBtn";
 import Link from "next/link";
-import { Container } from "@/styles/commonStyles";
 
 export default function Header({ $isHome }) {
   return (
-    <Container $isHome={$isHome}>
+    <MainContainer $isHome={$isHome}>
       <Inner>
         <HeaderBtn />
         {!$isHome && (
@@ -21,9 +20,23 @@ export default function Header({ $isHome }) {
           </HeaderRow>
         )}
       </Inner>
-    </Container>
+    </MainContainer>
   );
 }
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  border-bottom: ${(props) => (props.$isHome ? "none" : "1px solid #cccccc")};
+  padding: 0;
+  height: ${(props) => (props.$isHome ? "38px" : "130px")};
+  width: 100%;
+`;
 
 const Inner = styled.div`
   display: flex;

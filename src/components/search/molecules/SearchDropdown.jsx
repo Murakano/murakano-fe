@@ -63,6 +63,7 @@ const DDContainer = styled.div`
   width: 580px;
   height: 358px;
   margin-top: 23px;
+  margin-bottom: 38px;
   box-sizing: border-box;
   border-radius: 30px;
   border: 2px solid var(--secondary);
