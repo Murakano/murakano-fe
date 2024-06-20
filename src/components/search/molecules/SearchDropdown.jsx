@@ -85,13 +85,11 @@ const SectionTitle = styled.div`
   margin-bottom: 20px;
   height: 18px;
   line-height: 18px;
-  /* background-color: var(--secondary); */
 `;
 
 const List = styled.ul`
   display: flex;
   flex-direction: column;
-  /* flex-wrap: wrap; */
   gap: 10px;
 `;
 
@@ -100,7 +98,6 @@ const DDItem = styled.li`
   justify-content: space-between;
   align-items: center;
   height: 18px;
-  /* background-color: var(--secondary); */
   color: #666666;
   overflow: hidden;
   font-size: 16px;
