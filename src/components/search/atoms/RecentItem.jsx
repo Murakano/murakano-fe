@@ -5,9 +5,9 @@ import { ResetLink } from "@/styles/commonStyles";
 export function RecentItem({ children, onRemove }) {
   return (
     <DDItem>
-      <ResetLink href={`/search?query=${children || ""}`}>
+      <RecentLink href={`/search?query=${children || ""}`}>
         <DDText>{children || "최근 검색어가 없습니다."}</DDText>
-      </ResetLink>
+      </RecentLink>
 
       {children && <CloseIcon onClick={() => onRemove(children)} />}
     </DDItem>
@@ -25,9 +25,13 @@ const DDItem = styled.li`
   font-weight: 400;
 `;
 
+const RecentLink = styled(ResetLink)`
+  flex-grow: 1;
+`;
+
 const DDText = styled.div`
   padding-top: 2px;
-  width: 190px;
+  width: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;

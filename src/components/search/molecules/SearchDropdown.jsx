@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { RecentItem } from "../atoms/RecentItem";
 
-export default function SearchDropdown() {
+export default function SearchDropdown({ header }) {
   // TODO : 임시저장, 추후 API 연동
   const [recentSearches, setRecentSearches] = useState([
     "React",
@@ -31,7 +31,7 @@ export default function SearchDropdown() {
   };
 
   return (
-    <DDContainer>
+    <DDContainer header={header}>
       <DDSection borderRight>
         <SectionTitle>최근 검색어</SectionTitle>
         <List>
@@ -60,14 +60,16 @@ export default function SearchDropdown() {
 }
 
 const DDContainer = styled.div`
-  width: 580px;
-  height: 358px;
-  margin-top: 23px;
-  margin-bottom: 38px;
+  width: ${(props) => (props.header ? "460px" : "580px")};
+  height: ${(props) => (props.header ? "358px" : "358px")};
+  margin: ${(props) => (props.header ? "0" : "23px 0 38px")};
   box-sizing: border-box;
   border-radius: 30px;
   border: 2px solid var(--secondary);
   display: flex;
+  background-color: #ffffff;
+  position: ${(props) => (props.header ? "absolute" : "static")};
+  top: ${(props) => (props.header ? "100px" : "auto")};
 `;
 
 const DDSection = styled.div`
