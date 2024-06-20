@@ -22,7 +22,6 @@ export default function Search() {
         </Title>
         <SubText>개발자들을 위한 한국어 발음 검색 서비스</SubText>
         <SearchBar />
-        <SearchDropdown />
       </Section>
     </Container>
   );
