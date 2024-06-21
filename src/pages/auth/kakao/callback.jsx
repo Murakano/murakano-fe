@@ -14,7 +14,7 @@ export default function Callback() {
       localStorage.setItem('token', res.token);
       return router.push('/');
     } else {
-      alert('아이디 또는 비밀번호가 잘못되었습니다.');
+      alert('로그인 실패');
       router.push('/auth/login');
     }
   };
