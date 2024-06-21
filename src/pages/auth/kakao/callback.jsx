@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import api from '@/utils/api';
 
 export default function Callback() {
   const router = useRouter();
+  const hasMounted = useRef(false);
 
   const login = async () => {
     const code = new URL(document.location.toString()).searchParams.get('code');
     const res = await api.post('/users/kakao/login', { code });
-    console.log(res);
 
-    if (res.message == '로그인 성공') {
+    if (res.message === '로그인 성공') {
       localStorage.setItem('token', res.token);
       return router.push('/');
     } else {
@@ -19,8 +19,13 @@ export default function Callback() {
     }
   };
 
+  // NOTE : strict mode 때문에, 2번 실행 되어서 카카오 인증 서버에서 동일 코드 사용에 대한 에러가 발생,
+  // useRef를 사용해 마운트 상태 추적해서 strict mode에서도 한 번만 실행되게 함
   useEffect(() => {
-    login();
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      login();
+    }
   }, []);
 
   return <div>callback</div>;

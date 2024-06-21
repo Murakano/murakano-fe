@@ -3,10 +3,15 @@ import { ErrorMessage } from '@/constants/errorMessage';
 export const apiHeaders = new Headers();
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
+const setJwt = () => {
+  const token = localStorage.getItem('token');
+  if (token) apiHeaders.set('Authorization', `Bearer ${token}`);
+  else apiHeaders.delete('Authorization');
+};
+
 const api = {
   get: async (path, params, options) => {
-    const token = localStorage.getItem('token');
-    if (token) apiHeaders.set('Authorization', `Bearer ${token}`);
+    setJwt();
     try {
       if (params) {
         const filteredParams = Object.fromEntries(
@@ -32,6 +37,7 @@ const api = {
 
   post: async (path, params, options) => {
     try {
+      setJwt();
       const { body } = handleMutateRequest(params);
       const res = await fetch(`${SERVER_URL}${path}`, {
         method: 'POST',
@@ -49,6 +55,7 @@ const api = {
 
   patch: async (path, params, options) => {
     try {
+      setJwt();
       const { body } = handleMutateRequest(params);
       const res = await fetch(`${SERVER_URL}${path}`, {
         method: 'PATCH',
@@ -66,6 +73,7 @@ const api = {
 
   put: async (path, params, options) => {
     try {
+      setJwt();
       const { body } = handleMutateRequest(params);
       const res = await fetch(`${SERVER_URL}${path}`, {
         method: 'PATCH',
@@ -83,6 +91,7 @@ const api = {
 
   delete: async (path, params, options) => {
     try {
+      setJwt();
       const { body } = handleMutateRequest(params);
       const res = await fetch(`${SERVER_URL}${path}`, {
         method: 'DELETE',
