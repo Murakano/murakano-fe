@@ -6,7 +6,10 @@ export default function Search() {
   return (
     <Container>
       <Header />
-      <Section>{/* 트루 여기에 검색결과 페이지 넣어주면 돼! */}</Section>
+      <Section>
+        {/* 트루 여기에 검색결과 페이지 넣어주면 돼! */}
+        search
+      </Section>
     </Container>
   );
 }

@@ -31,18 +31,14 @@ export const Column = styled.div`
 `;
 
 export const Container = styled.div`
+  margin: ${(props) => props.marginTop || "130px"} 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: fixed;
-  z-index: 100;
-  background-color: white;
-  top: 0;
-  left: 0;
-  height: 130px;
-  width: 100vw;
-  border-bottom: ${(props) => (props.$isHome ? "none" : "1px solid #cccccc")};
+  height: 100%;
+  position: relative;
+  overflow: auto;
 `;
 
 // 검색창 스타일

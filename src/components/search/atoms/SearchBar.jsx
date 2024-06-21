@@ -18,6 +18,7 @@ export default function SearchBar({ header }) {
 
   const handleSearch = () => {
     router.push(`/search?query=${searchTerm}`);
+    setDropdownVisible(false);
   };
 
   const handleClickOutside = (event) => {
@@ -32,6 +33,7 @@ export default function SearchBar({ header }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <Column ref={searchBarRef}>
       <SearchBarContainer header={header}>
@@ -41,13 +43,18 @@ export default function SearchBar({ header }) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onClick={() => setDropdownVisible(true)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
           placeholder="발음이 궁금한 영어 개발 용어를 검색해보세요."
         />
         <Icon onClick={handleSearch}>
           <StyledSearchOutlined />
         </Icon>
       </SearchBarContainer>
-      {isDropdownVisible && <SearchDropdown />}
+      {isDropdownVisible && <SearchDropdown header={header} />}
     </Column>
   );
 }
