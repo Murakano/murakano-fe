@@ -1,23 +1,27 @@
-import React from "react";
-import styled from "styled-components";
-import { Row } from "@/styles/commonStyles";
-import Link from "next/link";
+import React from 'react';
+import styled from 'styled-components';
+import { Row } from '@/styles/commonStyles';
+import Link from 'next/link';
 
 export default function HeaderBtn() {
   return (
     <HeaderRow>
       <Btn>
-        <StyledLink href="/words">전체용어</StyledLink>
+        <StyledLink href='/words'>전체용어</StyledLink>
       </Btn>
       <Btn>
-        <StyledLink href="/auth/signup">회원가입</StyledLink>
+        <StyledLink href='/auth/signup'>회원가입</StyledLink>
       </Btn>
       <Btn>
-        <StyledLink href="/auth/login">로그인</StyledLink>
+        <StyledLink href='/auth/login'>로그인</StyledLink>
+      </Btn>
+      {/* NOTE : 추후 조건부 렌더링*/}
+      <Btn>
+        <StyledLink href='/auth/logout'>로그아웃</StyledLink>
       </Btn>
       {/* 임시방편 */}
       <Btn>
-        <StyledLink href="auth/requests">내요청</StyledLink>
+        <StyledLink href='auth/requests'>내요청</StyledLink>
       </Btn>
     </HeaderRow>
   );
