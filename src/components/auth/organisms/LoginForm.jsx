@@ -1,5 +1,5 @@
 // react
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 // style
@@ -32,6 +32,16 @@ export default function LoginForm() {
     emailHelper: '',
     passwordHelper: '',
   });
+
+  const [buttonActive, SetButtonActive] = useState(false);
+
+  useEffect(() => {
+    if (validateEmail(user.email) && user.password) {
+      SetButtonActive(true);
+    } else {
+      SetButtonActive(false);
+    }
+  }, [user]);
 
   // event
   const onEyeClick = () => {
@@ -101,7 +111,9 @@ export default function LoginForm() {
           {view ? <EyeIcon as={EyeOutlined} /> : <EyeIcon as={EyeInvisibleOutlined} />}
         </EyeBox>
       </InputBox>
-      <LoginButton onClick={handleLoginButtonClick}>로그인</LoginButton>
+      <LoginButton onClick={handleLoginButtonClick} active={buttonActive}>
+        로그인
+      </LoginButton>
       <RegisterButton onClick={handleRegisterButtonClick}>회원가입</RegisterButton>
     </Form>
   );
@@ -132,7 +144,8 @@ const EyeIcon = styled.div`
 
 const LoginButton = styled(Button)`
   color: white;
-  background-color: var(--primary60);
+  background-color: ${(props) => (props.active ? 'var(--primary)' : 'var(--primary60)')};
+  transition: background-color 0.4s;
 `;
 
 const RegisterButton = styled(Button)`
