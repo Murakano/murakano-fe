@@ -16,8 +16,12 @@ const DefaultInput = styled.input`
   font-weight: 400;
   line-height: 19.5px;
   letter-spacing: -0.03em;
+  background-color: white;
   &:focus {
     border-color: var(--primary);
     outline: none;
+  }
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 500px white inset !important;
   }
 `;
