@@ -1,3 +1,10 @@
+/* Import Pretendard font */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css');
+
+html {
+  font-family: 'pretendard';
+}
+
 /* CSS Reset */
 * {
   margin: 0;
@@ -126,6 +133,7 @@ section {
 
 body {
   line-height: 1;
+  font-family: 'pretendard';
 }
 
 ol,
