@@ -25,7 +25,6 @@ const PageTitle = styled.div`
   font-size: 40px;
   font-weight: 700;
   line-height: 60px;
-  letter-spacing: -0.03em;
 `;
 
 const Section = styled.div`
@@ -46,9 +45,7 @@ const Main = styled.div`
 `;
 
 const Inc = styled.div`
-  font-family: Roboto;
   font-size: 14.5px;
   font-weight: 400;
-  line-height: 16.99px;
   padding-top: 10px;
 `;
