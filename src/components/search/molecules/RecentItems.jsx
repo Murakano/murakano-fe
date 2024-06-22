@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { RecentItem } from '../atoms/RecentItem';
 import { Column } from '@/styles/commonStyles';
 
-export default function RecentItems({ header }) {
+export default function RecentItems({ header, onItemClick }) {
   // TODO : 임시저장, 추후 API 연동
   const [recentSearches, setRecentSearches] = useState([
     'React',
@@ -33,7 +33,7 @@ export default function RecentItems({ header }) {
       <Column>
         {recentSearches.length > 0 ? (
           recentSearches.map((item, index) => (
-            <RecentItem header={header} key={index} onRemove={() => removeSearchTerm(index)}>
+            <RecentItem header={header} key={index} onRemove={() => removeSearchTerm(index)} onItemClick={onItemClick}>
               {item}
             </RecentItem> // 각 검색어에 대한 RecentItem 컴포넌트를 생성
           ))

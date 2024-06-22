@@ -3,14 +3,13 @@ import styled from 'styled-components';
 import RecentItems from '../molecules/RecentItems';
 import { RankItem } from '../atoms/RankItem';
 
-export default function SearchDropdown({ header }) {
+export default function SearchDropdown({ header, onItemClick }) {
   return (
     <DDContainer header={header}>
-      <RecentItems header={header} />
-
+      <RecentItems header={header} onItemClick={onItemClick} />
       <DDSection>
         <SectionTitle header={header}>인기 검색어</SectionTitle>
-        <RankItem header={header} />
+        <RankItem header={header} onItemClick={onItemClick} />
       </DDSection>
     </DDContainer>
   );

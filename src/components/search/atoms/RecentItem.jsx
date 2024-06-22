@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { CloseOutlined } from '@ant-design/icons';
 import { ResetLink } from '@/styles/commonStyles';
 
-export function RecentItem({ children, onRemove, header }) {
+export function RecentItem({ children, onRemove, header, onItemClick }) {
   return (
     <DDItem header={header}>
-      <RecentLink href={`/search/${children || ''}`}>
+      <RecentLink onClick={() => onItemClick(children)}>
         <DDText header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
       </RecentLink>
 
@@ -26,8 +26,9 @@ const DDItem = styled.li`
   width: 100%;
 `;
 
-const RecentLink = styled(ResetLink)`
+const RecentLink = styled.div`
   flex-grow: 1;
+  cursor: pointer;
 `;
 
 const DDText = styled.div`

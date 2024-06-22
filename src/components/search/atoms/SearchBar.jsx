@@ -18,6 +18,11 @@ export default function SearchBar({ header }) {
     }
   };
 
+  const handleItemClick = (item) => {
+    router.push(`/search/${item}`);
+    setDropdownVisible(false);
+  };
+
   const handleClickOutside = (event) => {
     if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
       setDropdownVisible(false);
@@ -49,7 +54,7 @@ export default function SearchBar({ header }) {
           </Icon>
         </Link>
       </SearchBarContainer>
-      {isDropdownVisible && <SearchDropdown header={header} />}
+      {isDropdownVisible && <SearchDropdown header={header} onItemClick={handleItemClick} />}
     </Column>
   );
 }

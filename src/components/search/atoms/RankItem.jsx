@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Column, ResetLink } from '@/styles/commonStyles';
 import React, { useState } from 'react';
 
-export function RankItem({ children, header }) {
+export function RankItem({ children, header, onItemClick }) {
   const [ranks, setRanks] = useState([
     'CSSOM',
     'ACID',
@@ -19,11 +19,9 @@ export function RankItem({ children, header }) {
   return (
     <Column>
       {ranks.map((item, index) => (
-        <DDItem header={header} key={index}>
+        <DDItem header={header} key={index} onClick={() => onItemClick(item)}>
           <Rank header={header}>{index + 1}.</Rank>
-          <RankLink header={header} href={`/search/${item}`}>
-            {item}
-          </RankLink>
+          <RankLink header={header}>{item}</RankLink>
         </DDItem>
       ))}
     </Column>
@@ -49,7 +47,7 @@ const DDItem = styled.li`
   }
 `;
 
-const RankLink = styled(ResetLink)`
+const RankLink = styled.div`
   flex-grow: 1;
   color: #666666;
 
