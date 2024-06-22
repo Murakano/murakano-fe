@@ -4,17 +4,7 @@ import { Column } from '@/styles/commonStyles';
 import { handleInputChange } from '@/utils/stateUtils';
 import Input from '../atoms/Input';
 
-export default function InputBox({
-  name,
-  labelText,
-  children,
-  type,
-  placeholder,
-  input,
-  setInput,
-  helperText,
-  isValid,
-}) {
+export default function InputBox({ name, labelText, children, type, placeholder, input, setInput, helperText, valid }) {
   return (
     <Box>
       <Label htmlFor={name}>{labelText}</Label>
@@ -24,7 +14,7 @@ export default function InputBox({
         name={name}
         placeholder={placeholder}
         value={input}
-        isValid={isValid}
+        valid={valid}
         onChange={(event) => handleInputChange(event, setInput)}
       />
       <HelperBox>
@@ -37,11 +27,9 @@ export default function InputBox({
 const Box = styled(Column)`
   justify-content: flex-start;
   align-items: flex-start;
-  padding-top: 10px;
 `;
 
 const Label = styled.label`
-  font-family: Pretendard;
   padding-top: 1.5px;
   font-size: 15px;
   font-weight: 600;
@@ -52,12 +40,11 @@ const Label = styled.label`
 
 const HelperBox = styled.div`
   margin-top: 5px;
-  width: 448px;
-  height: 23px;
+  width: var(--input-width);
+  height: 25px;
 `;
 
 const Helper = styled.div`
-  font-family: Pretendard;
   font-size: 12px;
   font-weight: 300;
   line-height: 18px;
