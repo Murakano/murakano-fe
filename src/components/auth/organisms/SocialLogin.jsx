@@ -60,9 +60,9 @@ const LogoBox = styled(Row)`
 `;
 
 const KakaoButton = styled(Button)`
-  height:45px;
-  background-color: #FEE500;
-  font-size='14.5px';
+  height: 45px;
+  background-color: #fee500;
+  font-size: 14.5px;
   font-weight: 500;
   line-height: 17.3px;
 `;
