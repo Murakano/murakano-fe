@@ -13,49 +13,60 @@ TO-DO
 // 전체 단어 목록 
 export default function WordItem({name, pron}) {
     return (
-        <ListRow>
-            <WordContents>
-                <WordName>
-                    <h1>{name}</h1>
-                </WordName>
-                <WordPron>
-                    <h1>{pron}</h1>
-                </WordPron>
-            </WordContents>
-            <WordListIconDiv href="/search">
-                <WordListIcon/>
-            </WordListIconDiv>
-            <ListBottomLine>
-                <div></div>
-            </ListBottomLine>
-        </ListRow>
+        <ListContainer>
+            <ListInnerContainer href='/search'>
+                <WordContents>
+                    <WordName>
+                        <h1>{name}</h1>
+                    </WordName>
+                    <WordPron>
+                        <h1>{pron}</h1>
+                    </WordPron>
+                </WordContents>
+                <WordListIconDiv>
+                    <WordListIcon/>
+                </WordListIconDiv>
+            </ListInnerContainer>
+        </ListContainer>
     )
 }
 
-const ListRow = styled.div`
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    display: flex;
-
+const ListContainer = styled.div`
     width: 691px;
-    height: 92px;
-    padding: 10px 0px 0px 0px;
+    height: 85px;
+    padding: 6.5px 36px 6.5px 36px;
+    margin: 10px 0px 0px 0px;
+    border-bottom: 1px solid #CCCCCC;
+
     &:hover {
     background: #B8D5FF1A;
     }
+`;
 
+const ListInnerContainer = styled(Link)`
+    display: inline-block;
+    width: 617px;
+    height: 79px;
+    justify-content: space-between;
+
+    text-decoration: none;
+    color: inherit;
 `;
 
 const WordContents = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    left : 110px;
+    top: -55px;
+
+    width:57px; 
+    height: 121px;
+    padding: 34px 0px 34px 0px;
+    margin: 21px 0 21px 10px;
+    gap: 10px;
 `;
 
 const WordName = styled.div`
-    width: 34px;
     height: 23px;
     margin: 5px 0 10px 0;
     font-size: 15px;
@@ -65,7 +76,6 @@ const WordName = styled.div`
 `;
 
 const WordPron = styled.div`
-    width: 50px;
     height: 20px;
     font-size: 13px;
     font-weight: 300;
@@ -73,17 +83,14 @@ const WordPron = styled.div`
     letter-spacing: -0.03em;
 `;
 
-const WordListIconDiv = styled(Link)`
+const WordListIconDiv = styled.div`
     width: 24px;
-    height: 24px;
-    position:relative;
-    left: 580px;
-    top: 20px;
-    text-decoration: none;
-    color: inherit;
-`;
+    height: 44px;
+    margin: 17.5px 10px 17.5px 0;
+    padding: 10px 0 10px 0;
 
-const ListBottomLine = styled.div`
-    width: 691px;
-    border-bottom: 1px solid #CCCCCC
+    position:relative;
+    top: -150px;
+    left: 590px;
+
 `;
