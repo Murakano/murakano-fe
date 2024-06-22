@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { CloseOutlined } from '@ant-design/icons';
-import { ResetLink } from '@/styles/commonStyles';
 
 export function RecentItem({ children, onRemove, header, onItemClick }) {
   return (

@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import RecentItems from '../molecules/RecentItems';
-import { RankItem } from '../atoms/RankItem';
+import { RankItems } from '../molecules/RankItems';
 
 export default function SearchDropdown({ header, onItemClick }) {
   return (
     <DDContainer header={header}>
       <RecentItems header={header} onItemClick={onItemClick} />
-      <DDSection>
-        <SectionTitle header={header}>인기 검색어</SectionTitle>
-        <RankItem header={header} onItemClick={onItemClick} />
-      </DDSection>
+      <RankItems header={header} onItemClick={onItemClick} />
     </DDContainer>
   );
 }
@@ -26,18 +23,4 @@ const DDContainer = styled.div`
   background-color: #ffffff;
   position: ${(props) => (props.header ? 'absolute' : 'static')};
   top: ${(props) => (props.header ? '100px' : 'auto')};
-`;
-
-const DDSection = styled.div`
-  padding: 25px 36px;
-  border-right: ${(props) => (props.borderRight ? '1px solid var(--secondary)' : 'none')};
-  width: 50%;
-`;
-
-const SectionTitle = styled.div`
-  font-size: ${(props) => (props.header ? '14px' : '16px')};
-  font-weight: 600;
-  margin-bottom: ${(props) => (props.header ? '13px' : '20px')};
-  height: ${(props) => (props.header ? '12px' : '18px')};
-  line-height: 18px;
 `;

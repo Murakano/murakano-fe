@@ -1,30 +1,12 @@
 import styled from 'styled-components';
-import { Column, ResetLink } from '@/styles/commonStyles';
-import React, { useState } from 'react';
+import React from 'react';
 
-export function RankItem({ children, header, onItemClick }) {
-  const [ranks, setRanks] = useState([
-    'CSSOM',
-    'ACID',
-    'ASAP',
-    'AZURE',
-    'CSSOM',
-    'ACID',
-    'ASAP',
-    'AZURE',
-    'CSSOM',
-    'ACID',
-  ]); // 인기 검색어
-
+export function RankItem({ children, header, index, onItemClick }) {
   return (
-    <Column>
-      {ranks.map((item, index) => (
-        <DDItem header={header} key={index} onClick={() => onItemClick(item)}>
-          <Rank header={header}>{index + 1}.</Rank>
-          <RankLink header={header}>{item}</RankLink>
-        </DDItem>
-      ))}
-    </Column>
+    <DDItem header={header} onClick={() => onItemClick(children)}>
+      <Rank header={header}>{index + 1}.</Rank>
+      <RankLink header={header}>{children}</RankLink>
+    </DDItem>
   );
 }
 
@@ -37,7 +19,6 @@ const DDItem = styled.li`
   overflow: hidden;
   font-size: ${(props) => (props.header ? '13px' : '16px')};
   font-weight: 400;
-  width: 100%;
   gap: ${(props) => (props.header ? '4px' : '8px')};
   cursor: pointer;
 
