@@ -1,13 +1,23 @@
+// react
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import Button from '@/components/common/atoms/Button';
+
+// style
+import styled from 'styled-components';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import InputBox from '@/components/common/molecules/InputBox';
+
+// constants
+import { HELPER_TEXT } from '@/constants/helperText';
+import { ErrorMessage } from '@/constants/errorMessage';
+
+// utils
 import { updateState } from '@/utils/stateUtils';
 import { validateEmail } from '@/utils/validate';
-import { HELPER_TEXT } from '@/constants/helperText';
 import api from '@/utils/api';
+
+// components
+import Button from '@/components/common/atoms/Button';
+import InputBox from '@/components/common/molecules/InputBox';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -28,7 +38,7 @@ export default function LoginForm() {
     setView((prev) => !prev);
   };
 
-  const handleSubmit = async (e) => {
+  const handleLoginButtonClick = async (e) => {
     e.preventDefault();
 
     const email = user.email;
@@ -57,46 +67,46 @@ export default function LoginForm() {
       localStorage.setItem('token', response.token);
       return router.push('/');
     }
-    alert('이메일 또는 비밀번호가 잘못되었습니다.');
+    alert(ErrorMessage.LOGIN_ERROR);
     router.push('/auth/login');
   };
 
+  const handleRegisterButtonClick = () => {
+    router.push('/auth/signup');
+  };
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       <InputBox
         type='text'
         name='email'
-        placeholder='이메일'
+        placeholder='이메일을 입력해주세요.'
         labelText='이메일'
         input={user.email}
         setInput={setUser}
         helperText={helperText.emailHelper}
-        isValid={helperText.emailHelper ? false : true}
+        valid={helperText.emailHelper ? false : true}
       />
       <InputBox
         type={view ? 'text' : 'password'}
         name='password'
-        placeholder='비밀번호'
+        placeholder='비밀번호를 입력해주세요.'
         labelText='비밀번호'
         input={user.password}
         setInput={setUser}
         helperText={helperText.passwordHelper}
-        isValid={helperText.passwordHelper ? false : true}
+        valid={helperText.passwordHelper ? false : true}
       >
         <EyeBox onClick={onEyeClick}>
-          {view ? (
-            <EyeOutlined style={{ color: '#767676B2', cursor: 'pointer' }} />
-          ) : (
-            <EyeInvisibleOutlined style={{ color: '#767676B2', cursor: 'pointer' }} />
-          )}
+          {view ? <EyeIcon as={EyeOutlined} /> : <EyeIcon as={EyeInvisibleOutlined} />}
         </EyeBox>
       </InputBox>
-      <Button bgcolor='var(--primary60)' color='white'>
+      <LoginButton bgcolor='var(--primary60)' color='white' onClick={handleLoginButtonClick}>
         로그인
-      </Button>
-      <Button bgcolor='white' color='var(--primary)'>
+      </LoginButton>
+      <RegisterButton bgcolor='white' color='var(--primary)' onClick={handleRegisterButtonClick}>
         회원가입
-      </Button>
+      </RegisterButton>
     </Form>
   );
 }
@@ -113,4 +123,23 @@ const EyeBox = styled.div`
   position: relative;
   left: 410px;
   top: 40px;
+`;
+
+const EyeIcon = styled.div`
+  color: #767676b2;
+  cursor: pointer;
+  &:hover {
+    color: #767676;
+  }
+`;
+
+const LoginButton = styled(Button)`
+  color: white;
+  background-color: var(--primary60);
+`;
+
+const RegisterButton = styled(Button)`
+  color: var(--primary);
+  background-color: white;
+  border: 1px solid #cccccc;
 `;

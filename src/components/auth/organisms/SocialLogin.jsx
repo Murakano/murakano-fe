@@ -18,12 +18,12 @@ export default function SocialLogin() {
         <ContinueText>Or continue with</ContinueText>
         <ContinueLine />
       </ContinueBox>
-      <Button type='button' h='45px' fontSize='14.5px' bgcolor='#FEE500' onClick={kakaoLoginHandler}>
+      <KakaoButton type='button' onClick={kakaoLoginHandler}>
         <LogoBox>
           <Logo src='/kakao.svg' />
           <LogoText>카카오 로그인</LogoText>
         </LogoBox>
-      </Button>
+      </KakaoButton>
     </SocialLoginBox>
   );
 }
@@ -32,7 +32,6 @@ const SocialLoginBox = styled(Column)`
 `;
 
 const ContinueText = styled.div`
-  font-family: Pretendard;
   font-size: 13px;
   font-weight: 400;
   line-height: 14.5px;
@@ -57,4 +56,12 @@ const LogoText = styled.div``;
 
 const LogoBox = styled(Row)`
   gap: 5px;
+`;
+
+const KakaoButton = styled(Button)`
+  height:45px;
+  background-color: #FEE500;
+  font-size='14.5px';
+  font-weight: 500;
+  line-height: 17.3px;
 `;
