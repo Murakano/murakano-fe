@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import { CloseOutlined } from "@ant-design/icons";
-import { ResetLink } from "@/styles/commonStyles";
+import styled from 'styled-components';
+import { CloseOutlined } from '@ant-design/icons';
+import { ResetLink } from '@/styles/commonStyles';
 
-export function RecentItem({ children, onRemove }) {
+export function RecentItem({ children, onRemove, header, onItemClick }) {
   return (
-    <DDItem>
-      <ResetLink href={`/search?query=${children || ""}`}>
-        <DDText>{children || "최근 검색어가 없습니다."}</DDText>
-      </ResetLink>
+    <DDItem header={header}>
+      <RecentLink onClick={() => onItemClick(children)}>
+        <DDText header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
+      </RecentLink>
 
       {children && <CloseIcon onClick={() => onRemove(children)} />}
     </DDItem>
@@ -18,16 +18,23 @@ const DDItem = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 18px;
+  height: ${(props) => (props.header ? '23px' : '28px')};
   color: #666666;
   overflow: hidden;
-  font-size: 16px;
+  font-size: ${(props) => (props.header ? '13px' : '16px')};
   font-weight: 400;
+  width: 100%;
+`;
+
+const RecentLink = styled.div`
+  flex-grow: 1;
+  cursor: pointer;
 `;
 
 const DDText = styled.div`
   padding-top: 2px;
-  width: 190px;
+  width: 100%;
+  height: ${(props) => (props.header ? '23px' : '28px')};
   overflow: hidden;
   display: flex;
   align-items: center;

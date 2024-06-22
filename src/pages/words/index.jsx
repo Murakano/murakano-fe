@@ -6,12 +6,11 @@ import WordsPageName from "@/components/words/atoms/WordsPageName";
 export default function AllWords() {
 
   return (
-    <div>
+    <Container>
       <Header />
       <WordsPageName/>
       <WordDropdown />
       {/* 전체 단어 목록 표시 */}
-      <WordList />
-    </div>
+    </Container>
   );
 }
