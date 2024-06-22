@@ -1,7 +1,7 @@
 // src/components/common/organisms/Header.js
 import React from 'react';
 import styled from 'styled-components';
-import SearchBar from '@/components/search/atoms/SearchBar';
+import SearchBar from '@/components/search/organisms/SearchBar';
 import { LogoText, Row } from '@/styles/commonStyles';
 import HeaderBtn from '../molecules/HeaderBtn';
 import Link from 'next/link';

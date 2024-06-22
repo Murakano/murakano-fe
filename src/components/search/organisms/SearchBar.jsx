@@ -1,9 +1,9 @@
-// src/components/search/atoms/SearchBar.js
+// src/components/search/organisms/SearchBar.js
 import { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { SearchBarContainer, SearchInput, Icon, StyledSearchOutlined, Column } from '@/styles/commonStyles';
+import { Column } from '@/styles/commonStyles';
 import SearchDropdown from '@/components/search/organisms/SearchDropdown';
+import SearchBox from '@/components/search/molecules/SearchBox';
 
 export default function SearchBar({ header }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,22 +38,13 @@ export default function SearchBar({ header }) {
 
   return (
     <Column ref={searchBarRef}>
-      <SearchBarContainer header={header}>
-        <SearchInput
-          header={header}
-          type='text'
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onClick={() => setDropdownVisible(true)}
-          onKeyPress={handleSearch}
-          placeholder='발음이 궁금한 영어 개발 용어를 검색해보세요.'
-        />
-        <Link href={`/search/${searchTerm}`}>
-          <Icon onClick={handleSearch}>
-            <StyledSearchOutlined />
-          </Icon>
-        </Link>
-      </SearchBarContainer>
+      <SearchBox
+        header={header}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        handleSearch={handleSearch}
+        setDropdownVisible={setDropdownVisible}
+      />
       {isDropdownVisible && <SearchDropdown header={header} onItemClick={handleItemClick} />}
     </Column>
   );

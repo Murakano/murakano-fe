@@ -2,7 +2,7 @@
 import Header from '@/components/common/organisms/Header';
 import styled from 'styled-components';
 import { LogoText } from '@/styles/commonStyles';
-import SearchBar from '@/components/search/atoms/SearchBar';
+import SearchBar from '@/components/search/organisms/SearchBar';
 import router from 'next/router';
 import { Container } from '@/styles/commonStyles';
 
