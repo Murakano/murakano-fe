@@ -32,6 +32,7 @@ const SocialLoginBox = styled(Column)`
 `;
 
 const ContinueText = styled.div`
+  font-family: Roboto;
   font-size: 13px;
   font-weight: 400;
   line-height: 14.5px;

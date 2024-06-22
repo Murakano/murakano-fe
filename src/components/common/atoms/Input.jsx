@@ -6,7 +6,7 @@ export default function Input({ valid, ...props }) {
 }
 
 const DefaultInput = styled.input`
-  width: var(--input-width);
+  width: 100%;
   height: 55px;
   margin-top: 5px;
   padding: 17.5px 20px;

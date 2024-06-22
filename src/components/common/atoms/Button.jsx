@@ -6,7 +6,7 @@ export default function Button({ children, ...props }) {
 }
 
 const Btn = styled.button`
-  width: var(--input-width);
+  width: 100%;
   height: 55px;
   font-size: 16px;
   font-weight: 700;

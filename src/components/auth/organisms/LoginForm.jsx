@@ -101,17 +101,14 @@ export default function LoginForm() {
           {view ? <EyeIcon as={EyeOutlined} /> : <EyeIcon as={EyeInvisibleOutlined} />}
         </EyeBox>
       </InputBox>
-      <LoginButton bgcolor='var(--primary60)' color='white' onClick={handleLoginButtonClick}>
-        로그인
-      </LoginButton>
-      <RegisterButton bgcolor='white' color='var(--primary)' onClick={handleRegisterButtonClick}>
-        회원가입
-      </RegisterButton>
+      <LoginButton onClick={handleLoginButtonClick}>로그인</LoginButton>
+      <RegisterButton onClick={handleRegisterButtonClick}>회원가입</RegisterButton>
     </Form>
   );
 }
 
 const Form = styled.form`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

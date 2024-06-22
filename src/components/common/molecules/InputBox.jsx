@@ -25,6 +25,7 @@ export default function InputBox({ name, labelText, children, type, placeholder,
 }
 
 const Box = styled(Column)`
+  width: 100%;
   justify-content: flex-start;
   align-items: flex-start;
 `;
@@ -40,7 +41,7 @@ const Label = styled.label`
 
 const HelperBox = styled.div`
   margin-top: 5px;
-  width: var(--input-width);
+  width: 100%;
   height: 25px;
 `;
 
