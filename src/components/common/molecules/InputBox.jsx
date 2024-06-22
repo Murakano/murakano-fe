@@ -47,7 +47,7 @@ const HelperBox = styled.div`
 
 const Helper = styled.div`
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 18px;
   letter-spacing: -0.03em;
   color: #ff0808;
