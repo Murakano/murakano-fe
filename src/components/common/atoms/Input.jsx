@@ -11,7 +11,7 @@ const DefaultInput = styled.input`
   margin-top: 5px;
   padding: 17.5px 20px;
   border-radius: 10px;
-  border: 2px solid ${(props) => (props.$valid ? '#cccccc' : '#ff0505')};
+  border: 1px solid ${(props) => (props.$valid ? '#cccccc' : '#ff0505')};
   font-size: 13px;
   font-weight: 400;
   line-height: 19.5px;
