@@ -32,6 +32,5 @@ const Section = styled.div`
   justify-content: flex-start;
   padding-top: 130px;
   height: 100vh;
-  width: 780px;
-  background-color: pink;
+  width: 780px;ㅊㄴㄴ
 `;
