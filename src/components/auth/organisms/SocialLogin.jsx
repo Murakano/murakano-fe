@@ -32,10 +32,8 @@ const SocialLoginBox = styled(Column)`
 `;
 
 const ContinueText = styled.div`
-  font-family: Roboto;
   font-size: 13px;
   font-weight: 400;
-  line-height: 14.5px;
   padding: 30px 0px;
 `;
 
@@ -60,9 +58,8 @@ const LogoBox = styled(Row)`
 `;
 
 const KakaoButton = styled(Button)`
-  height:45px;
-  background-color: #FEE500;
-  font-size='14.5px';
+  height: 45px;
+  background-color: #fee500;
+  font-size: 14.5px;
   font-weight: 500;
-  line-height: 17.3px;
 `;
