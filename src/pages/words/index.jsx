@@ -1,12 +1,17 @@
 import Header from "@/components/common/organisms/Header";
-import WordItem from "@/components/words/atoms/WordItem";
+import WordList from "@/components/words/molecules/WordList";
+import WordDropdown from "@/components/words/molecules/WordDropdown";
+import WordsPageName from "@/components/words/atoms/WordsPageName";
 
 export default function AllWords() {
+
   return (
     <div>
       <Header />
+      <WordsPageName/>
+      <WordDropdown />
       {/* 전체 단어 목록 표시 */}
-      <WordItem/>
+      <WordList />
     </div>
   );
 }

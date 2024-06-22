@@ -11,19 +11,19 @@ TO-DO
 */
 
 // 전체 단어 목록 
-export default function WordItem() {
+export default function WordItem({name, pron}) {
     return (
         <ListRow>
-            <WordContetns>
+            <WordContents>
                 <WordName>
-                    <h1>DOM</h1>
+                    <h1>{name}</h1>
                 </WordName>
                 <WordPron>
-                    <h1>돔</h1>
+                    <h1>{pron}</h1>
                 </WordPron>
-            </WordContetns>
+            </WordContents>
             <WordListIconDiv href="/search">
-            <WordListIcon/>
+                <WordListIcon/>
             </WordListIconDiv>
             <ListBottomLine>
                 <div></div>
@@ -35,16 +35,19 @@ export default function WordItem() {
 const ListRow = styled.div`
     margin-left: auto;
     margin-right: auto;
-    margin-top: 250px;
+    margin-top: 10px;
     display: flex;
 
-    width: 689px;
+    width: 691px;
     height: 92px;
     padding: 10px 0px 0px 0px;
-    border-radius: 20px 0px 0px 0px;
+    &:hover {
+    background: #B8D5FF1A;
+    }
+
 `;
 
-const WordContetns = styled.div`
+const WordContents = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
@@ -62,7 +65,7 @@ const WordName = styled.div`
 `;
 
 const WordPron = styled.div`
-    width: 12px;
+    width: 50px;
     height: 20px;
     font-size: 13px;
     font-weight: 300;
