@@ -7,5 +7,5 @@ export default function SearchResults() {
   const router = useRouter();
   const { query } = router.query;
 
-  return <div></div>;
+  return <div>{query}</div>;
 }

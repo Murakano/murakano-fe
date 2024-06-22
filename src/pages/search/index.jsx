@@ -1,14 +1,19 @@
 // src/pages/index.js
 import Header from "@/components/common/organisms/Header";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 export default function Search() {
+  const router = useRouter();
+  const { query } = router.query;
+
   return (
     <Container>
       <Header />
       <Section>
         {/* 트루 여기에 검색결과 페이지 넣어주면 돼! */}
         search
+        {query ? <h1>검색 결과: {query}</h1> : <h1>검색어를 입력해주세요.</h1>}
       </Section>
     </Container>
   );

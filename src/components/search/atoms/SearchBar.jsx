@@ -1,5 +1,6 @@
 // src/components/search/atoms/SearchBar.js
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   SearchBarContainer,
@@ -17,7 +18,8 @@ export default function SearchBar({ header }) {
   const searchBarRef = useRef();
 
   const handleSearch = () => {
-    router.push(`/search?query=${searchTerm}`);
+    // router.push(`/search?query=${searchTerm}`);
+    // router.push(`/search/${searchTerm}`);
     setDropdownVisible(false);
   };
 
@@ -50,9 +52,11 @@ export default function SearchBar({ header }) {
           }}
           placeholder="발음이 궁금한 영어 개발 용어를 검색해보세요."
         />
-        <Icon onClick={handleSearch}>
-          <StyledSearchOutlined />
-        </Icon>
+        <Link href={`/search/${searchTerm}`}>
+          <Icon onClick={handleSearch}>
+            <StyledSearchOutlined />
+          </Icon>
+        </Link>
       </SearchBarContainer>
       {isDropdownVisible && <SearchDropdown header={header} />}
     </Column>
