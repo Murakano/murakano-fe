@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { RecentItem } from '../atoms/RecentItem';
 import RecentItems from '../molecules/RecentItems';
 import { RankItem } from '../atoms/RankItem';
 
@@ -10,7 +9,7 @@ export default function SearchDropdown({ header }) {
       <RecentItems header={header} />
 
       <DDSection>
-        <SectionTitle header>인기 검색어</SectionTitle>
+        <SectionTitle header={header}>인기 검색어</SectionTitle>
         <RankItem header={header} />
       </DDSection>
     </DDContainer>

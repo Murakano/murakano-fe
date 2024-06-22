@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import { CloseOutlined } from '@ant-design/icons';
 import { ResetLink } from '@/styles/commonStyles';
 
-export function RecentItem({ children, onRemove }) {
+export function RecentItem({ children, onRemove, header }) {
   return (
-    <DDItem header>
-      <RecentLink href={`/search?query=${children || ''}`}>
-        <DDText headert>{children || '최근 검색어가 없습니다.'}</DDText>
+    <DDItem header={header}>
+      <RecentLink href={`/search/${children || ''}`}>
+        <DDText header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
       </RecentLink>
 
       {children && <CloseIcon onClick={() => onRemove(children)} />}

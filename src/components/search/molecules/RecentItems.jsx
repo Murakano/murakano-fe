@@ -29,7 +29,7 @@ export default function RecentItems({ header }) {
 
   return (
     <DDSection borderRight>
-      <SectionTitle header>최근 검색어</SectionTitle>
+      <SectionTitle header={header}>최근 검색어</SectionTitle>
       <Column>
         {recentSearches.length > 0 ? (
           recentSearches.map((item, index) => (

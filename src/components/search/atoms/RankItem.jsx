@@ -1,17 +1,29 @@
 import styled from 'styled-components';
-import { CloseOutlined } from '@ant-design/icons';
 import { Column, ResetLink } from '@/styles/commonStyles';
 import React, { useState } from 'react';
 
-export function RankItem({ children, onRemove }) {
-  const [ranks, setRanks] = useState(['CSSOM', 'ACID', 'ASAP', 'AZURE']); // 인기 검색어
+export function RankItem({ children, header }) {
+  const [ranks, setRanks] = useState([
+    'CSSOM',
+    'ACID',
+    'ASAP',
+    'AZURE',
+    'CSSOM',
+    'ACID',
+    'ASAP',
+    'AZURE',
+    'CSSOM',
+    'ACID',
+  ]); // 인기 검색어
 
   return (
     <Column>
       {ranks.map((item, index) => (
-        <DDItem header key={index}>
-          <Rank>{index + 1}.</Rank>
-          <RankLink href={`/search?query=${children || ''}`}>{item}</RankLink>
+        <DDItem header={header} key={index}>
+          <Rank header={header}>{index + 1}.</Rank>
+          <RankLink header={header} href={`/search/${item}`}>
+            {item}
+          </RankLink>
         </DDItem>
       ))}
     </Column>
@@ -25,9 +37,10 @@ const DDItem = styled.li`
   height: ${(props) => (props.header ? '23px' : '28px')};
   color: #666666;
   overflow: hidden;
-  font-size: ${(props) => (props.header ? '14px' : '16px')};
+  font-size: ${(props) => (props.header ? '13px' : '16px')};
   font-weight: 400;
   width: 100%;
+  gap: ${(props) => (props.header ? '4px' : '8px')};
   cursor: pointer;
 
   &:hover {
