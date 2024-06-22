@@ -30,8 +30,20 @@ export const Column = styled.div`
   justify-content: center;
 `;
 
+export const Container = styled.div`
+  margin: ${(props) => props.marginTop || "130px"} 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  overflow: auto;
+`;
+
 // 검색창 스타일
 import { SearchOutlined } from "@ant-design/icons";
+import Link from "next/link";
 export const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
@@ -68,4 +80,9 @@ export const StyledSearchOutlined = styled(SearchOutlined)`
   height: 32px;
   font-size: 30px;
   color: #666666;
+`;
+
+export const ResetLink = styled(Link)`
+  text-decoration: none;
+  cursor: pointer;
 `;

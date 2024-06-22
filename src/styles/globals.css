@@ -3,6 +3,21 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection for input elements, textarea  class */
+input,
+textarea {
+  -ms-user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  user-select: text;
 }
 
 html,

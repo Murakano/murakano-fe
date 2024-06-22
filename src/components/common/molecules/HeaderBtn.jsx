@@ -21,7 +21,7 @@ export default function HeaderBtn() {
       </Btn>
       {/* 임시방편 */}
       <Btn>
-        <StyledLink href='auth/requests'>내요청</StyledLink>
+        <StyledLink href='/auth/requests'>내요청</StyledLink>
       </Btn>
     </HeaderRow>
   );

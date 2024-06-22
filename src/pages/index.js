@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { LogoText } from "@/styles/commonStyles";
 import SearchBar from "@/components/search/atoms/SearchBar";
 import router from "next/router";
+import SearchDropdown from "@/components/search/molecules/SearchDropdown";
+import { Container } from "@/styles/commonStyles";
 
 export default function Search() {
   // 메인 홈 이동
@@ -12,8 +14,8 @@ export default function Search() {
   };
 
   return (
-    <Container>
-      <Header isHome />
+    <Container marginTop="38px">
+      <Header $isHome />
       <Section>
         <Title onClick={redirectToHome}>
           <Logo />
@@ -26,22 +28,15 @@ export default function Search() {
   );
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-`;
-
 const Section = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 200px;
-  height: 100vh;
-  width: 780px;
+  padding-top: 150px;
+  box-sizing: border-box;
+  height: calc(100vh - 38px);
+  max-width: 100vw;
 `;
 
 const Logo = styled.div`

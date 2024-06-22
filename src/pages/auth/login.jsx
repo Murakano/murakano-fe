@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Header from '@/components/common/organisms/Header';
 import SocialLogin from '@/components/auth/organisms/SocialLogin';
 import LoginForm from '@/components/auth/organisms/LoginForm';
+import { Container } from '@/styles/commonStyles';
 
 export default function Login() {
   return (
@@ -18,14 +19,6 @@ export default function Login() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-`;
 
 const PageTitle = styled.div`
   padding-top: 50px;

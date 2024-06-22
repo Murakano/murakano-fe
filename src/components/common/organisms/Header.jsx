@@ -6,12 +6,12 @@ import { LogoText, Row } from "@/styles/commonStyles";
 import HeaderBtn from "../molecules/HeaderBtn";
 import Link from "next/link";
 
-export default function Header({ isHome }) {
+export default function Header({ $isHome }) {
   return (
-    <Container isHome={isHome}>
+    <MainContainer $isHome={$isHome}>
       <Inner>
         <HeaderBtn />
-        {!isHome && (
+        {!$isHome && (
           <HeaderRow>
             <SmallLogoText>
               <StyledLink href="/">머라카노</StyledLink>
@@ -20,18 +20,22 @@ export default function Header({ isHome }) {
           </HeaderRow>
         )}
       </Inner>
-    </Container>
+    </MainContainer>
   );
 }
-
-const Container = styled.div`
+const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 130px;
-  width: 100vw;
-  border-bottom: ${(props) => (props.isHome ? "none" : "1px solid #cccccc")};
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  border-bottom: ${(props) => (props.$isHome ? "none" : "1px solid #cccccc")};
+  padding: 0;
+  height: ${(props) => (props.$isHome ? "38px" : "130px")};
+  width: 100%;
 `;
 
 const Inner = styled.div`

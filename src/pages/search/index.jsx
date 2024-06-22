@@ -6,7 +6,10 @@ export default function Search() {
   return (
     <Container>
       <Header />
-      <Section>{/* 트루 여기에 검색결과 페이지 넣어주면 돼! */}</Section>
+      <Section>
+        {/* 트루 여기에 검색결과 페이지 넣어주면 돼! */}
+        search
+      </Section>
     </Container>
   );
 }
@@ -24,7 +27,7 @@ const Section = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 200px;
+  padding-top: 130px;
   height: 100vh;
   width: 780px;
 `;
