@@ -21,7 +21,7 @@ const DDItem = styled.li`
   height: ${(props) => (props.header ? '23px' : '28px')};
   color: #666666;
   overflow: hidden;
-  font-size: ${(props) => (props.header ? '14px' : '16px')};
+  font-size: ${(props) => (props.header ? '13px' : '16px')};
   font-weight: 400;
   width: 100%;
 `;
