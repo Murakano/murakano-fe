@@ -1,22 +1,12 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { RecentItem } from "../atoms/RecentItem";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { RecentItem } from '../atoms/RecentItem';
 
 export default function SearchDropdown({ header }) {
   // TODO : 임시저장, 추후 API 연동
-  const [recentSearches, setRecentSearches] = useState([
-    "React",
-    "ACID",
-    "DOM",
-    "IDE",
-  ]); // 최근 검색어
+  const [recentSearches, setRecentSearches] = useState(['React', 'ACID', 'DOM', 'IDE']); // 최근 검색어
 
-  const [popularSearches, setPopularSearches] = useState([
-    "CSSOM",
-    "ACID",
-    "ASAP",
-    "AZURE",
-  ]); // 인기 검색어
+  const [popularSearches, setPopularSearches] = useState(['CSSOM', 'ACID', 'ASAP', 'AZURE']); // 인기 검색어
 
   // 검색어를 추가하는 함수
   const addSearchTerm = (term) => {
@@ -25,9 +15,7 @@ export default function SearchDropdown({ header }) {
 
   // 검색어를 삭제하는 함수
   const removeSearchTerm = (term) => {
-    setRecentSearches((prevSearches) =>
-      prevSearches.filter((search) => search !== term)
-    );
+    setRecentSearches((prevSearches) => prevSearches.filter((search) => search !== term));
   };
 
   return (
@@ -60,22 +48,21 @@ export default function SearchDropdown({ header }) {
 }
 
 const DDContainer = styled.div`
-  width: ${(props) => (props.header ? "460px" : "580px")};
-  height: ${(props) => (props.header ? "358px" : "358px")};
-  margin: ${(props) => (props.header ? "0" : "23px 0 38px")};
+  width: ${(props) => (props.header ? '460px' : '580px')};
+  height: ${(props) => (props.header ? '358px' : '358px')};
+  margin: ${(props) => (props.header ? '0' : '23px 0 38px')};
   box-sizing: border-box;
   border-radius: 30px;
   border: 2px solid var(--secondary);
   display: flex;
   background-color: #ffffff;
-  position: ${(props) => (props.header ? "absolute" : "static")};
-  top: ${(props) => (props.header ? "100px" : "auto")};
+  position: ${(props) => (props.header ? 'absolute' : 'static')};
+  top: ${(props) => (props.header ? '100px' : 'auto')};
 `;
 
 const DDSection = styled.div`
   padding: 25px 36px;
-  border-right: ${(props) =>
-    props.borderRight ? "1px solid var(--secondary)" : "none"};
+  border-right: ${(props) => (props.borderRight ? '1px solid var(--secondary)' : 'none')};
   width: 50%;
 `;
 
@@ -90,7 +77,7 @@ const SectionTitle = styled.div`
 const List = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  /* gap: 10px; */
 `;
 
 const DDItem = styled.li`
