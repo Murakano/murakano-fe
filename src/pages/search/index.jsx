@@ -10,9 +10,7 @@ export default function Search() {
   return (
     <Container>
       <Header />
-      <Section>
-        {/* 트루 여기에 검색결과 페이지 넣어주면 돼! */}
-        search
+      <Section> 
         {query ? <h1>검색 결과: {query}</h1> : <h1>검색어를 입력해주세요.</h1>}
       </Section>
     </Container>
