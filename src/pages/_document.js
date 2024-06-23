@@ -41,6 +41,7 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          <div id="modal-root"></div> {/* 모달을 렌더링할 타겟 요소 추가 */}
         </body>
       </Html>
     );
