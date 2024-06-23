@@ -1,9 +1,9 @@
 // 코드예시.
 // 검색어에 따른 동적 라우팅 페이지
-import Header from "@/components/common/organisms/Header";
-import styled from "styled-components";
-import { useRouter } from "next/router";
-import CategoryDate from "@/components/search/molecules/CategoryDate";
+import Header from '@/components/common/organisms/Header';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
+// import CategoryDate from '@/components/search/molecules/CategoryDate';
 
 export default function SearchResults() {
   const router = useRouter();
@@ -13,14 +13,19 @@ export default function SearchResults() {
     <Container>
       <Header />
       <Section>
-        {query ? <CategoryDate />
-
-        <ResultWord>{query}</ResultWord>
-: <h1>검색어를 입력해주세요.</h1>}</Section>
+        {query ? (
+          <>
+            {/* <CategoryDate /> */}
+            {/* <ResultWord>{query}</ResultWord> */}
+          </>
+        ) : (
+          <h1>검색어를 입력해주세요.</h1>
+        )}
+      </Section>
     </Container>
   );
-
 }
+
 const ResultWord = styled.div`
   color: #000000;
   width: 691px;
@@ -37,6 +42,7 @@ const ResultWord = styled.div`
   align-items: center;
   letter-spacing: -0.03em;
 `;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -44,6 +50,7 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
 `;
+
 const Section = styled.div`
   display: flex;
   flex-direction: column;
