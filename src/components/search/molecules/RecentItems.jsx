@@ -36,7 +36,7 @@ export default function RecentItems({ header, onItemClick }) {
       <Column>
         {recentSearches.length > 0 ? (
           recentSearches.map((item, index) => (
-            <RecentItem $header={header} key={index} onRemove={() => removeSearchTerm(index)} onItemClick={onItemClick}>
+            <RecentItem header={header} key={index} onRemove={() => removeSearchTerm(index)} onItemClick={onItemClick}>
               {item}
             </RecentItem> // 각 검색어에 대한 RecentItem 컴포넌트를 생성
           ))
