@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { LogoText } from '@/styles/commonStyles';
 import SearchBar from '@/components/search/atoms/SearchBar';
 import router from 'next/router';
-import SearchDropdown from '@/components/search/molecules/SearchDropdown';
 import { Container } from '@/styles/commonStyles';
 
 export default function Search() {

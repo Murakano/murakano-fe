@@ -1,23 +1,25 @@
 // src/components/search/atoms/SearchBar.js
-import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/router";
-import {
-  SearchBarContainer,
-  SearchInput,
-  Icon,
-  StyledSearchOutlined,
-  Column,
-} from "@/styles/commonStyles";
-import SearchDropdown from "@/components/search/molecules/SearchDropdown";
+import { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { SearchBarContainer, SearchInput, Icon, StyledSearchOutlined, Column } from '@/styles/commonStyles';
+import SearchDropdown from '@/components/search/organisms/SearchDropdown';
 
 export default function SearchBar({ header }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const router = useRouter();
   const searchBarRef = useRef();
 
-  const handleSearch = () => {
-    router.push(`/search?query=${searchTerm}`);
+  const handleSearch = (e) => {
+    if (e.key === 'Enter' || e.type === 'click') {
+      router.push(`/search/${searchTerm}`);
+      setDropdownVisible(false);
+    }
+  };
+
+  const handleItemClick = (item) => {
+    router.push(`/search/${item}`);
     setDropdownVisible(false);
   };
 
@@ -28,9 +30,9 @@ export default function SearchBar({ header }) {
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -39,22 +41,20 @@ export default function SearchBar({ header }) {
       <SearchBarContainer header={header}>
         <SearchInput
           header={header}
-          type="text"
+          type='text'
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onClick={() => setDropdownVisible(true)}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              handleSearch();
-            }
-          }}
-          placeholder="발음이 궁금한 영어 개발 용어를 검색해보세요."
+          onKeyPress={handleSearch}
+          placeholder='발음이 궁금한 영어 개발 용어를 검색해보세요.'
         />
-        <Icon onClick={handleSearch}>
-          <StyledSearchOutlined />
-        </Icon>
+        <Link href={`/search/${searchTerm}`}>
+          <Icon onClick={handleSearch}>
+            <StyledSearchOutlined />
+          </Icon>
+        </Link>
       </SearchBarContainer>
-      {isDropdownVisible && <SearchDropdown header={header} />}
+      {isDropdownVisible && <SearchDropdown header={header} onItemClick={handleItemClick} />}
     </Column>
   );
 }

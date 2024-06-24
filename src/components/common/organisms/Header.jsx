@@ -1,10 +1,10 @@
 // src/components/common/organisms/Header.js
-import React from "react";
-import styled from "styled-components";
-import SearchBar from "@/components/search/atoms/SearchBar";
-import { LogoText, Row } from "@/styles/commonStyles";
-import HeaderBtn from "../molecules/HeaderBtn";
-import Link from "next/link";
+import React from 'react';
+import styled from 'styled-components';
+import SearchBar from '@/components/search/atoms/SearchBar';
+import { LogoText, Row } from '@/styles/commonStyles';
+import HeaderBtn from '../molecules/HeaderBtn';
+import Link from 'next/link';
 
 export default function Header({ $isHome }) {
   return (
@@ -14,7 +14,7 @@ export default function Header({ $isHome }) {
         {!$isHome && (
           <HeaderRow>
             <SmallLogoText>
-              <StyledLink href="/">머라카노</StyledLink>
+              <StyledLink href='/'>머라카노</StyledLink>
             </SmallLogoText>
             <SearchBar header />
           </HeaderRow>
@@ -30,11 +30,12 @@ const MainContainer = styled.div`
   justify-content: center;
   position: fixed;
   z-index: 100;
+  background-color: white;
   top: 0;
   left: 0;
-  border-bottom: ${(props) => (props.$isHome ? "none" : "1px solid #cccccc")};
+  box-shadow: ${(props) => (props.$isHome ? 'none' : 'rgba(0, 0, 0, 0.08) 0px 8px 16px 0px')};
   padding: 0;
-  height: ${(props) => (props.$isHome ? "38px" : "130px")};
+  height: ${(props) => (props.$isHome ? '38px' : '130px')};
   width: 100%;
 `;
 
