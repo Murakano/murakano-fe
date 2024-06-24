@@ -38,9 +38,9 @@ export default function SearchBar({ header }) {
 
   return (
     <Column ref={searchBarRef}>
-      <SearchBarContainer header={header}>
+      <SearchBarContainer $header={header}>
         <SearchInput
-          header={header}
+          $header={header}
           type='text'
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
