@@ -29,11 +29,11 @@ export default function RecentItems({ header, onItemClick }) {
 
   return (
     <DDSection borderRight>
-      <SectionTitle header={header}>최근 검색어</SectionTitle>
+      <SectionTitle $header={header}>최근 검색어</SectionTitle>
       <Column>
         {recentSearches.length > 0 ? (
           recentSearches.map((item, index) => (
-            <RecentItem header={header} key={index} onRemove={() => removeSearchTerm(index)} onItemClick={onItemClick}>
+            <RecentItem $header={header} key={index} onRemove={() => removeSearchTerm(index)} onItemClick={onItemClick}>
               {item}
             </RecentItem> // 각 검색어에 대한 RecentItem 컴포넌트를 생성
           ))
@@ -52,9 +52,9 @@ const DDSection = styled.div`
 `;
 
 const SectionTitle = styled.div`
-  font-size: ${(props) => (props.header ? '14px' : '16px')};
+  font-size: ${(props) => (props.$header ? '14px' : '16px')};
   font-weight: 600;
-  margin-bottom: ${(props) => (props.header ? '13px' : '20px')};
-  height: ${(props) => (props.header ? '12px' : '18px')};
+  margin-bottom: ${(props) => (props.$header ? '13px' : '20px')};
+  height: ${(props) => (props.$header ? '12px' : '18px')};
   line-height: 18px;
 `;
