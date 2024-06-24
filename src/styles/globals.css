@@ -162,7 +162,7 @@ table {
 /* src/styles/globals.css */
 :root {
   --primary: #3c8bff;
-  --secondary: #b8d5ff;
+  --secondary: #b8d5ff; /* 호버 */ 
   --primary60: rgba(60, 139, 255, 0.6);
   --secondary10: rgba(184, 213, 255, 0.1);
 }

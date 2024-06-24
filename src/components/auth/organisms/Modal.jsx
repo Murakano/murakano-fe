@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import ReactDOM from "react-dom";
 
 export default function Modal({ onClose }) {
-  return ReactDOM.createPortal(
+  return (
     <ModalContainer>
       <ModalBody>
         <ModalHeader>
@@ -35,11 +34,9 @@ export default function Modal({ onClose }) {
           </ButtonGroup>
         </ModalFooter>
       </ModalBody>
-    </ModalContainer>,
-    document.getElementById("modal-root")
+    </ModalContainer>
   );
 }
-
 const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -101,7 +98,7 @@ const ModalFooter = styled.footer`
 const ButtonGroup = styled.div`
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   gap: 10px;
   margin-right: 17px;
