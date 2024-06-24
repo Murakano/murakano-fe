@@ -1,20 +1,20 @@
 // src/pages/index.js
-import Header from "@/components/common/organisms/Header";
-import styled from "styled-components";
-import { LogoText } from "@/styles/commonStyles";
-import SearchBar from "@/components/search/atoms/SearchBar";
-import router from "next/router";
-import SearchDropdown from "@/components/search/molecules/SearchDropdown";
-import { Container } from "@/styles/commonStyles";
+import Header from '@/components/common/organisms/Header';
+import styled from 'styled-components';
+import { LogoText } from '@/styles/commonStyles';
+import SearchBar from '@/components/search/atoms/SearchBar';
+import router from 'next/router';
+import SearchDropdown from '@/components/search/molecules/SearchDropdown';
+import { Container } from '@/styles/commonStyles';
 
 export default function Search() {
   // 메인 홈 이동
   const redirectToHome = () => {
-    router.push("/");
+    router.push('/');
   };
 
   return (
-    <Container marginTop="38px">
+    <Container $marginTop='38px'>
       <Header $isHome />
       <Section>
         <Title onClick={redirectToHome}>
@@ -42,7 +42,7 @@ const Section = styled.div`
 const Logo = styled.div`
   width: 70px;
   height: 70px;
-  background-image: url("murak-logo-removebg.png");
+  background-image: url('murak-logo-removebg.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
