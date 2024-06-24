@@ -31,7 +31,7 @@ export const Column = styled.div`
 `;
 
 export const Container = styled.div`
-  margin: ${(props) => props.marginTop || '130px'} 0 0;
+  margin: ${(props) => props.$marginTop || '130px'} 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,10 +48,10 @@ export const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${(props) => (props.header ? '460px' : '580px')};
-  height: ${(props) => (props.header ? '48px' : '64px')};
-  left: ${(props) => (props.header ? '0px' : 'auto')};
-  top: ${(props) => (props.header ? '0px' : 'auto')};
+  width: ${(props) => (props.$header ? '460px' : '580px')};
+  height: ${(props) => (props.$header ? '48px' : '64px')};
+  left: ${(props) => (props.$header ? '0px' : 'auto')};
+  top: ${(props) => (props.$header ? '0px' : 'auto')};
   border: 2px solid var(--secondary);
   border-radius: 50px;
   padding-right: 20px;
@@ -61,7 +61,7 @@ export const SearchInput = styled.input`
   width: 100%;
   height: 100%;
   padding: 30px;
-  font-size: ${(props) => (props.header ? '14px' : '18px')};
+  font-size: ${(props) => (props.$header ? '14px' : '18px')};
   font-weight: 400;
   color: #666666;
   background-color: transparent;

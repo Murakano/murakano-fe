@@ -27,9 +27,12 @@ export default function RecentItems({ header, onItemClick }) {
     setRecentSearches((prevSearches) => prevSearches.filter((_, i) => i !== index));
   };
 
+  // NOTE : 기존 borderRight 값이 없어서 임의로 true로 지정해 놨습니다.
+  const borderRight = true;
+
   return (
-    <DDSection borderRight>
-      <SectionTitle header={header}>최근 검색어</SectionTitle>
+    <DDSection $borderRight={borderRight}>
+      <SectionTitle $header={header}>최근 검색어</SectionTitle>
       <Column>
         {recentSearches.length > 0 ? (
           recentSearches.map((item, index) => (
@@ -47,14 +50,14 @@ export default function RecentItems({ header, onItemClick }) {
 
 const DDSection = styled.div`
   padding: 25px 36px;
-  border-right: ${(props) => (props.borderRight ? '1px solid var(--secondary)' : 'none')};
+  border-right: ${(props) => (props.$borderRight ? '1px solid var(--secondary)' : 'none')};
   width: 50%;
 `;
 
 const SectionTitle = styled.div`
-  font-size: ${(props) => (props.header ? '14px' : '16px')};
+  font-size: ${(props) => (props.$header ? '14px' : '16px')};
   font-weight: 600;
-  margin-bottom: ${(props) => (props.header ? '13px' : '20px')};
-  height: ${(props) => (props.header ? '12px' : '18px')};
+  margin-bottom: ${(props) => (props.$header ? '13px' : '20px')};
+  height: ${(props) => (props.$header ? '12px' : '18px')};
   line-height: 18px;
 `;
