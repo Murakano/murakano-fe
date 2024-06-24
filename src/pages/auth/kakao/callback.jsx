@@ -28,5 +28,5 @@ export default function Callback() {
     }
   }, []);
 
-  return <div>callback</div>;
+  return <></>;
 }

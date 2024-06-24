@@ -5,10 +5,9 @@ import { Column, Row } from '@/styles/commonStyles';
 
 export default function SocialLogin() {
   const kakaoLoginHandler = async () => {
-    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${
-      process.env.NEXT_PUBLIC_KAKAO_API_KEY
-    }&redirect_uri=${process.env.NEXT_PUBLIC_SELF_URL + process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`;
-    window.location.href = kakaoURL;
+    const response = await fetch('/api/kakaoAuth');
+    const kakaoUrl = await response.json();
+    window.location.href = kakaoUrl;
   };
 
   return (

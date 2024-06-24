@@ -13,7 +13,7 @@ export default function Search() {
   };
 
   return (
-    <Container marginTop='38px'>
+    <Container $marginTop='38px'>
       <Header $isHome />
       <Section>
         <Title onClick={redirectToHome}>
