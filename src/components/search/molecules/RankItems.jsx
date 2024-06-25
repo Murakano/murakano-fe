@@ -23,7 +23,7 @@ export function RankItems({ children, header, onItemClick }) {
       <SectionTitle header={header}>인기 검색어</SectionTitle>
 
       {ranks.map((item, index) => (
-        <RankItem header={header} index={index} onItemClick={onItemClick}>
+        <RankItem key={`rank ${index}`} header={header} index={index} onItemClick={onItemClick}>
           {item}
         </RankItem>
       ))}
