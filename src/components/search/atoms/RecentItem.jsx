@@ -5,19 +5,20 @@ import HistoryIcon from '@mui/icons-material/History';
 export function RecentItem({ children, onRemove, header, onItemClick }) {
   return (
     <DDItems $header={header}>
-      <DDItem>
-        <NewHistoryIcon $header={header} />
+      <DDItem children={children}>
+        {children && <HistoryIcon style={{ fontSize: header ? '14px' : '16px', color: '#666666' }} />}
         <RecentLink onClick={() => onItemClick(children)}>
           <DDText $header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
-          <CloseIcon
-            onClick={(event) => {
-              event.stopPropagation();
-              onRemove(children);
-            }}
-          />
+          {children && (
+            <CloseIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                onRemove(children);
+              }}
+            />
+          )}
         </RecentLink>
       </DDItem>
-      {/* {children && <CloseIcon onClick={() => onRemove(children)} />} */}
     </DDItems>
   );
 }
@@ -46,11 +47,6 @@ const DDItem = styled.div`
   }
 `;
 
-const NewHistoryIcon = styled(HistoryIcon)`
-  font-size: ${(props) => (props.$header ? '13px' : '16px')};
-  color: #666666;
-`;
-
 const RecentLink = styled.div`
   flex-grow: 1;
   cursor: pointer;
@@ -63,16 +59,12 @@ const DDText = styled.div`
   padding-top: 2px;
   width: 100%;
   height: ${(props) => (props.$header ? '23px' : '28px')};
+  font-size: ${(props) => (props.$header ? '13px' : '16px')};
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   color: #666666;
-
-  /* &:hover {
-    color: #000000;
-    background-color: var(--secondary10);
-  } */
 `;
 
 const CloseIcon = styled(CloseOutlined)`

@@ -21,6 +21,6 @@ const DDContainer = styled.div`
   border: 2px solid var(--secondary);
   display: flex;
   background-color: #ffffff;
-  position: ${(props) => (props.header ? 'absolute' : 'static')};
-  top: ${(props) => (props.header ? '100px' : 'auto')};
+  position: ${(props) => (props.$header ? 'absolute' : 'static')};
+  top: ${(props) => (props.$header ? '100px' : 'auto')};
 `;
