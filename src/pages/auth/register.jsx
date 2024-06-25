@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import Header from '@/components/common/organisms/Header';
-import RegisterForm from '@/components/auth/organisms/RegisterForm';
+import RegisterForm from '@/components/auth/organisms/RegisterFormTemp';
 import { Container } from '@/styles/commonStyles';
 
-export default function Login() {
+export default function Register() {
   return (
     <Container>
       <Header />
