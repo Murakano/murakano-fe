@@ -1,28 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Row } from '@/styles/commonStyles';
 import Link from 'next/link';
 
 export default function HeaderBtn() {
+  const [nickname, setNickname] = useState('');
+
+  useEffect(() => {
+    setNickname(localStorage.getItem('nickname'));
+  }, []);
+
   return (
     <HeaderRow>
       <Btn>
         <StyledLink href='/words'>전체용어</StyledLink>
       </Btn>
-      <Btn>
-        <StyledLink href='/auth/register'>회원가입</StyledLink>
-      </Btn>
-      <Btn>
-        <StyledLink href='/auth/login'>로그인</StyledLink>
-      </Btn>
-      {/* NOTE : 추후 조건부 렌더링*/}
-      <Btn>
-        <StyledLink href='/auth/logout'>로그아웃</StyledLink>
-      </Btn>
-      {/* 임시방편 */}
-      <Btn>
-        <StyledLink href='/auth/requests'>내요청</StyledLink>
-      </Btn>
+
+      {nickname ? (
+        <>
+          <Btn>
+            <StyledLink href='/auth/profile'>{nickname}님</StyledLink>
+          </Btn>
+          <Btn>
+            <StyledLink href='/auth/requests'>내요청</StyledLink>
+          </Btn>
+          <Btn>
+            <StyledLink href='/auth/logout'>로그아웃</StyledLink>
+          </Btn>
+        </>
+      ) : (
+        <>
+          <Btn>
+            <StyledLink href='/auth/register'>회원가입</StyledLink>
+          </Btn>
+          <Btn>
+            <StyledLink href='/auth/login'>로그인</StyledLink>
+          </Btn>
+        </>
+      )}
     </HeaderRow>
   );
 }

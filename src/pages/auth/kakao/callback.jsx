@@ -12,6 +12,7 @@ export default function Callback() {
 
     if (res.message === '로그인 성공') {
       localStorage.setItem('token', res.token);
+      localStorage.setItem('nickname', res.nickname);
       return router.push('/');
     } else {
       alert('로그인 실패');
