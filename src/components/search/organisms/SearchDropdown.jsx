@@ -5,7 +5,7 @@ import { RankItems } from '../molecules/RankItems';
 
 export default function SearchDropdown({ header, onItemClick }) {
   return (
-    <DDContainer header={header}>
+    <DDContainer $header={header}>
       <RecentItems header={header} onItemClick={onItemClick} />
       <RankItems header={header} onItemClick={onItemClick} />
     </DDContainer>
@@ -13,9 +13,9 @@ export default function SearchDropdown({ header, onItemClick }) {
 }
 
 const DDContainer = styled.div`
-  width: ${(props) => (props.header ? '460px' : '580px')};
-  height: ${(props) => (props.header ? '309px' : '372px')};
-  margin: ${(props) => (props.header ? '0' : '23px 0 38px')};
+  width: ${(props) => (props.$header ? '460px' : '580px')};
+  height: ${(props) => (props.$header ? '309px' : '372px')};
+  margin: ${(props) => (props.$header ? '0' : '23px 0 38px')};
   box-sizing: border-box;
   border-radius: 30px;
   border: 2px solid var(--secondary);

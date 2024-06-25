@@ -111,7 +111,7 @@ export default function LoginForm() {
           {view ? <EyeIcon as={EyeOutlined} /> : <EyeIcon as={EyeInvisibleOutlined} />}
         </EyeBox>
       </InputBox>
-      <LoginButton onClick={handleLoginButtonClick} active={buttonActive}>
+      <LoginButton onClick={handleLoginButtonClick} $active={buttonActive}>
         로그인
       </LoginButton>
       <RegisterButton onClick={handleRegisterButtonClick}>회원가입</RegisterButton>
@@ -144,7 +144,7 @@ const EyeIcon = styled.div`
 
 const LoginButton = styled(Button)`
   color: white;
-  background-color: ${(props) => (props.active ? 'var(--primary)' : 'var(--primary60)')};
+  background-color: ${(props) => (props.$active ? 'var(--primary)' : 'var(--primary60)')};
   transition: background-color 0.4s;
 `;
 
