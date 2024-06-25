@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import CategoryDate from "@/components/search/molecules/CategoryDate";
 import ResultBoxIntegration from "@/components/search/organisms/ResultBoxIntegration";
 import SorryComponent from "@/components/search/molecules/SorryComponent";
+import ResultEditBtn from "@/components/search/atoms/ResultEditBtn";
 
 export default function SearchResults() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function SearchResults() {
             <CategoryDate />
             <ResultWord>{query}</ResultWord>
             <ResultBoxIntegration />
+            <ResultEditBtn />
           </>
         ) : (
           <>
