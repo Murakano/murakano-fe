@@ -26,10 +26,11 @@ const StyledSorryText = styled.h1`
 `;
 
 const StyledContainer = styled.div`
-  width: fixed;
-  height: huge;
+  width: 782px;
+  height: 144.93px;
   background-color: green;
-  margin: 0px 0px 15px 0px;
+  margin: 136.04px 1px 15px 1px;
+  justify-content: space-between;
 `;
 
 export default SorryText;
