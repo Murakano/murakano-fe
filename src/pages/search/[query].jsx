@@ -5,8 +5,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import CategoryDate from "@/components/search/molecules/CategoryDate";
 import ResultBoxIntegration from "@/components/search/organisms/ResultBoxIntegration";
-import SorryText from "@/components/search/atoms/SorryText"; 
-import AddRequestBtn from  "@/components/search/atoms/AddRequestBtn";
+import SorryComponent from "@/components/search/molecules/SorryComponent";
 
 export default function SearchResults() {
   const router = useRouter();
@@ -24,8 +23,7 @@ export default function SearchResults() {
           </>
         ) : (
           <>
-            <SorryText query={query} /> 
-            <AddRequestBtn />
+            <SorryComponent />
           </>
         )}
       </Section>

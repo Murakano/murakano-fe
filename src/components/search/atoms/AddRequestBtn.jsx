@@ -32,17 +32,16 @@ const Button = styled.button`
 const StyledContainer = styled.div`
   width: 691px;
   height: 61px;
-  padding: 0px 0px 0px 10px;
+  margin: 30px 44.5px 136.04px 44.5px;
+  
 
 `;
 
 const CenteredContainer = styled(MuiContainer)`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
   height: 100%;
-  background-color: blue;
-  padding: 15px 0px 0px 10px;
 `;
 
 export default EditRequestButton;

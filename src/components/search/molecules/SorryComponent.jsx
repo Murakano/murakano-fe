@@ -6,9 +6,13 @@ import { Container } from '@mui/material';
 
 export default function SorryComponent() {
     return (
-        <Container>
+        <StyledContainer>
             <SorryText />
             <AddRequestBtn />
-        </Container>
+        </StyledContainer>
     )
 }
+
+const StyledContainer = styled.div`
+ margin: 0px 330px 386px 330px;
+`;
