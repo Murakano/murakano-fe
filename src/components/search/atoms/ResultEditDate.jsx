@@ -31,7 +31,7 @@ const Text = styled.div`
   line-height: 18px;
   letter-spacing: -0.03em;
   text-align: right;
-  margin-left;
+  margin-left: auto;
 `;
 
 export default ResultEditDate;
