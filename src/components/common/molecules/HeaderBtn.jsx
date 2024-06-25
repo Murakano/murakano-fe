@@ -10,7 +10,7 @@ export default function HeaderBtn() {
         <StyledLink href='/words'>전체용어</StyledLink>
       </Btn>
       <Btn>
-        <StyledLink href='/auth/signup'>회원가입</StyledLink>
+        <StyledLink href='/auth/register'>회원가입</StyledLink>
       </Btn>
       <Btn>
         <StyledLink href='/auth/login'>로그인</StyledLink>

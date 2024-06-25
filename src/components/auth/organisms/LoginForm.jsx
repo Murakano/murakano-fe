@@ -82,7 +82,7 @@ export default function LoginForm() {
   };
 
   const handleRegisterButtonClick = () => {
-    router.push('/auth/signup');
+    router.push('/auth/register');
   };
 
   return (
