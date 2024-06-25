@@ -1,21 +1,48 @@
-import Button from "@/components/common/atoms/Button"; 
-import { Container as MUIContainer } from "@mui/material";
+// src/components/atoms/EditRequestButton.jsx
+import { Container as MuiContainer } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 
-function AddRequestBtn() {
-    return (
-      <StyledContainer>
-        <Button onClick={() => alert('버튼이 클릭되었습니다.')}>
+const EditRequestButton = () => {
+  return (
+    <StyledContainer>
+      <CenteredContainer>
+        <Button>
           등록 요청하기
         </Button>
-      </StyledContainer>
-    );
-  }
+      </CenteredContainer>
+    </StyledContainer>
+  );
+};
 
-  const StyledContainer = styled.div`
-   padding: 29.29px 298px 7.71px 309px;
-   background-color: blue;
-  `;
-  
-  export default AddRequestBtn;
+const Button = styled.button`
+  width: 110px;
+  height: 40px;
+  border-radius: 30px;
+  border: none;
+  background-color: #3C8BFF99;
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  text-align: center;
+`;
+
+const StyledContainer = styled.div`
+  width: 691px;
+  height: 61px;
+  padding: 0px 0px 0px 10px;
+
+`;
+
+const CenteredContainer = styled(MuiContainer)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: blue;
+  padding: 15px 0px 0px 10px;
+`;
+
+export default EditRequestButton;
