@@ -5,13 +5,11 @@ import styled from 'styled-components';
 
 const ResultEditBtn = () => {
   return (
-    <StyledContainer>
       <CenteredContainer>
         <Button>
           수정 요청하기
         </Button>
       </CenteredContainer>
-    </StyledContainer>
   );
 };
 
@@ -28,15 +26,9 @@ const Button = styled.button`
   letter-spacing: -0.03em;
 `;
 
-const StyledContainer = styled.div`
-  width: 691px;
-  height: 61px;
-  margin: 30px 44.5px 136.04px 44.5px;
-`;
 
 const CenteredContainer = styled(MuiContainer)`
   display: flex;
-  height: 100%;
   align-items: center;
   justify-content: flex-end;
 `;
