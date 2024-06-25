@@ -16,22 +16,18 @@ const ResultEditDate = () => {
 const Container = styled.div`
   width: 320.5px;
   height: 29px;
-  padding: 10px 0;
-  gap: 10px;
-  transform: rotate(0.31deg);
-  
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
 const Text = styled.div`
-  width: 121px;
-  height: 18px;
-  gap: 0;
   font-size: 12px;
   font-weight: 200;
   line-height: 18px;
   letter-spacing: -0.03em;
-  text-align: right;
-  margin-left: auto;
+  text-align: center;
+  white-space: nowrap;
 `;
 
 export default ResultEditDate;
