@@ -12,7 +12,6 @@ const Container = styled.div`
   height: 90px;
   padding: 10px 30px 10px 30px;
   margin-bottom: 10px;
-  gap: 10px;
   border-radius: 30px 30px 30px 30px;
   border: 0px solid transparent;
   border-bottom-width: 1px;
