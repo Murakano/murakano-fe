@@ -1,25 +1,28 @@
 import styled from 'styled-components';
 import { CloseOutlined } from '@ant-design/icons';
+import HistoryIcon from '@mui/icons-material/History';
 
 export function RecentItem({ children, onRemove, header, onItemClick }) {
   return (
-    <DDItem $header={header}>
-      <RecentLink onClick={() => onItemClick(children)}>
-        <DDText $header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
-        <CloseIcon
-          onClick={(event) => {
-            event.stopPropagation();
-            onRemove(children);
-          }}
-        />
-      </RecentLink>
-
+    <DDItems $header={header}>
+      <DDItem>
+        <NewHistoryIcon $header={header} />
+        <RecentLink onClick={() => onItemClick(children)}>
+          <DDText $header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
+          <CloseIcon
+            onClick={(event) => {
+              event.stopPropagation();
+              onRemove(children);
+            }}
+          />
+        </RecentLink>
+      </DDItem>
       {/* {children && <CloseIcon onClick={() => onRemove(children)} />} */}
-    </DDItem>
+    </DDItems>
   );
 }
 
-const DDItem = styled.li`
+const DDItems = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,6 +32,23 @@ const DDItem = styled.li`
   font-size: ${(props) => (props.$header ? '13px' : '16px')};
   font-weight: 400;
   width: 100%;
+`;
+
+const DDItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  &:hover {
+    color: #000000;
+    background-color: var(--secondary10);
+  }
+`;
+
+const NewHistoryIcon = styled(HistoryIcon)`
+  font-size: ${(props) => (props.$header ? '13px' : '16px')};
+  color: #666666;
 `;
 
 const RecentLink = styled.div`
@@ -49,10 +69,10 @@ const DDText = styled.div`
   justify-content: flex-start;
   color: #666666;
 
-  &:hover {
+  /* &:hover {
     color: #000000;
     background-color: var(--secondary10);
-  }
+  } */
 `;
 
 const CloseIcon = styled(CloseOutlined)`
