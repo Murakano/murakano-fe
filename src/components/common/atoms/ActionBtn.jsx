@@ -15,7 +15,7 @@ const ActionButton = styled.button`
   gap: 10px;
   border-radius: 30px;
   border: none;
-  color: white;
+  color: #ffffff;
   letter-spacing: -0.03em;
   cursor: pointer;
   background-color: #00000040;

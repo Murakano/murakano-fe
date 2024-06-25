@@ -13,7 +13,7 @@ const StatusButton = styled.button`
   gap: 10px;
   border-radius: 30px;
   border: none;
-  color: white;
+  color: #ffffff;
   letter-spacing: -0.03em;
   cursor: pointer;
   background-color: ${(props) => (props.$active ? 'var(--primary)' : '#b8d5ff')};

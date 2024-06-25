@@ -145,13 +145,13 @@ const EyeIcon = styled.div`
 `;
 
 const LoginButton = styled(Button)`
-  color: white;
+  color: #ffffff;
   background-color: ${(props) => (props.$active ? 'var(--primary)' : 'var(--primary60)')};
   transition: background-color 0.4s;
 `;
 
 const RegisterButton = styled(Button)`
   color: var(--primary);
-  background-color: white;
+  background-color: #ffffff;
   border: 1px solid #cccccc;
 `;

@@ -131,7 +131,7 @@ const EyeIcon = styled.div`
 `;
 
 const RegisterButton = styled(Button)`
-  color: white;
+  color: #ffffff;
   background-color: #e0e0e0;
   border: none;
 `;
