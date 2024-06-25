@@ -6,9 +6,15 @@ export function RecentItem({ children, onRemove, header, onItemClick }) {
     <DDItem $header={header}>
       <RecentLink onClick={() => onItemClick(children)}>
         <DDText $header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
+        <CloseIcon
+          onClick={(event) => {
+            event.stopPropagation();
+            onRemove(children);
+          }}
+        />
       </RecentLink>
 
-      {children && <CloseIcon onClick={() => onRemove(children)} />}
+      {/* {children && <CloseIcon onClick={() => onRemove(children)} />} */}
     </DDItem>
   );
 }
@@ -28,6 +34,9 @@ const DDItem = styled.li`
 const RecentLink = styled.div`
   flex-grow: 1;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const DDText = styled.div`
@@ -49,6 +58,12 @@ const DDText = styled.div`
 const CloseIcon = styled(CloseOutlined)`
   font-size: 10px;
   cursor: pointer;
+  visibility: hidden; /* 기본적으로는 숨김 처리 */
+
+  ${RecentLink}:hover & {
+    visibility: visible; /* RecentLink에 호버할 때만 CloseIcon을 보이도록 함 */
+  }
+
   &:hover {
     color: #000000;
   }
