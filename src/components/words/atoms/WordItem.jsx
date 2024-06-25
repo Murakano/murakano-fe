@@ -2,7 +2,6 @@
 import React from "react";
 import styled from "styled-components";
 import WordListIcon from "../../../../public/murak_list_icon.svg";
-import Link from "next/link";
 import { useRouter } from 'next/router';
 
 // 전체 단어 목록 
@@ -12,7 +11,7 @@ export default function WordItem({name, pron}) {
 
     // 단어 클릭시, 검색 결과 페이지로 이동 함수 
     const hanldleClick = () => {
-        router.Link(`/search/${query}`);
+        router.push(`/search/${query}`);
     }
 
     return (
@@ -46,7 +45,7 @@ const ListContainer = styled.div`
     }
 `;
 
-const ListInnerContainer = styled(Link)`
+const ListInnerContainer = styled.div`
     display: inline-block;
     width: 617px;
     height: 79px;
