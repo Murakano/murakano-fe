@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Header from '@/components/common/organisms/Header';
-import LoginForm from '@/components/auth/organisms/LoginForm';
+import RegisterForm from '@/components/auth/organisms/RegisterForm';
 import { Container } from '@/styles/commonStyles';
 
 export default function Login() {
@@ -11,7 +11,7 @@ export default function Login() {
         <Section>
           <PageTitle>회원가입</PageTitle>
           <Main>
-            <LoginForm />
+            <RegisterForm />
           </Main>
         </Section>
       </Page>
