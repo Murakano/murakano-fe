@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Header from '@/components/common/organisms/Header';
-import RegisterForm from '@/components/auth/organisms/RegisterFormTemp';
+import RegisterForm from '@/components/auth/organisms/RegisterForm';
 import { Container } from '@/styles/commonStyles';
 
 export default function Register() {
