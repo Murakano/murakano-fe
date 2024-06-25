@@ -82,7 +82,7 @@ export default function LoginForm() {
   };
 
   const handleRegisterButtonClick = () => {
-    router.push('/auth/signup');
+    router.push('/auth/register');
   };
 
   return (
@@ -90,6 +90,7 @@ export default function LoginForm() {
       <InputBox
         type='text'
         name='email'
+        autocomplete='email'
         placeholder='이메일을 입력해주세요.'
         labelText='이메일'
         input={user.email}
@@ -100,6 +101,7 @@ export default function LoginForm() {
       <InputBox
         type={view ? 'text' : 'password'}
         name='password'
+        autocomplete='current-password'
         placeholder='비밀번호를 입력해주세요.'
         labelText='비밀번호'
         input={user.password}
@@ -143,13 +145,13 @@ const EyeIcon = styled.div`
 `;
 
 const LoginButton = styled(Button)`
-  color: white;
+  color: #ffffff;
   background-color: ${(props) => (props.$active ? 'var(--primary)' : 'var(--primary60)')};
   transition: background-color 0.4s;
 `;
 
 const RegisterButton = styled(Button)`
   color: var(--primary);
-  background-color: white;
+  background-color: #ffffff;
   border: 1px solid #cccccc;
 `;
