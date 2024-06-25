@@ -3,7 +3,7 @@ import { Container as MuiContainer } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 
-const EditRequestButton = () => {
+const AddRequestBtn = () => {
   return (
     <StyledContainer>
       <CenteredContainer>
@@ -44,4 +44,4 @@ const CenteredContainer = styled(MuiContainer)`
   height: 100%;
 `;
 
-export default EditRequestButton;
+export default AddRequestBtn;
