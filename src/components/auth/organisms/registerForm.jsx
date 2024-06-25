@@ -73,9 +73,9 @@ export default function RegisterForm() {
         helperText={helperText.passwordHelper}
         valid={helperText.passwordHelper ? false : true}
       ></InputBox>
-      <EyeBox1 onClick={onEyeClick1}>
+      <EyeBox onClick={onEyeClick1}>
         {eye1 ? <EyeIcon as={EyeOutlined} /> : <EyeIcon as={EyeInvisibleOutlined} />}
-      </EyeBox1>
+      </EyeBox>
       <InputBox
         type={eye2 ? 'text' : 'password'}
         name='passwordCheck'
@@ -86,9 +86,9 @@ export default function RegisterForm() {
         helperText={helperText.passwordCheckHelper}
         valid={helperText.passwordCheckHelper ? false : true}
       ></InputBox>
-      <EyeBox1 onClick={onEyeClick2}>
+      <EyeBox onClick={onEyeClick2}>
         {eye2 ? <EyeIcon as={EyeOutlined} /> : <EyeIcon as={EyeInvisibleOutlined} />}
-      </EyeBox1>
+      </EyeBox>
       <InputBox
         name='nickname'
         placeholder='닉네임을 입력해주세요.'
@@ -115,7 +115,7 @@ const Form = styled.form`
   justify-content: center;
 `;
 
-const EyeBox1 = styled.div`
+const EyeBox = styled.div`
   margin-top: -16px;
   position: relative;
   left: 195px;

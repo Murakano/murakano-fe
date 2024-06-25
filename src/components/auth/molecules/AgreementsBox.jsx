@@ -8,18 +8,18 @@ export default function AgreementsBox() {
   return (
     <AgrBox>
       <PrimaryCheckboxContainer>
-        <PrimaryCheckbox type='checkbox' id='agreeAll' />
+        <PrimaryCheckbox type='checkbox' name='agreeAll' id='agreeAll' />
         <PrimaryLabel htmlFor='agreeAll'>모든 약관 사항에 전체 동의합니다.</PrimaryLabel>
       </PrimaryCheckboxContainer>
       <Line />
       <CheckboxContainer>
-        <Checkbox type='checkbox' id='serviceAgree' />
+        <Checkbox type='checkbox' name='serviceAgree' id='serviceAgree' />
         <Label htmlFor='serviceAgree'>서비스 이용 약관 동의 (필수)</Label>
         <Details>자세히</Details>
       </CheckboxContainer>
 
       <CheckboxContainer>
-        <Checkbox type='checkbox' id='privacyAgree' />
+        <Checkbox type='checkbox' name='privacyAgree' id='privacyAgree' />
         <Label htmlFor='privacyAgree'>개인정보 수집 및 이용 동의 (필수)</Label>
         <Details>자세히</Details>
       </CheckboxContainer>
