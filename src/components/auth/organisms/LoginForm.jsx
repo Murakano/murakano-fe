@@ -75,6 +75,7 @@ export default function LoginForm() {
     console.log(response);
     if (response?.message == '로그인 성공') {
       localStorage.setItem('token', response.token);
+      localStorage.setItem('nickname', response.nickname);
       return router.push('/');
     }
     alert(ErrorMessage.LOGIN_ERROR);
