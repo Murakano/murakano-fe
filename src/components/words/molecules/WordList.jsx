@@ -12,7 +12,7 @@ const wordDirectory = [
 
 export default function WordList() {
     const router = useRouter();
-
+    // 단어 목록 클릭 시 해당 단어 상세 페이지로 이동
     const handleWordClick = (name) => {
         if(name) {
             router.push(`/search/${name}`);
@@ -21,8 +21,7 @@ export default function WordList() {
 
     return (
         <WordListContainer>
-            {wordDirectory.map((word, index
-            ) => (
+            {wordDirectory.map((word, index) => (
                 <WordListDiv key = {index} onClick = {() => handleWordClick(word.name)} >
                     <WordItem name={word.name} pron={word.pron} />
                 </WordListDiv>
