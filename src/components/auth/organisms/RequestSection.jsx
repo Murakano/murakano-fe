@@ -143,7 +143,7 @@ const Selector = styled.select`
   text-align: center;
 `;
 
-const ProgressSelector = styled(Selector)``; // todo: selector로 통합
+const ProgressSelector = styled(Selector)``; // todo: rhea 꺼로 변경
 
 const TypeSelector = styled(Selector)``;
 
