@@ -11,6 +11,7 @@ export default function InputBox({ name, labelText, children, type, placeholder,
       {children}
       <Input
         type={type}
+        id={name}
         name={name}
         placeholder={placeholder}
         value={input}

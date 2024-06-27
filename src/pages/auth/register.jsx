@@ -1,20 +1,17 @@
 import styled from 'styled-components';
 import Header from '@/components/common/organisms/Header';
-import SocialLogin from '@/components/auth/organisms/SocialLogin';
-import LoginForm from '@/components/auth/organisms/LoginForm';
+import RegisterForm from '@/components/auth/organisms/RegisterForm';
 import { Container } from '@/styles/commonStyles';
 
-export default function Login() {
+export default function Register() {
   return (
     <Container>
       <Header />
       <Page>
         <Section>
-          <PageTitle>로그인</PageTitle>
+          <PageTitle>회원가입</PageTitle>
           <Main>
-            <LoginForm />
-            <SocialLogin />
-            <Inc>© Murak, Inc.</Inc>
+            <RegisterForm />
           </Main>
         </Section>
       </Page>
@@ -27,7 +24,7 @@ const Page = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 92.5px 0;
+  padding: 100.5px 0;
 `;
 
 const Section = styled.div`
@@ -50,10 +47,4 @@ const Main = styled.div`
   justify-content: center;
   width: 540px;
   padding: 11.5px 46px 74px;
-`;
-
-const Inc = styled.div`
-  font-size: 14.5px;
-  font-weight: 400;
-  padding-top: 10px;
 `;
