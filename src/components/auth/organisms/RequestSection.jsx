@@ -38,10 +38,12 @@ const DUMMY_REQUEST_ITEM_LIST = [
   },
 ];
 
+
 export default function RequestSection() {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleActionButtonClick = () => {
+  const handleActionButtonClick = (e) => {
+    e.stopPropagation(); // 이벤트 캡쳐링 방지
     setModalOpen(true);
   };
 
@@ -49,8 +51,9 @@ export default function RequestSection() {
     setModalOpen(false);
   };
 
+
   return (
-    <MainContainer>
+    <MainContainer >
       <Inner>
         <SectionTitle>내 요청 내역</SectionTitle>
         <SelectorContainer>
@@ -140,7 +143,7 @@ const Selector = styled.select`
   text-align: center;
 `;
 
-const ProgressSelector = styled(Selector)``;
+const ProgressSelector = styled(Selector)``; // todo: selector로 통합
 
 const TypeSelector = styled(Selector)``;
 

@@ -1,9 +1,27 @@
 import styled from "styled-components";
+import { useEffect, useRef } from "react";
 
+//useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
 export default function Modal({ onClose }) {
+  const modalRef = useRef();
+
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      onClose(); //모달 닫기
+    }
+  };
+
+  //클릭감지, mousedown이 click보다 먼저 감지
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <ModalContainer>
-      <ModalBody>
+      <ModalBody ref={modalRef}>
         <ModalHeader>
           <ModalTitle>등록 요청</ModalTitle>
         </ModalHeader>
