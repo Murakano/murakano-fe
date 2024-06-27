@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
 export default function Modal({ onClose }) {
@@ -22,11 +22,11 @@ export default function Modal({ onClose }) {
 
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = useCallback((event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
       onClose(); //모달 닫기
     }
-  };
+  }, [onClose]);
 
   //클릭감지, mousedown이 click보다 먼 감지
   useEffect(() => {

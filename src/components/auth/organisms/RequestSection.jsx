@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Icon } from "@/styles/commonStyles";
 import TouchIcon from "../../../../public/hand-touch.svg"; 
 import Image from "next/image";
 import Modal from "./Modal";
@@ -221,7 +220,7 @@ const Badge = styled.div`
   color: white;
 `;
 
-const ActionButton = styled(Icon)`
+const ActionButton = styled(TouchIcon)`
   display: flex;
   justify-content: center;
   align-items: center;
