@@ -157,6 +157,9 @@ const Input = styled.input`
     border-color: var(--primary);
     outline: none;
   }
+  &:hover {
+    border-color: var(--primary); // 마우스 호버시 primary 컬러로 변경
+  }
 `;
 
 const TextArea = styled.textarea`
@@ -168,6 +171,9 @@ const TextArea = styled.textarea`
   &:focus {
     border-color: var(--primary);
     outline: none;
+  }
+  &:hover {
+    border-color: var(--primary); // 마우스 호버시 primary 컬러로 변경
   }
 `;
 
