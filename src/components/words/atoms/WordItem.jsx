@@ -1,22 +1,15 @@
 // src/components/words/atoms/WordItem.js
 import React from "react";
 import styled from "styled-components";
-import WordListIcon from "../../../../public/murak_list_icon.svg";
+import WordListIcon from "/public/murak_list_icon.svg";
 import { useRouter } from 'next/router';
 
 // 전체 단어 목록 
 export default function WordItem({name, pron}) {
-    const router = useRouter();
-    const { query } = router.query;
-
-    // 단어 클릭시, 검색 결과 페이지로 이동 함수 
-    const hanldleClick = () => {
-        router.push(`/search/${query}`);
-    }
 
     return (
         <ListContainer>
-            <ListInnerContainer onClick={hanldleClick}>
+            <ListInnerContainer>
                 <WordContents>
                     <WordName>
                         <div>{name}</div>
@@ -41,7 +34,7 @@ const ListContainer = styled.div`
     border-bottom: 1px solid #CCCCCC;
 
     &:hover {
-    background: #B8D5FF1A;
+    background: var(--secondary10);
     }
 `;
 
@@ -52,6 +45,7 @@ const ListInnerContainer = styled.div`
     justify-content: space-between;
     text-decoration: none;
     color: inherit;
+    cursor: pointer;
 `;
 
 const WordContents = styled.div`
@@ -68,7 +62,7 @@ const WordContents = styled.div`
 
 const WordName = styled.div`
     height: 23px;
-    margin: 5px 0 10px 0;
+    margin: 5px 0 10px;
     font-size: 15px;
     font-weight: 600;
     line-height: 22.5px;
