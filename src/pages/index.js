@@ -41,7 +41,7 @@ const Section = styled.div`
 const Logo = styled.div`
   width: 70px;
   height: 70px;
-  background-image: url('murak-logo-removebg.png');
+  background-image: url('/murak-logo-removebg.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
