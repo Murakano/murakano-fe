@@ -5,7 +5,7 @@ import HistoryIcon from '@mui/icons-material/History';
 export function RecentItem({ children, onRemove, header, onItemClick }) {
   return (
     <DDItems $header={header}>
-      <DDItem children={children}>
+      <DDItem>
         {children && <HistoryIcon style={{ fontSize: header ? '14px' : '16px', color: '#666666' }} />}
         <RecentLink onClick={() => onItemClick(children)}>
           {/* TODO : ( 최근검색어 글자가 헤더에서 크기 안줄어듬... + hover효과 제외 + 클릭 방지 구현 ) */}
