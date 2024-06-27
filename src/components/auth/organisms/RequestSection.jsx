@@ -114,7 +114,7 @@ const SectionTitle = styled.h1`
   font-size: 20px;
   width: 447px;
   height: 86px;
-  padding: 20px, 86px, 20px, 86px;
+  padding: 20px, 86px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -175,7 +175,6 @@ const RequestContent = styled.div`
 `;
 
 const RequestTitle = styled.h1`
-  font-family: Pretendard Variable;
   font-size: 15px;
   font-weight: 600;
   line-height: 22.5px;
@@ -184,7 +183,6 @@ const RequestTitle = styled.h1`
 `;
 
 const RequestSubTitle = styled.div`
-  font-family: Pretendard Variable;
   font-size: 13px;
   font-weight: 300;
   line-height: 19.5px;
@@ -212,7 +210,6 @@ const Badge = styled.div`
       : "#A4A4A4"};
   width: 58px;
   height: 24px;
-  font-family: Pretendard Variable;
   font-size: 10px;
   font-weight: 500;
   line-height: 15px;

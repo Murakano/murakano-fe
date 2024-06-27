@@ -74,7 +74,6 @@ const ModalHeader = styled.header`
 const ModalTitle = styled.h1`
   width: 163px;
   height: 56px;
-  font-family: Pretendard Variable;
   font-size: 40px;
   font-weight: 700;
   line-height: 60px;
@@ -114,7 +113,6 @@ const Item = styled.div`
 `;
 
 const Label = styled.label`
-  font-family: Pretendard Variable;
   font-size: 15px;
   font-weight: 600;
   line-height: 22.5px;
@@ -133,7 +131,7 @@ const Label = styled.label`
 const Input = styled.input`
   width: 498px;
   height: 55px;
-  padding: 10px 20px 10px 20px;
+  padding: 10px 20px;
   gap: 0px;
   border: 1px solid var(--secondary);
   border-radius: 10px;
@@ -161,7 +159,7 @@ const ModalButton = styled.button`
   border: none;
   border-radius: 30px;
   padding: 8px 30px;
-  color: white;
+  color: #fff;
   cursor: pointer;
   background-color: ${(props) =>
     props.isClose ? "rgba(0, 0, 0, 0.25)" : "var(--primary60)"};
