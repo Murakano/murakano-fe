@@ -16,7 +16,5 @@ export default function ResultBoxIntegration() {
 
   const Container = styled.div`
   width: 691px;
-  height: 90px;
-  padding: 10px 30px 10px 30px;
-  gap: 10px;
+  height: 290px;
 `;

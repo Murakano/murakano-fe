@@ -5,11 +5,11 @@ import styled from 'styled-components';
 const Contributor = () => {
     return (
       <>
-      <Container>
+      <StyledContainer>
         <Text>
           기여자: 행복한 토마토
         </Text>
-        </Container>
+        </StyledContainer>
       </>
     );
   };
@@ -22,7 +22,12 @@ const Contributor = () => {
   font-weight: 400;
   line-height: 19.5px;
   letter-spacing: -0.03em;
-  margin-right;
+  margin-right: auto;
+`;
+
+const StyledContainer = styled.div`
+  justify-content: flex-end;
+
 `;
 
 

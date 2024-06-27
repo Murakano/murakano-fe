@@ -29,7 +29,7 @@ const Text = styled.div`
   font-weight: 400;
   line-height: 18px;
   letter-spacing: -0.03em;
-  margin-right;
+  margin-right: auto;
 `;
 
 export default ResultCategory;

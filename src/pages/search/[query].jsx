@@ -6,8 +6,7 @@ import { useRouter } from "next/router";
 import CategoryDate from "@/components/search/molecules/CategoryDate";
 import ResultBoxIntegration from "@/components/search/organisms/ResultBoxIntegration";
 import SorryComponent from "@/components/search/molecules/SorryComponent";
-import ResultEditBtn from "@/components/search/atoms/ResultEditBtn";
-import Contributor from "@/components/search/atoms/Contributor";
+import ContributorEditBtn from "@/components/search/molecules/ContributorEditBtn";
 
 export default function SearchResults() {
   const router = useRouter();
@@ -19,11 +18,12 @@ export default function SearchResults() {
       <Section>
         {query ? (
           <>
-            <CategoryDate />
-            <ResultWord>{query}</ResultWord>
-            <ResultBoxIntegration />
-            <ResultEditBtn />
-            <Contributor />
+            <StyledContainer>
+              <CategoryDate />
+              <ResultWord>{query}</ResultWord>
+              <ResultBoxIntegration />
+              <ContributorEditBtn />
+            </StyledContainer>
           </>
         ) : (
           <>
@@ -34,6 +34,26 @@ export default function SearchResults() {
     </Container>
   );
 }
+
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 130px;
+  box-sizing: border-box;
+  height: 100vh;
+  max-width: 100vw;
+`;
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px 330px 124px 330px;
+  
+`;
+
 
 const ResultWord = styled.div`
   color: #000000;
@@ -54,14 +74,4 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-`;
-
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 130px;
-  height: 100vh;
-  width: 780px;
 `;

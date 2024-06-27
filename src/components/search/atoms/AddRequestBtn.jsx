@@ -1,5 +1,4 @@
-// src/components/atoms/EditRequestButton.jsx
-import { Container as MuiContainer } from '@mui/material';
+// src/components/atoms/AddRequestBtn.jsx
 import React from 'react';
 import styled from 'styled-components';
 
@@ -33,11 +32,9 @@ const StyledContainer = styled.div`
   width: 691px;
   height: 61px;
   margin: 30px 44.5px 136.04px 44.5px;
-  
-
 `;
 
-const CenteredContainer = styled(MuiContainer)`
+const CenteredContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: end;

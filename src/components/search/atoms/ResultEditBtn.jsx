@@ -1,15 +1,14 @@
-// src/components/atoms/EditRequestButton.jsx
-import { Container as MuiContainer } from '@mui/material';
+// import { Container as MuiContainer } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 
 const ResultEditBtn = () => {
   return (
-      <CenteredContainer>
+      // <CenteredContainer>
         <Button>
           수정 요청하기
         </Button>
-      </CenteredContainer>
+      // </CenteredContainer>
   );
 };
 
@@ -27,10 +26,10 @@ const Button = styled.button`
 `;
 
 
-const CenteredContainer = styled(MuiContainer)`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`;
+// const CenteredContainer = styled(MuiContainer)`
+//   display: flex;
+//   align-items: center;
+//   justify-content: flex-end;
+// `;
 
 export default ResultEditBtn;
