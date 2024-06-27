@@ -2,15 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import Contributor from '../atoms/Contributor';
 import ResultEditBtn from '../atoms/ResultEditBtn';
-// import { Container } from '@mui/material';
 
 export default function ContributorEditBtn() {
-    return(
-        <StyledContainer>
-            <Contributor />
-            <ResultEditBtn />
-        </StyledContainer>
-    )
+  return(
+    <StyledContainer>
+      <Contributor />
+      <ResultEditBtn />
+    </StyledContainer>
+  )
 }
 
 const StyledContainer = styled.div`

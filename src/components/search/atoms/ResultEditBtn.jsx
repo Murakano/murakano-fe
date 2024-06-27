@@ -1,14 +1,25 @@
-// import { Container as MuiContainer } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Modal from "@/components/search/organisms/Modal"; 
 
 const ResultEditBtn = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-      // <CenteredContainer>
-        <Button>
-          수정 요청하기
-        </Button>
-      // </CenteredContainer>
+    <>
+      <Button onClick={handleOpenModal}>
+        수정 요청하기
+      </Button>
+      {isModalOpen && <Modal onClose={handleCloseModal} />}
+    </>
   );
 };
 
@@ -23,13 +34,7 @@ const Button = styled.button`
   font-size: 16px;
   line-height: 24px;
   letter-spacing: -0.03em;
+  cursor: pointer;
 `;
-
-
-// const CenteredContainer = styled(MuiContainer)`
-//   display: flex;
-//   align-items: center;
-//   justify-content: flex-end;
-// `;
 
 export default ResultEditBtn;

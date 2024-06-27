@@ -1,5 +1,3 @@
-// 코드예시.
-// 검색어에 따른 동적 라우팅 페이지
 import Header from "@/components/common/organisms/Header";
 import styled from "styled-components";
 import { useRouter } from "next/router";
@@ -51,9 +49,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0px 330px 124px 330px;
-  
 `;
-
 
 const ResultWord = styled.div`
   color: #000000;
