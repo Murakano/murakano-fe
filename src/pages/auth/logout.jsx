@@ -7,6 +7,7 @@ export default function Logout() {
 
   const handleLogout = async () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('nickname');
     router.push('/auth/login');
   };
 
