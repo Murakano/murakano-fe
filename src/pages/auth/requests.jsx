@@ -10,5 +10,3 @@ export default function Requests() {
     </Container>
   );
 }
-// modal 입력 인풋 /*백그라운드컬러:var(--primary) */
-// * ㅇ

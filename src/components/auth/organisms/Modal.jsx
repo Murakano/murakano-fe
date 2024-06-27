@@ -1,9 +1,26 @@
 import styled from "styled-components";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
 export default function Modal({ onClose }) {
   const modalRef = useRef();
+  
+  const [devTerm, setDevTerm] = useState("");
+  const [devTermValid, setDevTermValid] = useState(true);
+  const [devTermTouched, setDevTermTouched] = useState(false);
+
+  const [commonPron, setCommonPron] = useState("");
+  const [commonPronValid, setCommonPronValid] = useState(true);
+  const [commonPronTouched, setCommonPronTouched] = useState(false);
+
+  const [awkPron, setAwkPron] = useState("");
+  const [awkPronValid, setAwkPronValid] = useState(true);
+  const [awkPronTouched, setAwkPronTouched] = useState(false);
+
+  const [addInfo, setAddInfo] = useState("");
+  const [addInfoTouched, setAddInfoTouched] = useState(false);
+
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -11,13 +28,58 @@ export default function Modal({ onClose }) {
     }
   };
 
-  //클릭감지, mousedown이 click보다 먼저 감지
+  //클릭감지, mousedown이 click보다 먼 감지
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    const isDevTermValid = devTermTouched && devTermValid && devTerm !== "";
+    const isCommonPronValid = commonPronTouched && commonPronValid && commonPron !== "";
+    const isAwkPronValid = awkPronTouched && awkPronValid && awkPron !== "";
+
+    setIsFormValid(isDevTermValid && isCommonPronValid && isAwkPronValid);
+  }, [devTerm, devTermValid, devTermTouched, commonPron, commonPronValid, commonPronTouched, awkPron, awkPronValid, awkPronTouched]);
+
+
+  const handleDevTermChange = (event) => {
+    const value = event.target.value;
+    const englishRegex = /^[a-zA-Z0-9\s\-\.,!@#$%^&*()_+=]*$/; // 숫자도 포함
+    setDevTermValid(englishRegex.test(value) && value !== "");
+    setDevTerm(value);
+    setDevTermTouched(true);
+  };
+
+  const handleCommonPronChange = (event) => {
+    const value = event.target.value;
+    const koreanRegex = /^[가-힣\s]*$/;
+    setCommonPronValid(koreanRegex.test(value) && value !== "");
+    setCommonPron(value);
+    setCommonPronTouched(true);
+  };
+
+  const handleAwkPronChange = (event) => {
+    const value = event.target.value;
+    const koreanRegex = /^[가-힣\s]*$/;
+    setAwkPronValid(koreanRegex.test(value) && value !== "");
+    setAwkPron(value);
+    setAwkPronTouched(true);
+  };
+
+  const handleAddInfoChange = (event) => {
+    setAddInfo(event.target.value);
+    setAddInfoTouched(true);
+  };
+
+  const getErrorText = (isTouched, isValid, value) => {
+    if (!isTouched) return null;
+    if (value === "") return "필수 입력 값입니다";
+    if (!isValid) return "올바르게 입력해주세요";
+    return null;
+  };
 
   return (
     <ModalContainer>
@@ -28,19 +90,47 @@ export default function Modal({ onClose }) {
         <ModalContent>
           <Item>
             <Label>개발 용어(영어)</Label>
-            <Input />
+            <Input 
+            value={devTerm}
+            onChange={handleDevTermChange}
+            isValid={devTermValid}
+            isTouched={devTermTouched}
+            />
+            {getErrorText(devTermTouched, devTermValid, devTerm) && (
+              <ErrorText>{getErrorText(devTermTouched, devTermValid, devTerm)}</ErrorText>
+            )}
           </Item>
           <Item>
             <Label>일반적인 발음 (한글)</Label>
-            <Input />
+            <Input 
+            value={commonPron}
+            onChange={handleCommonPronChange}
+            isValid={commonPronValid}
+            isTouched={commonPronTouched}
+            />
+            {getErrorText(commonPronTouched, commonPronValid, commonPron) && (
+              <ErrorText>{getErrorText(commonPronTouched, commonPronValid, commonPron)}</ErrorText>
+            )}
           </Item>
           <Item>
             <Label>어색한 발음 (한글)</Label>
-            <Input />
+            <Input 
+            value={awkPron}
+            onChange={handleAwkPronChange}
+            isValid={awkPronValid}
+            isTouched={awkPronTouched}
+            />
+            {getErrorText(awkPronTouched, awkPronValid, awkPron) && (
+              <ErrorText>{getErrorText(awkPronTouched, awkPronValid, awkPron)}</ErrorText>
+            )}
           </Item>
           <Item>
             <Label>추가정보</Label>
-            <TextArea />
+            <TextArea 
+            value={addInfo}
+            onChange={handleAddInfoChange}
+            isTouched={addInfoTouched}
+            />
           </Item>
         </ModalContent>
         <ModalFooter>
@@ -48,7 +138,7 @@ export default function Modal({ onClose }) {
             <ModalButton isClose onClick={onClose}>
               닫기
             </ModalButton>
-            <ModalButton>제출</ModalButton>
+            <ModalButton disabled={!isFormValid}>제출</ModalButton>
           </ButtonGroup>
         </ModalFooter>
       </ModalBody>
@@ -119,6 +209,7 @@ const ButtonGroup = styled.div`
   align-items: center;
   gap: 10px;
   margin-right: 17px;
+  
 `;
 
 const Item = styled.div`
@@ -151,16 +242,16 @@ const Input = styled.input`
   height: 55px;
   padding: 10px 20px;
   gap: 0px;
-  border: 1px solid var(--secondary);
+  border: 1px solid ${(props) => (props.isTouched && !props.isValid ? "#ff0808" : "var(--secondary)")};
   border-radius: 10px;
   &:focus {
-    border-color: var(--primary);
+    border-color: ${(props) => (props.isTouched && !props.isValid ? "#ff0808" : "var(--primary)")};
     outline: none;
   }
   &:hover {
-    border-color: var(--primary); // 마우스 호버시 primary 컬러로 변경
+    border-color: var(--primary);
   }
-`;
+  `;
 
 const TextArea = styled.textarea`
   width: 498px;
@@ -169,11 +260,11 @@ const TextArea = styled.textarea`
   border-radius: 10px;
   padding: 20px;
   &:focus {
-    border-color: var(--primary);
+    border-color: ${(props) => (props.isTouched ? "var(--primary)" : "var(--secondary)")};
     outline: none;
   }
   &:hover {
-    border-color: var(--primary); // 마우스 호버시 primary 컬러로 변경
+    border-color: var(--primary);
   }
 `;
 
@@ -185,6 +276,11 @@ const ModalButton = styled.button`
   padding: 8px 30px;
   color: #fff;
   cursor: pointer;
-  background-color: ${(props) =>
-    props.isClose ? "rgba(0, 0, 0, 0.25)" : "var(--primary60)"};
+  background-color: ${(props) => props.isClose ? "rgba(0, 0, 0, 0.25)" : "var(--primary60)"};
+`;
+
+const ErrorText = styled.p`
+  color: #ff0808;
+  font-size: 12px;
+  margin-top: 5px;
 `;
