@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import WordItem from "../atoms/WordItem";
-import WordDropdown from "./WordDropdown";
 
 const wordDirectory = [
     {name: "DOM", pron: "돔", Category: "브라우저"},
@@ -13,20 +12,17 @@ const wordDirectory = [
 export default function WordList() {
 
     return (
-        <DropdowDiv>
-            <DropdownContainer>
-                <WordDropdown />
-            </DropdownContainer>
+        <WordListContainer>
             <WordListDiv>
             {wordDirectory.map((word, index) => (
                 <WordItem key={index} name={word.name} pron={word.pron} />
             ))}
             </WordListDiv>
-        </DropdowDiv>
+        </WordListContainer>
     );
 }
 
-const DropdowDiv = styled.div`
+const WordListContainer = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -36,20 +32,9 @@ const DropdowDiv = styled.div`
     padding: 165px 44.5px 10 44.5px;
 `;
 
-const DropdownContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    width: 691px;
-    height: 35px;
-    padding-left: 5px;
-    gap: 10px;
-`;
-
 const WordListDiv = styled.div`
     width: 691px;
     height: auto;
-
 `;
 
 
