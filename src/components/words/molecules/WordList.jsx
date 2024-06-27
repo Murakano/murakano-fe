@@ -1,23 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import WordItem from "../atoms/WordItem";
+import { useRouter } from "next/router";
 
 const wordDirectory = [
-    {name: "DOM", pron: "돔", Category: "브라우저"},
-    {name: "React", pron: "리액트", Category: "프레임워크"},
-    {name: "yml", pron:"야믈", Category: "형식"},
-    {name:"Linux", pron:"리눅스", Category: "OS"},
+    {name: "DOM", pron: "돔"},
+    {name: "React", pron: "리액트"},
+    {name: "yml", pron:"야믈"},
+    {name:"Linux", pron:"리눅스"},
 ];
 
 export default function WordList() {
+    const router = useRouter();
+
+    const handleWordClick = (name) => {
+        if(name) {
+            router.push(`/search/${name}`);
+        }
+    }
 
     return (
         <WordListContainer>
-            <WordListDiv>
-            {wordDirectory.map((word, index) => (
-                <WordItem key={index} name={word.name} pron={word.pron} />
+            {wordDirectory.map((word, index
+            ) => (
+                <WordListDiv key = {index} onClick = {() => handleWordClick(word.name)} >
+                    <WordItem name={word.name} pron={word.pron} />
+                </WordListDiv>
             ))}
-            </WordListDiv>
         </WordListContainer>
     );
 }
@@ -31,6 +40,7 @@ const WordListContainer = styled.div`
     height: auto;
     padding: 165px 44.5px 10 44.5px;
 `;
+
 
 const WordListDiv = styled.div`
     width: 691px;
