@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Modal from "@/components/search/organisms/Modal"; 
+import Modal from "@/components/search/organisms/EditModal"; 
 
 const ResultEditBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

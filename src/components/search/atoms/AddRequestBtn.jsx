@@ -1,16 +1,29 @@
-// src/components/atoms/AddRequestBtn.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Modal from '@/components/search/organisms/AddModal'; // 모달 컴포넌트 경로를 맞게 수정하세요.
 
 const AddRequestBtn = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <StyledContainer>
-      <CenteredContainer>
-        <Button>
-          등록 요청하기
-        </Button>
-      </CenteredContainer>
-    </StyledContainer>
+    <>
+      <StyledContainer>
+        <CenteredContainer>
+          <Button onClick={handleOpenModal}>
+            등록 요청하기
+          </Button>
+        </CenteredContainer>
+      </StyledContainer>
+      {isModalOpen && <Modal onClose={handleCloseModal} />}
+    </>
   );
 };
 
@@ -26,6 +39,7 @@ const Button = styled.button`
   line-height: 24px;
   letter-spacing: -0.03em;
   text-align: center;
+  cursor: pointer;
 `;
 
 const StyledContainer = styled.div`

@@ -25,7 +25,7 @@ export default function SearchResults() {
           </>
         ) : (
           <>
-            <SorryComponent />
+            <SorryComponent query={query} />
           </>
         )}
       </Section>

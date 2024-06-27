@@ -22,7 +22,7 @@ const StyledSorryText = styled.h1`
   text-align: center;
   line-height: 60px;
   letter-spacing: -0.03em;
-  padding: 12.46px 160.5px 12.46px 160.5px;
+  padding: 12.46px 160.5px;
 `;
 
 const StyledContainer = styled.div`
