@@ -13,17 +13,14 @@ export default function Search() {
   };
 
   return (
-    <Container $marginTop='38px'>
-      <Header $isHome />
-      <Section>
-        <Title onClick={redirectToHome}>
-          <Logo />
-          <LogoText>머라카노</LogoText>
-        </Title>
-        <SubText>개발자들을 위한 한국어 발음 검색 서비스</SubText>
-        <SearchBar />
-      </Section>
-    </Container>
+    <Section>
+      <Title onClick={redirectToHome}>
+        <Logo />
+        <LogoText>머라카노</LogoText>
+      </Title>
+      <SubText>개발자들을 위한 한국어 발음 검색 서비스</SubText>
+      <SearchBar />
+    </Section>
   );
 }
 

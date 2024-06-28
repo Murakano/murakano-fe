@@ -1,6 +1,5 @@
 // 코드예시.
 // 검색어에 따른 동적 라우팅 페이지
-import Header from '@/components/common/organisms/Header';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 // import CategoryDate from '@/components/search/molecules/CategoryDate';
@@ -10,19 +9,16 @@ export default function SearchResults() {
   const { query } = router.query;
 
   return (
-    <Container>
-      <Header />
-      <Section>
-        {query ? (
-          <>
-            {/* <CategoryDate /> */}
-            {/* <ResultWord>{query}</ResultWord> */}
-          </>
-        ) : (
-          <h1>검색어를 입력해주세요.</h1>
-        )}
-      </Section>
-    </Container>
+    <Section>
+      {query ? (
+        <>
+          {/* <CategoryDate /> */}
+          {/* <ResultWord>{query}</ResultWord> */}
+        </>
+      ) : (
+        <h1>검색어를 입력해주세요.</h1>
+      )}
+    </Section>
   );
 }
 

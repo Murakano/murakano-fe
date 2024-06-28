@@ -5,17 +5,14 @@ import { Container } from '@/styles/commonStyles';
 
 export default function Register() {
   return (
-    <Container>
-      <Header />
-      <Page>
-        <Section>
-          <PageTitle>회원가입</PageTitle>
-          <Main>
-            <RegisterForm />
-          </Main>
-        </Section>
-      </Page>
-    </Container>
+    <Page>
+      <Section>
+        <PageTitle>회원가입</PageTitle>
+        <Main>
+          <RegisterForm />
+        </Main>
+      </Section>
+    </Page>
   );
 }
 
