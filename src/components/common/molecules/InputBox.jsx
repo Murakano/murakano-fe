@@ -4,12 +4,18 @@ import { Column } from '@/styles/commonStyles';
 import { handleInputChange } from '@/utils/stateUtils';
 import Input from '../atoms/Input';
 
-export default function InputBox({ name, labelText, children, type, placeholder, input, setInput, helperText, valid }) {
+export default function InputBox({
+  name, className, labelText, children, type, placeholder, input, setInput, helperText,
+  valid,
+}) {
   return (
-    <Box>
-      <Label htmlFor={name}>{labelText}</Label>
+    <Box className={className}>
+      <Label htmlFor={name} className='Label'>
+        {labelText}
+      </Label>
       {children}
       <Input
+        className='Input'
         type={type}
         id={name}
         name={name}
@@ -42,7 +48,7 @@ const Label = styled.label`
 
 const HelperBox = styled.div`
   margin-top: 5px;
-  width: 100%;
+  width: 498px;
   height: 25px;
 `;
 
