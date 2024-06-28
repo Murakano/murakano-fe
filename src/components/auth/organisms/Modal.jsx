@@ -136,7 +136,7 @@ export default function Modal({ onClose }) {
           />
           <Item>
             <Label>추가정보</Label>
-            <TextArea value={addInfo} onChange={handleAddInfoChange} />
+            <TextArea value={addInfo.addInfo} onChange={handleAddInfoChange} />
           </Item>
         </ModalContent>
         <ModalFooter>
