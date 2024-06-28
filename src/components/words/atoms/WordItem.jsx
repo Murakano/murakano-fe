@@ -2,7 +2,6 @@
 import React from "react";
 import styled from "styled-components";
 import WordListIcon from "/public/murak_list_icon.svg";
-import { useRouter } from 'next/router';
 
 // 전체 단어 목록 
 export default function WordItem({name, pron}) {
