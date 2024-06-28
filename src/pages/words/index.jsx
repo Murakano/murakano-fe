@@ -6,7 +6,6 @@ import WordList from "@/components/words/molecules/WordList";
 import WordDropdown from "@/components/words/molecules/WordDropdown";
 import SortDropdown from "@/components/words/molecules/SortDropdown";
 
-
 export default function AllWords() {
   return (
     <Container>
