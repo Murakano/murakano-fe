@@ -3,6 +3,8 @@ import TouchIcon from "../../../../public/murak_list_icon.svg";
 import Image from "next/image";
 import Modal from "./Modal";
 import React, { useState } from "react";
+import StateDropdown from "../molecules/StateDropdown";
+import RequestDropdown from "../molecules/RequestDropdown";
 
 const DUMMY_REQUEST_ITEM_LIST = [
   {
@@ -37,7 +39,6 @@ const DUMMY_REQUEST_ITEM_LIST = [
   },
 ];
 
-
 export default function RequestSection() {
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -48,26 +49,17 @@ export default function RequestSection() {
 
   const closeModal = () => {
     setModalOpen(false);
-  };
+  }; 
 
 
   return (
     <MainContainer >
       <Inner>
         <SectionTitle>내 요청 내역</SectionTitle>
-        <SelectorContainer>
-          <ProgressSelector>
-            <option>진행 상태</option>
-            <option>진행 중</option>
-            <option>승인 완료</option>
-            <option>반려</option>
-          </ProgressSelector>
-          <TypeSelector>
-            <option>전체</option>
-            <option>수정 요청</option>
-            <option>등록 요청</option>
-          </TypeSelector>
-        </SelectorContainer>
+        <DropdownContainer>
+          <StateDropdown />
+          <RequestDropdown />
+        </DropdownContainer>
         <RequestList>
           {DUMMY_REQUEST_ITEM_LIST.map(({ title, subtitle, status }, index) => (
             <RequestItem key={index}>
@@ -121,30 +113,6 @@ const SectionTitle = styled.h1`
   align-items: center;
   justify-content: center;
 `;
-
-const SelectorContainer = styled.section`
-  display: flex;
-  width: 691px;
-  gap: 20px;
-  margin-bottom: 10px;
-`;
-
-const Selector = styled.select`
-  border: 1px solid var(--secondary);
-  border-radius: 10px;
-  width: 94px;
-  height: 29px;
-  padding: 0px 10px;
-  color: #666666;
-  font-size: 12px;
-  line-height: 18px;
-  font-weight: 700;
-  text-align: center;
-`;
-
-const ProgressSelector = styled(Selector)``; // todo: rhea 꺼로 변경
-
-const TypeSelector = styled(Selector)``;
 
 const RequestList = styled.section`
   display: flex;
@@ -224,4 +192,12 @@ const ActionButton = styled(TouchIcon)`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const DropdownContainer = styled.div`
+    display: flex;
+    flex-start: left;
+    width: 691px;
+    height: 35px;
+    gap: 20px;
 `;
