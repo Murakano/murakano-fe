@@ -40,7 +40,7 @@ const DropdownContainer = styled.div`
 `;
 
 const CustomSelect = styled(Select)`
-    width: auto;
+    width: 94px;
     && .ant-select-selector {
         height: 35px;
         display: flex;
@@ -49,7 +49,6 @@ const CustomSelect = styled(Select)`
         border-radius: 13px;
         border: 1px solid var(--secondary); 
         transition: border-color 0.3s;
-
         &:hover {
             border: 1px solid var(--primary);
         }
@@ -70,14 +69,17 @@ const CustomSelect = styled(Select)`
         justify-content: center;
     }
 
-    .ant-select-selection-item {
+    && .ant-select-selection-item {
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 100%; /* 선택된 항목을 selector 안에서 중앙에 배치 */
+        text-align: center; /* 선택된 항목 텍스트 중앙 정렬 */
+        padding-left: 18px /* 패딩 추가 중앙 정렬 */
     }
 
     .ant-select-arrow {
-    diplay: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     }
@@ -118,14 +120,9 @@ const StyledDropdown = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 13px;
-        font-weight: 600;
-        line-height: 25px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 18px;
         text-align: left;
-
     }
-
-    
-    
-
 `;
