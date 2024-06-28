@@ -4,7 +4,7 @@ import { Container } from "@/styles/commonStyles";
 import WordsPageName from "@/components/words/atoms/WordsPageName";
 import WordList from "@/components/words/molecules/WordList";
 import WordDropdown from "@/components/words/molecules/WordDropdown";
-import ComDropdown from "@/components/common/molecules/ComDropdown";
+import SortDropdown from "@/components/words/molecules/SortDropdown";
 
 
 export default function AllWords() {
@@ -14,7 +14,7 @@ export default function AllWords() {
       <WordsPageName/>
       <DropdownContainer>
         <WordDropdown />
-        <ComDropdown />
+        <SortDropdown />
       </DropdownContainer>
       <WordList />
     </Container>
