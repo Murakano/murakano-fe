@@ -4,29 +4,16 @@ import styled from "styled-components";
 import DownOutlined from '/public/murak_dropdown_chevron-down.svg';
 import { Button, Dropdown, message} from 'antd';
 
-// 카테고리 드롭다운 
-const items = [
-  {
-    label: '메뉴1',
-    key: '1',
-  },
-  {
-    label: '메뉴2',
-    key: '2',
-  },
-  {
-    label: '메뉴3',
-    key: '3',
-  },
-  {
-    label: '메뉴4',
-    key: '4',
-  },
-];
+// label 리스트 받아서 items로 변환 
+const generateItems = (labels) => {
+    return labels.map((label, index) => ({
+        label,
+        key: `${index + 1},`
+    }));
+};
 
-
-
-export default function ComDropdown() {
+export default function ComDropdown({labels, dropdownName}) {
+    const items = generateItems(labels);
 
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
@@ -49,7 +36,7 @@ export default function ComDropdown() {
     <DropdownBtn menu={menuProps}>
       <Button>
         <NameSpace>
-          <NameDiv>dropdown</NameDiv>
+          <NameDiv>{dropdownName}</NameDiv>
           <DownOutlinedDiv>
             <DownOutlined />
           </DownOutlinedDiv>
