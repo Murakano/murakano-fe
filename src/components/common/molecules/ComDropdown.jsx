@@ -15,36 +15,36 @@ const generateItems = (labels) => {
 export default function ComDropdown({labels, dropdownName}) {
     const items = generateItems(labels);
 
-  const handleButtonClick = (e) => {
-    message.info('Click on left button.');
-    console.log('click left button', e);
-  };
+    const handleButtonClick = (e) => {
+        message.info('Click on left button.');
+        console.log('click left button', e);
+    };
   
-  const handleMenuClick = (e) => {
-    message.info('Click on menu item.');
-    console.log('click', e);
-  };
+    const handleMenuClick = (e) => {
+        message.info('Click on menu item.');
+        console.log('click', e);
+    };
   
-  const menuProps = {
-    items,
-    onClick: handleMenuClick,
-  };
+    const menuProps = {
+        items,
+        onClick: handleMenuClick,
+    };
   
 
-  return (
-    <DropdownContainer>
-    <DropdownBtn menu={menuProps}>
-      <Button>
-        <NameSpace>
-          <NameDiv>{dropdownName}</NameDiv>
-          <DownOutlinedDiv>
-            <DownOutlined />
-          </DownOutlinedDiv>
-        </NameSpace>
-      </Button>
-    </DropdownBtn>
-  </DropdownContainer>
-  );
+    return (
+        <DropdownContainer>
+            <DropdownBtn menu={menuProps}>
+                <Button>
+                    <NameSpace>
+                        <NameDiv>{dropdownName}</NameDiv>
+                        <DownOutlinedDiv>
+                            <DownOutlined />
+                        </DownOutlinedDiv>
+                    </NameSpace>
+                </Button>
+            </DropdownBtn>
+        </DropdownContainer>
+    );
 }
 
 const DropdownContainer = styled.div`
