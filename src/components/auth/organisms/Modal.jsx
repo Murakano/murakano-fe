@@ -1,84 +1,100 @@
-import styled from "styled-components";
-import { useEffect, useRef, useState, useCallback } from "react";
+import styled from 'styled-components';
+import { useEffect, useRef, useState, useCallback } from 'react';
+
+import InputBox from '@/components/common/molecules/InputBox';
+import { HELPER_TEXT } from '@/constants/helperText';
+
+import { validateDevTerm, validateCommonPron, validateAwkPron } from '@/utils/validate';
+import { updateState } from '@/utils/stateUtils';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
 export default function Modal({ onClose }) {
   const modalRef = useRef();
-  
-  const [devTerm, setDevTerm] = useState("");
-  const [devTermValid, setDevTermValid] = useState(true);
-  const [devTermTouched, setDevTermTouched] = useState(false);
 
-  const [commonPron, setCommonPron] = useState("");
-  const [commonPronValid, setCommonPronValid] = useState(true);
-  const [commonPronTouched, setCommonPronTouched] = useState(false);
+  //혹시 이렇게 써야하나??? { devTerm: '' }
+  const [devTerm, setDevTerm] = useState({ devTerm: '' });
+  const [commonPron, setCommonPron] = useState({ commonPron: '' });
+  const [awkPron, setAwkPron] = useState({ awkPron: '' });
+  const [addInfo, setAddInfo] = useState({ addInfo: '' }); 
+  const [helperText, setHelperText] = useState({
+    devTermHelper: '',
+    commonPronHelper: '',
+    awkPronHelper: '',
+  });
 
-  const [awkPron, setAwkPron] = useState("");
-  const [awkPronValid, setAwkPronValid] = useState(true);
-  const [awkPronTouched, setAwkPronTouched] = useState(false);
-
-  const [addInfo, setAddInfo] = useState("");
-  const [addInfoTouched, setAddInfoTouched] = useState(false);
-
-  const [isFormValid, setIsFormValid] = useState(false);
-
-  const handleClickOutside = useCallback((event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
-      onClose(); //모달 닫기
+  const [buttonActive, setButtonActive] = useState(false);
+  // 모든 유효성 검사
+  useEffect(() => {
+    if (validateDevTerm(devTerm.devTerm) && validateCommonPron(commonPron.commonPron) && validateAwkPron(awkPron.awkPron)) {
+      setButtonActive(true);
+    } else {
+      setButtonActive(false);
     }
-  }, [onClose]);
+  }, [devTerm, commonPron, awkPron]);
+  
+  // 제출 시 유효성 검사
+  const handleSubmit = async(e) => {
+    e.preventDefault();
 
+    let hasError = false;
+
+    if (!devTerm.devTerm) {
+      updateState('devTermHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
+      hasError = true;
+    } else if (!validateDevTerm(devTerm.devTerm)) {
+      updateState('devTermHelper', HELPER_TEXT.REQUEST_INPUT_VALIDATION_FALSE, setHelperText);
+      hasError = true;
+    } else {
+      updateState('devTermHelper', '', setHelperText);
+    }
+
+    if (!commonPron.commonPron) {
+      updateState('commonPronHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
+      hasError = true;
+    } else if (!validateCommonPron(commonPron.commonPron)) {
+      updateState('commonPronHelper', HELPER_TEXT.REQUEST_INPUT_VALIDATION_FALSE, setHelperText);
+      hasError = true;
+    } else {
+      updateState('commonPronHelper', '', setHelperText);
+    }
+
+    if (!awkPron.awkPron) {
+      updateState('awkPronHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
+      hasError = true;
+    } else if (!validateAwkPron(awkPron.awkPron)) {
+      updateState('awkPronHelper', HELPER_TEXT.REQUEST_INPUT_VALIDATION_FALSE, setHelperText);
+      hasError = true;
+    } else {
+      updateState('awkPronHelper', '', setHelperText);
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    console.log(devTerm, commonPron, awkPron, addInfo);
+    console.log('Form submitted successfully');
+  };
+
+  //외부 클릭 모달창 닫기
+  const handleClickOutside = useCallback(
+    (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose(); //모달 닫기
+      }
+    },
+    [onClose]
+  );
   //클릭감지, mousedown이 click보다 먼 감지
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
-  useEffect(() => {
-    const isDevTermValid = devTermTouched && devTermValid && devTerm !== "";
-    const isCommonPronValid = commonPronTouched && commonPronValid && commonPron !== "";
-    const isAwkPronValid = awkPronTouched && awkPronValid && awkPron !== "";
-
-    setIsFormValid(isDevTermValid && isCommonPronValid && isAwkPronValid);
-  }, [devTerm, devTermValid, devTermTouched, commonPron, commonPronValid, commonPronTouched, awkPron, awkPronValid, awkPronTouched]);
-
-
-  const handleDevTermChange = (event) => {
-    const value = event.target.value;
-    const englishRegex = /^[a-zA-Z0-9\s\-\.,!@#$%^&*()_+=]*$/; // 숫자도 포함
-    setDevTermValid(englishRegex.test(value) && value !== "");
-    setDevTerm(value);
-    setDevTermTouched(true);
-  };
-
-  const handleCommonPronChange = (event) => {
-    const value = event.target.value;
-    const koreanRegex = /^[가-힣\s]*$/;
-    setCommonPronValid(koreanRegex.test(value) && value !== "");
-    setCommonPron(value);
-    setCommonPronTouched(true);
-  };
-
-  const handleAwkPronChange = (event) => {
-    const value = event.target.value;
-    const koreanRegex = /^[가-힣\s]*$/;
-    setAwkPronValid(koreanRegex.test(value) && value !== "");
-    setAwkPron(value);
-    setAwkPronTouched(true);
-  };
-
   const handleAddInfoChange = (event) => {
     setAddInfo(event.target.value);
-    setAddInfoTouched(true);
-  };
-
-  const getErrorText = (isTouched, isValid, value) => {
-    if (!isTouched) return null;
-    if (value === "") return "필수 입력 값입니다";
-    if (!isValid) return "올바르게 입력해주세요";
-    return null;
   };
 
   return (
@@ -88,49 +104,39 @@ export default function Modal({ onClose }) {
           <ModalTitle>등록 요청</ModalTitle>
         </ModalHeader>
         <ModalContent>
-          <Item>
-            <Label>개발 용어(영어)</Label>
-            <Input 
-            value={devTerm}
-            onChange={handleDevTermChange}
-            isValid={devTermValid}
-            isTouched={devTermTouched}
-            />
-            {getErrorText(devTermTouched, devTermValid, devTerm) && (
-              <ErrorText>{getErrorText(devTermTouched, devTermValid, devTerm)}</ErrorText>
-            )}
-          </Item>
-          <Item>
-            <Label>일반적인 발음 (한글)</Label>
-            <Input 
-            value={commonPron}
-            onChange={handleCommonPronChange}
-            isValid={commonPronValid}
-            isTouched={commonPronTouched}
-            />
-            {getErrorText(commonPronTouched, commonPronValid, commonPron) && (
-              <ErrorText>{getErrorText(commonPronTouched, commonPronValid, commonPron)}</ErrorText>
-            )}
-          </Item>
-          <Item>
-            <Label>어색한 발음 (한글)</Label>
-            <Input 
-            value={awkPron}
-            onChange={handleAwkPronChange}
-            isValid={awkPronValid}
-            isTouched={awkPronTouched}
-            />
-            {getErrorText(awkPronTouched, awkPronValid, awkPron) && (
-              <ErrorText>{getErrorText(awkPronTouched, awkPronValid, awkPron)}</ErrorText>
-            )}
-          </Item>
+          <StyledInputBox
+            type='text'
+            name='devTerm'
+            labelText='개발 용어 (영어)'
+            input={devTerm.devTerm}
+            setInput={setDevTerm}
+            valid={helperText.devTermHelper ? false : true}
+            helperText={helperText.devTermHelper}
+            className={'Box'}
+          />
+          <StyledInputBox
+            type='text'
+            name='commonPron'
+            labelText='일반적인 발음 (한글)'
+            input={commonPron.commonPron}
+            setInput={setCommonPron}
+            valid={helperText.commonPronHelper ? false : true }
+            helperText={helperText.commonPronHelper}
+            className={'Box'}
+          />
+          <StyledInputBox
+            type='text'
+            name='awkPron'
+            labelText='어색한 발음 (한글)'
+            input={awkPron.awkPron}
+            setInput={setAwkPron}
+            valid={helperText.awkPronHelper ? false : true }
+            helperText={helperText.awkPronHelper}
+            className={'Box'}
+          />
           <Item>
             <Label>추가정보</Label>
-            <TextArea 
-            value={addInfo}
-            onChange={handleAddInfoChange}
-            isTouched={addInfoTouched}
-            />
+            <TextArea value={addInfo} onChange={handleAddInfoChange} />
           </Item>
         </ModalContent>
         <ModalFooter>
@@ -138,7 +144,7 @@ export default function Modal({ onClose }) {
             <ModalButton isClose onClick={onClose}>
               닫기
             </ModalButton>
-            <ModalButton disabled={!isFormValid}>제출</ModalButton>
+            <ModalButton onClick = {handleSubmit} $active={buttonActive}>제출</ModalButton>
           </ButtonGroup>
         </ModalFooter>
       </ModalBody>
@@ -154,7 +160,7 @@ const ModalContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #1C19191A;
+  background-color: #1c19191a;
   z-index: 101;
 `;
 
@@ -209,7 +215,6 @@ const ButtonGroup = styled.div`
   align-items: center;
   gap: 10px;
   margin-right: 17px;
-  
 `;
 
 const Item = styled.div`
@@ -228,30 +233,49 @@ const Label = styled.label`
   letter-spacing: -0.03em;
   text-align: left;
   position: relative;
-  &::after {
-    content: " *";
-    color: #ff0808;
-    position: aboslute;
-    right: 5%;
-    top: 0;
-  }
 `;
 
-const Input = styled.input`
-  width: 498px;
-  height: 55px;
-  padding: 10px 20px;
-  gap: 0px;
-  border: 1px solid ${(props) => (props.isTouched && !props.isValid ? "#ff0808" : "var(--secondary)")};
-  border-radius: 10px;
-  &:focus {
-    border-color: ${(props) => (props.isTouched && !props.isValid ? "#ff0808" : "var(--primary)")};
-    outline: none;
+const StyledInputBox = styled(InputBox)`
+  &&&.Box {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
   }
-  &:hover {
-    border-color: var(--primary);
+
+  Input {
+    width: 498px;
+    height: 55px;
+    padding: 10px 20px;
+    border: 1px solid var(--secondary);
+    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--secondary)')};
+    &:focus {
+      border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
+      outline: none;
+    }
+    &:hover {
+      border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
+    }
   }
-  `;
+  Label {
+    width: 498px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 22.5px;
+    letter-spacing: -0.03em;
+    text-align: left;
+    position: relative;
+    &::after {
+      content: ' *';
+      color: #ff0808;
+      position: aboslute;
+      right: 5%;
+      top: 0;
+    }
+  }
+`;
 
 const TextArea = styled.textarea`
   width: 498px;
@@ -260,7 +284,7 @@ const TextArea = styled.textarea`
   border-radius: 10px;
   padding: 20px;
   &:focus {
-    border-color: ${(props) => (props.isTouched ? "var(--primary)" : "var(--secondary)")};
+    border-color: var(--primary);
     outline: none;
   }
   &:hover {
@@ -276,11 +300,5 @@ const ModalButton = styled.button`
   padding: 8px 30px;
   color: #fff;
   cursor: pointer;
-  background-color: ${(props) => props.isClose ? "rgba(0, 0, 0, 0.25)" : "var(--primary60)"};
-`;
-
-const ErrorText = styled.p`
-  color: #ff0808;
-  font-size: 12px;
-  margin-top: 5px;
+  background-color: ${(props) => (props.isClose ? 'rgba(0, 0, 0, 0.25)' : 'var(--primary60)')};
 `;

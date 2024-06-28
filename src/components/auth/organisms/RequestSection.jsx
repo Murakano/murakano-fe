@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import TouchIcon from "../../../../public/hand-touch.svg"; 
+import TouchIcon from "../../../../public/murak_list_icon.svg"; 
 import Image from "next/image";
 import Modal from "./Modal";
 import React, { useState } from "react";
