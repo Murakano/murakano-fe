@@ -78,13 +78,14 @@ export default function Modal({ onClose }) {
 
   };
 
-    // 모달이 열릴 때 스크롤 방지
+    // 모달이 열릴 때 스크롤 방지!!
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = 'auto';
     };
   }, []);
+
 
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
