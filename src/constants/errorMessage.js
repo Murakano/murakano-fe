@@ -5,5 +5,6 @@ export const ErrorMessage = {
   INTERNAL_SERVER_ERROR: '알 수 없는 오류가 발생하였습니다.',
 
   // USER
-  LOGIN_ERROR: '로그인에 실패하였습니다.',
+  LOGIN_ERROR: '아이디 혹은 비밀번호가 일치하지 않습니다.',
+  TOKEN_ERROR: '토큰 발급 중 오류가 발생하였습니다.',
 };

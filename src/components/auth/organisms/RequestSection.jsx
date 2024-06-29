@@ -1,41 +1,41 @@
-import styled from "styled-components";
-import TouchIcon from "../../../../public/murak_list_icon.svg"; 
-import Image from "next/image";
-import Modal from "./Modal";
-import React, { useState } from "react";
-import StateDropdown from "../molecules/StateDropdown";
-import RequestDropdown from "../molecules/RequestDropdown";
+import styled from 'styled-components';
+import TouchIcon from '/public/murak_list_icon.svg';
+import Image from 'next/image';
+import Modal from './Modal';
+import React, { useState } from 'react';
+import StateDropdown from '../molecules/StateDropdown';
+import RequestDropdown from '../molecules/RequestDropdown';
 
 const DUMMY_REQUEST_ITEM_LIST = [
   {
-    title: "수정 요청",
-    subtitle: "DOM",
-    status: "승인 전",
+    title: '수정 요청',
+    subtitle: 'DOM',
+    status: '승인 전',
   },
   {
-    title: "등록 요청",
-    subtitle: "CSSOM",
-    status: "승인 완료",
+    title: '등록 요청',
+    subtitle: 'CSSOM',
+    status: '승인 완료',
   },
   {
-    title: "수정 요청",
-    subtitle: "ASAP",
-    status: "승인 전",
+    title: '수정 요청',
+    subtitle: 'ASAP',
+    status: '승인 전',
   },
   {
-    title: "등록 요청",
-    subtitle: "SQL",
-    status: "승인 전",
+    title: '등록 요청',
+    subtitle: 'SQL',
+    status: '승인 전',
   },
   {
-    title: "등록 요청",
-    subtitle: "DOM",
-    status: "반려",
+    title: '등록 요청',
+    subtitle: 'DOM',
+    status: '반려',
   },
   {
-    title: "등록 요청",
-    subtitle: "DOM",
-    status: "승인 전",
+    title: '등록 요청',
+    subtitle: 'DOM',
+    status: '승인 전',
   },
 ];
 
@@ -49,11 +49,10 @@ export default function RequestSection() {
 
   const closeModal = () => {
     setModalOpen(false);
-  }; 
-
+  };
 
   return (
-    <MainContainer >
+    <MainContainer>
       <Inner>
         <SectionTitle>내 요청 내역</SectionTitle>
         <DropdownContainer>
@@ -71,7 +70,7 @@ export default function RequestSection() {
                 <ButtonGroup>
                   <Badge $status={status}>{status}</Badge>
                   <ActionButton onClick={handleActionButtonClick}>
-                    <Image src={TouchIcon} alt="touch-icon" />
+                    <Image src={TouchIcon} alt='touch-icon' />
                   </ActionButton>
                 </ButtonGroup>
               </RequestItemInner>
@@ -173,11 +172,7 @@ const Badge = styled.div`
   align-items: center;
   border-radius: 30px;
   background-color: ${(props) =>
-    props.$status === "승인 전"
-      ? "var(--secondary)"
-      : props.$status === "승인 완료"
-      ? "var(--primary)"
-      : "#A4A4A4"};
+    props.$status === '승인 전' ? 'var(--secondary)' : props.$status === '승인 완료' ? 'var(--primary)' : '#A4A4A4'};
   width: 58px;
   height: 24px;
   font-size: 10px;
@@ -195,9 +190,9 @@ const ActionButton = styled(TouchIcon)`
 `;
 
 const DropdownContainer = styled.div`
-    display: flex;
-    flex-start: left;
-    width: 691px;
-    height: 35px;
-    gap: 20px;
+  display: flex;
+  flex-start: left;
+  width: 691px;
+  height: 35px;
+  gap: 20px;
 `;

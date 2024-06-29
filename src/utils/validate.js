@@ -38,7 +38,6 @@ export const validateAwkPron = (awkPron) => {
   return korPronPattern.test(awkPron);
 };
 
-
 const duplicateNickname = async (nickname) => {
   const isDuplicate = await api.get('/users/check/nickname', { nickname });
   if (isDuplicate.isExist) {
