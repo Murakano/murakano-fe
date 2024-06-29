@@ -1,16 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SorryText from '../atoms/SorryText';
-import AddRequestBtn from '../atoms/AddRequestBtn';
+import Modal from '@/components/auth/organisms/Modal';
+import ActionBtn from '@/components/common/atoms/ActionBtn';
 
 const SorryComponent = ({ query }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  
   return (
     <StyledContainer>
       <SorryText query={query} />
-      <AddRequestBtn />
+      <AddRequestBtn onClick={handleOpenModal}>등록 요청</AddRequestBtn>
+      {isModalOpen && <Modal onClose={handleCloseModal} />}
+
     </StyledContainer>
   );
 };
+
+const AddRequestBtn = styled(ActionBtn)`
+  background-color: var(--primary60);
+  &:hover {
+        background-color: var(--primary);
+       }
+`;
 
 const StyledContainer = styled.div`
   display: flex;
