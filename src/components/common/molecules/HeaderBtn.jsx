@@ -53,9 +53,16 @@ export default function HeaderBtn({ pathname }) {
   }, [pathname]);
 
   const logout = async () => {
-    await api.post('/users/logout');
-    setNickname('');
-    alert('로그아웃 되었습니다.');
+    try {
+      const response = await api.post('/users/logout');
+      if (response.message == '로그아웃 성공') {
+        setNickname('');
+        alert('로그아웃 되었습니다.');
+      }
+    } catch (err) {
+      alert('로그아웃 실패');
+      console.log(err);
+    }
   };
 
   const items = [
