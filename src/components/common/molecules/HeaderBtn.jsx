@@ -58,6 +58,7 @@ export default function HeaderBtn({ pathname }) {
       if (response.message == '로그아웃 성공') {
         setNickname('');
         alert('로그아웃 되었습니다.');
+        router.push('/auth/login');
       }
     } catch (err) {
       alert('로그아웃 실패');
@@ -72,11 +73,7 @@ export default function HeaderBtn({ pathname }) {
     },
     {
       key: '2',
-      label: (
-        <Link href='/auth/login' onClick={logout}>
-          로그아웃
-        </Link>
-      ),
+      label: <Logout onClick={logout}>로그아웃</Logout>,
     },
   ];
 
@@ -145,3 +142,5 @@ const StyledLink = styled(Link)`
     color: #000000;
   }
 `;
+
+const Logout = styled.div``;
