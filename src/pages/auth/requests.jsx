@@ -1,3 +1,5 @@
+import RequestSection from '@/components/auth/organisms/RequestSection';
+
 export default function Requests() {
-  return <h1>My Requests</h1>;
+  return <RequestSection />;
 }
