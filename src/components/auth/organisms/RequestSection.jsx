@@ -42,7 +42,7 @@ const DUMMY_REQUEST_ITEM_LIST = [
 export default function RequestSection() {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleActionButtonClick = (e) => {
+  const handleRequestItemClick = (e) => {
     e.stopPropagation(); // 이벤트 캡쳐링 방지
     setModalOpen(true);
   };
@@ -62,7 +62,7 @@ export default function RequestSection() {
         </DropdownContainer>
         <RequestList>
           {DUMMY_REQUEST_ITEM_LIST.map(({ title, subtitle, status }, index) => (
-            <RequestItem key={index}>
+            <RequestItem key={index}  onClick={handleRequestItemClick}>
               <RequestItemInner>
                 <RequestContent>
                   <RequestTitle>{title}</RequestTitle>
@@ -70,7 +70,7 @@ export default function RequestSection() {
                 </RequestContent>
                 <ButtonGroup>
                   <Badge $status={status}>{status}</Badge>
-                  <ActionButton onClick={handleActionButtonClick}>
+                  <ActionButton>
                     <Image src={TouchIcon} alt="touch-icon" />
                   </ActionButton>
                 </ButtonGroup>
@@ -129,6 +129,10 @@ const RequestItem = styled.div`
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid #cccccc;
+  &:hover {
+    background-color: #f0f0f0; // 원하는 hover 색상으로 변경
+    cursor: pointer; // 마우스 포인터를 클릭 가능한 상태로 변경
+  }
 `;
 
 const RequestItemInner = styled.div`
@@ -200,4 +204,6 @@ const DropdownContainer = styled.div`
     width: 691px;
     height: 35px;
     gap: 20px;
+    margin-bottom: 10px;
+
 `;
