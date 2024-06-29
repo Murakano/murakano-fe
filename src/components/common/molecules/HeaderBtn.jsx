@@ -3,19 +3,36 @@ import styled from 'styled-components';
 import { Row } from '@/styles/commonStyles';
 import Link from 'next/link';
 import { Dropdown } from 'antd';
-import { useRouter } from 'next/router';
+import { jwtDecode } from 'jwt-decode';
+import api from '@/utils/api';
+import { ErrorMessage } from '@/constants/errorMessage';
 
-export default function HeaderBtn() {
+export default function HeaderBtn({ pathname }) {
   const [nickname, setNickname] = useState('');
-  const router = useRouter();
+
+  const setUserNickname = async () => {
+    let token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('accessToken='))
+      ?.split('=')[1];
+    if (!token) {
+      token = await refreshAccessToken();
+    }
+    if (token) {
+      const decoded = jwtDecode(token);
+      setNickname(decoded.nickname);
+    }
+  };
 
   useEffect(() => {
-    setNickname(localStorage.getItem('nickname'));
-  }, []);
+    setUserNickname();
+  }, [pathname]);
 
-  const logout = () => {
-    localStorage.clear();
-    router.push('/auth/login');
+  const logout = async () => {
+    const response = await api.post('/users/logout');
+    document.cookie = 'accessToken=; Max-Age=0; path=/';
+    setNickname('');
+    alert('로그아웃 되었습니다.');
   };
 
   const items = [
@@ -47,7 +64,7 @@ export default function HeaderBtn() {
             }}
             placement='bottomLeft'
           >
-            <Btn Btn>{nickname}님</Btn>
+            <Btn>{nickname}님</Btn>
           </Dropdown>
         </>
       ) : (
@@ -98,3 +115,18 @@ const StyledLink = styled(Link)`
     color: #000000;
   }
 `;
+
+const refreshAccessToken = async () => {
+  try {
+    const response = await api.post('/users/refresh');
+    console.log(response.message);
+    if (response.message != 'refresh token이 존재하지 않습니다.') {
+      const newAccessToken = response.accessToken;
+      document.cookie = `accessToken=${newAccessToken}; max-age=600; path=/`;
+      return newAccessToken;
+    }
+  } catch (error) {
+    console.log(ErrorMessage.TOKEN_ERROR);
+    return;
+  }
+};

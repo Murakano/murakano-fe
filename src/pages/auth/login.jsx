@@ -1,24 +1,19 @@
 import styled from 'styled-components';
-import Header from '@/components/common/organisms/Header';
 import SocialLogin from '@/components/auth/organisms/SocialLogin';
 import LoginForm from '@/components/auth/organisms/LoginForm';
-import { Container } from '@/styles/commonStyles';
 
 export default function Login() {
   return (
-    <Container>
-      <Header />
-      <Page>
-        <Section>
-          <PageTitle>로그인</PageTitle>
-          <Main>
-            <LoginForm />
-            <SocialLogin />
-            <Inc>© Murak, Inc.</Inc>
-          </Main>
-        </Section>
-      </Page>
-    </Container>
+    <Page>
+      <Section>
+        <PageTitle>로그인</PageTitle>
+        <Main>
+          <LoginForm />
+          <SocialLogin />
+          <Inc>© Murak, Inc.</Inc>
+        </Main>
+      </Section>
+    </Page>
   );
 }
 

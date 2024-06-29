@@ -11,10 +11,11 @@ import { updateState } from '@/utils/stateUtils';
 export default function Modal({ onClose }) {
   const modalRef = useRef();
 
+  //혹시 이렇게 써야하나??? { devTerm: '' }
   const [devTerm, setDevTerm] = useState({ devTerm: '' });
   const [commonPron, setCommonPron] = useState({ commonPron: '' });
   const [awkPron, setAwkPron] = useState({ awkPron: '' });
-  const [addInfo, setAddInfo] = useState({ addInfo: '' }); 
+  const [addInfo, setAddInfo] = useState({ addInfo: '' });
   const [helperText, setHelperText] = useState({
     devTermHelper: '',
     commonPronHelper: '',
@@ -27,17 +28,16 @@ export default function Modal({ onClose }) {
     if (
       validateDevTerm(devTerm.devTerm) &&
       validateCommonPron(commonPron.commonPron) &&
-      validateAwkPron(awkPron.awkPron) &&
-      (devTerm.devTerm && commonPron.commonPron && awkPron.awkPron)
+      validateAwkPron(awkPron.awkPron)
     ) {
       setButtonActive(true);
     } else {
       setButtonActive(false);
     }
-  }, [devTerm.devTerm, commonPron.commonPron, awkPron.awkPron]);
-  
+  }, [devTerm, commonPron, awkPron]);
+
   // 제출 시 유효성 검사
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let hasError = false;
@@ -76,16 +76,9 @@ export default function Modal({ onClose }) {
       return;
     }
 
+    console.log(devTerm, commonPron, awkPron, addInfo);
+    console.log('Form submitted successfully');
   };
-
-    // 모달이 열릴 때 스크롤 방지!!
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
-
 
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
@@ -131,7 +124,7 @@ export default function Modal({ onClose }) {
             labelText='일반적인 발음 (한글)'
             input={commonPron.commonPron}
             setInput={setCommonPron}
-            valid={helperText.commonPronHelper ? false : true }
+            valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'}
           />
@@ -141,7 +134,7 @@ export default function Modal({ onClose }) {
             labelText='어색한 발음 (한글)'
             input={awkPron.awkPron}
             setInput={setAwkPron}
-            valid={helperText.awkPronHelper ? false : true }
+            valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
           />
@@ -155,7 +148,9 @@ export default function Modal({ onClose }) {
             <ModalButton isClose onClick={onClose}>
               닫기
             </ModalButton>
-            <ModalButton onClick = {handleSubmit} $active={buttonActive}>제출</ModalButton>
+            <ModalButton onClick={handleSubmit} $active={buttonActive}>
+              제출
+            </ModalButton>
           </ButtonGroup>
         </ModalFooter>
       </ModalBody>
@@ -310,8 +305,6 @@ const ModalButton = styled.button`
   border-radius: 30px;
   padding: 8px 30px;
   color: #fff;
-  cursor: ${(props) => (props.isClose || props.$active ? 'pointer' : 'not-allowed')};
-  background-color: ${(props) => 
-    props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
-    props.$active ? 'var(--primary)' : 'var(--primary60)'};
+  cursor: pointer;
+  background-color: ${(props) => (props.isClose ? 'rgba(0, 0, 0, 0.25)' : 'var(--primary60)')};
 `;

@@ -1,13 +1,5 @@
-import RequestSection from "@/components/auth/organisms/RequestSection";
-import Header from "@/components/common/organisms/Header";
-import { Container } from "@/styles/commonStyles";
+import RequestSection from '@/components/auth/organisms/RequestSection';
 
 export default function Requests() {
-  return (
-    <Container>
-      <Header />
-        <RequestSection />
-    </Container>
-  );
+  return <RequestSection />;
 }
-
