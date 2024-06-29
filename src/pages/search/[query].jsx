@@ -61,10 +61,6 @@ const ResultWord = styled.div`
   font-weight: 700;
   line-height: 60px;
   text-align: center;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   letter-spacing: -0.03em;
 `;
 
