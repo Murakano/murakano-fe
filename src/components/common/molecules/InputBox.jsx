@@ -15,6 +15,7 @@ export default function InputBox({
   setInput,
   helperText,
   valid,
+  autoComplete,
 }) {
   return (
     <Box className={className}>
@@ -30,6 +31,7 @@ export default function InputBox({
         placeholder={placeholder}
         value={input}
         valid={valid}
+        autoComplete={autoComplete}
         onChange={(event) => handleInputChange(event, setInput)}
       />
       <HelperBox>
