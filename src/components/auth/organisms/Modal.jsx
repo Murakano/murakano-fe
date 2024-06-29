@@ -11,7 +11,6 @@ import { updateState } from '@/utils/stateUtils';
 export default function Modal({ onClose }) {
   const modalRef = useRef();
 
-  //혹시 이렇게 써야하나??? { devTerm: '' }
   const [devTerm, setDevTerm] = useState({ devTerm: '' });
   const [commonPron, setCommonPron] = useState({ commonPron: '' });
   const [awkPron, setAwkPron] = useState({ awkPron: '' });
@@ -25,12 +24,17 @@ export default function Modal({ onClose }) {
   const [buttonActive, setButtonActive] = useState(false);
   // 모든 유효성 검사
   useEffect(() => {
-    if (validateDevTerm(devTerm.devTerm) && validateCommonPron(commonPron.commonPron) && validateAwkPron(awkPron.awkPron)) {
+    if (
+      validateDevTerm(devTerm.devTerm) &&
+      validateCommonPron(commonPron.commonPron) &&
+      validateAwkPron(awkPron.awkPron) &&
+      (devTerm.devTerm && commonPron.commonPron && awkPron.awkPron)
+    ) {
       setButtonActive(true);
     } else {
       setButtonActive(false);
     }
-  }, [devTerm, commonPron, awkPron]);
+  }, [devTerm.devTerm, commonPron.commonPron, awkPron.awkPron]);
   
   // 제출 시 유효성 검사
   const handleSubmit = async(e) => {
@@ -72,9 +76,15 @@ export default function Modal({ onClose }) {
       return;
     }
 
-    console.log(devTerm, commonPron, awkPron, addInfo);
-    console.log('Form submitted successfully');
   };
+
+    // 모달이 열릴 때 스크롤 방지
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
@@ -299,6 +309,8 @@ const ModalButton = styled.button`
   border-radius: 30px;
   padding: 8px 30px;
   color: #fff;
-  cursor: pointer;
-  background-color: ${(props) => (props.isClose ? 'rgba(0, 0, 0, 0.25)' : 'var(--primary60)')};
+  cursor: ${(props) => (props.isClose || props.$active ? 'pointer' : 'not-allowed')};
+  background-color: ${(props) => 
+    props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
+    props.$active ? 'var(--primary)' : 'var(--primary60)'};
 `;
