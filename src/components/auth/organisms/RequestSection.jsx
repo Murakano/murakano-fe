@@ -130,8 +130,8 @@ const RequestItem = styled.div`
   justify-content: center;
   border-bottom: 1px solid #cccccc;
   &:hover {
-    background-color: #f0f0f0; // 원하는 hover 색상으로 변경
-    cursor: pointer; // 마우스 포인터를 클릭 가능한 상태로 변경
+    background-color: var(--secondary10);
+    cursor: pointer;
   }
 `;
 
