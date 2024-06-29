@@ -19,7 +19,6 @@ const StyledContainer = styled.div`
   justify-content: center;
   height: 100vh;
   text-align: center;
-  background-color: blue;
   width: 780px;
   height: 508px;
   margin: 0px 330px 386px; 330px;
