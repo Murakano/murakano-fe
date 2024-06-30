@@ -1,4 +1,3 @@
-import Header from "@/components/common/organisms/Header";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import CategoryDate from "@/components/search/molecules/CategoryDate";
