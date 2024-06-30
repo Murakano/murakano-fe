@@ -1,58 +1,59 @@
-import styled from 'styled-components';
-import TouchIcon from '/public/murak_list_icon.svg';
-import Image from 'next/image';
-import Modal from './Modal';
-import React, { useState } from 'react';
-import StateDropdown from '../molecules/StateDropdown';
-import RequestDropdown from '../molecules/RequestDropdown';
+import styled from "styled-components";
+import TouchIcon from "../../../../public/murak_list_icon.svg"; 
+import Image from "next/image";
+import Modal from "./Modal";
+import React, { useState } from "react";
+import StateDropdown from "../molecules/StateDropdown";
+import RequestDropdown from "../molecules/RequestDropdown";
 
 const DUMMY_REQUEST_ITEM_LIST = [
   {
-    title: '수정 요청',
-    subtitle: 'DOM',
-    status: '승인 전',
+    title: "수정 요청",
+    subtitle: "DOM",
+    status: "승인 전",
   },
   {
-    title: '등록 요청',
-    subtitle: 'CSSOM',
-    status: '승인 완료',
+    title: "등록 요청",
+    subtitle: "CSSOM",
+    status: "승인 완료",
   },
   {
-    title: '수정 요청',
-    subtitle: 'ASAP',
-    status: '승인 전',
+    title: "수정 요청",
+    subtitle: "ASAP",
+    status: "승인 전",
   },
   {
-    title: '등록 요청',
-    subtitle: 'SQL',
-    status: '승인 전',
+    title: "등록 요청",
+    subtitle: "SQL",
+    status: "승인 전",
   },
   {
-    title: '등록 요청',
-    subtitle: 'DOM',
-    status: '반려',
+    title: "등록 요청",
+    subtitle: "DOM",
+    status: "반려",
   },
   {
-    title: '등록 요청',
-    subtitle: 'DOM',
-    status: '승인 전',
+    title: "등록 요청",
+    subtitle: "DOM",
+    status: "승인 전",
   },
 ];
 
 export default function RequestSection() {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleActionButtonClick = (e) => {
+  const handleRequestItemClick = (e) => {
     e.stopPropagation(); // 이벤트 캡쳐링 방지
     setModalOpen(true);
   };
 
   const closeModal = () => {
     setModalOpen(false);
-  };
+  }; 
+
 
   return (
-    <MainContainer>
+    <MainContainer >
       <Inner>
         <SectionTitle>내 요청 내역</SectionTitle>
         <DropdownContainer>
@@ -61,7 +62,7 @@ export default function RequestSection() {
         </DropdownContainer>
         <RequestList>
           {DUMMY_REQUEST_ITEM_LIST.map(({ title, subtitle, status }, index) => (
-            <RequestItem key={index}>
+            <RequestItem key={index}  onClick={handleRequestItemClick}>
               <RequestItemInner>
                 <RequestContent>
                   <RequestTitle>{title}</RequestTitle>
@@ -69,8 +70,8 @@ export default function RequestSection() {
                 </RequestContent>
                 <ButtonGroup>
                   <Badge $status={status}>{status}</Badge>
-                  <ActionButton onClick={handleActionButtonClick}>
-                    <Image src={TouchIcon} alt='touch-icon' />
+                  <ActionButton>
+                    <Image src={TouchIcon} alt="touch-icon" />
                   </ActionButton>
                 </ButtonGroup>
               </RequestItemInner>
@@ -118,16 +119,20 @@ const RequestList = styled.section`
   align-items: center;
   width: 691px;
   flex-direction: column;
-  gap: 10px;
+  gap: 0px;
 `;
 
 const RequestItem = styled.div`
   width: 691px;
-  height: 85px;
+  height: 99px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid rgba(204, 204, 204, 0.3);
+  &:hover {
+    background-color: var(--secondary10);
+    cursor: pointer;
+  }
 `;
 
 const RequestItemInner = styled.div`
@@ -172,10 +177,14 @@ const Badge = styled.div`
   align-items: center;
   border-radius: 30px;
   background-color: ${(props) =>
-    props.$status === '승인 전' ? 'var(--secondary)' : props.$status === '승인 완료' ? 'var(--primary)' : '#A4A4A4'};
-  width: 58px;
-  height: 24px;
-  font-size: 10px;
+    props.$status === "승인 전"
+      ? "var(--secondary)"
+      : props.$status === "승인 완료"
+      ? "var(--primary)"
+      : "#A4A4A4"};
+  width: 70px;
+  height: 27px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 15px;
   letter-spacing: -0.03em;
@@ -190,9 +199,11 @@ const ActionButton = styled(TouchIcon)`
 `;
 
 const DropdownContainer = styled.div`
-  display: flex;
-  flex-start: left;
-  width: 691px;
-  height: 35px;
-  gap: 20px;
+    display: flex;
+    flex-start: left;
+    width: 691px;
+    height: 35px;
+    gap: 20px;
+    margin-bottom: 20px;
+
 `;
