@@ -18,17 +18,13 @@ const Container = styled.div`
   height: 29px;
   padding: 10px 0;
   gap: 10px;
-  border-bottom: 1px solid #CCCCCC;
+  border-bottom: 1px solid #CCC;
 `;
 
 const Text = styled.div`
   width: 182px;
   height: 18px;
-  gap: 0px;
   font-size: 12px;
-  font-weight: 400;
-  line-height: 18px;
-  letter-spacing: -0.03em;
   margin-right: auto;
 `;
 
