@@ -3,12 +3,19 @@ import styled from 'styled-components';
 import RecentItems from '../molecules/RecentItems';
 import { RankItems } from '../molecules/RankItems';
 
-export default function SearchDropdown({ header, onItemClick }) {
+export default function SearchDropdown({ header, onItemClick, searchTerm }) {
   return (
     <DDContainer $header={header}>
-      <RecentItems header={header} onItemClick={onItemClick} />
-      <Divider />
-      <RankItems header={header} onItemClick={onItemClick} />
+      {searchTerm ? (
+        // TODO: searchTerm을 사용하여 연관 검색어를 가져옵니다.
+        <></>
+      ) : (
+        <>
+          <RecentItems header={header} onItemClick={onItemClick} />
+          <Divider />
+          <RankItems header={header} onItemClick={onItemClick} />
+        </>
+      )}
     </DDContainer>
   );
 }
