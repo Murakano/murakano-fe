@@ -2,7 +2,7 @@ import Header from "@/components/common/organisms/Header";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import CategoryDate from "@/components/search/molecules/CategoryDate";
-import ResultBoxIntegration from "@/components/search/organisms/ResultBoxIntegration";
+import ResultBox from "@/components/search/molecules/ResultBox";
 import SorryComponent from "@/components/search/molecules/SorryComponent";
 import ContributorEditBtn from "@/components/search/molecules/ContributorEditBtn";
 
@@ -19,7 +19,7 @@ export default function SearchResults() {
             <StyledContainer>
               <CategoryDate />
               <ResultWord>{query}</ResultWord>
-              <ResultBoxIntegration />
+              <ResultBox />
               <ContributorEditBtn />
             </StyledContainer>
           </>
