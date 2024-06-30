@@ -7,6 +7,7 @@ export default function SearchDropdown({ header, onItemClick }) {
   return (
     <DDContainer $header={header}>
       <RecentItems header={header} onItemClick={onItemClick} />
+      <Divider />
       <RankItems header={header} onItemClick={onItemClick} />
     </DDContainer>
   );
@@ -18,9 +19,15 @@ const DDContainer = styled.div`
   margin: ${(props) => (props.$header ? '0' : '23px 0 38px')};
   box-sizing: border-box;
   border-radius: 30px;
-  border: 2px solid var(--secondary);
+  box-shadow: var(--search-shadow);
   display: flex;
   background-color: #ffffff;
   position: ${(props) => (props.$header ? 'absolute' : 'static')};
   top: ${(props) => (props.$header ? '100px' : 'auto')};
+`;
+const Divider = styled.div`
+  width: 1px;
+  background-color: rgba(184, 213, 255, 0.3);
+  height: 85%; /* 높이를 컨테이너 높이의 80%로 설정 */
+  align-self: center; /* 세로 가운데 정렬 */
 `;
