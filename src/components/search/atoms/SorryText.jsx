@@ -21,14 +21,13 @@ const StyledSorryText = styled.h1`
   font-weight: 600;
   text-align: center;
   line-height: 60px;
-  letter-spacing: -0.03em;
   padding: 12.46px 160.5px;
 `;
 
 const StyledContainer = styled.div`
   width: 782px;
   height: 144.93px;
-  margin: 136.04px 1px 0px 1px;
+  margin: 136.04px 1px 0px;
   justify-content: space-between;
 `;
 
