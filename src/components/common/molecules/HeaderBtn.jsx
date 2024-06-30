@@ -6,9 +6,29 @@ import { Dropdown } from 'antd';
 import { jwtDecode } from 'jwt-decode';
 import api from '@/utils/api';
 import { ErrorMessage } from '@/constants/errorMessage';
+import { useRouter } from 'next/router';
 
 export default function HeaderBtn({ pathname }) {
+  const router = useRouter();
+
   const [nickname, setNickname] = useState('');
+
+  const refreshAccessToken = async () => {
+    try {
+      const response = await api.post('/users/refresh');
+
+      if (response.message == 'refresh token이 존재하지 않습니다.') return;
+      else if (response.message == 'refresh token 검증중 오류가 발생하였습니다.') {
+        alert('다시 로그인해주세요.');
+        router.push('/auth/login');
+      }
+      const newAccessToken = response.newAccessToken;
+      return newAccessToken;
+    } catch (error) {
+      console.log(ErrorMessage.TOKEN_ERROR);
+      return;
+    }
+  };
 
   const setUserNickname = async () => {
     let token = document.cookie
@@ -19,8 +39,12 @@ export default function HeaderBtn({ pathname }) {
       token = await refreshAccessToken();
     }
     if (token) {
-      const decoded = jwtDecode(token);
-      setNickname(decoded.nickname);
+      try {
+        const decoded = jwtDecode(token);
+        setNickname(decoded.nickname);
+      } catch (err) {
+        document.cookie = 'accessToken=; Max-Age=0; path=/';
+      }
     }
   };
 
@@ -29,10 +53,17 @@ export default function HeaderBtn({ pathname }) {
   }, [pathname]);
 
   const logout = async () => {
-    const response = await api.post('/users/logout');
-    document.cookie = 'accessToken=; Max-Age=0; path=/';
-    setNickname('');
-    alert('로그아웃 되었습니다.');
+    try {
+      const response = await api.post('/users/logout');
+      if (response.message == '로그아웃 성공') {
+        setNickname('');
+        alert('로그아웃 되었습니다.');
+        router.push('/auth/login');
+      }
+    } catch (err) {
+      alert('로그아웃 실패');
+      console.log(err);
+    }
   };
 
   const items = [
@@ -42,11 +73,7 @@ export default function HeaderBtn({ pathname }) {
     },
     {
       key: '2',
-      label: (
-        <Link href='/auth/login' onClick={logout}>
-          로그아웃
-        </Link>
-      ),
+      label: <Logout onClick={logout}>로그아웃</Logout>,
     },
   ];
 
@@ -116,17 +143,4 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const refreshAccessToken = async () => {
-  try {
-    const response = await api.post('/users/refresh');
-    console.log(response.message);
-    if (response.message != 'refresh token이 존재하지 않습니다.') {
-      const newAccessToken = response.accessToken;
-      document.cookie = `accessToken=${newAccessToken}; max-age=600; path=/`;
-      return newAccessToken;
-    }
-  } catch (error) {
-    console.log(ErrorMessage.TOKEN_ERROR);
-    return;
-  }
-};
+const Logout = styled.div``;
