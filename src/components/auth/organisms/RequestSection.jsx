@@ -119,16 +119,16 @@ const RequestList = styled.section`
   align-items: center;
   width: 691px;
   flex-direction: column;
-  gap: 10px;
+  gap: 0px;
 `;
 
 const RequestItem = styled.div`
   width: 691px;
-  height: 85px;
+  height: 99px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid rgba(204, 204, 204, 0.3);
   &:hover {
     background-color: var(--secondary10);
     cursor: pointer;
@@ -204,6 +204,6 @@ const DropdownContainer = styled.div`
     width: 691px;
     height: 35px;
     gap: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 
 `;
