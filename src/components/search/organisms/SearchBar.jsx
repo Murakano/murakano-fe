@@ -45,7 +45,7 @@ export default function SearchBar({ header }) {
         handleSearch={handleSearch}
         setDropdownVisible={setDropdownVisible}
       />
-      {isDropdownVisible && <SearchDropdown header={header} onItemClick={handleItemClick} />}
+      {isDropdownVisible && <SearchDropdown header={header} onItemClick={handleItemClick} searchTerm={searchTerm} />}
     </Column>
   );
 }

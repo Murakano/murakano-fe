@@ -28,10 +28,10 @@ const Section = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 50px;
   justify-content: flex-start;
-  padding-top: 150px;
   box-sizing: border-box;
-  height: calc(100vh - 38px);
+  height: calc(100vh - 150px);
   max-width: 100vw;
 `;
 

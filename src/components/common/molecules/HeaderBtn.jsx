@@ -16,7 +16,6 @@ export default function HeaderBtn({ pathname }) {
   const refreshAccessToken = async () => {
     try {
       const response = await api.post('/users/refresh');
-
       if (response.message == 'refresh token이 존재하지 않습니다.') return;
       else if (response.message == 'refresh token 검증중 오류가 발생하였습니다.') {
         alert('다시 로그인해주세요.');
@@ -69,7 +68,7 @@ export default function HeaderBtn({ pathname }) {
   const items = [
     {
       key: '1',
-      label: <Link href='/words'>요청 페이지</Link>,
+      label: <Link href='/auth/requests'>요청 페이지</Link>,
     },
     {
       key: '2',
