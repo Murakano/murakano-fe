@@ -41,7 +41,7 @@ const StyledContainer = styled.div`
   text-align: center;
   width: 780px;
   height: 508px;
-  margin: 0px 330px 386px; 330px;
+  margin: 0px 330px 386px 330px;
 `;
 
 export default SorryComponent;
