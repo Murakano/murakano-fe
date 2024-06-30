@@ -33,7 +33,7 @@ export default function RecentItems({ header, onItemClick }) {
   return (
     <DDSection $borderRight={borderRight}>
       <SectionTitle $header={header}>최근 검색어</SectionTitle>
-      <Column>
+      <ColumnGap>
         {recentSearches.length > 0 ? (
           recentSearches.map((item, index) => (
             <RecentItem header={header} key={index} onRemove={() => removeSearchTerm(index)} onItemClick={onItemClick}>
@@ -43,7 +43,7 @@ export default function RecentItems({ header, onItemClick }) {
         ) : (
           <RecentItem /> // recentSearches 배열이 비어있을 경우 children prop을 전달하지 않음
         )}
-      </Column>
+      </ColumnGap>
     </DDSection>
   );
 }
@@ -57,7 +57,11 @@ const DDSection = styled.div`
 const SectionTitle = styled.div`
   font-size: ${(props) => (props.$header ? '14px' : '16px')};
   font-weight: 600;
-  margin-bottom: ${(props) => (props.$header ? '13px' : '20px')};
+  margin-bottom: ${(props) => (props.$header ? '13px' : '15px')};
   height: ${(props) => (props.$header ? '12px' : '18px')};
   line-height: 18px;
+`;
+
+const ColumnGap = styled(Column)`
+  gap: 3px;
 `;

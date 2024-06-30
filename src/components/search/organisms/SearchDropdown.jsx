@@ -14,7 +14,7 @@ export default function SearchDropdown({ header, onItemClick }) {
 
 const DDContainer = styled.div`
   width: ${(props) => (props.$header ? '460px' : '580px')};
-  height: ${(props) => (props.$header ? '309px' : '372px')};
+  height: ${(props) => (props.$header ? '335px' : '390px')};
   margin: ${(props) => (props.$header ? '0' : '23px 0 38px')};
   box-sizing: border-box;
   border-radius: 30px;

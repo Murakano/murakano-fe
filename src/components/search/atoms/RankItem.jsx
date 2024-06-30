@@ -15,9 +15,10 @@ const DDItem = styled.li`
   justify-content: space-between;
   align-items: center;
   height: ${(props) => (props.$header ? '23px' : '28px')};
+  width: 100%;
   color: #666666;
   overflow: hidden;
-  font-size: ${(props) => (props.$header ? '13px' : '16px')};
+  font-size: ${(props) => (props.$header ? '13px' : '15px')};
   font-weight: 400;
   gap: ${(props) => (props.$header ? '4px' : '8px')};
   cursor: pointer;
