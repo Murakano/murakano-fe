@@ -56,8 +56,8 @@ export default function Modal({ onClose }) {
     } else if (!validateDevTerm(devTerm.devTerm)) {
       updateState('devTermHelper', HELPER_TEXT.ONLY_ENGLISH_INPUT, setHelperText);
       hasError = true;
-    } else if (!validateLength(devTerm.devTerm, 5)) {
-      updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(5), setHelperText);
+    } else if (!validateLength(devTerm.devTerm, 50)) {
+      updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
       hasError = true;
     } else {
       updateState('devTermHelper', '', setHelperText);
