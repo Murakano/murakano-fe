@@ -2,11 +2,9 @@ import Button from "@/components/common/atoms/Button"; // 파일 경로에 맞�
 
 function EditRequest() {
     return (
-      <div>
         <Button onClick={() => alert('버튼이 클릭되었습니다.')}>
           수정 요청하기
         </Button>
-      </div>
     );
   }
   
