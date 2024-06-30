@@ -23,12 +23,16 @@ export default function Modal({ onClose }) {
   });
 
   const [buttonActive, setButtonActive] = useState(false);
+
   // 모든 유효성 검사
   useEffect(() => {
     if (
       validateDevTerm(devTerm.devTerm) &&
       validateCommonPron(commonPron.commonPron) &&
-      validateAwkPron(awkPron.awkPron)
+      validateAwkPron(awkPron.awkPron) &&
+      devTerm.devTerm &&
+      commonPron.commonPron &&
+      awkPron.awkPron
     ) {
       setButtonActive(true);
     } else {
@@ -76,8 +80,6 @@ export default function Modal({ onClose }) {
       return;
     }
 
-    console.log(devTerm, commonPron, awkPron, addInfo);
-    console.log('Form submitted successfully');
   };
 
   //외부 클릭 모달창 닫기
@@ -89,6 +91,7 @@ export default function Modal({ onClose }) {
     },
     [onClose]
   );
+  
   //클릭감지, mousedown이 click보다 먼 감지
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -305,6 +308,8 @@ const ModalButton = styled.button`
   border-radius: 30px;
   padding: 8px 30px;
   color: #fff;
-  cursor: pointer;
-  background-color: ${(props) => (props.isClose ? 'rgba(0, 0, 0, 0.25)' : 'var(--primary60)')};
+  cursor: ${(props) => (props.isClose || props.$active ? 'pointer' : 'not-allowed')};
+  background-color: ${(props) => 
+    props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
+    props.$active ? 'var(--primary)' : 'var(--primary60)'};
 `;
