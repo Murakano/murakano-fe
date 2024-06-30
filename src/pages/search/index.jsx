@@ -11,25 +11,18 @@ export default function SearchResults() {
   const { query } = router.query;
 
   return (
-    <Container>
-      <Header />
       <Section>
         {query ? (
-          <>
             <StyledContainer>
               <CategoryDate />
               <ResultWord>{query}</ResultWord>
               <ResultBox />
               <ContributorEditBtn />
             </StyledContainer>
-          </>
         ) : (
-          <>
             <SorryComponent query={query} />
-          </>
         )}
       </Section>
-    </Container>
   );
 }
 
