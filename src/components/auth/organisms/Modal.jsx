@@ -47,30 +47,30 @@ export default function Modal({ onClose }) {
     let hasError = false;
 
     if (!devTerm.devTerm) {
-      updateState('devTermHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
+      updateState('devTermHelper', HELPER_TEXT.ONLY_ENGLISH_INPUT, setHelperText);
       hasError = true;
     } else if (!validateDevTerm(devTerm.devTerm)) {
-      updateState('devTermHelper', HELPER_TEXT.REQUEST_INPUT_VALIDATION_FALSE, setHelperText);
+      updateState('devTermHelper', HELPER_TEXT.ONLY_ENGLISH_INPUT, setHelperText);
       hasError = true;
     } else {
       updateState('devTermHelper', '', setHelperText);
     }
 
     if (!commonPron.commonPron) {
-      updateState('commonPronHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
+      updateState('commonPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
       hasError = true;
     } else if (!validateCommonPron(commonPron.commonPron)) {
-      updateState('commonPronHelper', HELPER_TEXT.REQUEST_INPUT_VALIDATION_FALSE, setHelperText);
+      updateState('commonPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
       hasError = true;
     } else {
       updateState('commonPronHelper', '', setHelperText);
     }
 
     if (!awkPron.awkPron) {
-      updateState('awkPronHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
+      updateState('awkPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
       hasError = true;
     } else if (!validateAwkPron(awkPron.awkPron)) {
-      updateState('awkPronHelper', HELPER_TEXT.REQUEST_INPUT_VALIDATION_FALSE, setHelperText);
+      updateState('awkPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
       hasError = true;
     } else {
       updateState('awkPronHelper', '', setHelperText);
@@ -79,7 +79,6 @@ export default function Modal({ onClose }) {
     if (hasError) {
       return;
     }
-
   };
 
   //외부 클릭 모달창 닫기
@@ -251,7 +250,6 @@ const StyledInputBox = styled(InputBox)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5px;
   }
 
   Input {
