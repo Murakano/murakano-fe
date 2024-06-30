@@ -22,9 +22,18 @@ export default function Modal({ onClose }) {
     devTermHelper: '',
     commonPronHelper: '',
     awkPronHelper: '',
+    addInfoHelper: '',
   });
 
   const [buttonActive, setButtonActive] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   // 모든 유효성 검사
   useEffect(() => {
@@ -34,7 +43,8 @@ export default function Modal({ onClose }) {
       validateAwkPron(formData.awkPron) &&
       validateLength(formData.devTerm, 50) &&
       validateLength(formData.commonPron, 100) &&
-      validateLength(formData.awkPron, 1000) &&
+      validateLength(formData.awkPron, 100) &&
+      validateLength(formData.addInfo, 1000) &&
       formData.devTerm &&
       formData.commonPron &&
       formData.awkPron
@@ -83,11 +93,18 @@ export default function Modal({ onClose }) {
     } else if (!validateAwkPron(formData.awkPron)) {
       updateState('awkPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
       hasError = true;
-    } else if (!validateLength(formData.awkPron, 1000)) {
-      updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(1000), setHelperText);
+    } else if (!validateLength(formData.awkPron, 100)) {
+      updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
       updateState('awkPronHelper', '', setHelperText);
+    }
+
+    if (!validateLength(formData.addInfo, 1000)) {
+      updateState('addInfoHelper', HELPER_TEXT.EXCEED_LENGTH(1000), setHelperText);
+      hasError = true;
+    } else {
+      updateState('addInfoHelper', '', setHelperText);
     }
 
     if (hasError) {
@@ -158,9 +175,10 @@ export default function Modal({ onClose }) {
             <Label>추가정보</Label>
             <TextArea
               name='addInfo'
-              input={formData.addInfo}
-              setInput={setFormData}
-              />
+              value={formData.addInfo}
+              onChange={handleChange}
+            />
+            <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
         </ModalContent>
         <ModalFooter>
@@ -316,6 +334,7 @@ const TextArea = styled.textarea`
   &:hover {
     border-color: var(--primary);
   }
+  resize: none;
 `;
 
 const ModalButton = styled.button`
@@ -329,4 +348,10 @@ const ModalButton = styled.button`
   background-color: ${(props) => 
     props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
     props.$active ? 'var(--primary)' : 'var(--primary60)'};
+`;
+
+const HelperText = styled.p`
+  font-size: 12px;
+  color: #ff0808;
+  margin-top: 4px;
 `;
