@@ -3,19 +3,67 @@ import styled from 'styled-components';
 import { Row } from '@/styles/commonStyles';
 import Link from 'next/link';
 import { Dropdown } from 'antd';
+import { jwtDecode } from 'jwt-decode';
+import api from '@/utils/api';
+import { ErrorMessage } from '@/constants/errorMessage';
 import { useRouter } from 'next/router';
 
-export default function HeaderBtn() {
-  const [nickname, setNickname] = useState('');
+export default function HeaderBtn({ pathname }) {
   const router = useRouter();
 
-  useEffect(() => {
-    setNickname(localStorage.getItem('nickname'));
-  }, []);
+  const [nickname, setNickname] = useState('');
 
-  const logout = () => {
-    localStorage.clear();
-    router.push('/auth/login');
+  const refreshAccessToken = async () => {
+    try {
+      const response = await api.post('/users/refresh');
+
+      if (response.message == 'refresh token이 존재하지 않습니다.') return;
+      else if (response.message == 'refresh token 검증중 오류가 발생하였습니다.') {
+        alert('다시 로그인해주세요.');
+        router.push('/auth/login');
+      }
+      const newAccessToken = response.newAccessToken;
+      return newAccessToken;
+    } catch (error) {
+      console.log(ErrorMessage.TOKEN_ERROR);
+      return;
+    }
+  };
+
+  const setUserNickname = async () => {
+    let token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('accessToken='))
+      ?.split('=')[1];
+    if (!token) {
+      token = await refreshAccessToken();
+    }
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setNickname(decoded.nickname);
+      } catch (err) {
+        document.cookie = 'accessToken=; Max-Age=0; path=/';
+      }
+    }
+  };
+
+  useEffect(() => {
+    setUserNickname();
+  }, [pathname]);
+
+  const logout = async () => {
+    try {
+      const response = await api.post('/users/logout');
+      if (response.message == '로그아웃 성공') {
+        setNickname('');
+        alert('로그아웃 되었습니다.');
+        router.push('/auth/login');
+      }
+    } catch (err) {
+      alert('로그아웃 실패');
+      console.log(err);
+    }
   };
 
   const items = [
@@ -25,11 +73,7 @@ export default function HeaderBtn() {
     },
     {
       key: '2',
-      label: (
-        <Link href='/auth/login' onClick={logout}>
-          로그아웃
-        </Link>
-      ),
+      label: <Logout onClick={logout}>로그아웃</Logout>,
     },
   ];
 
@@ -47,7 +91,7 @@ export default function HeaderBtn() {
             }}
             placement='bottomLeft'
           >
-            <Btn Btn>{nickname}님</Btn>
+            <Btn>{nickname}님</Btn>
           </Dropdown>
         </>
       ) : (
@@ -98,3 +142,5 @@ const StyledLink = styled(Link)`
     color: #000000;
   }
 `;
+
+const Logout = styled.div``;

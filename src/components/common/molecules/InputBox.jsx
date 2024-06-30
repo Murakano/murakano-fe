@@ -5,8 +5,17 @@ import { handleInputChange } from '@/utils/stateUtils';
 import Input from '../atoms/Input';
 
 export default function InputBox({
-  name, className, labelText, children, type, placeholder, input, setInput, helperText,
+  name,
+  className,
+  labelText,
+  children,
+  type,
+  placeholder,
+  input,
+  setInput,
+  helperText,
   valid,
+  autoComplete,
 }) {
   return (
     <Box className={className}>
@@ -22,6 +31,7 @@ export default function InputBox({
         placeholder={placeholder}
         value={input}
         valid={valid}
+        autoComplete={autoComplete}
         onChange={(event) => handleInputChange(event, setInput)}
       />
       <HelperBox>

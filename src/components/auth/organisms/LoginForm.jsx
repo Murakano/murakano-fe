@@ -74,8 +74,6 @@ export default function LoginForm() {
     const response = await api.post('/users/local/login', data);
     console.log(response);
     if (response?.message == '로그인 성공') {
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('nickname', response.nickname);
       return router.push('/');
     }
     alert(ErrorMessage.LOGIN_ERROR);
@@ -91,7 +89,7 @@ export default function LoginForm() {
       <InputBox
         type='text'
         name='email'
-        autocomplete='email'
+        autoComplete='email'
         placeholder='이메일을 입력해주세요.'
         labelText='이메일'
         input={user.email}
@@ -102,7 +100,7 @@ export default function LoginForm() {
       <InputBox
         type={view ? 'text' : 'password'}
         name='password'
-        autocomplete='current-password'
+        autoComplete='current-password'
         placeholder='비밀번호를 입력해주세요.'
         labelText='비밀번호'
         input={user.password}

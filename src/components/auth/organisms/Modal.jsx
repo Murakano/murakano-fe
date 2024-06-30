@@ -15,7 +15,7 @@ export default function Modal({ onClose }) {
   const [devTerm, setDevTerm] = useState({ devTerm: '' });
   const [commonPron, setCommonPron] = useState({ commonPron: '' });
   const [awkPron, setAwkPron] = useState({ awkPron: '' });
-  const [addInfo, setAddInfo] = useState({ addInfo: '' }); 
+  const [addInfo, setAddInfo] = useState({ addInfo: '' });
   const [helperText, setHelperText] = useState({
     devTermHelper: '',
     commonPronHelper: '',
@@ -25,15 +25,19 @@ export default function Modal({ onClose }) {
   const [buttonActive, setButtonActive] = useState(false);
   // 모든 유효성 검사
   useEffect(() => {
-    if (validateDevTerm(devTerm.devTerm) && validateCommonPron(commonPron.commonPron) && validateAwkPron(awkPron.awkPron)) {
+    if (
+      validateDevTerm(devTerm.devTerm) &&
+      validateCommonPron(commonPron.commonPron) &&
+      validateAwkPron(awkPron.awkPron)
+    ) {
       setButtonActive(true);
     } else {
       setButtonActive(false);
     }
   }, [devTerm, commonPron, awkPron]);
-  
+
   // 제출 시 유효성 검사
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let hasError = false;
@@ -120,7 +124,7 @@ export default function Modal({ onClose }) {
             labelText='일반적인 발음 (한글)'
             input={commonPron.commonPron}
             setInput={setCommonPron}
-            valid={helperText.commonPronHelper ? false : true }
+            valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'}
           />
@@ -130,7 +134,7 @@ export default function Modal({ onClose }) {
             labelText='어색한 발음 (한글)'
             input={awkPron.awkPron}
             setInput={setAwkPron}
-            valid={helperText.awkPronHelper ? false : true }
+            valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
           />
@@ -144,7 +148,9 @@ export default function Modal({ onClose }) {
             <ModalButton isClose onClick={onClose}>
               닫기
             </ModalButton>
-            <ModalButton onClick = {handleSubmit} $active={buttonActive}>제출</ModalButton>
+            <ModalButton onClick={handleSubmit} $active={buttonActive}>
+              제출
+            </ModalButton>
           </ButtonGroup>
         </ModalFooter>
       </ModalBody>

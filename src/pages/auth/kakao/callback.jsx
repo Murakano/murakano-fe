@@ -9,10 +9,7 @@ export default function Callback() {
   const login = async () => {
     const code = new URL(document.location.toString()).searchParams.get('code');
     const res = await api.post('/users/kakao/login', { code });
-
     if (res.message === '로그인 성공') {
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('nickname', res.nickname);
       return router.push('/');
     } else {
       alert('로그인 실패');
