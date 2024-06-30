@@ -15,7 +15,7 @@ export default function ContributorEditBtn() {
 const StyledContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end;
   width: 691px;
   height: 61px;
   margin: 10px 44.5px 246.29px 44.5px;
