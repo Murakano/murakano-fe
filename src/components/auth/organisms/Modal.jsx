@@ -11,11 +11,13 @@ import { updateState } from '@/utils/stateUtils';
 export default function Modal({ onClose }) {
   const modalRef = useRef();
 
-  //혹시 이렇게 써야하나??? { devTerm: '' }
-  const [devTerm, setDevTerm] = useState({ devTerm: '' });
-  const [commonPron, setCommonPron] = useState({ commonPron: '' });
-  const [awkPron, setAwkPron] = useState({ awkPron: '' });
-  const [addInfo, setAddInfo] = useState({ addInfo: '' });
+  const [formData, setFormData] = useState({
+    devTerm: '',
+    commonPron: '',
+    awkPron: '',
+    addInfo: '',
+  });
+
   const [helperText, setHelperText] = useState({
     devTermHelper: '',
     commonPronHelper: '',
@@ -24,25 +26,24 @@ export default function Modal({ onClose }) {
   
 
   const [buttonActive, setButtonActive] = useState(false);
-
   // 모든 유효성 검사
   useEffect(() => {
     if (
-      validateDevTerm(devTerm.devTerm) &&
-      validateCommonPron(commonPron.commonPron) &&
-      validateAwkPron(awkPron.awkPron) &&
-      validateLength(devTerm.devTerm, 50) &&
-      validateLength(commonPron.commonPron, 100) &&
-      validateLength(awkPron.awkPron, 1000) &&
-      devTerm.devTerm &&
-      commonPron.commonPron &&
-      awkPron.awkPron
+      validateDevTerm(formData.devTerm) &&
+      validateCommonPron(formData.commonPron) &&
+      validateAwkPron(formData.awkPron) &&
+      validateLength(formData.devTerm, 50) &&
+      validateLength(formData.commonPron, 100) &&
+      validateLength(formData.awkPron, 1000) &&
+      formData.devTerm &&
+      formData.commonPron &&
+      formData.awkPron
     ) {
       setButtonActive(true);
     } else {
       setButtonActive(false);
     }
-  }, [devTerm, commonPron, awkPron]);
+  }, [formData]);
 
   // 제출 시 유효성 검사
   const handleSubmit = async (e) => {
@@ -50,39 +51,39 @@ export default function Modal({ onClose }) {
 
     let hasError = false;
 
-    if (!devTerm.devTerm) {
+    if (!formData.devTerm) {
       updateState('devTermHelper', HELPER_TEXT.ONLY_ENGLISH_INPUT, setHelperText);
       hasError = true;
-    } else if (!validateDevTerm(devTerm.devTerm)) {
+    } else if (!validateDevTerm(formData.devTerm)) {
       updateState('devTermHelper', HELPER_TEXT.ONLY_ENGLISH_INPUT, setHelperText);
       hasError = true;
-    } else if (!validateLength(devTerm.devTerm, 50)) {
+    } else if (!validateLength(formData.devTerm, 50)) {
       updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
       hasError = true;
     } else {
       updateState('devTermHelper', '', setHelperText);
     }
 
-    if (!commonPron.commonPron) {
+    if (!formData.commonPron) {
       updateState('commonPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
       hasError = true;
-    } else if (!validateCommonPron(commonPron.commonPron)) {
+    } else if (!validateCommonPron(formData.commonPron)) {
       updateState('commonPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
       hasError = true;
-    } else if (!validateLength(commonPron.commonPron, 100)) {
+    } else if (!validateLength(formData.commonPron, 100)) {
       updateState('commonPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
       updateState('commonPronHelper', '', setHelperText);
     }
 
-    if (!awkPron.awkPron) {
+    if (!formData.awkPron) {
       updateState('awkPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
       hasError = true;
-    } else if (!validateAwkPron(awkPron.awkPron)) {
+    } else if (!validateAwkPron(formData.awkPron)) {
       updateState('awkPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
       hasError = true;
-    } else if (!validateLength(awkPron.awkPron, 1000)) {
+    } else if (!validateLength(formData.awkPron, 1000)) {
       updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(1000), setHelperText);
       hasError = true;
     } else {
@@ -115,9 +116,6 @@ export default function Modal({ onClose }) {
     };
   }, []);
 
-  const handleAddInfoChange = (event) => {
-    setAddInfo(event.target.value);
-  };
 
   return (
     <ModalContainer>
@@ -130,8 +128,8 @@ export default function Modal({ onClose }) {
             type='text'
             name='devTerm'
             labelText='개발 용어 (영어)'
-            input={devTerm.devTerm}
-            setInput={setDevTerm}
+            input={formData.devTerm}
+            setInput={setFormData}
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
@@ -140,8 +138,8 @@ export default function Modal({ onClose }) {
             type='text'
             name='commonPron'
             labelText='일반적인 발음 (한글)'
-            input={commonPron.commonPron}
-            setInput={setCommonPron}
+            input={formData.commonPron}
+            setInput={setFormData}
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'}
@@ -150,15 +148,19 @@ export default function Modal({ onClose }) {
             type='text'
             name='awkPron'
             labelText='어색한 발음 (한글)'
-            input={awkPron.awkPron}
-            setInput={setAwkPron}
+            input={formData.awkPron}
+            setInput={setFormData}
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
           />
           <Item>
             <Label>추가정보</Label>
-            <TextArea value={addInfo.addInfo} onChange={handleAddInfoChange} />
+            <TextArea
+              name='addInfo'
+              value={formData.addInfo}
+              onChange={(e) => handleInputChange(e, setFormData)} // 변경된 부분
+              />
           </Item>
         </ModalContent>
         <ModalFooter>
@@ -281,6 +283,7 @@ const StyledInputBox = styled(InputBox)`
     &:hover {
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
+    
   }
   Label {
     width: 498px;
