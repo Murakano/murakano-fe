@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import InputBox from '@/components/common/molecules/InputBox';
 import { HELPER_TEXT } from '@/constants/helperText';
 
-import { validateDevTerm, validateCommonPron, validateAwkPron, validateLength } from '@/utils/validate';
+import { validateLength } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
@@ -38,9 +38,6 @@ export default function Modal({ onClose }) {
   // 모든 유효성 검사
   useEffect(() => {
     if (
-      validateDevTerm(formData.devTerm) &&
-      validateCommonPron(formData.commonPron) &&
-      validateAwkPron(formData.awkPron) &&
       validateLength(formData.devTerm, 50) &&
       validateLength(formData.commonPron, 100) &&
       validateLength(formData.awkPron, 100) &&
@@ -62,10 +59,7 @@ export default function Modal({ onClose }) {
     let hasError = false;
 
     if (!formData.devTerm) {
-      updateState('devTermHelper', HELPER_TEXT.ONLY_ENGLISH_INPUT, setHelperText);
-      hasError = true;
-    } else if (!validateDevTerm(formData.devTerm)) {
-      updateState('devTermHelper', HELPER_TEXT.ONLY_ENGLISH_INPUT, setHelperText);
+      updateState('devTermHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
       hasError = true;
     } else if (!validateLength(formData.devTerm, 50)) {
       updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
@@ -75,10 +69,7 @@ export default function Modal({ onClose }) {
     }
 
     if (!formData.commonPron) {
-      updateState('commonPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
-      hasError = true;
-    } else if (!validateCommonPron(formData.commonPron)) {
-      updateState('commonPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
+      updateState('commonPronHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
       hasError = true;
     } else if (!validateLength(formData.commonPron, 100)) {
       updateState('commonPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
@@ -88,10 +79,7 @@ export default function Modal({ onClose }) {
     }
 
     if (!formData.awkPron) {
-      updateState('awkPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
-      hasError = true;
-    } else if (!validateAwkPron(formData.awkPron)) {
-      updateState('awkPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
+      updateState('awkPronHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
       hasError = true;
     } else if (!validateLength(formData.awkPron, 100)) {
       updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
