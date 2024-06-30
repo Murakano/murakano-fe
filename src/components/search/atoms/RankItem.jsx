@@ -33,7 +33,7 @@ const RankLink = styled.div`
   flex-grow: 1;
   color: #666666;
 
-  &:hover {
+  ${DDItem}:hover & {
     color: #000000;
   }
 `;

@@ -6,7 +6,7 @@ export function RecentItem({ children, onRemove, header, onItemClick }) {
   return (
     <DDItems $header={header}>
       <DDItem>
-        {children && <HistoryIcon style={{ fontSize: header ? '14px' : '17px', color: '#666666' }} />}
+        {children && <HistoryIcon style={{ fontSize: header ? '14px' : '18px', color: '#666666' }} />}
         <RecentLink onClick={() => onItemClick(children)}>
           {/* TODO : ( 최근검색어 글자가 헤더에서 크기 안줄어듬... + hover효과 제외 + 클릭 방지 구현 ) */}
           <DDText $header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
@@ -66,6 +66,10 @@ const DDText = styled.div`
   align-items: center;
   justify-content: flex-start;
   color: #666666;
+
+  ${DDItem}:hover & {
+    color: #000000;
+  }
 `;
 
 const CloseIcon = styled(CloseOutlined)`
