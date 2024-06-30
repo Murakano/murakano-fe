@@ -11,7 +11,5 @@ export const HELPER_TEXT = {
   NICKNAME_VALIDATION_FALSE: '* 띄워쓰기 불가, 10글자 이내',
   NICKNAME_DUPLICATE: '* 중복된 닉네임 입니다.',
   REQUIRED_INPUT_EMPTY: '* 필수 입력 값입니다.',
-  ONLY_ENGLISH_INPUT: '* 영어만 입력 가능합니다.',
-  ONLY_KOREAN_INPUT: '* 한글만 입력 가능합니다.',
   EXCEED_LENGTH: (maxLength) => `* ${maxLength}글자를 초과할 수 없습니다.`,
 };
