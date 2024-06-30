@@ -323,6 +323,11 @@ const TextArea = styled.textarea`
     border-color: var(--primary);
   }
   resize: none;
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 `;
 
 const ModalButton = styled.button`
