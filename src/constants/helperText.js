@@ -10,6 +10,6 @@ export const HELPER_TEXT = {
   NICKNAME_EMPTY: '* 닉네임을 입력해주세요.',
   NICKNAME_VALIDATION_FALSE: '* 띄워쓰기 불가, 10글자 이내',
   NICKNAME_DUPLICATE: '* 중복된 닉네임 입니다.',
-  REQUEST_INPUT_VALIDATION_FALSE: '* 올바르게 입력해주세요',
   REQUIRED_INPUT_EMPTY: '* 필수 입력 값입니다.',
+  EXCEED_LENGTH: (maxLength) => `* ${maxLength}글자를 초과할 수 없습니다.`,
 };
