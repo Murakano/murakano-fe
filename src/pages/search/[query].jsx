@@ -44,11 +44,11 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0px 330px 124px 330px;
+  margin: 0px 330px 124px;
 `;
 
 const ResultWord = styled.div`
-  color: #000000;
+  color: #000;
   width: 691px;
   height: 102px;
   padding: 10px;
