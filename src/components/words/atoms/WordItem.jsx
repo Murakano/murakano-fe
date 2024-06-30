@@ -26,10 +26,10 @@ export default function WordItem({ name, pron }) {
 
 const ListContainer = styled.div`
   width: 691px;
-  height: 85px;
-  padding: 6.5px 36px;
-  margin-top: 10px;
-  border-bottom: 1px solid #cccccc;
+  height: 99px;
+  padding: 10.5px 36px;
+
+  border-bottom: 1px solid rgba(204, 204, 204, 0.3);
 
   &:hover {
     background: var(--secondary10);
@@ -58,7 +58,7 @@ const WordContents = styled.div`
 `;
 
 const WordName = styled.div`
-  height: 23px;
+  height: 17px;
   margin: 5px 0 10px;
   font-size: 15px;
   font-weight: 600;
