@@ -15,7 +15,7 @@ export default function CategoryDate() {
 const Container = styled.div`
   width: 782px;
   height: 30.71px;
-  padding: 0px 51.5px 0px 51.5px; 
+  padding: 0px 51.5px; 
   display: flex;
   justify-content: space-between;
   align-items: center;
