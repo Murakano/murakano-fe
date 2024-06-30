@@ -21,7 +21,6 @@ export default function AllWords() {
 
 const DropdownContainer = styled.div`
   display: flex;
-  flex-start: left;
   width: 691px;
   height: 35px;
   gap: 20px;
