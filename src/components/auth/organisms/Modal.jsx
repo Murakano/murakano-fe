@@ -23,9 +23,9 @@ export default function Modal({ onClose }) {
     commonPronHelper: '',
     awkPronHelper: '',
   });
-  
 
   const [buttonActive, setButtonActive] = useState(false);
+
   // 모든 유효성 검사
   useEffect(() => {
     if (
@@ -116,7 +116,6 @@ export default function Modal({ onClose }) {
     };
   }, []);
 
-
   return (
     <ModalContainer>
       <ModalBody ref={modalRef}>
@@ -142,7 +141,8 @@ export default function Modal({ onClose }) {
             setInput={setFormData}
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
-            className={'Box'}
+            className={'Box'} 
+
           />
           <StyledInputBox
             type='text'
@@ -158,8 +158,8 @@ export default function Modal({ onClose }) {
             <Label>추가정보</Label>
             <TextArea
               name='addInfo'
-              value={formData.addInfo}
-              onChange={(e) => handleInputChange(e, setFormData)} // 변경된 부분
+              input={formData.addInfo}
+              setInput={setFormData}
               />
           </Item>
         </ModalContent>
