@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 // Styled component 정의
-const StyledResultTitle = styled.div`
+const StyledResultTitle = styled.span`
   width: 600px;
   height: 23px;
   font-size: 15px;

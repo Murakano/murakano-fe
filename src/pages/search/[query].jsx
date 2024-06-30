@@ -1,3 +1,4 @@
+import Header from "@/components/common/organisms/Header";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import CategoryDate from "@/components/search/molecules/CategoryDate";
@@ -10,6 +11,8 @@ export default function SearchResults() {
   const { query } = router.query;
 
   return (
+    <Container>
+      <Header />
       <Section>
         {query ? (
           <>
@@ -26,6 +29,7 @@ export default function SearchResults() {
           </>
         )}
       </Section>
+    </Container>
   );
 }
 
@@ -58,4 +62,12 @@ const ResultWord = styled.div`
   line-height: 60px;
   text-align: center;
   letter-spacing: -0.03em;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 `;

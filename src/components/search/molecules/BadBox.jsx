@@ -13,7 +13,8 @@ const Container = styled.div`
   padding: 10px 30px;
   margin-bottom: 10px;
   border-radius: 30px;
-  border-bottom: 1px solid transparent;
+  border: 0px solid transparent;
+  border-bottom-width: 1px;
   background: #B8D5FF1A;
 `;
 
