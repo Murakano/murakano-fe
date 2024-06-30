@@ -2,7 +2,7 @@ import api from './api';
 
 export const emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
 export const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
-export const korPronPattern = /^[가-힣\s]*$/;
+export const korPronPattern = /^[가-힣\sㅏ-ㅣㄱ-ㅎ]*$/;
 export const devTermPattern = /^[a-zA-Z0-9\s\-\.,!@#$%^&*()_+=]*$/;
 
 // 이메일 유효성 검증
