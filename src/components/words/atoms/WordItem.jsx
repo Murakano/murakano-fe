@@ -26,10 +26,10 @@ export default function WordItem({ name, pron }) {
 
 const ListContainer = styled.div`
   width: 691px;
-  height: 85px;
-  padding: 6.5px 36px;
-  margin-top: 10px;
-  border-bottom: 1px solid #cccccc;
+  height: 99px;
+  padding: 10.5px 36px;
+
+  border-bottom: 1px solid rgba(204, 204, 204, 0.3);
 
   &:hover {
     background: var(--secondary10);
@@ -49,17 +49,16 @@ const ListInnerContainer = styled.div`
 const WordContents = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   position: relative;
-  top: -55px;
+  top: -5px;
   width: 57px;
-  height: 121px;
-  padding: 34px 0px;
-  margin: 21px 0 21px 10px;
+  height: 79px;
   gap: 10px;
 `;
 
 const WordName = styled.div`
-  height: 23px;
+  height: 17px;
   margin: 5px 0 10px;
   font-size: 15px;
   font-weight: 600;
@@ -81,6 +80,6 @@ const WordListIconDiv = styled.div`
   margin: 17.5px 10px 17.5px 0;
   padding: 10px 0;
   position: relative;
-  top: -150px;
+  top: -80px;
   left: 590px;
 `;

@@ -115,10 +115,9 @@ const StyledDropdown = styled.div`
   .ant-select-item-option-content {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 18px;
     text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
   }
 `;

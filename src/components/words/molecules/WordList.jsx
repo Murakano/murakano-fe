@@ -10,6 +10,10 @@ const wordDirectory = [
   { name: 'Linux', pron: '리눅스' },
 ];
 
+// 무한 스크롤 변수
+const pageSize = 10;
+const loadMoreThreshold = 300;
+
 export default function WordList() {
   const router = useRouter();
   // 단어 목록 클릭 시 해당 단어 상세 페이지로 이동
