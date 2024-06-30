@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import InputBox from '@/components/common/molecules/InputBox';
 import { HELPER_TEXT } from '@/constants/helperText';
 
-import { validateDevTerm, validateCommonPron, validateAwkPron } from '@/utils/validate';
+import { validateDevTerm, validateCommonPron, validateAwkPron, validateLength } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
@@ -21,6 +21,7 @@ export default function Modal({ onClose }) {
     commonPronHelper: '',
     awkPronHelper: '',
   });
+  
 
   const [buttonActive, setButtonActive] = useState(false);
 
@@ -30,6 +31,9 @@ export default function Modal({ onClose }) {
       validateDevTerm(devTerm.devTerm) &&
       validateCommonPron(commonPron.commonPron) &&
       validateAwkPron(awkPron.awkPron) &&
+      validateLength(devTerm.devTerm, 50) &&
+      validateLength(commonPron.commonPron, 100) &&
+      validateLength(awkPron.awkPron, 1000) &&
       devTerm.devTerm &&
       commonPron.commonPron &&
       awkPron.awkPron
@@ -52,6 +56,9 @@ export default function Modal({ onClose }) {
     } else if (!validateDevTerm(devTerm.devTerm)) {
       updateState('devTermHelper', HELPER_TEXT.ONLY_ENGLISH_INPUT, setHelperText);
       hasError = true;
+    } else if (!validateLength(devTerm.devTerm, 5)) {
+      updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(5), setHelperText);
+      hasError = true;
     } else {
       updateState('devTermHelper', '', setHelperText);
     }
@@ -61,6 +68,9 @@ export default function Modal({ onClose }) {
       hasError = true;
     } else if (!validateCommonPron(commonPron.commonPron)) {
       updateState('commonPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
+      hasError = true;
+    } else if (!validateLength(commonPron.commonPron, 100)) {
+      updateState('commonPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
       updateState('commonPronHelper', '', setHelperText);
@@ -72,6 +82,9 @@ export default function Modal({ onClose }) {
     } else if (!validateAwkPron(awkPron.awkPron)) {
       updateState('awkPronHelper', HELPER_TEXT.ONLY_KOREAN_INPUT, setHelperText);
       hasError = true;
+    } else if (!validateLength(awkPron.awkPron, 1000)) {
+      updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(1000), setHelperText);
+      hasError = true;
     } else {
       updateState('awkPronHelper', '', setHelperText);
     }
@@ -79,6 +92,9 @@ export default function Modal({ onClose }) {
     if (hasError) {
       return;
     }
+
+    alert('제출되었습니다');
+    onClose();
   };
 
   //외부 클릭 모달창 닫기

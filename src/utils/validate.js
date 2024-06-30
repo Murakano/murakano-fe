@@ -38,6 +38,10 @@ export const validateAwkPron = (awkPron) => {
   return korPronPattern.test(awkPron);
 };
 
+export const validateLength = (input, maxLength) => {
+  return input.length <= maxLength;
+};
+
 const duplicateNickname = async (nickname) => {
   const isDuplicate = await api.get('/users/check/nickname', { nickname });
   if (isDuplicate.isExist) {
