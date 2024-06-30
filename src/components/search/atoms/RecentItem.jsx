@@ -6,7 +6,7 @@ export function RecentItem({ children, onRemove, header, onItemClick }) {
   return (
     <DDItems $header={header}>
       <DDItem>
-        {children && <HistoryIcon style={{ fontSize: header ? '14px' : '16px', color: '#666666' }} />}
+        {children && <HistoryIcon style={{ fontSize: header ? '14px' : '18px', color: '#666666' }} />}
         <RecentLink onClick={() => onItemClick(children)}>
           {/* TODO : ( 최근검색어 글자가 헤더에서 크기 안줄어듬... + hover효과 제외 + 클릭 방지 구현 ) */}
           <DDText $header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
@@ -31,7 +31,7 @@ const DDItems = styled.li`
   height: ${(props) => (props.$header ? '23px' : '28px')};
   color: #666666;
   overflow: hidden;
-  font-size: ${(props) => (props.$header ? '13px' : '16px')};
+  font-size: ${(props) => (props.$header ? '13px' : '15px')};
   font-weight: 400;
   width: 100%;
 `;
@@ -40,7 +40,7 @@ const DDItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 15px;
   width: 100%;
   &:hover {
     color: #000000;
@@ -60,12 +60,16 @@ const DDText = styled.div`
   padding-top: 2px;
   width: 100%;
   height: ${(props) => (props.$header ? '23px' : '28px')};
-  font-size: ${(props) => (props.$header ? '13px' : '16px')};
+  font-size: ${(props) => (props.$header ? '13px' : '15px')};
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   color: #666666;
+
+  ${DDItem}:hover & {
+    color: #000000;
+  }
 `;
 
 const CloseIcon = styled(CloseOutlined)`

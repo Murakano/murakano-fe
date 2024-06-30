@@ -29,7 +29,7 @@ export const SearchBarContainer = styled.div`
   height: ${(props) => (props.$header ? '48px' : '64px')};
   left: ${(props) => (props.$header ? '0px' : 'auto')};
   top: ${(props) => (props.$header ? '0px' : 'auto')};
-  border: 2px solid var(--secondary);
+  box-shadow: var(--search-shadow);
   border-radius: 50px;
   padding-right: 20px;
 `;

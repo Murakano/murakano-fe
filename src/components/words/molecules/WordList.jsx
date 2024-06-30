@@ -41,7 +41,7 @@ const WordListContainer = styled.div`
   position: relative;
   width: 780px;
   height: auto;
-  padding: 165px 44.5px 10 44.5px;
+  padding: 10px 44.5px;
 `;
 
 const WordListDiv = styled.div`
