@@ -182,9 +182,9 @@ const Badge = styled.div`
       : props.$status === "승인 완료"
       ? "var(--primary)"
       : "#A4A4A4"};
-  width: 58px;
-  height: 24px;
-  font-size: 10px;
+  width: 70px;
+  height: 27px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 15px;
   letter-spacing: -0.03em;
