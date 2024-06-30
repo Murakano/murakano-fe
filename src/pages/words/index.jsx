@@ -25,4 +25,5 @@ const DropdownContainer = styled.div`
   width: 691px;
   height: 35px;
   gap: 20px;
+  margin-bottom: 10px;
 `;
