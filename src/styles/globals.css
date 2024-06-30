@@ -165,4 +165,5 @@ table {
   --secondary: #b8d5ff;
   --primary60: rgba(60, 139, 255, 0.6);
   --secondary10: rgba(184, 213, 255, 0.1);
+  --search-shadow: 0 0 4px 1px rgba(60, 139, 255, 0.35);
 }

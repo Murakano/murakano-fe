@@ -30,9 +30,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>
-          <link rel='icon' href='/murak-logo-removebg.png' />
-        </Head>
+        <Head></Head>
         <body>
           <Main />
           <NextScript />
