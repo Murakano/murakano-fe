@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 // Styled component 정의
-const StyledResultTitle = styled.span`
+const ResultTitle = styled.span`
   width: 600px;
   height: 23px;
   font-size: 15px;
@@ -10,8 +10,6 @@ const StyledResultTitle = styled.span`
   text-align: left;
 `;
 
-const ResultTitleComponent = ({ text }) => {
-  return <StyledResultTitle>{text}</StyledResultTitle>;
-};
-
-export default ResultTitleComponent;
+export default function ResultTitleComponent({ children, ...props }) {
+  return <ResultTitle {...props}>{children}</ResultTitle>;
+}
