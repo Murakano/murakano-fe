@@ -11,8 +11,6 @@ export default function SearchResults() {
   const { query } = router.query;
 
   return (
-    <Container>
-      <Header />
       <Section>
         {query ? (
           <>
@@ -29,7 +27,6 @@ export default function SearchResults() {
           </>
         )}
       </Section>
-    </Container>
   );
 }
 
