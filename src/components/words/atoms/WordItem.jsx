@@ -49,10 +49,11 @@ const ListInnerContainer = styled.div`
 const WordContents = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   position: relative;
   top: -5px;
   width: 57px;
-  height: 61px;
+  height: 79px;
   gap: 10px;
 `;
 
@@ -79,6 +80,6 @@ const WordListIconDiv = styled.div`
   margin: 17.5px 10px 17.5px 0;
   padding: 10px 0;
   position: relative;
-  top: -68px;
+  top: -80px;
   left: 590px;
 `;
