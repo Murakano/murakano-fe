@@ -7,8 +7,8 @@ const SorryText = ({ query }) => {
     <StyledContainer>
       <MuiContainer>
         <StyledSorryText>
-          죄송합니다.<br />
-          "{query}" 검색 결과가 없습니다.
+          죄송합니다.
+          <br />"{query}"<br /> 검색 결과가 없습니다.
         </StyledSorryText>
       </MuiContainer>
     </StyledContainer>
@@ -21,13 +21,12 @@ const StyledSorryText = styled.h1`
   font-weight: 600;
   text-align: center;
   line-height: 60px;
-  padding: 12.46px 160.5px;
+  padding: 12.46px 0;
 `;
 
 const StyledContainer = styled.div`
-  width: 782px;
+  width: 100%;
   height: 144.93px;
-  margin: 136.04px 1px 0px;
   justify-content: space-between;
 `;
 
