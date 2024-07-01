@@ -4,7 +4,16 @@ import styled from 'styled-components';
 import RecentItems from '../molecules/RecentItems';
 import { RankItems } from '../molecules/RankItems';
 
-export default function SearchDropdown({ header, onItemClick, searchTerm, ranks }) {
+export default function SearchDropdown({
+  header,
+  onItemClick,
+  searchTerm,
+  ranks,
+  recentSearches,
+  setRecentSearches,
+  loading,
+  login,
+}) {
   return (
     <DDContainer $header={header}>
       {searchTerm ? (
@@ -12,7 +21,14 @@ export default function SearchDropdown({ header, onItemClick, searchTerm, ranks 
         <></>
       ) : (
         <>
-          <RecentItems header={header} onItemClick={onItemClick} />
+          <RecentItems
+            header={header}
+            onItemClick={onItemClick}
+            recentSearches={recentSearches}
+            setRecentSearches={setRecentSearches}
+            login={login}
+            loading={loading}
+          />
           <Divider />
           <RankItems header={header} onItemClick={onItemClick} ranks={ranks} />
         </>
