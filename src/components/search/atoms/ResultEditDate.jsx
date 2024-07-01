@@ -1,14 +1,14 @@
 // src/components/search/atoms/ResultEditDate.jsx
-
 import React from 'react';
 import styled from 'styled-components';
+import { formatDate } from '../../../utils/formatDate';
 
-const ResultEditDate = () => {
+const ResultEditDate = ({ searchResult }) => {
+  const formattedDate = formatDate(searchResult.updatedAt);
+
   return (
     <Container>
-      <Text>
-        마지막 수정 일자: 24.06.22
-      </Text>
+      <Text>마지막 수정 일자: {formattedDate}</Text>
     </Container>
   );
 };
