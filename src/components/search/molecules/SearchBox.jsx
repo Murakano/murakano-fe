@@ -1,10 +1,21 @@
-import { React } from 'react';
+import { React, useEffect } from 'react';
 import Link from 'next/link';
-import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { SearchIcon } from '../atoms/SearchIcon';
+import { useRouter } from 'next/router';
 
 export default function SearchBox({ header, searchTerm, setSearchTerm, handleSearch, setDropdownVisible }) {
+  const router = useRouter();
+  const path = router.pathname;
+  const { query } = router.query;
+
+  useEffect(() => {
+    // 경로가 /search/:word인 경우 검색어를 set
+    if (query) {
+      setSearchTerm(query);
+    }
+  }, [query]);
+
   return (
     <SearchBarContainer $header={header}>
       <SearchInput

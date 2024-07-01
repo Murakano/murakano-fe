@@ -1,32 +1,31 @@
-import Header from "@/components/common/organisms/Header";
-import styled from "styled-components";
-import { useRouter } from "next/router";
-import CategoryDate from "@/components/search/molecules/CategoryDate";
-import ResultBox from "@/components/search/molecules/ResultBox";
-import SorryComponent from "@/components/search/molecules/SorryComponent";
-import ContributorEditBtn from "@/components/search/molecules/ContributorEditBtn";
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import CategoryDate from '@/components/search/molecules/CategoryDate';
+import ResultBox from '@/components/search/molecules/ResultBox';
+import SorryComponent from '@/components/search/molecules/SorryComponent';
+import ContributorEditBtn from '@/components/search/molecules/ContributorEditBtn';
 
 export default function SearchResults() {
   const router = useRouter();
   const { query } = router.query;
 
   return (
-      <Section>
-        {query ? (
-          <>
-            <StyledContainer>
-              <CategoryDate />
-              <ResultWord>{query}</ResultWord>
-              <ResultBox />
-              <ContributorEditBtn />
-            </StyledContainer>
-          </>
-        ) : (
-          <>
-            <SorryComponent query={query} />
-          </>
-        )}
-      </Section>
+    <Section>
+      {query ? (
+        <>
+          <StyledContainer>
+            <CategoryDate />
+            <ResultWord>{query}</ResultWord>
+            <ResultBox />
+            <ContributorEditBtn />
+          </StyledContainer>
+        </>
+      ) : (
+        <>
+          <SorryComponent query={query} />
+        </>
+      )}
+    </Section>
   );
 }
 
