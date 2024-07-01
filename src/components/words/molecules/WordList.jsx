@@ -56,7 +56,7 @@ export default function WordList() {
   // 단어 목록 클릭 시 해당 단어 상세 페이지로 이동
   const handleWordClick = (name) => {
     if (name) {
-      saveScrollPosition();
+      saveScrollPosition(); // 단어 항목 클릭시, 스크롤 위치 저장
       router.push(`/search/${name}`);
     }
   };
@@ -90,12 +90,7 @@ export default function WordList() {
     const savedScrollPosition = loadScrollPosition();
     window.scrollTo(0, savedScrollPosition);
 
-    return () => {
-      saveScrollPosition();
-    };
-  }, []);
-
-  useEffect(() => {
+    // 페이지 언로드 직전에 스크롤위치 저장
     const savePositionHandler = () => saveScrollPosition();
     window.addEventListener('beforeunload', savePositionHandler);
 
@@ -105,10 +100,26 @@ export default function WordList() {
     };
     window.addEventListener('popstate', popStateHandler);
 
+    // visibility API , 페이지가 숨겨지거나 다시 보여질 때 스크롤 위치 저장 및 복구
+    const visiblitySaveHandler = () => {
+      if (document.visibilityState === 'hidden') {
+        saveScrollPosition();
+      } else {
+        const savedScrollPosition = loadScrollPosition();
+        window.scrollTo(0, savedScrollPosition);
+      }
+    };
+    document.addEventListener('visibilitychange', visiblitySaveHandler);
+
     return () => {
       window.removeEventListener('beforeunload', savePositionHandler);
       window.removeEventListener('popstate', popStateHandler);
+      document.removeEventListener('visibilitychange', visiblitySaveHandler);
     };
+  }, []);
+
+  useEffect(() => {
+    return () => {};
   }, []);
 
   return (
