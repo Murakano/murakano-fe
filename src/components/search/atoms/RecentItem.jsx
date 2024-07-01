@@ -1,14 +1,25 @@
 import styled from 'styled-components';
 import { CloseOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 
 export function RecentItem({ children, onRemove, header, onItemClick }) {
+  const router = useRouter();
+  const isMessage = children === '로그인이 필요한 기능입니다' || children === '최근 검색어가 없습니다.';
+  const handleClick = () => {
+    if (isMessage && children === '로그인이 필요한 기능입니다') {
+      router.push('/auth/login');
+    } else if (!isMessage) {
+      onItemClick(children);
+    }
+  };
+
   return (
     <DDItems $header={header}>
       <DDItem>
-        {children && children !== '최근 검색어가 없습니다.' && <Icon header={header} />}
-        <RecentLink onClick={() => children !== '최근 검색어가 없습니다.' && onItemClick(children)}>
+        {!isMessage && <Icon header={header} />}
+        <RecentLink onClick={handleClick}>
           <DDText $header={header}>{children}</DDText>
-          {children && children !== '최근 검색어가 없습니다.' && (
+          {children && !isMessage && (
             <CloseIcon
               onClick={(event) => {
                 event.stopPropagation();

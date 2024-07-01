@@ -5,22 +5,24 @@ import { Column } from '@/styles/commonStyles';
 import api from '@/utils/api';
 
 export default function RecentItems({ header, onItemClick }) {
-  const [recentSearches, setRecentSearches] = useState([]);
+  const [recentSearches, setRecentSearches] = useState();
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const [login, setLogin] = useState(false); // 로그인 상태 추가
+
+  const fetchRecentSearches = async () => {
+    try {
+      const response = await api.get('/users/recent');
+      setRecentSearches(response.data.recentSearches);
+      setLoading(false); // 데이터 로드 완료 후 로딩 상태를 false로 설정
+      setLogin(true);
+    } catch (error) {
+      setLoading(false); // 오류 발생 시에도 로딩 상태를 false로 설정
+    }
+  };
 
   useEffect(() => {
-    const fetchRecentSearches = async () => {
-      try {
-        const response = await api.get('/users/recent');
-        setRecentSearches(response.data.recentSearches);
-        setLoading(false); // 데이터 로드 완료 후 로딩 상태를 false로 설정
-      } catch (error) {
-        console.error(error);
-        setLoading(false); // 오류 발생 시에도 로딩 상태를 false로 설정
-      }
-    };
-    fetchRecentSearches();
-  }, []);
+    fetchRecentSearches(); // 컴포넌트가 마운트될 때 함수를 호출
+  }, []); // 의존성 배열을 빈 배열로 설정하여 함수가 한 번만 호출되도록 함
 
   // 검색어를 삭제하는 함수
   const removeSearchTerm = async (index) => {
@@ -37,7 +39,9 @@ export default function RecentItems({ header, onItemClick }) {
     <DDSection>
       <SectionTitle $header={header}>최근 검색어</SectionTitle>
       <ColumnGap>
-        {loading ? (
+        {!login ? (
+          <RecentItem header={header}>로그인이 필요한 기능입니다</RecentItem>
+        ) : loading ? (
           <></>
         ) : recentSearches && recentSearches.length > 0 ? (
           recentSearches.map((item, index) => (
