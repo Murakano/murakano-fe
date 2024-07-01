@@ -3,13 +3,22 @@ import styled from 'styled-components';
 import { RecentItem } from '../atoms/RecentItem';
 import { Column } from '@/styles/commonStyles';
 import api from '@/utils/api';
+import { getCookie } from '@/utils/getCookie'; // 쿠키를 가져오는 유틸리티 함수를 import
 
 export default function RecentItems({ header, onItemClick }) {
   const [recentSearches, setRecentSearches] = useState();
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
-  const [login, setLogin] = useState(false); // 로그인 상태 추가
+  const [login, setLogin] = useState(true); // 로그인 상태 추가
 
   const fetchRecentSearches = async () => {
+    const accessToken = getCookie('access_token'); // 쿠키에서 access 토큰을 가져옴
+    if (!accessToken) {
+      // access 토큰이 없는 경우
+      setLogin(false);
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await api.get('/users/recent');
       setRecentSearches(response.data.recentSearches);
