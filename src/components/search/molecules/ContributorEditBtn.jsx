@@ -4,12 +4,12 @@ import Contributor from '../atoms/Contributor';
 import ResultEditBtn from '../atoms/ResultEditBtn';
 
 export default function ContributorEditBtn() {
-  return(
+  return (
     <StyledContainer>
       <Contributor />
       <ResultEditBtn />
     </StyledContainer>
-  )
+  );
 }
 
 const StyledContainer = styled.div`
@@ -18,5 +18,5 @@ const StyledContainer = styled.div`
   align-items: flex-end;
   width: 691px;
   height: 61px;
-  margin: 10px 44.5px 246.29px;
+  margin: 10px 44.5px;
 `;

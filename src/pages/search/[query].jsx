@@ -4,26 +4,39 @@ import CategoryDate from '@/components/search/molecules/CategoryDate';
 import ResultBox from '@/components/search/molecules/ResultBox';
 import SorryComponent from '@/components/search/molecules/SorryComponent';
 import ContributorEditBtn from '@/components/search/molecules/ContributorEditBtn';
+import api from '@/utils/api';
+import { useEffect, useState } from 'react';
 
 export default function SearchResults() {
   const router = useRouter();
   const { query } = router.query;
+  const [searchResult, setSearchResult] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSearchResult = async () => {
+      // try {
+      //   const response = await api.get(`/words/search/${query}`);
+      //   setSearchResult(response.data);
+      //   setLoading(false);
+      // } catch (error) {
+      //   console.error(error);
+      // }
+    };
+    fetchSearchResult();
+  }, [query]);
 
   return (
     <Section>
       {query ? (
-        <>
-          <StyledContainer>
-            <CategoryDate />
-            <ResultWord>{query}</ResultWord>
-            <ResultBox />
-            <ContributorEditBtn />
-          </StyledContainer>
-        </>
+        <StyledContainer>
+          <CategoryDate />
+          <ResultWord>{query}</ResultWord>
+          <ResultBox />
+          <ContributorEditBtn />
+        </StyledContainer>
       ) : (
-        <>
-          <SorryComponent query={query} />
-        </>
+        <SorryComponent query={query} />
       )}
     </Section>
   );
@@ -34,17 +47,15 @@ const Section = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 130px;
+  padding-top: 40px;
   box-sizing: border-box;
-  height: 100vh;
-  max-width: 100vw;
+  height: calc(100vh - 130px);
 `;
 
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0px 330px 124px;
 `;
 
 const ResultWord = styled.div`
@@ -57,13 +68,4 @@ const ResultWord = styled.div`
   font-weight: 700;
   line-height: 60px;
   text-align: center;
-  letter-spacing: -0.03em;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
 `;
