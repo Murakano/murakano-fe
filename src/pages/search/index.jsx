@@ -13,18 +13,14 @@ export default function SearchResults() {
   return (
       <Section>
         {query ? (
-          <>
             <StyledContainer>
               <CategoryDate />
               <ResultWord>{query}</ResultWord>
               <ResultBox />
               <ContributorEditBtn />
             </StyledContainer>
-          </>
         ) : (
-          <>
             <SorryComponent query={query} />
-          </>
         )}
       </Section>
   );
