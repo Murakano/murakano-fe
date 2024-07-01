@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 
 export default function BaseLayout({ children }) {
   const router = useRouter();
-  const marginTop = router.pathname === '/' ? '38px' : '130px';
+  const margintop = router.pathname === '/' ? '38px' : '130px';
 
   return (
-    <Container marginTop={marginTop}>
+    <Container margintop={margintop}>
       <Header />
       {children}
     </Container>
