@@ -79,6 +79,10 @@ export default function RegisterForm() {
     validateInput.passwordCheck(user.password, e.target.value, updateState, setHelperText);
   };
 
+  const goLogin = () => {
+    router.push('/auth/login');
+  };
+
   // 가입테스트 할 차례
   const handleRegisterButtonClick = async (e) => {
     e.preventDefault();
@@ -175,7 +179,7 @@ export default function RegisterForm() {
           회원가입
         </RegisterButton>
       </ButtonContainer>
-      <LoginText>계정이 이미 있으신가요?</LoginText>
+      <LoginText onClick={goLogin}>계정이 이미 있으신가요?</LoginText>
     </Form>
   );
 }
