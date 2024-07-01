@@ -1,25 +1,50 @@
-// react
 import React, { useEffect, useState } from 'react';
-
-// style
 import styled from 'styled-components';
 
-export default function AgreementsBox() {
+export default function AgreementsBox({ agreements, setAgreements }) {
+  const agreeAll = agreements.serviceAgree && agreements.privacyAgree;
+
+  const handleAgreeAllChange = () => {
+    const newValue = !agreeAll;
+    setAgreements({
+      serviceAgree: newValue,
+      privacyAgree: newValue,
+    });
+  };
+
+  const handleAgreementChange = (e) => {
+    const { name, checked } = e.target;
+    setAgreements((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
   return (
     <AgrBox>
       <PrimaryCheckboxContainer>
-        <PrimaryCheckbox type='checkbox' name='agreeAll' id='agreeAll' />
+        <PrimaryCheckbox type='checkbox' name='agreeAll' checked={agreeAll} onChange={handleAgreeAllChange} />
         <PrimaryLabel htmlFor='agreeAll'>모든 약관 사항에 전체 동의합니다.</PrimaryLabel>
       </PrimaryCheckboxContainer>
       <Line />
       <CheckboxContainer>
-        <Checkbox type='checkbox' name='serviceAgree' id='serviceAgree' />
+        <Checkbox
+          type='checkbox'
+          name='serviceAgree'
+          checked={agreements.serviceAgree}
+          onChange={handleAgreementChange}
+        />
         <Label htmlFor='serviceAgree'>서비스 이용 약관 동의 (필수)</Label>
         <Details>자세히</Details>
       </CheckboxContainer>
 
       <CheckboxContainer>
-        <Checkbox type='checkbox' name='privacyAgree' id='privacyAgree' />
+        <Checkbox
+          type='checkbox'
+          name='privacyAgree'
+          checked={agreements.privacyAgree}
+          onChange={handleAgreementChange}
+        />
         <Label htmlFor='privacyAgree'>개인정보 수집 및 이용 동의 (필수)</Label>
         <Details>자세히</Details>
       </CheckboxContainer>
