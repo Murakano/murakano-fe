@@ -4,9 +4,9 @@ import ResultTitleComponent from "@/components/search/atoms/ResultTitleComponent
 import ResultContentComponent from "@/components/search/atoms/ResultContentComponent";
 
 const Container = styled.div`
-  display: flex;
+   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   width: 691px;
   height: 90px;

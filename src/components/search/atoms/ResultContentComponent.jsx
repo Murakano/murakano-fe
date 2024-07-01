@@ -8,6 +8,8 @@ const ResultContent = styled.span`
   font-size: 13px;
   font-weight: 300;
   text-align: left;
+  display: flex;
+  align-items: center; // 텍스트 수직 정렬
 `;
 
 export default function ResultContentComponent({ children, ...props }) {
