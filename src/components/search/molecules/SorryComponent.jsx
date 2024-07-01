@@ -14,34 +14,35 @@ const SorryComponent = ({ query }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  
+
   return (
     <StyledContainer>
       <SorryText query={query} />
       <AddRequestBtn onClick={handleOpenModal}>등록 요청</AddRequestBtn>
       {isModalOpen && <Modal onClose={handleCloseModal} />}
-
     </StyledContainer>
   );
+  z;
 };
 
 const AddRequestBtn = styled(ActionBtn)`
   background-color: var(--primary60);
+  margin-top: 71px;
+  height: 40px;
   &:hover {
-        background-color: var(--primary);
-       }
+    background-color: var(--primary);
+  }
 `;
 
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100vh;
   text-align: center;
   width: 780px;
-  height: 508px;
-  margin: 0px 330px 386px;
+  padding: 96px 0;
 `;
 
 export default SorryComponent;
