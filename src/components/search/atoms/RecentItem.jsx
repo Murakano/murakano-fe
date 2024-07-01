@@ -1,6 +1,26 @@
 import styled from 'styled-components';
 import { CloseOutlined } from '@ant-design/icons';
-// import HistoryIcon from '@mui/icons-material/History';
+
+export function RecentItem({ children, onRemove, header, onItemClick }) {
+  return (
+    <DDItems $header={header}>
+      <DDItem>
+        {children && children !== '최근 검색어가 없습니다.' && <Icon header={header} />}
+        <RecentLink onClick={() => children !== '최근 검색어가 없습니다.' && onItemClick(children)}>
+          <DDText $header={header}>{children}</DDText>
+          {children && children !== '최근 검색어가 없습니다.' && (
+            <CloseIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                onRemove();
+              }}
+            />
+          )}
+        </RecentLink>
+      </DDItem>
+    </DDItems>
+  );
+}
 
 const HistoryIcon = ({ width = '17', stroke = '#767676' }) => (
   <svg width={width} height={width} viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -14,28 +34,6 @@ const HistoryIcon = ({ width = '17', stroke = '#767676' }) => (
     />
   </svg>
 );
-
-export function RecentItem({ children, onRemove, header, onItemClick }) {
-  return (
-    <DDItems $header={header}>
-      <DDItem>
-        {children && <HistoryIcon width={header ? '14' : '18'} stroke='#767676' />}
-        <RecentLink onClick={() => onItemClick(children)}>
-          {/* TODO : ( 최근검색어 글자가 헤더에서 크기 안줄어듬... + hover효과 제외 + 클릭 방지 구현 ) */}
-          <DDText $header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
-          {children && (
-            <CloseIcon
-              onClick={(event) => {
-                event.stopPropagation();
-                onRemove(children);
-              }}
-            />
-          )}
-        </RecentLink>
-      </DDItem>
-    </DDItems>
-  );
-}
 
 const DDItems = styled.li`
   display: flex;
@@ -58,6 +56,15 @@ const DDItem = styled.div`
   &:hover {
     color: #000000;
     background-color: var(--secondary10);
+  }
+`;
+
+const Icon = styled(HistoryIcon)`
+  width: ${(props) => (props.header ? '14px' : '18px')};
+  stroke: #767676;
+
+  ${DDItem}:hover & {
+    stroke: #000000;
   }
 `;
 
