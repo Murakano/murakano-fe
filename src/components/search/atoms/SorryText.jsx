@@ -17,10 +17,10 @@ const SorryText = ({ query }) => {
 
 const StyledSorryText = styled.h1`
   color: #000;
-  font-size: 40px;
+  font-size: 33px;
   font-weight: 600;
   text-align: center;
-  line-height: 60px;
+  line-height: 50px;
   padding: 12.46px 0;
 `;
 
