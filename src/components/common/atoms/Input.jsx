@@ -18,7 +18,6 @@ const DefaultInput = styled.input`
   letter-spacing: -0.03em;
   background-color: #ffffff;
   &:focus {
-    border-color: var(--primary);
     outline: none;
   }
   &:-webkit-autofill {
