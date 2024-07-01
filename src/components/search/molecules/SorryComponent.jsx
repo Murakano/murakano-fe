@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import SorryText from '../atoms/SorryText';
-import Modal from '@/components/auth/organisms/Modal';
+import Modal from '@/components/auth/organisms/RegisterRequestModal';
 import ActionBtn from '@/components/common/atoms/ActionBtn';
 
 const SorryComponent = ({ query }) => {

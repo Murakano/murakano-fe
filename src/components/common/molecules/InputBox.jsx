@@ -15,6 +15,7 @@ export default function InputBox({
   setInput,
   helperText,
   valid,
+  readOnly,
   autoComplete,
 }) {
   return (
@@ -33,6 +34,7 @@ export default function InputBox({
         valid={valid}
         autoComplete={autoComplete}
         onChange={(event) => handleInputChange(event, setInput)}
+        readOnly={readOnly}
       />
       <HelperBox>
         <Helper>{helperText}</Helper>

@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import TouchIcon from "../../../../public/murak_list_icon.svg"; 
 import Image from "next/image";
-import Modal from "./Modal";
+import RegisterRequestModal from "./RegisterRequestModal";
+import UpdateRequestModal from "./UpdateRequestModal";
 import React, { useState } from "react";
 import StateDropdown from "../molecules/StateDropdown";
 import RequestDropdown from "../molecules/RequestDropdown";
@@ -41,14 +42,19 @@ const DUMMY_REQUEST_ITEM_LIST = [
 
 export default function RequestSection() {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null); // 모달 타입 상태 추가
+  const [selectedSubtitle, setSelectedSubtitle] = useState(''); // selectedSubtitle 상태 추가
 
-  const handleRequestItemClick = (e) => {
+  const handleRequestItemClick = (title, subtitle) => (e) => {
     e.stopPropagation(); // 이벤트 캡쳐링 방지
+    setModalType(title === "등록 요청" ? "register" : "update"); // 모달 타입 설정
     setModalOpen(true);
+    setSelectedSubtitle(subtitle); // 수정요청 모달에 들어갈 개발용어
   };
 
   const closeModal = () => {
     setModalOpen(false);
+    setModalType(null); // 모달 타입 초기화
   }; 
 
 
@@ -62,7 +68,7 @@ export default function RequestSection() {
         </DropdownContainer>
         <RequestList>
           {DUMMY_REQUEST_ITEM_LIST.map(({ title, subtitle, status }, index) => (
-            <RequestItem key={index}  onClick={handleRequestItemClick}>
+            <RequestItem key={index}  onClick={handleRequestItemClick(title, subtitle)}>
               <RequestItemInner>
                 <RequestContent>
                   <RequestTitle>{title}</RequestTitle>
@@ -79,7 +85,13 @@ export default function RequestSection() {
           ))}
         </RequestList>
       </Inner>
-      {isModalOpen && <Modal onClose={closeModal} />}
+      {isModalOpen && (
+        modalType === "register" ? (
+          <RegisterRequestModal onClose={closeModal} />
+        ) : (
+          <UpdateRequestModal onClose={closeModal} subtitle={selectedSubtitle}/>
+        )
+      )}
     </MainContainer>
   );
 }
