@@ -15,28 +15,33 @@ export default function SearchResults() {
 
   useEffect(() => {
     const fetchSearchResult = async () => {
-      // try {
-      //   const response = await api.get(`/words/search/${query}`);
-      //   setSearchResult(response.data);
-      //   setLoading(false);
-      // } catch (error) {
-      //   console.error(error);
-      // }
+      try {
+        const response = await api.post(`/words/search/${query}`);
+        setSearchResult(response.data);
+        setLoading(false);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     };
-    fetchSearchResult();
+    if (query) fetchSearchResult();
   }, [query]);
+
+  if (loading) {
+    return null; // 로딩 중일 때는 아무것도 렌더링하지 않습니다.
+  }
 
   return (
     <Section>
-      {query ? (
-        <StyledContainer>
-          <CategoryDate />
-          <ResultWord>{query}</ResultWord>
-          <ResultBox />
-          <ContributorEditBtn />
-        </StyledContainer>
-      ) : (
+      {loading ? null : !query || !searchResult ? (
         <SorryComponent query={query} />
+      ) : (
+        <StyledContainer>
+          <CategoryDate searchResult={searchResult} />
+          <ResultWord>{searchResult.word}</ResultWord>
+          <ResultBox searchResult={searchResult} />
+          <ContributorEditBtn searchResult={searchResult} />
+        </StyledContainer>
       )}
     </Section>
   );
