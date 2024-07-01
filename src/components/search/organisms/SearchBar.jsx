@@ -4,12 +4,26 @@ import { useRouter } from 'next/router';
 import { Column } from '@/styles/commonStyles';
 import SearchDropdown from '@/components/search/organisms/SearchDropdown';
 import SearchBox from '@/components/search/molecules/SearchBox';
+import api from '@/utils/api';
 
 export default function SearchBar({ header }) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [ranks, setRanks] = useState([]); // 인기검색어
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const router = useRouter();
   const searchBarRef = useRef();
+
+  useEffect(() => {
+    const fetchRanks = async () => {
+      try {
+        const response = await api.get('/words/rank');
+        setRanks(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchRanks();
+  }, []);
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
@@ -45,7 +59,9 @@ export default function SearchBar({ header }) {
         handleSearch={handleSearch}
         setDropdownVisible={setDropdownVisible}
       />
-      {isDropdownVisible && <SearchDropdown header={header} onItemClick={handleItemClick} searchTerm={searchTerm} />}
+      {isDropdownVisible && (
+        <SearchDropdown header={header} onItemClick={handleItemClick} searchTerm={searchTerm} ranks={ranks} />
+      )}
     </Column>
   );
 }

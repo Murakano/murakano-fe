@@ -1,23 +1,9 @@
 import styled from 'styled-components';
 import { Column, ResetLink } from '@/styles/commonStyles';
-import React, { useState } from 'react';
+import React from 'react';
 import { RankItem } from '../atoms/RankItem';
 
-export function RankItems({ children, header, onItemClick }) {
-  // TODO : 임시저장, 추후 API 연동
-  const [ranks, setRanks] = useState([
-    'CSSOM',
-    'ACID',
-    'ASAP',
-    'AZURE',
-    'CSSOM',
-    'ACID',
-    'ASAP',
-    'AZURE',
-    'CSSOM',
-    'ACID',
-  ]); // 인기 검색어
-
+export function RankItems({ children, header, onItemClick, ranks }) {
   return (
     <DDSection>
       <SectionTitle $header={header}>인기 검색어</SectionTitle>
