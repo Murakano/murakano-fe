@@ -31,7 +31,7 @@ export const Column = styled.div`
 `;
 
 export const Container = styled.div`
-  margin: ${(props) => props.$marginTop || '130px'} 0 0;
+  margin: ${(props) => props.marginTop || '130px'} 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
