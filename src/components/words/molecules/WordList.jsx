@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import WordItem from '../atoms/WordItem';
 import { useRouter } from 'next/router';
+import TopScrollBtn from '@/components/common/atoms/TopScrollBtn';
 
 const wordDirectory = [
   { name: 'DOM', pron: '돔' },
@@ -36,11 +37,12 @@ const wordDirectory = [
   { name: 'qt', pron: '큣' },
 ];
 
-// 로컬 스토리지에 스크롤 저장 & 호출
+// 스크롤 위치를 로컬 스토리지에 저장
 const saveScrollPosition = () => {
   localStorage.setItem('scrollPosition', window.scrollY);
 };
 
+// 로컬 스토리지에서 스크롤 위치를 불러오기
 const loadScrollPosition = () => {
   return parseInt(localStorage.getItem('scrollPosition'), 10) || 0;
 };
@@ -54,6 +56,7 @@ export default function WordList() {
   // 단어 목록 클릭 시 해당 단어 상세 페이지로 이동
   const handleWordClick = (name) => {
     if (name) {
+      saveScrollPosition();
       router.push(`/search/${name}`);
     }
   };
@@ -79,15 +82,32 @@ export default function WordList() {
   useEffect(() => {
     // 초기 단어 호출
     if (words.length === 0) {
-      const newWords = wordDirectory.slice(0, 10);
-      setWords(newWords);
+      const initialWords = wordDirectory.slice(0, 10);
+      setWords(initialWords);
     }
 
     // 스크롤 위치 복구
-    window.scrollTo(0, loadScrollPosition());
+    const savedScrollPosition = loadScrollPosition();
+    window.scrollTo(0, savedScrollPosition);
 
     return () => {
       saveScrollPosition();
+    };
+  }, []);
+
+  useEffect(() => {
+    const savePositionHandler = () => saveScrollPosition();
+    window.addEventListener('beforeunload', savePositionHandler);
+
+    const popStateHandler = () => {
+      const savedScrollPosition = loadScrollPosition();
+      window.scrollTo(0, savedScrollPosition);
+    };
+    window.addEventListener('popstate', popStateHandler);
+
+    return () => {
+      window.removeEventListener('beforeunload', savePositionHandler);
+      window.removeEventListener('popstate', popStateHandler);
     };
   }, []);
 
@@ -102,6 +122,9 @@ export default function WordList() {
           <WordItem name={word.name} pron={word.pron} />
         </WordListDiv>
       ))}
+      <ScrollContainer>
+        <TopScrollBtn />
+      </ScrollContainer>
     </WordListContainer>
   );
 }
@@ -119,4 +142,10 @@ const WordListContainer = styled.div`
 const WordListDiv = styled.div`
   width: 691px;
   height: auto;
+`;
+
+const ScrollContainer = styled.div`
+  position: fixed;
+  z-index: 999;
+  right: 275px;
 `;
