@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 // style
 import styled from 'styled-components';
-import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { EyeOutlined, EyeInvisibleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 
 // constants
 import { HELPER_TEXT } from '@/constants/helperText';
@@ -32,16 +32,25 @@ export default function LoginForm() {
     emailHelper: '',
     passwordHelper: '',
   });
+  const [valid, setValid] = useState({
+    email: false,
+    password: false,
+  });
 
   const [buttonActive, SetButtonActive] = useState(false);
 
   useEffect(() => {
-    if (validateEmail(user.email) && user.password) {
-      SetButtonActive(true);
-    } else {
-      SetButtonActive(false);
-    }
+    if (validateEmail(user.email)) updateState('email', true, setValid);
+    else updateState('email', false, setValid);
+
+    if (user.password) updateState('password', true, setValid);
+    else updateState('password', false, setValid);
   }, [user]);
+
+  useEffect(() => {
+    if (valid.email && valid.password) SetButtonActive(true);
+    else SetButtonActive(false);
+  }, [valid]);
 
   // event
   const onEyeClick = () => {
@@ -72,7 +81,6 @@ export default function LoginForm() {
     };
 
     const response = await api.post('/users/local/login', data);
-    console.log(response);
     if (response?.message == '로그인 성공') {
       return router.push('/');
     }
@@ -97,6 +105,7 @@ export default function LoginForm() {
         helperText={helperText.emailHelper}
         valid={helperText.emailHelper ? false : true}
       />
+
       <InputBox
         type={view ? 'text' : 'password'}
         name='password'
@@ -145,8 +154,12 @@ const EyeIcon = styled.div`
 
 const LoginButton = styled(Button)`
   color: #ffffff;
-  background-color: ${(props) => (props.$active ? 'var(--primary)' : 'var(--primary60)')};
+  background-color: ${(props) => (props.$active ? 'var(--primary60)' : '#e0e0e0')};
+  border: none;
   transition: background-color 0.4s;
+  &:hover {
+    background-color: ${(props) => (props.$active ? 'var(--primary)' : '#e0e0e0')};
+  }
 `;
 
 const RegisterButton = styled(Button)`
