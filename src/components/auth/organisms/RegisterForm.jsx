@@ -1,55 +1,102 @@
-// react
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-
-// style
 import styled from 'styled-components';
-import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
-// constants
-import { HELPER_TEXT } from '@/constants/helperText';
+import { EyeOutlined, EyeInvisibleOutlined, CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
+
 import { ErrorMessage } from '@/constants/errorMessage';
-
-// utils
 import { updateState } from '@/utils/stateUtils';
-import { validateEmail } from '@/utils/validate';
+import { validateInput } from '@/utils/validate';
 import api from '@/utils/api';
 
-// components
 import Button from '@/components/common/atoms/Button';
 import InputBox from '@/components/common/molecules/InputBox';
 import AgreementsBox from '../molecules/AgreementsBox';
 
 export default function RegisterForm() {
   const router = useRouter();
-
-  // state
-  const [eye1, setEye1] = useState(false);
-  const [eye2, setEye2] = useState(false);
+  const [passwordEye, setPasswordEye] = useState(false);
+  const [passwordCheckEye, setPasswordCheckEye] = useState(false);
   const [user, setUser] = useState({
     email: '',
+    nickname: '',
     password: '',
     passwordCheck: '',
-    nickname: '',
   });
   const [helperText, setHelperText] = useState({
     emailHelper: '',
+    nicknameHelper: '',
     passwordHelper: '',
     passwordCheckHelper: '',
-    nicknameHelper: '',
+  });
+  const [valid, setValid] = useState({
+    email: false,
+    nickname: false,
+    password: false,
+    passwordCheck: false,
+  });
+  const [buttonActive, SetButtonActive] = useState(false);
+  const [agreements, setAgreements] = useState({
+    serviceAgree: false,
+    privacyAgree: false,
   });
 
-  const [buttonActive, SetButtonActive] = useState(false);
+  useEffect(() => {
+    setValid({
+      email: user.email && !helperText.emailHelper,
+      nickname: user.nickname && !helperText.nicknameHelper,
+      password: user.password && !helperText.passwordHelper,
+      passwordCheck: user.passwordCheck && !helperText.passwordCheckHelper,
+    });
+  }, [helperText]);
+  let isValid =
+    valid.email &&
+    valid.password &&
+    valid.passwordCheck &&
+    valid.nickname &&
+    agreements.serviceAgree &&
+    agreements.privacyAgree;
+  useEffect(() => {
+    if (isValid) {
+      SetButtonActive(true);
+    } else {
+      SetButtonActive(false);
+    }
+  }, [valid, agreements]);
 
-  // event
-  const onEyeClick1 = () => {
-    setEye1((prev) => !prev);
+  const passwordEyeClick = () => {
+    setPasswordEye((prev) => !prev);
   };
-  const onEyeClick2 = () => {
-    setEye2((prev) => !prev);
+  const passwordCheckEyeClick = () => {
+    setPasswordCheckEye((prev) => !prev);
   };
 
-  const handleRegisterButtonClick = () => {};
+  const handleBlur = (e) => {
+    validateInput[e.target.name](e.target.value, updateState, setHelperText);
+  };
+
+  const handlePasswordChangeBlur = (e) => {
+    validateInput.passwordCheck(user.password, e.target.value, updateState, setHelperText);
+  };
+
+  // 가입테스트 할 차례
+  const handleRegisterButtonClick = async (e) => {
+    e.preventDefault();
+    if (isValid) {
+      const response = await api.post('/users/register', {
+        email: user.email,
+        nickname: user.nickname,
+        password: user.password,
+      });
+      if (response.message == '회원가입 성공') {
+        alert('회원가입이 완료되었습니다.');
+        router.push('/auth/login');
+      } else {
+        console.log(response);
+        alert(ErrorMessage.REGISTER_ERROR);
+      }
+    }
+  };
 
   return (
     <Form>
@@ -59,48 +106,74 @@ export default function RegisterForm() {
         placeholder='이메일을 입력해주세요.'
         labelText='이메일'
         input={user.email}
+        onBlur={handleBlur}
         setInput={setUser}
         helperText={helperText.emailHelper}
         valid={helperText.emailHelper ? false : true}
       />
-      <InputBox
-        type={eye1 ? 'text' : 'password'}
-        name='password'
-        placeholder='비밀번호를 입력해주세요.'
-        labelText='비밀번호'
-        input={user.password}
-        setInput={setUser}
-        helperText={helperText.passwordHelper}
-        valid={helperText.passwordHelper ? false : true}
-      ></InputBox>
-      <EyeBox onClick={onEyeClick1}>
-        {eye1 ? <EyeIcon as={EyeOutlined} /> : <EyeIcon as={EyeInvisibleOutlined} />}
-      </EyeBox>
-      <InputBox
-        type={eye2 ? 'text' : 'password'}
-        name='passwordCheck'
-        placeholder='비밀번호를 한번 더 입력해주세요.'
-        labelText='비밀번호 확인'
-        input={user.passwordCheck}
-        setInput={setUser}
-        helperText={helperText.passwordCheckHelper}
-        valid={helperText.passwordCheckHelper ? false : true}
-      ></InputBox>
-      <EyeBox onClick={onEyeClick2}>
-        {eye2 ? <EyeIcon as={EyeOutlined} /> : <EyeIcon as={EyeInvisibleOutlined} />}
-      </EyeBox>
+      {valid.email && (
+        <CheckIconBox>
+          <CheckIcon as={CheckCircleOutlined} />
+        </CheckIconBox>
+      )}
+      {helperText.emailHelper && (
+        <CheckIconBox>
+          <InfoIcon as={InfoCircleOutlined} />
+        </CheckIconBox>
+      )}
       <InputBox
         name='nickname'
         placeholder='닉네임을 입력해주세요.'
         labelText='닉네임'
         input={user.nickname}
+        onBlur={handleBlur}
         setInput={setUser}
         helperText={helperText.nicknameHelper}
         valid={helperText.nicknameHelper ? false : true}
       ></InputBox>
-      <AgreementsBox />
+      {valid.nickname && (
+        <CheckIconBox>
+          <CheckIcon as={CheckCircleOutlined} />
+        </CheckIconBox>
+      )}
+      {helperText.nicknameHelper && (
+        <CheckIconBox>
+          <InfoIcon as={InfoCircleOutlined} />
+        </CheckIconBox>
+      )}
+      <InputBox
+        type={passwordEye ? 'text' : 'password'}
+        name='password'
+        placeholder='비밀번호를 입력해주세요.'
+        labelText='비밀번호'
+        input={user.password}
+        onBlur={handleBlur}
+        setInput={setUser}
+        helperText={helperText.passwordHelper}
+        valid={helperText.passwordHelper ? false : true}
+      ></InputBox>
+      <EyeBox onClick={passwordEyeClick}>
+        {passwordEye ? <EyeIcon as={EyeOutlined} /> : <EyeIcon as={EyeInvisibleOutlined} />}
+      </EyeBox>
+      <InputBox
+        type={passwordCheckEye ? 'text' : 'password'}
+        name='passwordCheck'
+        placeholder='비밀번호를 한번 더 입력해주세요.'
+        labelText='비밀번호 확인'
+        input={user.passwordCheck}
+        onBlur={handlePasswordChangeBlur}
+        setInput={setUser}
+        helperText={helperText.passwordCheckHelper}
+        valid={helperText.passwordCheckHelper ? false : true}
+      ></InputBox>
+      <EyeBox onClick={passwordCheckEyeClick}>
+        {passwordCheckEye ? <EyeIcon as={EyeOutlined} /> : <EyeIcon as={EyeInvisibleOutlined} />}
+      </EyeBox>
+      <AgreementsBox agreements={agreements} setAgreements={setAgreements} />
       <ButtonContainer>
-        <RegisterButton onClick={handleRegisterButtonClick}>회원가입</RegisterButton>
+        <RegisterButton onClick={handleRegisterButtonClick} $active={buttonActive}>
+          회원가입
+        </RegisterButton>
       </ButtonContainer>
       <LoginText>계정이 이미 있으신가요?</LoginText>
     </Form>
@@ -130,10 +203,29 @@ const EyeIcon = styled.div`
   }
 `;
 
+const CheckIconBox = styled.div`
+  margin-top: -16px;
+  position: relative;
+  left: 195px;
+  top: -50px;
+`;
+
+const CheckIcon = styled.div`
+  color: #25a971;
+`;
+
+const InfoIcon = styled.div`
+  color: #ff0752;
+`;
+
 const RegisterButton = styled(Button)`
   color: #ffffff;
-  background-color: #e0e0e0;
+  background-color: ${(props) => (props.$active ? 'var(--primary60)' : '#e0e0e0')};
   border: none;
+  transition: background-color 0.4s;
+  &:hover {
+    background-color: ${(props) => (props.$active ? 'var(--primary)' : '#e0e0e0')};
+  }
 `;
 
 const ButtonContainer = styled.div`
