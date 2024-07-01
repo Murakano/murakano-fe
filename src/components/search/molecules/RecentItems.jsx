@@ -3,8 +3,36 @@ import styled from 'styled-components';
 import { RecentItem } from '../atoms/RecentItem';
 import { Column } from '@/styles/commonStyles';
 import api from '@/utils/api';
+import { getCookie } from '@/utils/getCookie'; // 쿠키를 가져오는 유틸리티 함수를 import
 
-export default function RecentItems({ header, onItemClick, recentSearches, setRecentSearches, loading, login }) {
+export default function RecentItems({ header, onItemClick }) {
+  const [recentSearches, setRecentSearches] = useState();
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const [login, setLogin] = useState(true); // 로그인 상태 추가
+
+  const fetchRecentSearches = async () => {
+    const accessToken = getCookie('access_token'); // 쿠키에서 access 토큰을 가져옴
+    if (!accessToken) {
+      // access 토큰이 없는 경우
+      setLogin(false);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await api.get('/users/recent');
+      setRecentSearches(response.data.recentSearches);
+      setLoading(false); // 데이터 로드 완료 후 로딩 상태를 false로 설정
+      setLogin(true);
+    } catch (error) {
+      setLoading(false); // 오류 발생 시에도 로딩 상태를 false로 설정
+    }
+  };
+
+  useEffect(() => {
+    fetchRecentSearches(); // 컴포넌트가 마운트될 때 함수를 호출
+  }, []); // 의존성 배열을 빈 배열로 설정하여 함수가 한 번만 호출되도록 함
+
   // 검색어를 삭제하는 함수
   const removeSearchTerm = async (index) => {
     const termToRemove = recentSearches[index];
