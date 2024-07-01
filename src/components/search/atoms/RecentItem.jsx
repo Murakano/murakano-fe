@@ -38,10 +38,10 @@ const HistoryIcon = ({ width = '17', stroke = '#767676' }) => (
     <path
       d='M7.04403 17.8498C10.275 21.0808 15.513 21.0808 18.744 17.8498C21.975 14.6188 21.975 9.38081 18.744 6.14981C15.513 2.91881 10.275 2.91881 7.04403 6.14981L2.83203 10.3618M2.83203 10.3618V5.80081M2.83203 10.3618L7.39303 10.3628M12.886 8.92181V12.7848L15.553 14.0238'
       stroke={stroke}
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </svg>
 );
