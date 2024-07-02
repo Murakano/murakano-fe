@@ -19,6 +19,8 @@ import api from '@/utils/api';
 import Button from '@/components/common/atoms/Button';
 import InputBox from '@/components/common/molecules/InputBox';
 
+import { getCookie } from '@/utils/getCookie';
+
 export default function LoginForm() {
   const router = useRouter();
 
@@ -79,8 +81,10 @@ export default function LoginForm() {
       email,
       password,
     };
-
+    const token = getCookie();
+    console.log(token);
     const response = await api.post('/users/local/login', data);
+    console.log(response, 111, token);
     if (response?.message == '로그인 성공') {
       return router.push('/');
     }
