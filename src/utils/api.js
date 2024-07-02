@@ -4,11 +4,11 @@ export const apiHeaders = new Headers();
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 const setJwt = () => {
-  const token = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith('accessToken='))
-    ?.split('=')[1];
-  if (token) apiHeaders.set('Authorization', `Bearer ${token}`);
+  const token = localStorage.getItem('auth-storage');
+  const parsedToken = JSON.parse(token);
+  const accessToken = parsedToken.state.accessToken;
+
+  if (token) apiHeaders.set('Authorization', `Bearer ${accessToken}`);
   else apiHeaders.delete('Authorization');
 };
 
