@@ -4,15 +4,17 @@ import { RecentItem } from '../atoms/RecentItem';
 import { Column } from '@/styles/commonStyles';
 import api from '@/utils/api';
 import useAuthStore from '@/store/useAuthStore';
+import useRecentTermStore from '@/store/useRecentTermStore';
 
 export default function RecentItems({ header, onItemClick }) {
   const [recentSearches, setRecentSearches] = useState();
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const [login, setLogin] = useState(true); // 로그인 상태 추가
-  const { accessToken, setAuthData, nickname, clearAuthData, fetchAuthData } = useAuthStore();
+  const { accessToken, fetchAuthData } = useAuthStore();
 
   const fetchRecentSearches = async () => {
     if (!accessToken) {
+      console.log('토큰없셔');
       fetchAuthData();
       // access 토큰이 없는 경우
       setLogin(false);
@@ -31,6 +33,7 @@ export default function RecentItems({ header, onItemClick }) {
   };
 
   useEffect(() => {
+    console.log('useEffect');
     fetchRecentSearches(); // 컴포넌트가 마운트될 때 함수를 호출
   }, []); // 의존성 배열을 빈 배열로 설정하여 함수가 한 번만 호출되도록 함
 
