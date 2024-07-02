@@ -1,20 +1,29 @@
 import styled from 'styled-components';
 import { CloseOutlined } from '@ant-design/icons';
-import HistoryIcon from '@mui/icons-material/History';
+import { useRouter } from 'next/router';
 
 export function RecentItem({ children, onRemove, header, onItemClick }) {
+  const router = useRouter();
+  const isMessage = children === '로그인이 필요한 기능입니다' || children === '최근 검색어가 없습니다.';
+  const handleClick = () => {
+    if (isMessage && children === '로그인이 필요한 기능입니다') {
+      router.push('/auth/login');
+    } else if (!isMessage) {
+      onItemClick(children);
+    }
+  };
+
   return (
     <DDItems $header={header}>
       <DDItem>
-        {children && <HistoryIcon style={{ fontSize: header ? '14px' : '18px', color: '#666666' }} />}
-        <RecentLink onClick={() => onItemClick(children)}>
-          {/* TODO : ( 최근검색어 글자가 헤더에서 크기 안줄어듬... + hover효과 제외 + 클릭 방지 구현 ) */}
-          <DDText $header={header}>{children || '최근 검색어가 없습니다.'}</DDText>
-          {children && (
+        {!isMessage && <Icon header={header} />}
+        <RecentLink onClick={handleClick}>
+          <DDText $header={header}>{children}</DDText>
+          {children && !isMessage && (
             <CloseIcon
               onClick={(event) => {
                 event.stopPropagation();
-                onRemove(children);
+                onRemove();
               }}
             />
           )}
@@ -23,6 +32,19 @@ export function RecentItem({ children, onRemove, header, onItemClick }) {
     </DDItems>
   );
 }
+
+const HistoryIcon = ({ width = '17', stroke = '#767676' }) => (
+  <svg width={width} height={width} viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <path
+      d='M7.04403 17.8498C10.275 21.0808 15.513 21.0808 18.744 17.8498C21.975 14.6188 21.975 9.38081 18.744 6.14981C15.513 2.91881 10.275 2.91881 7.04403 6.14981L2.83203 10.3618M2.83203 10.3618V5.80081M2.83203 10.3618L7.39303 10.3628M12.886 8.92181V12.7848L15.553 14.0238'
+      stroke={stroke}
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    />
+  </svg>
+);
 
 const DDItems = styled.li`
   display: flex;
@@ -45,6 +67,15 @@ const DDItem = styled.div`
   &:hover {
     color: #000000;
     background-color: var(--secondary10);
+  }
+`;
+
+const Icon = styled(HistoryIcon)`
+  width: ${(props) => (props.header ? '14px' : '18px')};
+  stroke: #767676;
+
+  ${DDItem}:hover & {
+    stroke: #000000;
   }
 `;
 

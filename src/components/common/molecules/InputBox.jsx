@@ -12,6 +12,7 @@ export default function InputBox({
   type,
   placeholder,
   input,
+  onBlur,
   setInput,
   helperText,
   valid,
@@ -30,6 +31,7 @@ export default function InputBox({
         id={name}
         name={name}
         placeholder={placeholder}
+        onBlur={onBlur}
         value={input}
         valid={valid}
         autoComplete={autoComplete}
