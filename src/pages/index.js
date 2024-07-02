@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { LogoText } from '@/styles/commonStyles';
 import SearchBar from '@/components/search/organisms/SearchBar';
 import router from 'next/router';
-import { Container } from '@/styles/commonStyles';
 
 export default function Search() {
   // 메인 홈 이동
@@ -28,10 +27,10 @@ const Section = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 50px;
+  padding-top: 100px;
   justify-content: flex-start;
   box-sizing: border-box;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 38px);
   max-width: 100vw;
 `;
 

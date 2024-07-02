@@ -1,10 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
-import ResultTitleComponent from "@/components/search/atoms/ResultTitleComponent";
-import ResultContentComponent from "@/components/search/atoms/ResultContentComponent";
+import ResultTitleComponent from '@/components/search/atoms/ResultTitleComponent';
+import ResultContentComponent from '@/components/search/atoms/ResultContentComponent';
+
+export default function ResultBox({ searchResult }) {
+  return (
+    <StyledContainer>
+      <Container>
+        <ResultTitleComponent>일반적인 발음</ResultTitleComponent>
+        <ResultContentComponent>{searchResult.comPron}</ResultContentComponent>
+      </Container>
+      <Container>
+        <ResultTitleComponent>어색한 발음</ResultTitleComponent>
+        <ResultContentComponent>{searchResult.awkPron}</ResultContentComponent>
+      </Container>
+      <Container>
+        <ResultTitleComponent>추가 정보</ResultTitleComponent>
+        <ResultContentComponent>{searchResult.info}</ResultContentComponent>
+      </Container>
+    </StyledContainer>
+  );
+}
 
 const Container = styled.div`
-   display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -17,25 +36,6 @@ const Container = styled.div`
 `;
 
 const StyledContainer = styled.div`
-width: 691px;
-height: 290px;
+  width: 691px;
+  height: 290px;
 `;
-
-export default function ResultBox() {
-    return (
-        <StyledContainer>
-            <Container>
-                <ResultTitleComponent>일반적인 발음</ResultTitleComponent>
-                <ResultContentComponent>일반적인 발음에 대한 내용</ResultContentComponent>
-            </Container>
-            <Container>
-                <ResultTitleComponent>어색한 발음</ResultTitleComponent>
-                <ResultContentComponent>어색한 발음에 대한 내용</ResultContentComponent>
-            </Container>
-            <Container>
-                <ResultTitleComponent>추가 정보</ResultTitleComponent>
-                <ResultContentComponent>추가 정보에 대한 내용</ResultContentComponent>
-            </Container>
-        </StyledContainer>
-    );
-}

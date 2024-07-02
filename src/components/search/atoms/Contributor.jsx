@@ -2,17 +2,15 @@ import { Container } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 
-const Contributor = () => {
-    return (
-      <StyledContainer>
-        <Text>
-          기여자: 행복한 토마토
-        </Text>
-        </StyledContainer>
-    );
-  };
+const Contributor = ({ searchResult }) => {
+  return (
+    <StyledContainer>
+      <Text>기여자: {searchResult.suggestedBy}</Text>
+    </StyledContainer>
+  );
+};
 
-  const Text = styled.div`
+const Text = styled.div`
   width: 110px;
   height: 20px;
   font-size: 13px;
@@ -22,8 +20,6 @@ const Contributor = () => {
 
 const StyledContainer = styled.div`
   justify-content: flex-end;
-
 `;
-
 
 export default Contributor;

@@ -1,47 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { RecentItem } from '../atoms/RecentItem';
 import { Column } from '@/styles/commonStyles';
+import api from '@/utils/api';
+import useAuthStore from '@/store/useAuthStore';
+import useRecentTermStore from '@/store/useRecentTermStore';
 
 export default function RecentItems({ header, onItemClick }) {
-  // TODO : 임시저장, 추후 API 연동
-  const [recentSearches, setRecentSearches] = useState([
-    'React',
-    'ACID',
-    'DOM',
-    'IDE',
-    'React',
-    'ACID',
-    'DOM',
-    'IDE',
-    'dfd',
-    'djfd',
-  ]); // 최근 검색어
+  const [recentSearches, setRecentSearches] = useState();
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const [login, setLogin] = useState(true); // 로그인 상태 추가
+  const { accessToken, fetchAuthData } = useAuthStore();
 
-  // 검색어를 추가하는 함수
-  const addSearchTerm = (term) => {
-    setRecentSearches((prevSearches) => [term, ...prevSearches]);
+  const fetchRecentSearches = async () => {
+    if (!accessToken) {
+      console.log('토큰없셔');
+      fetchAuthData();
+      // access 토큰이 없는 경우
+      setLogin(false);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await api.get('/users/recent');
+      setRecentSearches(response.data.recentSearches);
+      setLoading(false); // 데이터 로드 완료 후 로딩 상태를 false로 설정
+      setLogin(true);
+    } catch (error) {
+      setLoading(false); // 오류 발생 시에도 로딩 상태를 false로 설정
+    }
   };
+
+  useEffect(() => {
+    console.log('useEffect');
+    fetchRecentSearches(); // 컴포넌트가 마운트될 때 함수를 호출
+  }, []); // 의존성 배열을 빈 배열로 설정하여 함수가 한 번만 호출되도록 함
+
   // 검색어를 삭제하는 함수
-  const removeSearchTerm = (index) => {
-    setRecentSearches((prevSearches) => prevSearches.filter((_, i) => i !== index));
+  const removeSearchTerm = async (index) => {
+    const termToRemove = recentSearches[index];
+    try {
+      await api.delete(`/users/${termToRemove}`);
+      setRecentSearches((prevSearches) => prevSearches.filter((_, i) => i !== index));
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-  // NOTE : 기존 borderRight 값이 없어서 임의로 true로 지정해 놨습니다.
-  const borderRight = true;
 
   return (
-    <DDSection $borderRight={borderRight}>
+    <DDSection>
       <SectionTitle $header={header}>최근 검색어</SectionTitle>
       <ColumnGap>
-        {recentSearches.length > 0 ? (
+        {!login ? (
+          <RecentItem header={header}>로그인이 필요한 기능입니다</RecentItem>
+        ) : loading ? (
+          <></>
+        ) : recentSearches && recentSearches.length > 0 ? (
           recentSearches.map((item, index) => (
             <RecentItem header={header} key={index} onRemove={() => removeSearchTerm(index)} onItemClick={onItemClick}>
               {item}
-            </RecentItem> // 각 검색어에 대한 RecentItem 컴포넌트를 생성
+            </RecentItem>
           ))
         ) : (
-          <RecentItem /> // recentSearches 배열이 비어있을 경우 children prop을 전달하지 않음
+          <RecentItem header={header}>최근 검색어가 없습니다.</RecentItem>
         )}
       </ColumnGap>
     </DDSection>
@@ -50,7 +72,6 @@ export default function RecentItems({ header, onItemClick }) {
 
 const DDSection = styled.div`
   padding: 25px 36px;
-  /* border-right: ${(props) => (props.$borderRight ? '1px solid rgba(60, 139, 255, 0.35)' : 'none')}; */
   width: 50%;
 `;
 
