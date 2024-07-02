@@ -30,20 +30,16 @@ export default function HeaderBtn({ pathname }) {
   };
 
   const setUserNickname = async () => {
-    console.log('쿠키쿠키추출전', document.cookie, 111);
     let token = document.cookie
       .split('; ')
       .find((row) => row.startsWith('accessToken='))
       ?.split('=')[1];
-    console.log(token, 'HeaderBtn', 222);
     if (!token) {
-      console.log('!token', 999);
       token = await refreshAccessToken();
     }
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        console.log('iftoken', decoded, 990);
         setNickname(decoded.nickname);
       } catch (err) {
         document.cookie = 'accessToken=; Max-Age=0; path=/';

@@ -1,14 +1,10 @@
 // src/pages/index.js
-import Header from '@/components/common/organisms/Header';
 import styled from 'styled-components';
 import { LogoText } from '@/styles/commonStyles';
 import SearchBar from '@/components/search/organisms/SearchBar';
 import router from 'next/router';
-import { Container } from '@/styles/commonStyles';
-import cookie from 'cookie';
 
-export default function Search({ accessToken }) {
-  console.log(accessToken, 'Search', 111); // 콘솔에 access 토큰 출력
+export default function Search() {
   // 메인 홈 이동
   const redirectToHome = () => {
     router.push('/');
@@ -16,7 +12,6 @@ export default function Search({ accessToken }) {
 
   return (
     <Section>
-      {accessToken}
       <Title onClick={redirectToHome}>
         <Logo />
         <LogoText>머라카노</LogoText>
@@ -62,15 +57,3 @@ const SubText = styled.div`
   color: #666666;
   margin-bottom: 20px;
 `;
-
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const cookies = cookie.parse(req.headers.cookie || '');
-  const accessToken = cookies.accessToken || null;
-
-  return {
-    props: {
-      accessToken,
-    },
-  };
-}
