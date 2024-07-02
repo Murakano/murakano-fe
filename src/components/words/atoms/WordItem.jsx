@@ -52,7 +52,7 @@ const WordContents = styled.div`
   justify-content: center;
   position: relative;
   top: -5px;
-  width: 57px;
+  width: auto;
   height: 79px;
   gap: 10px;
 `;
