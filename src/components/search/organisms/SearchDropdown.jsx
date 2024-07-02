@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import styled from 'styled-components';
 import RecentItems from '../molecules/RecentItems';
 import { RankItems } from '../molecules/RankItems';
 
-export default function SearchDropdown({ header, onItemClick, searchTerm }) {
+export default function SearchDropdown({ header, onItemClick, searchTerm, ranks }) {
   return (
     <DDContainer $header={header}>
       {searchTerm ? (
@@ -13,7 +14,7 @@ export default function SearchDropdown({ header, onItemClick, searchTerm }) {
         <>
           <RecentItems header={header} onItemClick={onItemClick} />
           <Divider />
-          <RankItems header={header} onItemClick={onItemClick} />
+          <RankItems header={header} onItemClick={onItemClick} ranks={ranks} />
         </>
       )}
     </DDContainer>

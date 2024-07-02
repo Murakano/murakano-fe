@@ -15,6 +15,7 @@ const setJwt = () => {
 const api = {
   get: async (path, params, options) => {
     try {
+      setJwt();
       if (params) {
         const filteredParams = Object.fromEntries(
           Object.entries(params)
