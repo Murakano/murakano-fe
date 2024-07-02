@@ -36,11 +36,13 @@ export default function HeaderBtn({ pathname }) {
       ?.split('=')[1];
     console.log(token, 'HeaderBtn', 222);
     if (!token) {
+      console.log('!token', 999);
       token = await refreshAccessToken();
     }
     if (token) {
       try {
         const decoded = jwtDecode(token);
+        console.log('iftoken', decoded, 990);
         setNickname(decoded.nickname);
       } catch (err) {
         document.cookie = 'accessToken=; Max-Age=0; path=/';
