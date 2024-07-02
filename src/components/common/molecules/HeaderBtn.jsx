@@ -4,17 +4,20 @@ import { Row } from '@/styles/commonStyles';
 import Link from 'next/link';
 import { Dropdown } from 'antd';
 import api from '@/utils/api';
-import { ErrorMessage } from '@/constants/errorMessage';
 import { useRouter } from 'next/router';
 import useAuthStore from '@/store/useAuthStore';
 
 export default function HeaderBtn({ pathname }) {
   const router = useRouter();
-  const { accessToken, setAuthData, nickname, clearAuthData, fetchAuthData } = useAuthStore();
+  const { clearAuthData, accessToken, nickname, fetchAuthData, scheduleTokenRefresh } = useAuthStore();
 
   useEffect(() => {
-    fetchAuthData();
-  }, [pathname]);
+    if (!accessToken) {
+      fetchAuthData();
+    } else {
+      scheduleTokenRefresh();
+    }
+  }, [pathname, accessToken]);
 
   const logout = async () => {
     try {
