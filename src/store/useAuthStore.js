@@ -29,7 +29,7 @@ const useAuthStore = create(
             alert('다시 로그인해주세요.');
             router.push('/auth/login');
           }
-          const newAccessToken = response.newAccessToken;
+          const newAccessToken = response.data.newAccessToken;
           get().setAuthData(newAccessToken);
         } catch (error) {
           console.log(error);
