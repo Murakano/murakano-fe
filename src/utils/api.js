@@ -3,9 +3,19 @@ import { ErrorMessage } from '@/constants/errorMessage';
 export const apiHeaders = new Headers();
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
+const setJwt = () => {
+  const token = localStorage.getItem('auth-storage');
+  const parsedToken = JSON.parse(token);
+  const accessToken = parsedToken.state.accessToken;
+
+  if (token) apiHeaders.set('Authorization', `Bearer ${accessToken}`);
+  else apiHeaders.delete('Authorization');
+};
+
 const api = {
   get: async (path, params, options) => {
     try {
+      setJwt();
       if (params) {
         const filteredParams = Object.fromEntries(
           Object.entries(params)
@@ -103,6 +113,7 @@ export default api;
 const handleMutateRequest = (params) => {
   const isFormData = params instanceof FormData;
   let body;
+  setJwt();
   if (isFormData) {
     apiHeaders.delete('Content-Type');
     body = params;

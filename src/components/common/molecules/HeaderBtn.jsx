@@ -3,59 +3,27 @@ import styled from 'styled-components';
 import { Row } from '@/styles/commonStyles';
 import Link from 'next/link';
 import { Dropdown } from 'antd';
-import { jwtDecode } from 'jwt-decode';
 import api from '@/utils/api';
-import { ErrorMessage } from '@/constants/errorMessage';
 import { useRouter } from 'next/router';
+import useAuthStore from '@/store/useAuthStore';
 
 export default function HeaderBtn({ pathname }) {
   const router = useRouter();
-
-  const [nickname, setNickname] = useState('');
-
-  const refreshAccessToken = async () => {
-    try {
-      const response = await api.post('/users/refresh');
-      if (response.message == 'refresh token이 존재하지 않습니다.') return;
-      else if (response.message == 'refresh token 검증중 오류가 발생하였습니다.') {
-        alert('다시 로그인해주세요.');
-        router.push('/auth/login');
-      }
-      const newAccessToken = response.newAccessToken;
-      return newAccessToken;
-    } catch (error) {
-      console.log(ErrorMessage.TOKEN_ERROR);
-      return;
-    }
-  };
-
-  const setUserNickname = async () => {
-    let token = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('accessToken='))
-      ?.split('=')[1];
-    if (!token) {
-      token = await refreshAccessToken();
-    }
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setNickname(decoded.nickname);
-      } catch (err) {
-        document.cookie = 'accessToken=; Max-Age=0; path=/';
-      }
-    }
-  };
+  const { clearAuthData, accessToken, nickname, fetchAuthData, scheduleTokenRefresh } = useAuthStore();
 
   useEffect(() => {
-    setUserNickname();
+    if (!accessToken) {
+      fetchAuthData();
+    } else {
+      scheduleTokenRefresh();
+    }
   }, [pathname]);
 
   const logout = async () => {
     try {
       const response = await api.post('/users/logout');
       if (response.message == '로그아웃 성공') {
-        setNickname('');
+        clearAuthData();
         alert('로그아웃 되었습니다.');
         router.push('/auth/login');
       }

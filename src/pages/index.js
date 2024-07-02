@@ -1,4 +1,5 @@
 // src/pages/index.js
+import Header from '@/components/common/organisms/Header';
 import styled from 'styled-components';
 import { LogoText } from '@/styles/commonStyles';
 import SearchBar from '@/components/search/organisms/SearchBar';
