@@ -1,8 +1,7 @@
+import Cookies from 'js-cookie';
+
 export function getCookie() {
-  const token = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith('accessToken='))
-    ?.split('=')[1];
-  console.log(1);
+  const token = Cookies.get('accessToken');
+  console.log(token, 'getCookie-jscookie-csr', 555);
   return token;
 }

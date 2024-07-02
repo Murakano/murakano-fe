@@ -11,7 +11,13 @@ export default function RecentItems({ header, onItemClick }) {
   const [login, setLogin] = useState(true); // 로그인 상태 추가
 
   const fetchRecentSearches = async () => {
-    const accessToken = getCookie('access_token'); // 쿠키에서 access 토큰을 가져옴
+    const accessToken = getCookie(); // 쿠키에서 access 토큰을 가져옴
+    console.log(accessToken, 'RecentItems', 333); // 콘솔에 access 토큰 출력
+    let token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('accessToken='))
+      ?.split('=')[1];
+    console.log(token, 'RecentItems-test', 444);
     if (!accessToken) {
       // access 토큰이 없는 경우
       setLogin(false);

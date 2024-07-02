@@ -19,7 +19,11 @@ import api from '@/utils/api';
 import Button from '@/components/common/atoms/Button';
 import InputBox from '@/components/common/molecules/InputBox';
 
+import { getCookie } from '@/utils/getCookie';
+import useAuthStore from '@/store/useAuthStore';
+
 export default function LoginForm() {
+  const setAuthData = useAuthStore((state) => state.setAuthData);
   const router = useRouter();
 
   // state
@@ -82,6 +86,7 @@ export default function LoginForm() {
 
     const response = await api.post('/users/local/login', data);
     if (response?.message == '로그인 성공') {
+      setAuthData(response.data.accessToken);
       return router.push('/');
     }
     alert(ErrorMessage.LOGIN_ERROR);
