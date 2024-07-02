@@ -20,8 +20,10 @@ import Button from '@/components/common/atoms/Button';
 import InputBox from '@/components/common/molecules/InputBox';
 
 import { getCookie } from '@/utils/getCookie';
+import useAuthStore from '@/store/useAuthStore';
 
 export default function LoginForm() {
+  const setAuthData = useAuthStore((state) => state.setAuthData);
   const router = useRouter();
 
   // state
@@ -81,11 +83,10 @@ export default function LoginForm() {
       email,
       password,
     };
-    const token = getCookie();
-    console.log(token);
+
     const response = await api.post('/users/local/login', data);
-    console.log(response, 111, token);
     if (response?.message == '로그인 성공') {
+      setAuthData(response.data.accessToken);
       return router.push('/');
     }
     alert(ErrorMessage.LOGIN_ERROR);
