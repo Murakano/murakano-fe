@@ -30,6 +30,7 @@ export default function HeaderBtn({ pathname }) {
   };
 
   const setUserNickname = async () => {
+    console.log('쿠키쿠키추출전', document.cookie, 111);
     let token = document.cookie
       .split('; ')
       .find((row) => row.startsWith('accessToken='))
