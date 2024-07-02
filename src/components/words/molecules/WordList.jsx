@@ -3,39 +3,7 @@ import styled from 'styled-components';
 import WordItem from '../atoms/WordItem';
 import { useRouter } from 'next/router';
 import TopScrollBtn from '@/components/common/atoms/TopScrollBtn';
-
-const wordDirectory = [
-  { name: 'DOM', pron: '돔' },
-  { name: 'React', pron: '리액트' },
-  { name: 'yml', pron: '야믈' },
-  { name: 'Linux', pron: '리눅스' },
-  { name: 'PostgreSQL', pron: '포스트그래스, 포스트그래스큐엘' },
-  { name: 'GUI', pron: '구이' },
-  { name: 'deno', pron: '디노' },
-  { name: 'nginx', pron: '엔진엑스' },
-  { name: 'sudo', pron: '수두' },
-  { name: 'qt', pron: '큣' },
-  { name: 'DOM', pron: '돔' },
-  { name: 'React', pron: '리액트' },
-  { name: 'yml', pron: '야믈' },
-  { name: 'Linux', pron: '리눅스' },
-  { name: 'PostgreSQL', pron: '포스트그래스, 포스트그래스큐엘' },
-  { name: 'GUI', pron: '구이' },
-  { name: 'deno', pron: '디노' },
-  { name: 'nginx', pron: '엔진엑스' },
-  { name: 'sudo', pron: '수두' },
-  { name: 'qt', pron: '큣' },
-  { name: 'DOM', pron: '돔' },
-  { name: 'React', pron: '리액트' },
-  { name: 'yml', pron: '야믈' },
-  { name: 'Linux', pron: '리눅스' },
-  { name: 'PostgreSQL', pron: '포스트그래스, 포스트그래스큐엘' },
-  { name: 'GUI', pron: '구이' },
-  { name: 'deno', pron: '디노' },
-  { name: 'nginx', pron: '엔진엑스' },
-  { name: 'sudo', pron: '수두' },
-  { name: 'qt', pron: '큣' },
-];
+import api from '@/utils/api';
 
 // 스크롤 위치를 로컬 스토리지에 저장
 const saveScrollPosition = () => {
@@ -51,6 +19,7 @@ export default function WordList() {
   const router = useRouter();
   const [words, setWords] = useState([]);
   const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
   const observer = useRef();
 
   // 단어 목록 클릭 시 해당 단어 상세 페이지로 이동
@@ -75,17 +44,25 @@ export default function WordList() {
   );
 
   useEffect(() => {
-    const newWords = wordDirectory.slice(page * 10, (page + 1) * 10);
-    setWords((prev) => [...prev, ...newWords]);
+    const fetchWords = async () => {
+      setLoading(true);
+      try {
+        const data = await api.get('/word', {
+          Sort: 'recent',
+          page: page + 1,
+          limit: 10,
+        });
+        setWords((prev) => [...prev, ...data]);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchWords();
   }, [page]);
 
   useEffect(() => {
-    // 초기 단어 호출
-    if (words.length === 0) {
-      const initialWords = wordDirectory.slice(0, 10);
-      setWords(initialWords);
-    }
-
     // 스크롤 위치 복구
     const savedScrollPosition = loadScrollPosition();
     window.scrollTo(0, savedScrollPosition);
@@ -124,15 +101,16 @@ export default function WordList() {
 
   return (
     <WordListContainer>
-      {wordDirectory.map((word, index) => (
+      {words.map((word, index) => (
         <WordListDiv
-          key={index}
+          key={word._id}
           ref={index === words.length - 1 ? lastWordElementRef : null}
-          onClick={() => handleWordClick(word.name)}
+          onClick={() => handleWordClick(word.word)}
         >
-          <WordItem name={word.name} pron={word.pron} />
+          <WordItem name={word.word} pron={word.comPron} />
         </WordListDiv>
       ))}
+      {loading && <p>Loading</p>}
       <ScrollContainer>
         <TopScrollBtn />
       </ScrollContainer>
