@@ -34,6 +34,7 @@ export default function HeaderBtn({ pathname }) {
       .split('; ')
       .find((row) => row.startsWith('accessToken='))
       ?.split('=')[1];
+    console.log(token, 'HeaderBtn', 222);
     if (!token) {
       token = await refreshAccessToken();
     }
