@@ -11,7 +11,6 @@ const useAuthStore = create(
       accessToken: null,
       nickname: null,
       setAuthData: (token) => {
-        console.log(token);
         const decoded = jwtDecode(token);
         const nickname = decoded.nickname;
         set({ accessToken: token, nickname });
@@ -21,16 +20,15 @@ const useAuthStore = create(
       },
       fetchAuthData: async () => {
         try {
+          get().clearAuthData();
           const response = await api.post('/users/refresh');
           if (response.message == 'refresh token이 존재하지 않습니다.') return;
           else if (response.message == 'refresh token 검증중 오류가 발생하였습니다.') {
             alert('다시 로그인해주세요.');
-            get().clearAuthData();
             router.push('/auth/login');
           }
           const newAccessToken = response.newAccessToken;
           get().setAuthData(newAccessToken);
-          console.log(get().nickname);
         } catch (error) {
           console.log(error);
           console.log(ErrorMessage.TOKEN_ERROR);

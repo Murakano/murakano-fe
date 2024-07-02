@@ -11,25 +11,16 @@ import useAuthStore from '@/store/useAuthStore';
 export default function HeaderBtn({ pathname }) {
   const router = useRouter();
   const { accessToken, setAuthData, nickname, clearAuthData, fetchAuthData } = useAuthStore();
-  const [headerNickname, setHeaderNickname] = useState(nickname);
 
   useEffect(() => {
-    console.log(accessToken);
-    if (!accessToken) {
-      console.log('토큰업셔');
-      fetchAuthData();
-      console.log(1, nickname);
-      setHeaderNickname(nickname);
-      console.log(2, headerNickname);
-    }
-  }, [pathname, headerNickname]);
+    fetchAuthData();
+  }, [pathname]);
 
   const logout = async () => {
     try {
       const response = await api.post('/users/logout');
       if (response.message == '로그아웃 성공') {
         clearAuthData();
-        setHeaderNickname();
         alert('로그아웃 되었습니다.');
         router.push('/auth/login');
       }
@@ -56,7 +47,7 @@ export default function HeaderBtn({ pathname }) {
         <StyledLink href='/words'>전체용어</StyledLink>
       </Btn>
 
-      {headerNickname ? (
+      {nickname ? (
         <>
           <Dropdown
             menu={{
@@ -64,7 +55,7 @@ export default function HeaderBtn({ pathname }) {
             }}
             placement='bottomLeft'
           >
-            <Btn>{headerNickname}님</Btn>
+            <Btn>{nickname}님</Btn>
           </Dropdown>
         </>
       ) : (
