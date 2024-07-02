@@ -23,7 +23,7 @@ export function RecentItem({ children, onRemove, header, onItemClick }) {
             <CloseIcon
               onClick={(event) => {
                 event.stopPropagation();
-                onRemove();
+                onRemove(children);
               }}
             />
           )}
