@@ -3,6 +3,6 @@ export function getCookie() {
     .split('; ')
     .find((row) => row.startsWith('accessToken='))
     ?.split('=')[1];
-  console.log(1);
+  console.log(token, 'getCookie', 555);
   return token;
 }
