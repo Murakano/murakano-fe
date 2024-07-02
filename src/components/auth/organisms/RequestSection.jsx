@@ -7,40 +7,40 @@ import React, { useState } from "react";
 import StateDropdown from "../molecules/StateDropdown";
 import RequestDropdown from "../molecules/RequestDropdown";
 
-const DUMMY_REQUEST_ITEM_LIST = [
-  {
-    title: "수정 요청",
-    subtitle: "DOM",
-    status: "승인 전",
-  },
-  {
-    title: "등록 요청",
-    subtitle: "CSSOM",
-    status: "승인 완료",
-  },
-  {
-    title: "수정 요청",
-    subtitle: "ASAP",
-    status: "승인 전",
-  },
-  {
-    title: "등록 요청",
-    subtitle: "SQL",
-    status: "승인 전",
-  },
-  {
-    title: "등록 요청",
-    subtitle: "DOM",
-    status: "반려",
-  },
-  {
-    title: "등록 요청",
-    subtitle: "DOM",
-    status: "승인 전",
-  },
-];
+// const DUMMY_REQUEST_ITEM_LIST = [
+//   {
+//     title: "수정 요청",
+//     subtitle: "DOM",
+//     status: "승인 전",
+//   },
+//   {
+//     title: "등록 요청",
+//     subtitle: "CSSOM",
+//     status: "승인 완료",
+//   },
+//   {
+//     title: "수정 요청",
+//     subtitle: "ASAP",
+//     status: "승인 전",
+//   },
+//   {
+//     title: "등록 요청",
+//     subtitle: "SQL",
+//     status: "승인 전",
+//   },
+//   {
+//     title: "등록 요청",
+//     subtitle: "DOM",
+//     status: "반려",
+//   },
+//   {
+//     title: "등록 요청",
+//     subtitle: "DOM",
+//     status: "승인 전",
+//   },
+// ];
 
-export default function RequestSection() {
+export default function RequestSection({requests = []}) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null); // 모달 타입 상태 추가
   const [selectedSubtitle, setSelectedSubtitle] = useState(''); // selectedSubtitle 상태 추가
@@ -67,7 +67,7 @@ export default function RequestSection() {
           <RequestDropdown />
         </DropdownContainer>
         <RequestList>
-          {DUMMY_REQUEST_ITEM_LIST.map(({ title, subtitle, status }, index) => (
+          {Array.isArray(requests) && requests.map(({ title, subtitle, status }, index) => (
             <RequestItem key={index}  onClick={handleRequestItemClick(title, subtitle)}>
               <RequestItemInner>
                 <RequestContent>
