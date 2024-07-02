@@ -4,20 +4,15 @@ import { RecentItem } from '../atoms/RecentItem';
 import { Column } from '@/styles/commonStyles';
 import api from '@/utils/api';
 import { getCookie } from '@/utils/getCookie'; // 쿠키를 가져오는 유틸리티 함수를 import
+import useAuthStore from '@/store/useAuthStore';
 
 export default function RecentItems({ header, onItemClick }) {
   const [recentSearches, setRecentSearches] = useState();
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const [login, setLogin] = useState(true); // 로그인 상태 추가
+  const { accessToken, setAuthData, nickname, clearAuthData } = useAuthStore();
 
   const fetchRecentSearches = async () => {
-    const accessToken = getCookie(); // 쿠키에서 access 토큰을 가져옴
-    console.log(accessToken, 'RecentItems', 333); // 콘솔에 access 토큰 출력
-    let token = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('accessToken='))
-      ?.split('=')[1];
-    console.log(token, 'RecentItems-test', 444);
     if (!accessToken) {
       // access 토큰이 없는 경우
       setLogin(false);

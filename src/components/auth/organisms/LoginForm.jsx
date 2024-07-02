@@ -19,7 +19,7 @@ import api from '@/utils/api';
 import Button from '@/components/common/atoms/Button';
 import InputBox from '@/components/common/molecules/InputBox';
 
-import { getCookie } from '@/utils/getCookie';
+// store
 import useAuthStore from '@/store/useAuthStore';
 
 export default function LoginForm() {
