@@ -10,26 +10,29 @@ const useAuthStore = create(
       accessToken: null,
       expiresAt: null,
       nickname: null,
+      isLogin: false,
       setAuthData: (token) => {
         const decoded = jwtDecode(token);
         const nickname = decoded.nickname;
         const expiresAt = decoded.exp * 1000; // JWT의 exp는 초 단위이므로 밀리초로 변환
-        set({ accessToken: token, expiresAt, nickname });
+        set({ accessToken: token, expiresAt, nickname, isLogin: true });
       },
       clearAuthData: () => {
-        set({ accessToken: null, expiresAt: null, nickname: null });
+        set({ accessToken: null, expiresAt: null, nickname: null, isLogin: false });
       },
       fetchAuthData: async () => {
         try {
+          if (!isLogin) return;
           get().clearAuthData();
           const response = await api.post('/users/refresh');
           console.log(response);
           if (response.message === 'refresh token이 존재하지 않습니다.') return;
           else if (response.message === 'refresh token 검증중 오류가 발생하였습니다.') {
+            isLogin = false;
             alert('다시 로그인해주세요.');
             router.push('/auth/login');
           }
-          const newAccessToken = response.newAccessToken;
+          const newAccessToken = response.data.newAccessToken;
           get().setAuthData(newAccessToken);
         } catch (error) {
           console.log(error);

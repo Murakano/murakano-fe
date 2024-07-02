@@ -17,7 +17,7 @@ export default function HeaderBtn({ pathname }) {
     } else {
       scheduleTokenRefresh();
     }
-  }, [pathname, accessToken]);
+  }, [pathname]);
 
   const logout = async () => {
     try {
