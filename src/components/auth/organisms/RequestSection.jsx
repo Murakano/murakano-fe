@@ -7,47 +7,15 @@ import React, { useState } from "react";
 import StateDropdown from "../molecules/StateDropdown";
 import RequestDropdown from "../molecules/RequestDropdown";
 
-// const DUMMY_REQUEST_ITEM_LIST = [
-//   {
-//     title: "수정 요청",
-//     subtitle: "DOM",
-//     status: "승인 전",
-//   },
-//   {
-//     title: "등록 요청",
-//     subtitle: "CSSOM",
-//     status: "승인 완료",
-//   },
-//   {
-//     title: "수정 요청",
-//     subtitle: "ASAP",
-//     status: "승인 전",
-//   },
-//   {
-//     title: "등록 요청",
-//     subtitle: "SQL",
-//     status: "승인 전",
-//   },
-//   {
-//     title: "등록 요청",
-//     subtitle: "DOM",
-//     status: "반려",
-//   },
-//   {
-//     title: "등록 요청",
-//     subtitle: "DOM",
-//     status: "승인 전",
-//   },
-// ];
 
 export default function RequestSection({requests = []}) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null); // 모달 타입 상태 추가
   const [selectedSubtitle, setSelectedSubtitle] = useState(''); // selectedSubtitle 상태 추가
 
-  const handleRequestItemClick = (title, subtitle) => (e) => {
+  const handleRequestItemClick = (type, subtitle) => (e) => {
     e.stopPropagation(); // 이벤트 캡쳐링 방지
-    setModalType(title === "등록 요청" ? "register" : "update"); // 모달 타입 설정
+    setModalType(type === "등록 요청" ? "register" : "update"); // 모달 타입 설정
     setModalOpen(true);
     setSelectedSubtitle(subtitle); // 수정요청 모달에 들어갈 개발용어
   };
@@ -67,22 +35,27 @@ export default function RequestSection({requests = []}) {
           <RequestDropdown />
         </DropdownContainer>
         <RequestList>
-          {Array.isArray(requests) && requests.map(({ title, subtitle, status }, index) => (
-            <RequestItem key={index}  onClick={handleRequestItemClick(title, subtitle)}>
-              <RequestItemInner>
-                <RequestContent>
-                  <RequestTitle>{title}</RequestTitle>
-                  <RequestSubTitle>{subtitle}</RequestSubTitle>
-                </RequestContent>
-                <ButtonGroup>
-                  <Badge $status={status}>{status}</Badge>
-                  <ActionButton>
-                    <Image src={TouchIcon} alt="touch-icon" />
-                  </ActionButton>
-                </ButtonGroup>
-              </RequestItemInner>
-            </RequestItem>
-          ))}
+          {Array.isArray(requests) && requests.map(({ type, word, status }, index) => {
+            const title = type === 'add' ? '등록 요청' : '수정 요청';
+            const subtitle = word;
+            const statusText = status === 'ped' ? '승인 전' : status === 'rej' ? '반려' : '승인 완료';
+            return (
+              <RequestItem key={index} onClick={handleRequestItemClick(title, subtitle)}>
+                <RequestItemInner>
+                  <RequestContent>
+                    <RequestTitle>{title}</RequestTitle>
+                    <RequestSubTitle>{subtitle}</RequestSubTitle>
+                  </RequestContent>
+                  <ButtonGroup>
+                    <Badge $status={statusText}>{statusText}</Badge>
+                    <ActionButton>
+                      <Image src={TouchIcon} alt="touch-icon" />
+                    </ActionButton>
+                  </ButtonGroup>
+                </RequestItemInner>
+              </RequestItem>
+            );
+          })}
         </RequestList>
       </Inner>
       {isModalOpen && (

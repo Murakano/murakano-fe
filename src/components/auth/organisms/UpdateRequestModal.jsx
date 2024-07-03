@@ -26,7 +26,7 @@ export default function Modal({ onClose, subtitle }) {
   });
 
   const [buttonActive, setButtonActive] = useState(false);
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'devTerm') return;
