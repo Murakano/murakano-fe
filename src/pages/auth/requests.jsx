@@ -48,22 +48,15 @@ export default function Requests() {
       if (!accessToken) return;
       try {
         const response = await api.get('/users/requests');
-        console.log("API Raw Response:", response)
+        console.log("API Raw Response:", response.data.requests)
 
-        // 데이터가 배열로 들어올 경우 이를 문자열로 결합하여 JSON 파싱
-        const responseData = Array.isArray(response.data) 
-          ? response.data.map(item => JSON.parse(Object.values(item).join('')))
-          : response.data;
-        console.log("API Parsed Data:", responseData);
-        // Ensure the parsed data has the expected 'requests' property
-        setRequests(response.data);
+        setRequests(response.data.requests);
 
       } catch (err) {
         setError(err.message);
         console.log("접근실패")
 
       } finally {
-        setRequests(DUMMY_REQUEST_ITEM_LIST);
         setLoading(false);
       }
     };

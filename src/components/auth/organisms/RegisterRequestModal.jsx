@@ -8,14 +8,14 @@ import { validateLength } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose }) {
+export default function Modal({ onClose, requestData }) {
   const modalRef = useRef();
 
   const [formData, setFormData] = useState({
-    devTerm: '',
-    commonPron: '',
-    awkPron: '',
-    addInfo: '',
+    devTerm: requestData ? requestData.word : '',
+    commonPron: requestData ? requestData.compron : '',
+    awkPron: requestData ? requestData.awkpron : '',
+    addInfo: requestData ? requestData.addinfo : '',
   });
 
   const [helperText, setHelperText] = useState({
@@ -113,6 +113,12 @@ export default function Modal({ onClose }) {
     };
   }, []);
 
+  //삭제버튼 클릭
+  const handleDelete = () => {
+    alert("삭제됐습니다")
+    console.log("삭제버튼 클릭")
+  }
+
   return (
     <ModalContainer>
       <ModalBody ref={modalRef}>
@@ -165,6 +171,9 @@ export default function Modal({ onClose }) {
           <ButtonGroup>
             <ModalButton isClose onClick={onClose}>
               닫기
+            </ModalButton>
+            <ModalButton onClick={handleDelete} >
+              삭제
             </ModalButton>
             <ModalButton onClick={handleSubmit} $active={buttonActive}>
               제출
@@ -333,6 +342,13 @@ const ModalButton = styled.button`
   background-color: ${(props) => 
     props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
     props.$active ? 'var(--primary)' : 'var(--primary60)'};
+  &:nth-child(2) {
+    background: #FF6B8F;
+    cursor: pointer; 
+    &:hover {
+      box-shadow: 0px 2px 8px 0px #FF0808A6;
+      background: #FF002E;
+  }
 `;
 
 const HelperText = styled.p`

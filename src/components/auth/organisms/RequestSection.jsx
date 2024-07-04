@@ -3,26 +3,31 @@ import TouchIcon from "../../../../public/murak_list_icon.svg";
 import Image from "next/image";
 import RegisterRequestModal from "./RegisterRequestModal";
 import UpdateRequestModal from "./UpdateRequestModal";
-import React, { useState } from "react";
+import React, { use, useState, useEffect } from "react";
 import StateDropdown from "../molecules/StateDropdown";
 import RequestDropdown from "../molecules/RequestDropdown";
 
 
 export default function RequestSection({requests = []}) {
+
+
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null); // 모달 타입 상태 추가
-  const [selectedSubtitle, setSelectedSubtitle] = useState(''); // selectedSubtitle 상태 추가
+  const [selectedRequestData, setSelectedRequestData] = useState(null);
 
-  const handleRequestItemClick = (type, subtitle) => (e) => {
+
+  const handleRequestItemClick = (type, data) => (e) => {
     e.stopPropagation(); // 이벤트 캡쳐링 방지
     setModalType(type === "등록 요청" ? "register" : "update"); // 모달 타입 설정
+    setSelectedRequestData(data);
     setModalOpen(true);
-    setSelectedSubtitle(subtitle); // 수정요청 모달에 들어갈 개발용어
+    
   };
 
   const closeModal = () => {
     setModalOpen(false);
     setModalType(null); // 모달 타입 초기화
+    setSelectedRequestData(null);
   }; 
 
 
@@ -35,12 +40,16 @@ export default function RequestSection({requests = []}) {
           <RequestDropdown />
         </DropdownContainer>
         <RequestList>
-          {Array.isArray(requests) && requests.map(({ type, word, status }, index) => {
+          {Array.isArray(requests) && requests.map(({ type, word, status, awkPron, comPron, info }, index) => {
             const title = type === 'add' ? '등록 요청' : '수정 요청';
             const subtitle = word;
-            const statusText = status === 'ped' ? '승인 전' : status === 'rej' ? '반려' : '승인 완료';
+            const statusText = status === 'pend' ? '승인 전' : status === 'rej' ? '반려' : '승인 완료';
+            const addinfo = info;
+            const awkpron = awkPron;
+            const compron = comPron;
+            const requestData = { type, word, status, addinfo, awkpron, compron };
             return (
-              <RequestItem key={index} onClick={handleRequestItemClick(title, subtitle)}>
+              <RequestItem key={index} onClick={handleRequestItemClick(title, requestData)}>
                 <RequestItemInner>
                   <RequestContent>
                     <RequestTitle>{title}</RequestTitle>
@@ -60,9 +69,9 @@ export default function RequestSection({requests = []}) {
       </Inner>
       {isModalOpen && (
         modalType === "register" ? (
-          <RegisterRequestModal onClose={closeModal} />
+          <RegisterRequestModal onClose={closeModal} requestData={selectedRequestData}/>
         ) : (
-          <UpdateRequestModal onClose={closeModal} subtitle={selectedSubtitle}/>
+          <UpdateRequestModal onClose={closeModal} requestData={selectedRequestData}/>
         )
       )}
     </MainContainer>
