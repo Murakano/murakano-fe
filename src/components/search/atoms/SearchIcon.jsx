@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SearchOutlined } from '@ant-design/icons';
+// import { SearchOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import { StyledSearchOutlined } from '@/styles/commonStyles';
 
 export function SearchIcon({ searchTerm, handleSearch }) {
   return (
@@ -19,9 +20,9 @@ export const Icon = styled.div`
   cursor: pointer;
 `;
 
-export const StyledSearchOutlined = styled(SearchOutlined)`
-  width: 32px;
-  height: 32px;
-  font-size: 30px;
-  color: #666666;
-`;
+// export const StyledSearchOutlined = styled(SearchOutlined)`
+//   width: 32px;
+//   height: 32px;
+//   font-size: 30px;
+//   color: #666666;
+// `;
