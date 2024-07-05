@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Column, ResetLink } from '@/styles/commonStyles';
+import { Column } from '@/styles/commonStyles';
 import React from 'react';
 import { RankItem } from '../atoms/RankItem';
 
@@ -19,7 +19,7 @@ export function RankItems({ children, header, onItemClick, ranks }) {
 }
 
 const DDSection = styled.div`
-  padding: 25px 36px;
+  padding: 25px 30px;
   border-right: ${(props) => (props.$borderRight ? '1px solid var(--secondary)' : 'none')};
   width: 50%;
 `;
