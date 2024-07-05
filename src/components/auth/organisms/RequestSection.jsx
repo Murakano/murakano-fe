@@ -8,13 +8,11 @@ import StateDropdown from "../molecules/StateDropdown";
 import RequestDropdown from "../molecules/RequestDropdown";
 
 
-export default function RequestSection({requests = []}) {
-
+export default function RequestSection({requests = [], sectionTitle}) {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null); // 모달 타입 상태 추가
   const [selectedRequestData, setSelectedRequestData] = useState(null);
-
 
   const handleRequestItemClick = (type, data) => (e) => {
     e.stopPropagation(); // 이벤트 캡쳐링 방지
@@ -30,24 +28,23 @@ export default function RequestSection({requests = []}) {
     setSelectedRequestData(null);
   }; 
 
-
   return (
     <MainContainer >
       <Inner>
-        <SectionTitle>내 요청 내역</SectionTitle>
+        <SectionTitle>{sectionTitle}</SectionTitle>
         <DropdownContainer>
           <StateDropdown />
           <RequestDropdown />
         </DropdownContainer>
         <RequestList>
-          {Array.isArray(requests) && requests.map(({ type, word, status, awkPron, comPron, info }, index) => {
+          {Array.isArray(requests) && requests.map(({ _id, type, word, status, awkPron, comPron, info }, index) => {
             const title = type === 'add' ? '등록 요청' : '수정 요청';
             const subtitle = word;
             const statusText = status === 'pend' ? '승인 전' : status === 'rej' ? '반려' : '승인 완료';
             const addinfo = info;
             const awkpron = awkPron;
             const compron = comPron;
-            const requestData = { type, word, status, addinfo, awkpron, compron };
+            const requestData = { _id, type, word, status, addinfo, awkpron, compron };
             return (
               <RequestItem key={index} onClick={handleRequestItemClick(title, requestData)}>
                 <RequestItemInner>

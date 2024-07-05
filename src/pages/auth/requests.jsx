@@ -3,54 +3,31 @@ import RequestSection from '@/components/auth/organisms/RequestSection';
 import api from '@/utils/api';
 import useAuthStore from '@/store/useAuthStore';
 
-const DUMMY_REQUEST_ITEM_LIST = [
-  {
-    type: "add",
-    word: "DOM",
-    status: "ped",
-  },
-  {
-    type: "add",
-    word: "CSSOM",
-    status: "app",
-  },
-  {
-    type: "mod",
-    word: "ASAP",
-    status: "ped",
-  },
-  {
-    type: "add",
-    word: "SQL",
-    status: "ped",
-  },
-  {
-    type: "add",
-    word: "DOM",
-    status: "rej",
-  },
-  {
-    type: "mod",
-    word: "DOM",
-    status: "app",
-  },
-];
-
 export default function Requests() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sectionTitle, setSectionTitle] = useState('내 요청 페이지');
   const {accessToken} = useAuthStore();
-
 
   useEffect(() => {
     const fetchRequests = async () => {
       if (!accessToken) return;
       try {
-        const response = await api.get('/users/requests');
-        console.log("API Raw Response:", response.data.requests)
+        const roleResponse = await api.get('/users/role');
+        console.log("roleResponse.data : ", roleResponse.data.role)
 
-        setRequests(response.data.requests);
+        let requestsResponse;
+        if (roleResponse.data.role === 'admin') {
+            setSectionTitle('모든 요청 페이지');
+            requestsResponse = await api.get('/users/requests/all');
+        }
+        else {
+            setSectionTitle('내 요청 페이지');
+            requestsResponse = await api.get('/users/requests');
+        }
+        console.log("API Raw Response:", requestsResponse.data.requests)
+        setRequests(requestsResponse.data.requests);
 
       } catch (err) {
         setError(err.message);
@@ -67,5 +44,5 @@ export default function Requests() {
   if (loading) return <div>Loading...</div>; //로딩중일 때 loading...
   if (error) return <div>Error: {error}</div>;
 
-  return <RequestSection requests={requests} />;
+  return <RequestSection requests={requests} sectionTitle={sectionTitle} />;
 }

@@ -8,7 +8,7 @@ import { validateLength } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose, requestData }) {
+export default function Modal({ onClose, requestData, onDeleteSuccess }) {
   const modalRef = useRef();
 
   const [formData, setFormData] = useState({
@@ -118,11 +118,26 @@ export default function Modal({ onClose, requestData }) {
     };
   }, []);
 
-  const handleDelete = () => {
-    alert("삭제됐습니다")
-    console.log("삭제버튼 클릭")
-    onClose();
-  }
+    //삭제버튼 클릭
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+    if (!confirmDelete) return;
+    console.log("requestData._id", requestData.word)
+    try {
+      const response = await api.delete(`/users/requests/${requestData.word}`);
+      console.log("응답 객체:", response);
+      console.log("응답 객체.data.status", response.data.status)
+      console.log("응답객체 데이터", response.data)
+
+      if (response.data && response.data.status === 'deleted successfully') {
+        alert("삭제됐습니다");
+        onClose();
+        onDeleteSuccess(); // 페이지 재랜더링을 위해 콜백 호출
+      } 
+    } catch (error) {
+      console.error("삭제 중 오류 발생:", error);
+    }
+  };
 
   return (
     <ModalContainer>
