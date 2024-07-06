@@ -96,6 +96,11 @@ export default function Modal({ onClose, searchResult }) {
       return;
     }
 
+    console.log(formData);
+    const response = await api.post(`/users/requests/edit`, formData);
+    console.log(response);
+
+
     alert('수정요청되었습니다');
     onClose();
   };
