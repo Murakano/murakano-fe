@@ -94,6 +94,13 @@ export default function Modal({ onClose }) {
       return;
     }
 
+    console.log(formData);
+    const response = await api.post(`/words/requests`, formData);
+    // const result = await response.json();
+    console.log(response);
+    
+    
+
     alert('제출되었습니다');
     onClose();
   };
