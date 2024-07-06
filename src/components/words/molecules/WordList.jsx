@@ -103,7 +103,7 @@ export default function WordList() {
     <WordListContainer>
       {words.map((word, index) => (
         <WordListDiv
-          key={word._id}
+          key={word._id || index}
           ref={index === words.length - 1 ? lastWordElementRef : null}
           onClick={() => handleWordClick(word.word)}
         >
