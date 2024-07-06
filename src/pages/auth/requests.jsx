@@ -8,6 +8,7 @@ export default function Requests() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sectionTitle, setSectionTitle] = useState('내 요청 페이지');
+  const [userRole, setUserRole] = useState(null);
   const {accessToken} = useAuthStore();
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function Requests() {
       try {
         const roleResponse = await api.get('/users/role');
         console.log("roleResponse.data : ", roleResponse.data.role)
+        setUserRole(roleResponse.data.role); // 사용자 역할 설정
 
         let requestsResponse;
         if (roleResponse.data.role === 'admin') {
@@ -44,5 +46,5 @@ export default function Requests() {
   if (loading) return <div>Loading...</div>; //로딩중일 때 loading...
   if (error) return <div>Error: {error}</div>;
 
-  return <RequestSection requests={requests} sectionTitle={sectionTitle} />;
+  return <RequestSection requests={requests} sectionTitle={sectionTitle} userRole={userRole} />;
 }

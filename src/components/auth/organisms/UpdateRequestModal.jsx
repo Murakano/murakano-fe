@@ -8,7 +8,7 @@ import { validateLength } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose, requestData, onDeleteSuccess }) {
+export default function Modal({ onClose, requestData, onDeleteSuccess, userRole }) {
   const modalRef = useRef();
 
   const [formData, setFormData] = useState({
@@ -194,12 +194,25 @@ export default function Modal({ onClose, requestData, onDeleteSuccess }) {
             <ModalButton isClose onClick={onClose}>
               닫기
             </ModalButton>
-            <ModalButton onClick={handleDelete}>
-              삭제
-            </ModalButton>
-            <ModalButton onClick={handleSubmit} $active={buttonActive}>
-              제출
-            </ModalButton>
+            {userRole === 'admin' ? (
+              <>
+                <ModalButton onClick={handleDelete}>
+                  반려
+                </ModalButton>
+                <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                  승인
+                </ModalButton>
+              </>
+            ) : (
+              <>
+                <ModalButton onClick={handleDelete}>
+                  삭제
+                </ModalButton>
+                <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                  수정
+                </ModalButton>
+              </>
+            )}
           </ButtonGroup>
         </ModalFooter>
       </ModalBody>

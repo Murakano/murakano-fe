@@ -8,7 +8,7 @@ import StateDropdown from "../molecules/StateDropdown";
 import RequestDropdown from "../molecules/RequestDropdown";
 
 
-export default function RequestSection({requests = [], sectionTitle}) {
+export default function RequestSection({requests = [], sectionTitle , userRole}) {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null); // 모달 타입 상태 추가
@@ -66,9 +66,9 @@ export default function RequestSection({requests = [], sectionTitle}) {
       </Inner>
       {isModalOpen && (
         modalType === "register" ? (
-          <RegisterRequestModal onClose={closeModal} requestData={selectedRequestData}/>
+          <RegisterRequestModal onClose={closeModal} requestData={selectedRequestData} userRole={userRole}/>
         ) : (
-          <UpdateRequestModal onClose={closeModal} requestData={selectedRequestData}/>
+          <UpdateRequestModal onClose={closeModal} requestData={selectedRequestData} userRole={userRole}/>
         )
       )}
     </MainContainer>

@@ -9,10 +9,8 @@ import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose, requestData, onDeleteSuccess }) {
+export default function Modal({ onClose, requestData, userRole }) {
   const modalRef = useRef();
-
-  console.log("requestData", requestData)
 
   const [formData, setFormData] = useState({
     devTerm: requestData ? requestData.word : '',
@@ -29,6 +27,7 @@ export default function Modal({ onClose, requestData, onDeleteSuccess }) {
   });
 
   const [buttonActive, setButtonActive] = useState(false);
+  const [deleteRequest, setDeleteRequest] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,8 +93,21 @@ export default function Modal({ onClose, requestData, onDeleteSuccess }) {
       return;
     }
 
-    alert('제출되었습니다');
-    onClose();
+    try {
+      const response = await api.post(`/users/requests/${requestData.word}`, { formData });
+      console.log("수정전 데이터", requestData.addinfo); // 메시지 출력
+      console.log("폼데이터", formData)
+      console.log("백 메세지", response)
+
+      if (response.status === 200 || response.status === 204) {
+        onClose();
+        alert("수정되었습니다!");
+      }
+    
+    } catch (error) {
+      console.error('수정 중 오류 발생:', error);
+      alert('수정 중 오류가 발생했습니다.');
+    }
   };
 
   //외부 클릭 모달창 닫기
@@ -116,27 +128,36 @@ export default function Modal({ onClose, requestData, onDeleteSuccess }) {
     };
   }, []);
 
-  //삭제버튼 클릭
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
-    if (!confirmDelete) return;
-    console.log("requestData._id", requestData.word)
-    try {
-      const response = await api.delete(`/users/requests/${requestData.word}`);
-      console.log("응답 객체:", response);
-      console.log("응답 객체.data.status", response.data.status)
-      console.log("응답객체 데이터", response.data)
+  //삭제버튼 클릭 user admin일 때 모든 요청 삭제 가능하도록 바꾸기.
+  useEffect(() => {
+    if (!deleteRequest) return;
 
-      if (response.data && response.data.status === 'deleted successfully') {
-        alert("삭제됐습니다");
+    const handleDelete = async () => {
+      const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+      if (!confirmDelete) {
+        setDeleteRequest(false);
+        return;
+      }
+
+      try {
+        const response = await api.delete(`/users/requests/${requestData.word}`);
+
+        if (response.data && response.data.status === 'deleted successfully') {
+          alert("삭제됐습니다");
+          onClose();
+        }
+        
+      } catch (error) {
+        console.error("삭제 중 오류 발생:", error);
         onClose();
-        onDeleteSuccess(); // 페이지 재랜더링을 위해 콜백 호출
-      } 
-    } catch (error) {
-      console.error("삭제 중 오류 발생:", error);
-    }
-  };
 
+      } finally {
+        setDeleteRequest(false);
+      }
+    };
+
+    handleDelete();
+  }, [deleteRequest, onClose, requestData.word]);
   return (
     <ModalContainer>
       <ModalBody ref={modalRef}>
@@ -190,12 +211,25 @@ export default function Modal({ onClose, requestData, onDeleteSuccess }) {
             <ModalButton isClose onClick={onClose}>
               닫기
             </ModalButton>
-            <ModalButton onClick={handleDelete} >
-              삭제
-            </ModalButton>
-            <ModalButton onClick={handleSubmit} $active={buttonActive}>
-              제출
-            </ModalButton>
+            {userRole === 'admin' ? (
+              <>
+                <ModalButton onClick={handleDelete}>
+                  반려
+                </ModalButton>
+                <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                  승인
+                </ModalButton>
+              </>
+            ) : (
+              <>
+                <ModalButton onClick={() => setDeleteRequest(true)}>
+                  삭제
+                </ModalButton>
+                <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                  수정
+                </ModalButton>
+              </>
+            )}
           </ButtonGroup>
         </ModalFooter>
       </ModalBody>
