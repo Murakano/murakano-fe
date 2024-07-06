@@ -95,7 +95,7 @@ export default function Modal({ onClose }) {
     }
 
     console.log(formData);
-    const response = await api.post(`/words/requests`, formData);
+    const response = await api.post(`/users/requests/new`, formData);
     // const result = await response.json();
     console.log(response);
     
