@@ -12,10 +12,10 @@ export default function Modal({ onClose, wordData }) {
   const modalRef = useRef();
 
   const [formData, setFormData] = useState({
-    devTerm: requestData ? requestData.word : '',
-    commonPron: requestData ? requestData.compron : '',
-    awkPron: requestData ? requestData.awkpron : '',
-    addInfo: requestData ? requestData.addinfo : '',
+    devTerm: '',
+    commonPron: '',
+    awkPron: '',
+    addInfo: '',
   });
 
   const [helperText, setHelperText] = useState({

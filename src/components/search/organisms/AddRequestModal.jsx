@@ -12,7 +12,7 @@ import api from '@/utils/api';
 export default function Modal({ onClose }) {
   const modalRef = useRef();
 
-  console.log("requestData", requestData)
+  // console.log("requestData", requestData)
 
   const [formData, setFormData] = useState({
     devTerm: '',
