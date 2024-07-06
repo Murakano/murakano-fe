@@ -23,7 +23,7 @@ import InputBox from '@/components/common/molecules/InputBox';
 import useAuthStore from '@/store/useAuthStore';
 
 export default function LoginForm() {
-  const { setAuthData, scheduleTokenRefresh } = useAuthStore();
+  const { setAuthData } = useAuthStore();
   const router = useRouter();
 
   // state
@@ -87,7 +87,6 @@ export default function LoginForm() {
     const response = await api.post('/users/local/login', data);
     if (response?.message == '로그인 성공') {
       setAuthData(response.data.accessToken);
-      scheduleTokenRefresh(); // 토큰 갱신 스케줄링
       return router.push('/');
     }
     alert(ErrorMessage.LOGIN_ERROR);
