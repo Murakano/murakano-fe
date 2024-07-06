@@ -1,5 +1,6 @@
 // src/styles/commonStyles.js 공통 스타일 정의
 import styled from 'styled-components';
+import { SearchOutlined } from '@ant-design/icons';
 
 // 머라카노 로고 텍스트
 export const LogoText = styled.div`
@@ -37,4 +38,12 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   overflow: auto;
+`;
+
+// 검색아이콘
+export const StyledSearchOutlined = styled(SearchOutlined)`
+  width: ${(props) => (props.related ? '17px' : '32px')};
+  height: ${(props) => (props.related ? '17px' : '32px')};
+  font-size: 30px;
+  color: #666666;
 `;

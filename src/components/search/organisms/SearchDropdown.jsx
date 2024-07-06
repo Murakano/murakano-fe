@@ -1,15 +1,42 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import RecentItems from '../molecules/RecentItems';
 import { RankItems } from '../molecules/RankItems';
+import { StyledSearchOutlined } from '@/styles/commonStyles';
+import api from '@/utils/api';
+import { debounce } from 'lodash';
 
 export default function SearchDropdown({ header, onItemClick, searchTerm, ranks }) {
+  const [relatedItems, setRelatedItems] = useState([]);
+
+  useEffect(() => {
+    if (searchTerm) {
+      // 검색어가 변경될 때마다 API 요청을 보내기 위해 debounce 적용 - 300ms
+      const fetchRelatedItems = debounce(async () => {
+        try {
+          const response = await api.get(`/words/search/related`, { searchTerm, limit: 10 });
+          response.data ? setRelatedItems(response.data) : setRelatedItems([searchTerm]);
+        } catch (error) {
+          console.error(error);
+        }
+      }, 300);
+
+      fetchRelatedItems();
+    }
+  }, [searchTerm]);
+
   return (
     <DDContainer $header={header}>
       {searchTerm ? (
-        // TODO: searchTerm을 사용하여 연관 검색어를 가져옵니다.
-        <></>
+        <RelatedItems $header={header}>
+          {relatedItems &&
+            relatedItems.map((item, index) => (
+              <RelatedItem $header={header} key={index} onClick={() => onItemClick(item)}>
+                <StyledSearchOutlined related='true' />
+                {item}
+              </RelatedItem>
+            ))}
+        </RelatedItems>
       ) : (
         <>
           <RecentItems header={header} onItemClick={onItemClick} />
@@ -38,4 +65,28 @@ const Divider = styled.div`
   background-color: rgba(184, 213, 255, 0.3);
   height: 85%; /* 높이를 컨테이너 높이의 80%로 설정 */
   align-self: center; /* 세로 가운데 정렬 */
+`;
+
+const RelatedItems = styled.div`
+  padding: 25px 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${(props) => (props.$header ? '1px' : '7px')};
+`;
+
+const RelatedItem = styled.div`
+  height: 28px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  font-size: ${(props) => (props.$header ? '14px' : '17px')};
+  gap: 10px;
+  color: #666;
+  &:hover {
+    color: #000;
+    font-size: ${(props) => (props.$header ? '15px' : '18px')};
+    cursor: pointer;
+    background-color: var(--secondary10);
+  }
 `;

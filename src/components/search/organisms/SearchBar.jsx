@@ -37,6 +37,7 @@ export default function SearchBar({ header }) {
 
   const handleItemClick = (item) => {
     router.push(`/search/${item}`);
+    console.log('item', item);
     setDropdownVisible(false);
   };
 

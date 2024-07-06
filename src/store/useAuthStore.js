@@ -23,6 +23,7 @@ const useAuthStore = create(
         try {
           get().clearAuthData();
           const response = await api.post('/users/refresh');
+          // TODO : 이슈 더이상 없다고 생각하는 타이밍에 삭제
           console.log(response);
           if (response.message === 'refresh token이 존재하지 않습니다.') return;
           else if (response.message === 'refresh token 검증중 오류가 발생하였습니다.') {
@@ -37,19 +38,24 @@ const useAuthStore = create(
           return;
         }
       },
-      scheduleTokenRefresh: () => {
+
+      silentRefresh: () => {
         // 만료 1분 전
         const expiresIn = get().expiresAt - Date.now() - 60 * 1000;
         if (expiresIn > 0) {
+          // 만료 시간이 0~1분이 사이인 경우
           setTimeout(() => {
-            get().fetchAuthData().then(get().scheduleTokenRefresh);
+            get().fetchAuthData();
           }, expiresIn);
-        } else {
-          // 토큰이 이미 만료된 경우, 즉시 갱신
-          get().fetchAuthData().then(get().scheduleTokenRefresh);
+        } else if (get().accessToken) {
+          // 만료시간이 지난 토큰을 가지고 있는 경우 (사이트를 떠났다가 돌아온 유저)
+          get().fetchAuthData();
+          // 돌아온 유저가 silentRefresh를 실행을 해야함
+          // 최상위 컴포넌트에서 silentRefresh useEffect 빈배열로 실행
         }
       },
     }),
+
     {
       name: 'auth-storage',
       // whitelist: ['nickname', 'expiresAt'],
