@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import EditRequestModal from "@/components/search/organisms/EditRequestModal"; // 여기서 Modal을 EditRequestModal로 변경
 import ActionBtn from '@/components/common/atoms/ActionBtn'; 
 
-const ResultEditBtn = () => {
+const ResultEditBtn = ({ searchResult }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -17,7 +17,7 @@ const ResultEditBtn = () => {
   return (
     <>
       <AddRequestBtn onClick={handleOpenModal}>수정 요청</AddRequestBtn>
-      {isModalOpen && <EditRequestModal onClose={handleCloseModal} />} {/* 여기서 Modal을 EditRequestModal로 변경 */}
+      {isModalOpen && <EditRequestModal onClose={handleCloseModal} searchResult={searchResult} />} {/* 여기서 Modal을 EditRequestModal로 변경 */}
     </>
   );
 };

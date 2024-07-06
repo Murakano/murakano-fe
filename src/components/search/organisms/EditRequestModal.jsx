@@ -8,14 +8,14 @@ import { validateLength } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose, wordData }) {
+export default function Modal({ onClose, searchResult }) {
   const modalRef = useRef();
 
   const [formData, setFormData] = useState({
-    devTerm: '',
-    commonPron: '',
-    awkPron: '',
-    addInfo: '',
+    devTerm: searchResult ? searchResult.word : '',
+    commonPron: searchResult ? searchResult.comPron : '',
+    awkPron: searchResult ? searchResult.awkPron : '',
+    addInfo: searchResult ? searchResult.info : '',
   });
 
   const [helperText, setHelperText] = useState({
