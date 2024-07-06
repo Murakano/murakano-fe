@@ -6,9 +6,10 @@ import { HELPER_TEXT } from '@/constants/helperText';
 
 import { validateLength } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
+import api from '@/utils/api';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose, requestData, onDeleteSuccess, userRole }) {
+export default function Modal({ onClose, requestData, userRole, refreshRequests }) {
   const modalRef = useRef();
 
   const [formData, setFormData] = useState({
@@ -26,7 +27,8 @@ export default function Modal({ onClose, requestData, onDeleteSuccess, userRole 
   });
 
   const [buttonActive, setButtonActive] = useState(false);
-  
+  const [deleteRequest, setDeleteRequest] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'devTerm') return;
@@ -96,8 +98,19 @@ export default function Modal({ onClose, requestData, onDeleteSuccess, userRole 
       return;
     }
 
-    alert('수정되었습니다');
-    onClose();
+    try {
+      const response = await api.post(`/users/requests/${requestData.word}`, { formData });
+
+      if (response.message === '요청 수정 성공') {
+        onClose();
+        refreshRequests();
+        alert("수정되었습니다!");
+      }
+    
+    } catch (error) {
+      console.error('수정 중 오류 발생:', error);
+      alert('수정 중 오류가 발생했습니다.');
+    }
   };
 
   //외부 클릭 모달창 닫기
@@ -119,25 +132,39 @@ export default function Modal({ onClose, requestData, onDeleteSuccess, userRole 
   }, []);
 
     //삭제버튼 클릭
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
-    if (!confirmDelete) return;
-    console.log("requestData._id", requestData.word)
-    try {
-      const response = await api.delete(`/users/requests/${requestData.word}`);
-      console.log("응답 객체:", response);
-      console.log("응답 객체.data.status", response.data.status)
-      console.log("응답객체 데이터", response.data)
-
-      if (response.data && response.data.status === 'deleted successfully') {
-        alert("삭제됐습니다");
-        onClose();
-        onDeleteSuccess(); // 페이지 재랜더링을 위해 콜백 호출
-      } 
-    } catch (error) {
-      console.error("삭제 중 오류 발생:", error);
-    }
-  };
+    useEffect(() => {
+      if (!deleteRequest) return;
+  
+      const handleDelete = async () => {
+        const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+        if (!confirmDelete) {
+          setDeleteRequest(false);
+          return;
+        }
+  
+        try {
+          const response = await api.delete(`/users/requests/${requestData.word}`);
+          
+          console.log("프론트 삭제 response", response.message)
+  
+          if (response.message === '요청 삭제 성공') {
+            onClose();
+            refreshRequests();
+            alert("삭제됐습니다");
+          }
+  
+  
+        } catch (error) {
+          console.error("삭제 중 오류 발생:", error);
+  
+        } finally {
+          setDeleteRequest(false);
+        }
+      };
+  
+      handleDelete();
+    }, [deleteRequest, onClose, requestData.word, refreshRequests]);
+  
 
   return (
     <ModalContainer>
@@ -205,7 +232,7 @@ export default function Modal({ onClose, requestData, onDeleteSuccess, userRole 
               </>
             ) : (
               <>
-                <ModalButton onClick={handleDelete}>
+                <ModalButton onClick={() => setDeleteRequest(true)}>
                   삭제
                 </ModalButton>
                 <ModalButton onClick={handleSubmit} $active={buttonActive}>

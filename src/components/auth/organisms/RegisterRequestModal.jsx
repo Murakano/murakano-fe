@@ -9,7 +9,7 @@ import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose, requestData, userRole }) {
+export default function Modal({ onClose, requestData, userRole, refreshRequests }) {
   const modalRef = useRef();
 
   const [formData, setFormData] = useState({
@@ -95,12 +95,10 @@ export default function Modal({ onClose, requestData, userRole }) {
 
     try {
       const response = await api.post(`/users/requests/${requestData.word}`, { formData });
-      console.log("수정전 데이터", requestData.addinfo); // 메시지 출력
-      console.log("폼데이터", formData)
-      console.log("백 메세지", response)
 
-      if (response.status === 200 || response.status === 204) {
+      if (response.message === '요청 수정 성공') {
         onClose();
+        refreshRequests();
         alert("수정되었습니다!");
       }
     
@@ -141,15 +139,18 @@ export default function Modal({ onClose, requestData, userRole }) {
 
       try {
         const response = await api.delete(`/users/requests/${requestData.word}`);
-
-        if (response.data && response.data.status === 'deleted successfully') {
-          alert("삭제됐습니다");
-          onClose();
-        }
         
+        console.log("프론트 삭제 response", response.message)
+
+        if (response.message === '요청 삭제 성공') {
+          onClose();
+          refreshRequests();
+          alert("삭제됐습니다");
+        }
+
+
       } catch (error) {
         console.error("삭제 중 오류 발생:", error);
-        onClose();
 
       } finally {
         setDeleteRequest(false);
@@ -157,7 +158,8 @@ export default function Modal({ onClose, requestData, userRole }) {
     };
 
     handleDelete();
-  }, [deleteRequest, onClose, requestData.word]);
+  }, [deleteRequest, onClose, requestData.word, refreshRequests]);
+
   return (
     <ModalContainer>
       <ModalBody ref={modalRef}>
