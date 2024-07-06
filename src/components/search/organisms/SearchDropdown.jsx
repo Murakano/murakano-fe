@@ -6,7 +6,7 @@ import { StyledSearchOutlined } from '@/styles/commonStyles';
 import api from '@/utils/api';
 import { debounce } from 'lodash';
 
-export default function SearchDropdown({ header, related, onItemClick, searchTerm, ranks }) {
+export default function SearchDropdown({ header, onItemClick, searchTerm, ranks }) {
   const [relatedItems, setRelatedItems] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function SearchDropdown({ header, related, onItemClick, searchTer
       // 검색어가 변경될 때마다 API 요청을 보내기 위해 debounce 적용 - 300ms
       const fetchRelatedItems = debounce(async () => {
         try {
-          const response = await api.get(`/words/keyword`, { keyword: searchTerm, limit: 10 });
+          const response = await api.get(`/words/search/related`, { searchTerm, limit: 10 });
           response.data ? setRelatedItems(response.data) : setRelatedItems([searchTerm]);
         } catch (error) {
           console.error(error);
@@ -32,7 +32,7 @@ export default function SearchDropdown({ header, related, onItemClick, searchTer
           {relatedItems &&
             relatedItems.map((item, index) => (
               <RelatedItem $header={header} key={index} onClick={() => onItemClick(item)}>
-                <StyledSearchOutlined $header={header} related={related} />
+                <StyledSearchOutlined related='true' />
                 {item}
               </RelatedItem>
             ))}

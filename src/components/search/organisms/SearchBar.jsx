@@ -6,7 +6,7 @@ import SearchDropdown from '@/components/search/organisms/SearchDropdown';
 import SearchBox from '@/components/search/molecules/SearchBox';
 import api from '@/utils/api';
 
-export default function SearchBar({ header, related }) {
+export default function SearchBar({ header }) {
   const router = useRouter();
   const searchBarRef = useRef();
   // 검색어와 드롭다운 표시 여부를 관리하는 상태
@@ -64,7 +64,7 @@ export default function SearchBar({ header, related }) {
         setDropdownVisible={setDropdownVisible}
       />
       {isDropdownVisible && (
-        <SearchDropdown header={header} related onItemClick={handleItemClick} searchTerm={searchTerm} ranks={ranks} />
+        <SearchDropdown header={header} onItemClick={handleItemClick} searchTerm={searchTerm} ranks={ranks} />
       )}
     </Column>
   );
