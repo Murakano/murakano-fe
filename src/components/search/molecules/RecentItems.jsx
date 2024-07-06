@@ -71,7 +71,7 @@ export default function RecentItems({ header, onItemClick }) {
 }
 
 const DDSection = styled.div`
-  padding: 25px 36px;
+  padding: 25px 30px;
   width: 50%;
 `;
 
