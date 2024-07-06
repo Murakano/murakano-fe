@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import RecentItems from '../molecules/RecentItems';
 import { RankItems } from '../molecules/RankItems';
 import { StyledSearchOutlined } from '@/styles/commonStyles';
 import api from '@/utils/api';
-import { debounce } from 'lodash';
 
 export default function SearchDropdown({ header, onItemClick, searchTerm, ranks }) {
   const [relatedItems, setRelatedItems] = useState([]);
+  const debounceTimeoutRef = useRef(null);
+
+  const fetchRelatedItems = async (term) => {
+    try {
+      const response = await api.get(`/words/search/related`, { searchTerm: term, limit: 10 });
+      response.data ? setRelatedItems(response.data) : setRelatedItems([term]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (searchTerm) {
-      // 검색어가 변경될 때마다 API 요청을 보내기 위해 debounce 적용 - 300ms
-      const fetchRelatedItems = debounce(async () => {
-        try {
-          const response = await api.get(`/words/search/related`, { searchTerm, limit: 10 });
-          response.data ? setRelatedItems(response.data) : setRelatedItems([searchTerm]);
-        } catch (error) {
-          console.error(error);
-        }
+      // 새로운 타이머를 설정합니다.
+      debounceTimeoutRef.current = setTimeout(() => {
+        console.log('현재시간', new Date().toLocaleTimeString());
+        fetchRelatedItems(searchTerm);
       }, 300);
-
-      fetchRelatedItems();
+      // cleanup 함수: 컴포넌트가 언마운트되거나 searchTerm이 변경될 때 실행됩니다.
+      return () => {
+        clearTimeout(debounceTimeoutRef.current);
+      };
     }
   }, [searchTerm]);
 
