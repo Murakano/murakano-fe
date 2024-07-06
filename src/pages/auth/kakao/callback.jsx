@@ -5,7 +5,7 @@ import useAuthStore from '@/store/useAuthStore';
 
 export default function Callback() {
   const router = useRouter();
-  const { setAuthData, scheduleTokenRefresh } = useAuthStore();
+  const { setAuthData } = useAuthStore();
   const hasMounted = useRef(false);
 
   const login = async () => {
@@ -13,7 +13,6 @@ export default function Callback() {
     const res = await api.post('/users/kakao/login', { code });
     if (res.message === '로그인 성공') {
       setAuthData(res.data.accessToken);
-      scheduleTokenRefresh(); // 토큰 갱신 스케줄링
       return router.push('/');
     } else {
       alert('로그인 실패');
