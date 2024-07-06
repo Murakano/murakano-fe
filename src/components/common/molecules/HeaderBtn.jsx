@@ -9,13 +9,11 @@ import useAuthStore from '@/store/useAuthStore';
 
 export default function HeaderBtn({ pathname }) {
   const router = useRouter();
-  const { clearAuthData, accessToken, nickname, fetchAuthData, scheduleTokenRefresh } = useAuthStore();
+  const { clearAuthData, accessToken, nickname, fetchAuthData } = useAuthStore();
 
   useEffect(() => {
     if (!accessToken) {
       fetchAuthData();
-    } else {
-      scheduleTokenRefresh();
     }
   }, [pathname]);
 
