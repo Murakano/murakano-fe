@@ -5,19 +5,17 @@ import { RankItems } from '../molecules/RankItems';
 import { StyledSearchOutlined } from '@/styles/commonStyles';
 import api from '@/utils/api';
 import { debounce } from 'lodash';
-import Link from 'next/link';
 
 export default function SearchDropdown({ header, related, onItemClick, searchTerm, ranks }) {
   const [relatedItems, setRelatedItems] = useState([]);
-  console.log(related, header);
 
   useEffect(() => {
     if (searchTerm) {
       // 검색어가 변경될 때마다 API 요청을 보내기 위해 debounce 적용 - 300ms
       const fetchRelatedItems = debounce(async () => {
         try {
-          const response = await api.get(`/words/keyword`, { keyword: searchTerm, limit: 9 });
-          response.data ? setRelatedItems([searchTerm, ...response.data]) : setRelatedItems([searchTerm]);
+          const response = await api.get(`/words/keyword`, { keyword: searchTerm, limit: 10 });
+          response.data ? setRelatedItems(response.data) : setRelatedItems([searchTerm]);
         } catch (error) {
           console.error(error);
         }
