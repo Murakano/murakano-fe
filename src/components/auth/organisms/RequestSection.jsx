@@ -13,6 +13,9 @@ export default function RequestSection({requests = [], sectionTitle , userRole, 
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null); // 모달 타입 상태 추가
   const [selectedRequestData, setSelectedRequestData] = useState(null);
+  const [selectedState, setSelectedState] = useState('전체');
+  const [selectedRequestType, setSelectedRequestType] = useState('전체');
+  const [filteredRequests, setFilteredRequests] = useState(requests);
 
   const handleRequestItemClick = (type, data) => (e) => {
     e.stopPropagation(); // 이벤트 캡쳐링 방지
@@ -29,16 +32,38 @@ export default function RequestSection({requests = [], sectionTitle , userRole, 
     refreshRequests();
   }; 
 
+  const handleStateChange = (state) => {
+    setSelectedState(state);
+  };
+
+  const handleRequestTypeChange = (type) => {
+    setSelectedRequestType(type);
+  };
+
+  useEffect(() => {
+    const filtered = requests.filter(({ status, type }) => {
+      const stateMatch = selectedState === '전체' || 
+        (selectedState === '승인완료' && status === 'app') ||
+        (selectedState === '반려' && status === 'rej') ||
+        (selectedState === '승인 전' && status === 'pend');
+      const typeMatch = selectedRequestType === '전체' || 
+        (selectedRequestType === '등록요청' && type === 'add') ||
+        (selectedRequestType === '수정요청' && type === 'mod');
+      return stateMatch && typeMatch;
+    });
+    setFilteredRequests(filtered);
+  }, [selectedState, selectedRequestType, requests]);
+
   return (
     <MainContainer >
       <Inner>
         <SectionTitle>{sectionTitle}</SectionTitle>
         <DropdownContainer>
-          <StateDropdown />
-          <RequestDropdown />
+          <StateDropdown onChange={handleStateChange} />
+          <RequestDropdown onChange={handleRequestTypeChange} />
         </DropdownContainer>
         <RequestList>
-          {Array.isArray(requests) && requests.map(({ _id, type, word, status, awkPron, comPron, info }, index) => {
+          {Array.isArray(filteredRequests) && filteredRequests.map(({ _id, type, word, status, awkPron, comPron, info }, index) => {
             const title = type === 'add' ? '등록 요청' : '수정 요청';
             const subtitle = word;
             const statusText = status === 'pend' ? '승인 전' : status === 'rej' ? '반려' : '승인 완료';
