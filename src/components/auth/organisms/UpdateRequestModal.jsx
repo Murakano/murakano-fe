@@ -223,7 +223,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             </ModalButton>
             {userRole === 'admin' ? (
               <>
-                <ModalButton onClick={handleDelete}>
+                <ModalButton onClick={() => setDeleteRequest(true)}>
                   반려
                 </ModalButton>
                 <ModalButton onClick={handleSubmit} $active={buttonActive}>
@@ -416,11 +416,11 @@ const ModalButton = styled.button`
     props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
     props.$active ? 'var(--primary)' : 'var(--primary60)'};
   &:nth-child(2) {
-    background: #FF6B8F;
+    background: ${(props) => (props.children === '반려' ? 'rgba(0, 0, 0, 0.25)' : '#FF6B8F')};
     cursor: pointer; 
     &:hover {
-      box-shadow: 0px 2px 8px 0px #FF0808A6;
-      background: #FF002E;
+      box-shadow: ${(props) => (props.children === '반려' ? 'none' : '0px 2px 8px 0px #FF0808A6')};
+      background: ${(props) => (props.children === '반려' ? 'rgba(0, 0, 0, 0.25)' : '#FF002E')};
   }
 `;
 

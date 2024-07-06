@@ -28,6 +28,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
 
   const [buttonActive, setButtonActive] = useState(false);
   const [deleteRequest, setDeleteRequest] = useState(false);
+  const [rejectRequest, setRejectRequest] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -93,21 +94,30 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       return;
     }
 
-    try {
-      const response = await api.post(`/users/requests/${requestData.word}`, { formData });
-
-      if (response.message === '요청 수정 성공') {
-        onClose();
-        refreshRequests();
-        alert("수정되었습니다!");
-      }
     
-    } catch (error) {
-      console.error('수정 중 오류 발생:', error);
-      alert('수정 중 오류가 발생했습니다.');
-    }
-  };
+    try {
+      if (userRole === 'admin') {
+        const response = await api.post(`/users/requests/${requestData.word}/status`, { status: 'app' });
 
+        if (response.message === '요청 상태 변경 성공') {
+          onClose();
+          refreshRequests();
+          alert("승인되었습니다!");
+        }
+      } else {
+        const response = await api.post(`/users/requests/${requestData.word}`, { formData });
+
+        if (response.message === '요청 수정 성공') {
+          onClose();
+          refreshRequests();
+          alert("수정되었습니다!");
+        }
+      }
+    } catch (error) {
+      console.error('처리 중 오류 발생:', error);
+      alert('처리 중 오류가 발생했습니다.');
+    }
+};
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
     (event) => {
@@ -126,9 +136,9 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     };
   }, []);
 
-  //삭제버튼 클릭 user admin일 때 모든 요청 삭제 가능하도록 바꾸기.
+  //삭제버튼 및 반려 버튼
   useEffect(() => {
-    if (!deleteRequest) return;
+    if (!deleteRequest && !rejectRequest) return;
 
     const handleDelete = async () => {
       const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
@@ -156,9 +166,38 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
         setDeleteRequest(false);
       }
     };
+    //반려
+    const handleReject = async () => {
+      const confirmReject = window.confirm("정말 반려하시겠습니까?");
+      if (!confirmReject) {
+        setRejectRequest(false);
+        return;
+      }
 
-    handleDelete();
-  }, [deleteRequest, onClose, requestData.word, refreshRequests]);
+      try {
+        const response = await api.post(`/users/requests/${requestData.word}/status`, { status: 'rej' });
+
+        if (response.message === '요청 상태 변경 성공') {
+          onClose();
+          refreshRequests();
+          alert("반려되었습니다");
+        }
+
+      } catch (error) {
+        console.error("반려 중 오류 발생:", error);
+        alert('반려 중 오류가 발생했습니다.');
+      } finally {
+        setRejectRequest(false);
+      }
+    };
+
+    if (deleteRequest) {
+      handleDelete();
+    } else if (rejectRequest) {
+      handleReject();
+    }
+    
+  }, [deleteRequest, rejectRequest, onClose, requestData.word, refreshRequests]);
 
   return (
     <ModalContainer>
@@ -215,7 +254,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             </ModalButton>
             {userRole === 'admin' ? (
               <>
-                <ModalButton onClick={handleDelete}>
+                <ModalButton onClick={() => setRejectRequest(true)}>
                   반려
                 </ModalButton>
                 <ModalButton onClick={handleSubmit} $active={buttonActive}>
@@ -397,11 +436,11 @@ const ModalButton = styled.button`
     props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
     props.$active ? 'var(--primary)' : 'var(--primary60)'};
   &:nth-child(2) {
-    background: #FF6B8F;
+    background: ${(props) => (props.children === '반려' ? 'rgba(0, 0, 0, 0.25)' : '#FF6B8F')};
     cursor: pointer; 
     &:hover {
-      box-shadow: 0px 2px 8px 0px #FF0808A6;
-      background: #FF002E;
+      box-shadow: ${(props) => (props.children === '반려' ? 'none' : '0px 2px 8px 0px #FF0808A6')};
+      background: ${(props) => (props.children === '반려' ? 'rgba(0, 0, 0, 0.25)' : '#FF002E')};
   }
 `;
 
