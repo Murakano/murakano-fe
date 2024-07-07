@@ -1,12 +1,18 @@
-import Header from '@/components/common/organisms/Header';
 import styled from 'styled-components';
-import { Container } from '@/styles/commonStyles';
+import { React, useEffect } from 'react';
 import WordsPageName from '@/components/words/atoms/WordsPageName';
 import WordList from '@/components/words/molecules/WordList';
 import WordDropdown from '@/components/words/molecules/WordDropdown';
 import SortDropdown from '@/components/words/molecules/SortDropdown';
+import { useSearchTermStore } from '@/store/useSearchTermStore';
 
 export default function AllWords() {
+  const { setSearchTerm } = useSearchTermStore();
+
+  useEffect(() => {
+    setSearchTerm('');
+  }, []);
+
   return (
     <Section>
       <WordsPageName />
@@ -18,7 +24,6 @@ export default function AllWords() {
     </Section>
   );
 }
-
 const Section = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,7 +33,6 @@ const Section = styled.div`
   height: calc(100vh - 130px);
   max-width: 100vw;
 `;
-
 const DropdownContainer = styled.div`
   display: flex;
   width: 691px;

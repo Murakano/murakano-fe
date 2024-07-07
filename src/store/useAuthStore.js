@@ -58,7 +58,7 @@ const useAuthStore = create(
 
     {
       name: 'auth-storage',
-      // whitelist: ['nickname', 'expiresAt'],
+      partialize: (state) => ({ nickname: state.nickname, expiresAt: state.expiresAt }),
     }
   )
 );
