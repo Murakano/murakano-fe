@@ -1,15 +1,12 @@
 import { ErrorMessage } from '@/constants/errorMessage';
-import { fetchAuthData } from '@/store/useAuthStore';
+import useAuthStore from '@/store/useAuthStore';
 
 export const apiHeaders = new Headers();
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 const setJwt = () => {
-  const token = localStorage.getItem('auth-storage');
-  const parsedToken = JSON.parse(token);
-  const accessToken = parsedToken.state.accessToken;
-
-  if (token) apiHeaders.set('Authorization', `Bearer ${accessToken}`);
+  const { accessToken } = useAuthStore.getState(); // useAuthStore.getState()를 호출하여 스토어에 직접 접근
+  if (accessToken) apiHeaders.set('Authorization', `Bearer ${accessToken}`);
   else apiHeaders.delete('Authorization');
 };
 
