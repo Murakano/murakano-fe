@@ -94,12 +94,16 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       return;
     }
 
-    
+    // word _id 값으로 바꾸기
     try {
       if (userRole === 'admin') {
-        const response = await api.post(`/users/requests/${requestData.word}/status`, { status: 'app' });
+        console.log("requestData", requestData._id)
+        const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'app' });
 
         if (response.message === '요청 상태 변경 성공') {
+          //요청 상태가 변경되면 단어 추가
+          // await api.post('/words/add', { requestData, userNickname: requestData.suggestedBy });
+
           onClose();
           refreshRequests();
           alert("승인되었습니다!");
@@ -175,7 +179,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       }
 
       try {
-        const response = await api.post(`/users/requests/${requestData.word}/status`, { status: 'rej' });
+        const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'rej' });
 
         if (response.message === '요청 상태 변경 성공') {
           onClose();
