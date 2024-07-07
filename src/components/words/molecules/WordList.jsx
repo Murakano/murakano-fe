@@ -31,14 +31,16 @@ export default function WordList() {
         page: page + 1,
         limit: 10,
       });
+      if (response.message === '단어 조회 성공') {
+        const data = response.data;
 
-      console.log(response);
-      const data = response.data;
-
-      if (data.length === 0) {
-        setHasMore(false); // 더 이상 불러올 데이터가 없음을 설정
+        if (data.length === 0) {
+          setHasMore(false); // 더 이상 불러올 데이터가 없음을 설정
+        } else {
+          setWords((prev) => [...prev, ...data]);
+        }
       } else {
-        setWords((prev) => [...prev, ...data]);
+        setHasMore(false);
       }
     } catch (error) {
       console.error(error);
