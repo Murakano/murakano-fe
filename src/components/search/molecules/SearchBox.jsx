@@ -28,7 +28,9 @@ export default function SearchBox({ header, handleSearch, setDropdownVisible }) 
         $header={header}
         type='text'
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+        }}
         onClick={() => setDropdownVisible(true)}
         onKeyPress={handleSearch}
         placeholder='발음이 궁금한 영어 개발 용어를 검색해보세요.'

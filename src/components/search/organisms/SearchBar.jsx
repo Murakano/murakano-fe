@@ -6,6 +6,7 @@ import SearchDropdown from '@/components/search/organisms/SearchDropdown';
 import SearchBox from '@/components/search/molecules/SearchBox';
 import api from '@/utils/api';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
+import { set } from 'lodash';
 
 export default function SearchBar({ header }) {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function SearchBar({ header }) {
   const [firstRender, setFirstRender] = useState(true);
   const [relatedItems, setRelatedItems] = useState([]);
   const { searchTerm } = useSearchTermStore();
+  const [rememberPath, setRememberPath] = useState(router.pathname);
   // 검색어와 드롭다운 표시 여부를 관리하는 상태
   const [dropdownVisible, setDropdownVisible] = useState(false);
   // 인기검색어 props
@@ -30,41 +32,77 @@ export default function SearchBar({ header }) {
     }
   };
 
+  const fetchRanks = async () => {
+    try {
+      const response = await api.get('/words/rank');
+      setRanks(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    let path = router.pathname;
+
+    if (/^\/search\/[^\/]+$/.test(router.pathname)) {
+      path = `/search/${router.query.query}`;
+    }
+    console.log(path, rememberPath, searchTerm, firstRender);
+    setFirstRender(false);
+    if (rememberPath !== path) {
+      setDropdownVisible(false);
+      setRememberPath(path);
+      setFirstRender(true);
+    }
+  }, []);
+
   // 인기 검색어
   useEffect(() => {
-    const fetchRanks = async () => {
-      try {
-        const response = await api.get('/words/rank');
-        setRanks(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchRanks();
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   useEffect(() => {
+    let path = router.pathname;
+
+    if (/^\/search\/[^\/]+$/.test(router.pathname)) {
+      path = `/search/${router.query.query}`;
+    }
+    console.log(path, rememberPath, searchTerm, firstRender);
+    let isInitialRender = firstRender;
+    setFirstRender(false);
+    if (rememberPath !== path) {
+      setDropdownVisible(false);
+      setRememberPath(path);
+      isInitialRender = true;
+      setFirstRender(true);
+    }
+
     if (searchTerm) {
-      // 새로운 타이머를 설정합니다.
       debounceTimeoutRef.current = setTimeout(async () => {
         const data = await fetchRelatedItems(searchTerm);
-        if (data?.length && !firstRender) {
+        console.log(isInitialRender, 111);
+
+        if (data?.length && !isInitialRender) {
           setDropdownVisible(true);
         } else {
           setDropdownVisible(false);
+          setFirstRender(false);
         }
       }, 300);
       if (router.pathname !== `/search/${searchTerm}`) {
         setDropdownVisible(false);
       }
-      // cleanup 함수: 컴포넌트가 언마운트되거나 searchTerm이 변경될 때 실행됩니다.
       return () => {
         clearTimeout(debounceTimeoutRef.current);
       };
     } else {
       setDropdownVisible(false);
-      setFirstRender(false);
     }
+    console.log(dropdownVisible);
   }, [searchTerm, router.pathname]);
 
   const handleSearch = (e) => {
@@ -84,13 +122,6 @@ export default function SearchBar({ header }) {
       setDropdownVisible(false);
     }
   };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   return (
     <Column ref={searchBarRef}>
