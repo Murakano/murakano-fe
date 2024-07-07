@@ -33,7 +33,6 @@ export default function RecentItems({ header, onItemClick }) {
   };
 
   useEffect(() => {
-    console.log('useEffect');
     fetchRecentSearches(); // 컴포넌트가 마운트될 때 함수를 호출
   }, []); // 의존성 배열을 빈 배열로 설정하여 함수가 한 번만 호출되도록 함
 

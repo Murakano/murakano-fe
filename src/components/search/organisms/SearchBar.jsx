@@ -47,7 +47,6 @@ export default function SearchBar({ header }) {
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
     }
-    console.log(path, rememberPath, searchTerm, firstRender);
     setFirstRender(false);
     if (rememberPath !== path) {
       setDropdownVisible(false);
@@ -71,7 +70,6 @@ export default function SearchBar({ header }) {
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
     }
-    console.log(path, rememberPath, searchTerm, firstRender);
     let isInitialRender = firstRender;
     setFirstRender(false);
     if (rememberPath !== path) {
@@ -84,7 +82,6 @@ export default function SearchBar({ header }) {
     if (searchTerm) {
       debounceTimeoutRef.current = setTimeout(async () => {
         const data = await fetchRelatedItems(searchTerm);
-        console.log(isInitialRender, 111);
 
         if (data?.length && !isInitialRender) {
           setDropdownVisible(true);
@@ -99,10 +96,9 @@ export default function SearchBar({ header }) {
       return () => {
         clearTimeout(debounceTimeoutRef.current);
       };
-    } else {
-      // setDropdownVisible(false);
+    } else if (!isInitialRender) {
+      setDropdownVisible(true);
     }
-    console.log(dropdownVisible);
   }, [searchTerm, router.pathname]);
 
   const handleSearch = (e) => {
@@ -123,11 +119,14 @@ export default function SearchBar({ header }) {
     }
   };
 
-  console.log(dropdownVisible);
-
   return (
     <Column ref={searchBarRef}>
-      <SearchBox header={header} handleSearch={handleSearch} setDropdownVisible={setDropdownVisible} />
+      <SearchBox
+        header={header}
+        handleSearch={handleSearch}
+        setDropdownVisible={setDropdownVisible}
+        relatedItems={relatedItems}
+      />
       {dropdownVisible && (
         <SearchDropdown
           header={header}
