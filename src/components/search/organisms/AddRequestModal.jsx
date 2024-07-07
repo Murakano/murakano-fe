@@ -102,7 +102,7 @@ export default function Modal({ onClose }) {
 
     console.log(formData);
     // 수정된 부분: formData와 nickname을 하나의 객체로 결합하여 서버에 전송
-    const response = await api.post(`/users/requests/new`, { ...formData, nickname });
+    const response = await api.post(`/users/requests/${nickname}/new`, { formData });
     console.log(response);
 
     alert('제출되었습니다');
