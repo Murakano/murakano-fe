@@ -16,6 +16,7 @@ export default function WordList() {
   const loaderRef = useRef(null);
   const observerRef = useRef(null);
   const { scrollPosition, setScrollPosition } = WordListScrollStore();
+  const [hasMore, setHasMore] = useState(true);
 
   // 단어 목록 클릭 시 해당 단어 상세 페이지로 이동
   const handleWordClick = (name) => {
@@ -35,7 +36,12 @@ export default function WordList() {
 
       console.log(response);
       const data = response.data;
-      setWords((prev) => [...prev, ...data]);
+
+      if (data.length === 0) {
+        setHasMore(false); // 더 이상 불러올 데이터가 없음을 설정
+      } else {
+        setWords((prev) => [...prev, ...data]);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -44,7 +50,9 @@ export default function WordList() {
   };
 
   useEffect(() => {
-    fetchWords(page);
+    if (hasMore) {
+      fetchWords(page);
+    }
   }, [page]);
 
   useEffect(() => {
@@ -55,7 +63,7 @@ export default function WordList() {
     };
 
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !loading) {
+      if (entries[0].isIntersecting && !loading && hasMore) {
         setPage((prevPage) => prevPage + 1);
       }
     }, options);
@@ -71,7 +79,7 @@ export default function WordList() {
         observerRef.current.disconnect();
       }
     };
-  }, [loading]);
+  }, [loading, hasMore]);
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 스크롤 위치 복구
