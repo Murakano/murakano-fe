@@ -1,4 +1,3 @@
-import Header from '@/components/common/organisms/Header';
 import styled from 'styled-components';
 import { React, useEffect } from 'react';
 import WordsPageName from '@/components/words/atoms/WordsPageName';
@@ -25,7 +24,6 @@ export default function AllWords() {
     </Section>
   );
 }
-
 const Section = styled.div`
   display: flex;
   flex-direction: column;
@@ -35,7 +33,6 @@ const Section = styled.div`
   height: calc(100vh - 130px);
   max-width: 100vw;
 `;
-
 const DropdownContainer = styled.div`
   display: flex;
   width: 691px;
