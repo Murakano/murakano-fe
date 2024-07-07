@@ -1,25 +1,23 @@
-WordList.jsx;
-
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import WordItem from '../atoms/WordItem';
 import { useRouter } from 'next/router';
 import TopScrollBtn from '@/components/common/atoms/TopScrollBtn';
 import api from '@/utils/api';
-import { WordListScrollStore } from '@/store/WordListScrollStore';
 
 export default function WordList() {
   const router = useRouter();
   const [page, setPage] = useState(0);
   const [words, setWords] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부를 나타내는 상태
   const loaderRef = useRef(null);
   const observerRef = useRef(null);
-  const { scrollPosition, setScrollPosition } = WordListScrollStore();
-  const [hasMore, setHasMore] = useState(true);
 
   // 단어 목록 클릭 시 해당 단어 상세 페이지로 이동
   const handleWordClick = (name) => {
+    // 스크롤 위치 저장
+    sessionStorage.setItem('scrollPosition', window.scrollY);
     if (name) {
       router.push(`/search/${name}`);
     }
@@ -53,7 +51,7 @@ export default function WordList() {
     if (hasMore) {
       fetchWords(page);
     }
-  }, [page]);
+  }, [page, hasMore]);
 
   useEffect(() => {
     const options = {
@@ -81,22 +79,6 @@ export default function WordList() {
     };
   }, [loading, hasMore]);
 
-  useEffect(() => {
-    // 컴포넌트가 마운트될 때 스크롤 위치 복구
-    window.scrollTo(0, scrollPosition);
-
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-      console.log('Current scroll position:', window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [scrollPosition, setScrollPosition]);
-
   return (
     <WordListContainer>
       {words.map((word, index) => (
@@ -105,7 +87,7 @@ export default function WordList() {
         </WordListDiv>
       ))}
       <div ref={loaderRef} id='loader' style={{ height: '50px', marginTop: '10px' }}>
-        {loading ? 'Loading...' : ''}
+        {loading ? '불러오는 중' : !hasMore ? '마지막 페이지 입니다!' : ''}
       </div>
       <ScrollContainer>
         <TopScrollBtn />
