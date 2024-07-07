@@ -104,8 +104,8 @@ export default function Modal({ onClose, searchResult }) {
     }
 
     const type = 'mod'; // 수정 요청
-    const requestData = { formData, type };
-
+    const requestData = { formData, type, nickname };
+    
     console.log('Sending request data:', requestData);
     try {
         const response = await api.post(`/users/requests/${nickname}/new`, requestData);
@@ -115,7 +115,7 @@ export default function Modal({ onClose, searchResult }) {
     } catch (error) {
         console.error('수정 요청 중 오류가 발생하였습니다:', error);
     }
-};
+    };
 
 
 
