@@ -94,16 +94,16 @@ export default function Modal({ onClose }) {
       return;
     }
 
+  
+
     console.log(formData);
-    const response = await api.post(`/users/requests/new`, formData);
-    // const result = await response.json();
+    const response = await api.post(`/users/requests/new`, { formData });
     console.log(response);
-    
-    
 
     alert('제출되었습니다');
     onClose();
   };
+
 
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(

@@ -96,14 +96,20 @@ export default function Modal({ onClose, searchResult }) {
       return;
     }
 
-    console.log(formData);
-    const response = await api.post(`/users/requests/edit`, formData);
-    console.log(response);
+    const type = 'mod'; // 수정 요청
+    const requestData = { formData, type };
 
-
-    alert('수정요청되었습니다');
-    onClose();
+    console.log('Sending request data:', requestData);
+    try {
+      const response = await api.post('/users/requests/new', requestData);
+      console.log('Response:', response);
+      alert('수정요청되었습니다');
+      onClose();
+    } catch (error) {
+      console.error('수정 요청 중 오류가 발생하였습니다:', error);
+    }
   };
+
 
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
