@@ -8,11 +8,15 @@ import { validateLength } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
+import useAuthStore from '@/store/useAuthStore';
+
+
+
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
 export default function Modal({ onClose }) {
   const modalRef = useRef();
+  const { nickname } = useAuthStore();
 
-  // console.log("requestData", requestData)
 
   const [formData, setFormData] = useState({
     devTerm: '',
@@ -97,12 +101,14 @@ export default function Modal({ onClose }) {
   
 
     console.log(formData);
-    const response = await api.post(`/users/requests/new`, { formData });
+    // 수정된 부분: formData와 nickname을 하나의 객체로 결합하여 서버에 전송
+    const response = await api.post(`/users/requests/new`, { ...formData, nickname });
     console.log(response);
 
     alert('제출되었습니다');
     onClose();
   };
+
 
 
   //외부 클릭 모달창 닫기
