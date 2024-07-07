@@ -28,10 +28,12 @@ export default function WordList() {
     setLoading(true);
     try {
       const response = await api.get('/words', {
-        Sort: 'recent',
+        sort: 'recent',
         page: page + 1,
         limit: 10,
       });
+
+      console.log(response);
       const data = response.data;
       setWords((prev) => [...prev, ...data]);
     } catch (error) {
