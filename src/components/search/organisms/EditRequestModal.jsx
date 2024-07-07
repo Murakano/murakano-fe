@@ -6,10 +6,17 @@ import { HELPER_TEXT } from '@/constants/helperText';
 
 import { validateLength } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
+import api from '@/utils/api';
+
+
+import useAuthStore from '@/store/useAuthStore';
+
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
 export default function Modal({ onClose, searchResult }) {
   const modalRef = useRef();
+  const { nickname } = useAuthStore();
+
 
   const [formData, setFormData] = useState({
     devTerm: searchResult ? searchResult.word : '',
@@ -101,14 +108,15 @@ export default function Modal({ onClose, searchResult }) {
 
     console.log('Sending request data:', requestData);
     try {
-      const response = await api.post('/users/requests/new', requestData);
-      console.log('Response:', response);
-      alert('수정요청되었습니다');
-      onClose();
+        const response = await api.post(`/users/requests/${nickname}/new`, requestData);
+        console.log('Response:', response);
+        alert('수정 요청이 제출되었습니다');
+        onClose();
     } catch (error) {
-      console.error('수정 요청 중 오류가 발생하였습니다:', error);
+        console.error('수정 요청 중 오류가 발생하였습니다:', error);
     }
-  };
+};
+
 
 
   //외부 클릭 모달창 닫기

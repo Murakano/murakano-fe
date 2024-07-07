@@ -100,15 +100,20 @@ export default function Modal({ onClose }) {
 
   
 
-    console.log(formData);
-    // 수정된 부분: formData와 nickname을 하나의 객체로 결합하여 서버에 전송
-    const response = await api.post(`/users/requests/${nickname}/new`, { formData });
-    console.log(response);
 
-    alert('제출되었습니다');
-    onClose();
+    const type = 'add'; // 추가 요청
+    const requestData = { formData, type, nickname };
+  
+    console.log('Sending request data:', requestData);
+    try {
+      const response = await api.post(`/users/requests/${nickname}/new`, requestData);
+      console.log('Response:', response);
+      alert('등록 요청이 제출되었습니다');
+      onClose();
+    } catch (error) {
+      console.error('등록 요청 중 오류가 발생하였습니다:', error);
+    }
   };
-
 
 
   //외부 클릭 모달창 닫기
