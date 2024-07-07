@@ -29,7 +29,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
   const [buttonActive, setButtonActive] = useState(false);
   const [deleteRequest, setDeleteRequest] = useState(false);
   const [rejectRequest, setRejectRequest] = useState(false);
-  const isRequestCompleted = requestData?.status === '승인 완료' || requestData?.status === '반려';
+  const isRequestCompleted = requestData.status === 'app' || requestData.status === 'rej';
 
 
   const handleChange = (e) => {
