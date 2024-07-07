@@ -1,15 +1,22 @@
 // src/pages/index.js
-import Header from '@/components/common/organisms/Header';
 import styled from 'styled-components';
 import { LogoText } from '@/styles/commonStyles';
 import SearchBar from '@/components/search/organisms/SearchBar';
 import router from 'next/router';
+import { useEffect } from 'react';
+import { useSearchTermStore } from '@/store/useSearchTermStore';
 
 export default function Search() {
+  const { setSearchTerm } = useSearchTermStore();
+
   // 메인 홈 이동
   const redirectToHome = () => {
     router.push('/');
   };
+
+  useEffect(() => {
+    setSearchTerm('');
+  }, []);
 
   return (
     <Section>

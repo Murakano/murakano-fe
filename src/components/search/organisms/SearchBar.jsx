@@ -5,12 +5,13 @@ import { Column } from '@/styles/commonStyles';
 import SearchDropdown from '@/components/search/organisms/SearchDropdown';
 import SearchBox from '@/components/search/molecules/SearchBox';
 import api from '@/utils/api';
+import { useSearchTermStore } from '@/store/useSearchTermStore';
 
 export default function SearchBar({ header }) {
   const router = useRouter();
   const searchBarRef = useRef();
+  const { searchTerm } = useSearchTermStore();
   // 검색어와 드롭다운 표시 여부를 관리하는 상태
-  const [searchTerm, setSearchTerm] = useState(''); // 입력중인 검색어
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   // 인기검색어 props
   const [ranks, setRanks] = useState([]);
@@ -30,14 +31,13 @@ export default function SearchBar({ header }) {
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
-      router.push(`/search/${searchTerm}`);
+      router.push(`/search/${encodeURIComponent(searchTerm)}`);
       setDropdownVisible(false);
     }
   };
 
-  const handleItemClick = (item) => {
-    router.push(`/search/${item}`);
-    console.log('item', item);
+  const handleItemClick = (searchTerm) => {
+    router.push(`/search/${encodeURIComponent(searchTerm)}`);
     setDropdownVisible(false);
   };
 
@@ -56,15 +56,14 @@ export default function SearchBar({ header }) {
 
   return (
     <Column ref={searchBarRef}>
-      <SearchBox
-        header={header}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        handleSearch={handleSearch}
-        setDropdownVisible={setDropdownVisible}
-      />
+      <SearchBox header={header} handleSearch={handleSearch} setDropdownVisible={setDropdownVisible} />
       {isDropdownVisible && (
-        <SearchDropdown header={header} onItemClick={handleItemClick} searchTerm={searchTerm} ranks={ranks} />
+        <SearchDropdown
+          header={header}
+          onItemClick={handleItemClick}
+          ranks={ranks}
+          setDropdownVisible={setDropdownVisible}
+        />
       )}
     </Column>
   );
