@@ -100,7 +100,7 @@ export default function SearchBar({ header }) {
         clearTimeout(debounceTimeoutRef.current);
       };
     } else {
-      setDropdownVisible(false);
+      // setDropdownVisible(false);
     }
     console.log(dropdownVisible);
   }, [searchTerm, router.pathname]);
@@ -122,6 +122,8 @@ export default function SearchBar({ header }) {
       setDropdownVisible(false);
     }
   };
+
+  console.log(dropdownVisible);
 
   return (
     <Column ref={searchBarRef}>
