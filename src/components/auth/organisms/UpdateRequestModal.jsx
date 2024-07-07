@@ -6,16 +6,17 @@ import { HELPER_TEXT } from '@/constants/helperText';
 
 import { validateLength } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
+import api from '@/utils/api';
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose }) {
+export default function Modal({ onClose, requestData, userRole, refreshRequests }) {
   const modalRef = useRef();
 
   const [formData, setFormData] = useState({
-    devTerm: '',
-    commonPron: '',
-    awkPron: '',
-    addInfo: '',
+    devTerm: requestData ? requestData.word : '',
+    commonPron: requestData ? requestData.compron : '',
+    awkPron: requestData ? requestData.awkpron : '',
+    addInfo: requestData ? requestData.addinfo : '',
   });
 
   const [helperText, setHelperText] = useState({
@@ -26,9 +27,12 @@ export default function Modal({ onClose }) {
   });
 
   const [buttonActive, setButtonActive] = useState(false);
+  const [deleteRequest, setDeleteRequest] = useState(false);
+  const [rejectRequest, setRejectRequest] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'devTerm') return;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -43,13 +47,12 @@ export default function Modal({ onClose }) {
       validateLength(formData.awkPron, 100) &&
       validateLength(formData.addInfo, 1000) &&
       formData.devTerm &&
-      formData.commonPron &&
-      formData.awkPron
+      formData.commonPron
     ) {
       setButtonActive(true);
     } else {
       setButtonActive(false);
-    }
+    }    
   }, [formData]);
 
   // 제출 시 유효성 검사
@@ -78,10 +81,7 @@ export default function Modal({ onClose }) {
       updateState('commonPronHelper', '', setHelperText);
     }
 
-    if (!formData.awkPron) {
-      updateState('awkPronHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
-      hasError = true;
-    } else if (!validateLength(formData.awkPron, 100)) {
+    if (!validateLength(formData.awkPron, 100)) {
       updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
@@ -99,9 +99,30 @@ export default function Modal({ onClose }) {
       return;
     }
 
-    alert('제출되었습니다');
-    onClose();
-  };
+    try {
+      if (userRole === 'admin') {
+        console.log("변경하려는 요청의 userid", requestData)
+
+        const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'app' });
+        if (response.message === '요청 상태 변경 성공') {
+          onClose();
+          refreshRequests();
+          alert("승인되었습니다!");
+        }
+      } else {
+        const response = await api.post(`/users/requests/${requestData.word}`, { formData });
+
+        if (response.message === '요청 수정 성공') {
+          onClose();
+          refreshRequests();
+          alert("수정되었습니다!");
+        }
+      }
+    } catch (error) {
+      console.error('처리 중 오류 발생:', error);
+      alert('처리 중 오류가 발생했습니다.');
+    }
+};
 
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
@@ -121,11 +142,75 @@ export default function Modal({ onClose }) {
     };
   }, []);
 
+  //삭제버튼 클릭 및 반려버튼
+  useEffect(() => {
+    if (!deleteRequest && !rejectRequest) return;
+
+    const handleDelete = async () => {
+      const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+      if (!confirmDelete) {
+        setDeleteRequest(false);
+        return;
+      }
+
+      try {
+        const response = await api.delete(`/users/requests/${requestData.word}`);
+        
+        console.log("프론트 삭제 response", response.message)
+
+        if (response.message === '요청 삭제 성공') {
+          onClose();
+          refreshRequests();
+          alert("삭제됐습니다");
+        }
+
+
+      } catch (error) {
+        console.error("삭제 중 오류 발생:", error);
+
+      } finally {
+        setDeleteRequest(false);
+      }
+    };
+    //반려
+    const handleReject = async () => {
+      const confirmReject = window.confirm("정말 반려하시겠습니까?");
+      if (!confirmReject) {
+        setRejectRequest(false);
+        return;
+      }
+
+      try {
+        const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'rej' });
+
+        if (response.message === '요청 상태 변경 성공') {
+          onClose();
+          refreshRequests();
+          alert("반려되었습니다");
+        }
+
+      } catch (error) {
+        console.error("반려 중 오류 발생:", error);
+        alert('반려 중 오류가 발생했습니다.');
+      } finally {
+        setRejectRequest(false);
+      }
+    };
+
+    if (deleteRequest) {
+      handleDelete();
+    } else if (rejectRequest) {
+      handleReject();
+    }
+    
+  }, [deleteRequest, rejectRequest, onClose, requestData.word, refreshRequests]);
+  
+
   return (
     <ModalContainer>
       <ModalBody ref={modalRef}>
         <ModalHeader>
-          <ModalTitle>등록 요청</ModalTitle>
+          <ModalTitle>수정 요청</ModalTitle>
         </ModalHeader>
         <ModalContent>
           <StyledInputBox
@@ -137,6 +222,8 @@ export default function Modal({ onClose }) {
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
+            disabled
+            readOnly
           />
           <StyledInputBox
             type='text'
@@ -174,9 +261,25 @@ export default function Modal({ onClose }) {
             <ModalButton isClose onClick={onClose}>
               닫기
             </ModalButton>
-            <ModalButton onClick={handleSubmit} $active={buttonActive}>
-              제출
-            </ModalButton>
+            {userRole === 'admin' ? (
+              <>
+                <ModalButton onClick={() => setRejectRequest(true)}>
+                  반려
+                </ModalButton>
+                <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                  승인
+                </ModalButton>
+              </>
+            ) : (
+              <>
+                <ModalButton onClick={() => setDeleteRequest(true)}>
+                  삭제
+                </ModalButton>
+                <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                  수정
+                </ModalButton>
+              </>
+            )}
           </ButtonGroup>
         </ModalFooter>
       </ModalBody>
@@ -289,6 +392,17 @@ const StyledInputBox = styled(InputBox)`
     &:hover {
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
+    ${(props) =>
+      props.name === 'devTerm' &&
+      `
+      &:hover {
+          border-color: var(--secondary); // 호버 시 색상 변경 안함
+      }
+      &:focus {
+          border-color: var(--secondary); // 포커스 시 색상 변경 안함
+          outline: none;
+      }
+  `}
     
   }
   Label {
@@ -300,7 +414,7 @@ const StyledInputBox = styled(InputBox)`
     text-align: left;
     position: relative;
     &::after {
-      content: ' *';
+      content: ${(props) => (props.name === 'devTerm' || props.name === 'commonPron' ? "' *'" : "''")};
       color: #ff0808;
       position: aboslute;
       right: 5%;
@@ -341,6 +455,13 @@ const ModalButton = styled.button`
   background-color: ${(props) => 
     props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
     props.$active ? 'var(--primary)' : 'var(--primary60)'};
+  &:nth-child(2) {
+    background: ${(props) => (props.children === '반려' ? 'rgba(0, 0, 0, 0.25)' : '#FF6B8F')};
+    cursor: pointer; 
+    &:hover {
+      box-shadow: ${(props) => (props.children === '반려' ? 'none' : '0px 2px 8px 0px #FF0808A6')};
+      background: ${(props) => (props.children === '반려' ? 'rgba(0, 0, 0, 0.25)' : '#FF002E')};
+  }
 `;
 
 const HelperText = styled.p`
