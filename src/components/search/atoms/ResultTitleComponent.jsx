@@ -10,6 +10,7 @@ const ResultTitle = styled.span`
   text-align: left;
   display: flex;
   align-items: center; // 텍스트 수직 정렬
+  padding-top: 3px;
 `;
 
 export default function ResultTitleComponent({ children, ...props }) {

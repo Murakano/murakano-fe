@@ -26,6 +26,7 @@ const DDItem = styled.li`
   &:hover {
     color: #000000;
     background-color: var(--secondary10);
+    font-size: ${(props) => (props.$header ? '14px' : '16px')};
   }
 `;
 
