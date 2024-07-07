@@ -15,21 +15,21 @@ export default function Requests() {
     if (!accessToken) return;
     try {
       const roleResponse = await api.get('/users/role');
-      console.log("roleResponse.data : ", roleResponse.data.role)
       setUserRole(roleResponse.data.role); // 사용자 역할 설정
 
       let requestsResponse;
-      if (roleResponse.data.role === 'admin') {
-          setSectionTitle('모든 요청 페이지');
-          requestsResponse = await api.get('/users/requests/all');
+      if (roleResponse.data.role === "user") {
+        setSectionTitle('내 요청 페이지');
+        requestsResponse = await api.get('/users/requests');
       }
       else {
-          setSectionTitle('내 요청 페이지');
-          requestsResponse = await api.get('/users/requests');
+        setSectionTitle('모든 요청 페이지');
+        requestsResponse = await api.get('/users/requests/all');
+        console.log("모든 요청 정보", requestsResponse.data.requests.map(request => request._id))
       }
       console.log("API Raw Response:", requestsResponse.data.requests)
       setRequests(requestsResponse.data.requests);
-
+    
     } catch (err) {
       setError(err.message);
       console.log("접근실패")
