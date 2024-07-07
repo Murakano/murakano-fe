@@ -1,14 +1,24 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import RecentItems from '../molecules/RecentItems';
 import { RankItems } from '../molecules/RankItems';
 import { StyledSearchOutlined } from '@/styles/commonStyles';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
+import { useState, useEffect } from 'react';
 
-export default function SearchDropdown({ header, onItemClick, ranks, relatedItems }) {
+export default function SearchDropdown({ header, onItemClick, ranks, relatedItems, dropdownVisible }) {
   const { searchTerm } = useSearchTermStore();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (searchTerm) {
+      setVisible(true);
+    } else {
+      // setTimeout(() => setVisible(false), 500); // 500ms after animation duration
+    }
+  }, [searchTerm]);
 
   return (
-    <DDContainer $header={header}>
+    <DDContainer $header={header} $dropdownVisible={dropdownVisible} $visible={visible}>
       {searchTerm ? (
         <RelatedItems $header={header}>
           {relatedItems &&
@@ -29,7 +39,23 @@ export default function SearchDropdown({ header, onItemClick, ranks, relatedItem
     </DDContainer>
   );
 }
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
 const DDContainer = styled.div`
   width: ${(props) => (props.$header ? '460px' : '580px')};
   height: ${(props) => (props.$header ? '335px' : '390px')};
@@ -41,7 +67,12 @@ const DDContainer = styled.div`
   background-color: #ffffff;
   position: ${(props) => (props.$header ? 'absolute' : 'static')};
   top: ${(props) => (props.$header ? '100px' : 'auto')};
+  /* opacity: ${(props) => (props.$dropdownVisible ? '1' : '0')}; */
+  /* visibility: ${(props) => (props.$visible ? 'visible' : 'hidden')}; */
+  animation: ${(props) => (props.$dropdownVisible ? fadeIn : fadeOut)} 0.4s ease;
+  /* transition: visibility 0.5s ease; */
 `;
+
 const Divider = styled.div`
   width: 1px;
   background-color: rgba(184, 213, 255, 0.3);

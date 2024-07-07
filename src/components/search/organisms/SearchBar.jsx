@@ -97,7 +97,6 @@ export default function SearchBar({ header }) {
           ranks={ranks}
           relatedItems={relatedItems}
           dropdownVisible={dropdownVisible}
-          setDropdownVisible={setDropdownVisible}
         />
       )}
     </Column>
