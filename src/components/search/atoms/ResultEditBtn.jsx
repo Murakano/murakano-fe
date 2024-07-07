@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Modal from "@/components/auth/organisms/RegisterRequestModal";
+import EditRequestModal from "@/components/search/organisms/EditRequestModal"; // 여기서 Modal을 EditRequestModal로 변경
 import ActionBtn from '@/components/common/atoms/ActionBtn'; 
 
-const ResultEditBtn = () => {
+const ResultEditBtn = ({ searchResult }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -17,7 +17,7 @@ const ResultEditBtn = () => {
   return (
     <>
       <AddRequestBtn onClick={handleOpenModal}>수정 요청</AddRequestBtn>
-      {isModalOpen && <Modal onClose={handleCloseModal} />}
+      {isModalOpen && <EditRequestModal onClose={handleCloseModal} searchResult={searchResult} />} {/* 여기서 Modal을 EditRequestModal로 변경 */}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import SorryText from '../atoms/SorryText';
-import Modal from '@/components/auth/organisms/RegisterRequestModal';
+import AddRequestModal from '@/components/search/organisms/AddRequestModal';
 import ActionBtn from '@/components/common/atoms/ActionBtn';
 
 const SorryComponent = ({ query }) => {
@@ -19,7 +19,7 @@ const SorryComponent = ({ query }) => {
     <StyledContainer>
       <SorryText query={query} />
       <AddRequestBtn onClick={handleOpenModal}>등록 요청</AddRequestBtn>
-      {isModalOpen && <Modal onClose={handleCloseModal} />}
+      {isModalOpen && <AddRequestModal onClose={handleCloseModal} />}
     </StyledContainer>
   );
   z;
