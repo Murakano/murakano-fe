@@ -15,14 +15,14 @@ const handleChange = (value) => {
   console.log(`selected ${value}`);
 };
 
-export default function CommDropdown({ labels = [], dropdownName = '드롭다운' }) {
+export default function CommDropdown({ labels = [], dropdownName = '드롭다운', onChange}) {
   const items = generateItems(labels);
 
   return (
     <DropdownContainer>
       <CustomSelect
         defaultValue={dropdownName}
-        onChange={handleChange}
+        onChange={onChange}
         options={items}
         suffixIcon={<DownIcon />}
         dropdownRender={(menu) => <StyledDropdown>{menu}</StyledDropdown>}
