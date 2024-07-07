@@ -456,11 +456,12 @@ const ModalButton = styled.button`
     props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
     props.$active ? 'var(--primary)' : 'var(--primary60)'};
   &:nth-child(2) {
-    background: ${(props) => (props.children === '반려' ? 'rgba(0, 0, 0, 0.25)' : '#FF6B8F')};
+    background: #FF6B8F;
     cursor: pointer; 
     &:hover {
-      box-shadow: ${(props) => (props.children === '반려' ? 'none' : '0px 2px 8px 0px #FF0808A6')};
-      background: ${(props) => (props.children === '반려' ? 'rgba(0, 0, 0, 0.25)' : '#FF002E')};
+      box-shadow: 0px 2px 8px 0px #FF0808A6;
+      background: #FF002E;
+    }
   }
 `;
 
