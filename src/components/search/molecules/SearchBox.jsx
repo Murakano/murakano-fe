@@ -6,13 +6,20 @@ import { useRouter } from 'next/router';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
 import { CloseOutlined } from '@ant-design/icons';
 
-export default function SearchBox({ header, handleSearch, setDropdownVisible }) {
+export default function SearchBox({ header, handleSearch, setDropdownVisible, relatedItems }) {
   const router = useRouter();
   const { query } = router.query;
   const { searchTerm, setSearchTerm } = useSearchTermStore();
 
   const handleeCloseIconClick = () => {
     setSearchTerm('');
+  };
+
+  const checkSearchTerm = () => {
+    // 검색어가 없거나 연관검색어가 있을 경우 dropdown 표시
+    if (searchTerm === '' || relatedItems.length) {
+      setDropdownVisible(true);
+    }
   };
 
   useEffect(() => {
@@ -27,9 +34,16 @@ export default function SearchBox({ header, handleSearch, setDropdownVisible }) 
       <SearchInput
         $header={header}
         type='text'
+        maxLength={50}
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onClick={() => setDropdownVisible(true)}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          checkSearchTerm();
+        }}
+        onClick={() => {
+          // 연관검색어가 있거나 검색어가 없는 경우 dropdown 표시
+          checkSearchTerm();
+        }}
         onKeyPress={handleSearch}
         placeholder='발음이 궁금한 영어 개발 용어를 검색해보세요.'
       />
@@ -77,4 +91,8 @@ const CloseIcon = styled(CloseOutlined)`
   &:hover {
     color: #000000;
   }
+  /* color: var(--secondary);
+  &:hover {
+    color: var(--primary60);
+  } */
 `;
