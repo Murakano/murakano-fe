@@ -3,11 +3,17 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { SearchIcon } from '../atoms/SearchIcon';
 import { useRouter } from 'next/router';
+import { useSearchTermStore } from '@/store/useSearchTermStore';
+import { CloseOutlined } from '@ant-design/icons';
 
-export default function SearchBox({ header, searchTerm, setSearchTerm, handleSearch, setDropdownVisible }) {
+export default function SearchBox({ header, handleSearch, setDropdownVisible }) {
   const router = useRouter();
-  const path = router.pathname;
   const { query } = router.query;
+  const { searchTerm, setSearchTerm } = useSearchTermStore();
+
+  const handleeCloseIconClick = () => {
+    setSearchTerm('');
+  };
 
   useEffect(() => {
     // 경로가 /search/:word인 경우 검색어를 set
@@ -27,6 +33,7 @@ export default function SearchBox({ header, searchTerm, setSearchTerm, handleSea
         onKeyPress={handleSearch}
         placeholder='발음이 궁금한 영어 개발 용어를 검색해보세요.'
       />
+      {searchTerm && <CloseIcon onClick={handleeCloseIconClick} />}
       <SearchIcon searchTerm={searchTerm} handleSearch={handleSearch} />
     </SearchBarContainer>
   );
@@ -43,12 +50,13 @@ export const SearchBarContainer = styled.div`
   box-shadow: var(--search-shadow);
   border-radius: 50px;
   padding-right: 20px;
+  gap: 5px;
 `;
 
 export const SearchInput = styled.input`
   width: 100%;
   height: 100%;
-  padding: 30px;
+  padding: 0 10px 0 30px;
   font-size: ${(props) => (props.$header ? '14px' : '18px')};
   font-weight: 400;
   color: #666666;
@@ -60,4 +68,13 @@ export const SearchInput = styled.input`
 export const ResetLink = styled(Link)`
   text-decoration: none;
   cursor: pointer;
+`;
+
+const CloseIcon = styled(CloseOutlined)`
+  font-size: 20px;
+  cursor: pointer;
+  color: #666666;
+  &:hover {
+    color: #000000;
+  }
 `;

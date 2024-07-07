@@ -28,14 +28,15 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 691px;
-  height: 90px;
-  padding: 10px 30px;
+  height: auto;
+  padding: 18.5px 30px;
   margin-bottom: 10px;
   border-radius: 30px;
   background-color: var(--secondary10);
+  gap: 8px;
 `;
 
 const StyledContainer = styled.div`
   width: 691px;
-  height: 290px;
+  height: auto;
 `;

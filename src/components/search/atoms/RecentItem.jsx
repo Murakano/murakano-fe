@@ -100,6 +100,7 @@ const DDText = styled.div`
 
   ${DDItem}:hover & {
     color: #000000;
+    font-size: ${(props) => (props.$header ? '14px' : '16px')};
   }
 `;
 

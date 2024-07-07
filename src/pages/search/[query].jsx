@@ -6,20 +6,21 @@ import SorryComponent from '@/components/search/molecules/SorryComponent';
 import ContributorEditBtn from '@/components/search/molecules/ContributorEditBtn';
 import api from '@/utils/api';
 import { useEffect, useState } from 'react';
+import { useSearchTermStore } from '@/store/useSearchTermStore';
 
 export default function SearchResults() {
   const router = useRouter();
   const { query } = router.query;
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { searchTerm } = useSearchTermStore();
 
   useEffect(() => {
     const fetchSearchResult = async () => {
       try {
-        const response = await api.post(`/words/search/${query}`);
+        const response = await api.post(`/words/search/${encodeURIComponent(query)}`);
         setSearchResult(response.data);
         setLoading(false);
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
