@@ -1,84 +1,114 @@
-import styled from 'styled-components';
-import TouchIcon from '../../../../public/murak_list_icon.svg';
-import Image from 'next/image';
-import Modal from './Modal';
-import React, { useState } from 'react';
-import StateDropdown from '../molecules/StateDropdown';
-import RequestDropdown from '../molecules/RequestDropdown';
+import styled from "styled-components";
+import TouchIcon from "../../../../public/murak_list_icon.svg"; 
+import Image from "next/image";
+import RegisterRequestModal from "./RegisterRequestModal";
+import UpdateRequestModal from "./UpdateRequestModal";
+import React, { use, useState, useEffect } from "react";
+import StateDropdown from "../molecules/StateDropdown";
+import RequestDropdown from "../molecules/RequestDropdown";
 
-const DUMMY_REQUEST_ITEM_LIST = [
-  {
-    title: '수정 요청',
-    subtitle: 'DOM',
-    status: '승인 전',
-  },
-  {
-    title: '등록 요청',
-    subtitle: 'CSSOM',
-    status: '승인 완료',
-  },
-  {
-    title: '수정 요청',
-    subtitle: 'ASAP',
-    status: '승인 전',
-  },
-  {
-    title: '등록 요청',
-    subtitle: 'SQL',
-    status: '승인 전',
-  },
-  {
-    title: '등록 요청',
-    subtitle: 'DOM',
-    status: '반려',
-  },
-  {
-    title: '등록 요청',
-    subtitle: 'DOM',
-    status: '승인 전',
-  },
-];
 
-export default function RequestSection() {
+export default function RequestSection({requests = [], sectionTitle , userRole, refreshRequests}) {
+
   const [isModalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null); // 모달 타입 상태 추가
+  const [selectedRequestData, setSelectedRequestData] = useState(null);
+  const [selectedState, setSelectedState] = useState('전체');
+  const [selectedRequestType, setSelectedRequestType] = useState('전체');
+  const [filteredRequests, setFilteredRequests] = useState(requests);
 
-  const handleRequestItemClick = (e) => {
+  const handleRequestItemClick = (type, data) => (e) => {
     e.stopPropagation(); // 이벤트 캡쳐링 방지
+    setModalType(type === "등록 요청" ? "register" : "update"); // 모달 타입 설정
+    setSelectedRequestData(data);
     setModalOpen(true);
+    
   };
 
   const closeModal = () => {
     setModalOpen(false);
+    setModalType(null); // 모달 타입 초기화
+    setSelectedRequestData(null);
+    refreshRequests();
+  }; 
+
+  const handleStateChange = (state) => {
+    setSelectedState(state);
   };
 
+  const handleRequestTypeChange = (type) => {
+    setSelectedRequestType(type);
+  };
+
+  useEffect(() => {
+    //드롭다운 요소 필터
+    const filtered = requests.filter(({ status, type }) => {
+      const stateMatch = selectedState === '전체' || 
+        (selectedState === '승인완료' && status === 'app') ||
+        (selectedState === '반려' && status === 'rej') ||
+        (selectedState === '승인 전' && status === 'pend');
+      const typeMatch = selectedRequestType === '전체' || 
+        (selectedRequestType === '등록요청' && type === 'add') ||
+        (selectedRequestType === '수정요청' && type === 'mod');
+      return stateMatch && typeMatch;
+    });
+
+    //요소 정렬
+    const sorted = filtered.sort((a, b) => {
+      if (a.status === 'pend' && (b.status === 'app' || b.status === 'rej')) return -1;
+      if ((a.status === 'app' || a.status === 'rej') && b.status === 'pend') return 1;
+      if ((a.status === 'app' || a.status === 'rej') && (b.status === 'app' || b.status === 'rej')) {
+        return new Date(b.updatedAt) - new Date(a.updatedAt); // 최신순 정렬
+      }
+      return 0;
+    });
+  
+    setFilteredRequests(sorted);
+  }, [selectedState, selectedRequestType, requests]);
+
   return (
-    <MainContainer>
+    <MainContainer >
       <Inner>
-        <SectionTitle>내 요청 내역</SectionTitle>
+        <SectionTitle>{sectionTitle}</SectionTitle>
         <DropdownContainer>
-          <StateDropdown />
-          <RequestDropdown />
+          <StateDropdown onChange={handleStateChange} />
+          <RequestDropdown onChange={handleRequestTypeChange} />
         </DropdownContainer>
         <RequestList>
-          {DUMMY_REQUEST_ITEM_LIST.map(({ title, subtitle, status }, index) => (
-            <RequestItem key={index} onClick={handleRequestItemClick}>
-              <RequestItemInner>
-                <RequestContent>
-                  <RequestTitle>{title}</RequestTitle>
-                  <RequestSubTitle>{subtitle}</RequestSubTitle>
-                </RequestContent>
-                <ButtonGroup>
-                  <Badge $status={status}>{status}</Badge>
-                  <ActionButton>
-                    <Image src={TouchIcon} alt='touch-icon' />
-                  </ActionButton>
-                </ButtonGroup>
-              </RequestItemInner>
-            </RequestItem>
-          ))}
+          {Array.isArray(filteredRequests) && filteredRequests.map(({ _id, type, word, status, awkPron, comPron, info, suggestedBy }, index) => {
+            const title = type === 'add' ? '등록 요청' : '수정 요청';
+            const subtitle = word;
+            const statusText = status === 'pend' ? '승인 전' : status === 'rej' ? '반려' : '승인 완료';
+            const addinfo = info;
+            const awkpron = awkPron;
+            const compron = comPron;
+            const requestData = { _id, type, word, status, addinfo, awkpron, compron, suggestedBy };
+            return (
+              <RequestItem key={index} onClick={handleRequestItemClick(title, requestData)}>
+                <RequestItemInner>
+                  <RequestContent>
+                    <RequestTitle>{title}</RequestTitle>
+                    <RequestSubTitle>{subtitle}</RequestSubTitle>
+                  </RequestContent>
+                  <ButtonGroup>
+                    <Badge $status={statusText}>{statusText}</Badge>
+                    <ActionButton>
+                      <Image src={TouchIcon} alt="touch-icon" />
+                    </ActionButton>
+                  </ButtonGroup>
+                </RequestItemInner>
+              </RequestItem>
+            );
+          })}
         </RequestList>
       </Inner>
-      {isModalOpen && <Modal onClose={closeModal} />}
+      {isModalOpen && (
+        modalType === "register" ? (
+          <RegisterRequestModal onClose={closeModal} requestData={selectedRequestData} userRole={userRole} refreshRequests={refreshRequests}/>
+        ) : (
+          <UpdateRequestModal onClose={closeModal} requestData={selectedRequestData} userRole={userRole} refreshRequests={refreshRequests}/>
+        )
+      )}
     </MainContainer>
   );
 }
@@ -106,8 +136,8 @@ const SectionTitle = styled.h1`
   font-weight: 600;
   font-size: 20px;
   width: 447px;
-  height: 96px;
-  padding: 20px 86px 30px;
+  height: 86px;
+  padding: 20px, 86px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,7 +206,11 @@ const Badge = styled.div`
   align-items: center;
   border-radius: 30px;
   background-color: ${(props) =>
-    props.$status === '승인 전' ? 'var(--secondary)' : props.$status === '승인 완료' ? 'var(--primary)' : '#A4A4A4'};
+    props.$status === "승인 전"
+      ? "var(--secondary)"
+      : props.$status === "승인 완료"
+      ? "var(--primary)"
+      : "#A4A4A4"};
   width: 70px;
   height: 27px;
   font-size: 13px;
@@ -194,10 +228,11 @@ const ActionButton = styled(TouchIcon)`
 `;
 
 const DropdownContainer = styled.div`
-  display: flex;
-  flex-start: left;
-  width: 691px;
-  height: 35px;
-  gap: 20px;
-  margin-bottom: 20px;
+    display: flex;
+    flex-start: left;
+    width: 691px;
+    height: 35px;
+    gap: 20px;
+    margin-bottom: 20px;
+
 `;
