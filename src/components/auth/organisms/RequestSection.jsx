@@ -75,14 +75,14 @@ export default function RequestSection({requests = [], sectionTitle , userRole, 
           <RequestDropdown onChange={handleRequestTypeChange} />
         </DropdownContainer>
         <RequestList>
-          {Array.isArray(filteredRequests) && filteredRequests.map(({ _id, type, word, status, awkPron, comPron, info }, index) => {
+          {Array.isArray(filteredRequests) && filteredRequests.map(({ _id, type, word, status, awkPron, comPron, info, suggestedBy }, index) => {
             const title = type === 'add' ? '등록 요청' : '수정 요청';
             const subtitle = word;
             const statusText = status === 'pend' ? '승인 전' : status === 'rej' ? '반려' : '승인 완료';
             const addinfo = info;
             const awkpron = awkPron;
             const compron = comPron;
-            const requestData = { _id, type, word, status, addinfo, awkpron, compron };
+            const requestData = { _id, type, word, status, addinfo, awkpron, compron, suggestedBy };
             return (
               <RequestItem key={index} onClick={handleRequestItemClick(title, requestData)}>
                 <RequestItemInner>

@@ -97,13 +97,12 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     // word _id 값으로 바꾸기
     try {
       if (userRole === 'admin') {
-        console.log("requestData", requestData._id)
+        console.log("requestData", requestData)
+        console.log("requestData.id", requestData._id)
         const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'app' });
 
         if (response.message === '요청 상태 변경 성공') {
           //요청 상태가 변경되면 단어 추가
-          // await api.post('/words/add', { requestData, userNickname: requestData.suggestedBy });
-
           onClose();
           refreshRequests();
           alert("승인되었습니다!");
