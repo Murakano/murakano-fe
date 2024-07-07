@@ -98,8 +98,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     try {
       if (userRole === 'admin') {
         console.log("requestData", requestData)
-        console.log("requestData.id", requestData._id)
-        const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'app' });
+        const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'app', formData });
 
         if (response.message === '요청 상태 변경 성공') {
           //요청 상태가 변경되면 단어 추가
@@ -108,7 +107,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
           alert("승인되었습니다!");
         }
       } else {
-        const response = await api.post(`/users/requests/${requestData.word}`, { formData });
+        console.log("requestData.id", requestData._id)
+        const response = await api.post(`/users/requests/${requestData._id}`, { formData });
 
         if (response.message === '요청 수정 성공') {
           onClose();
