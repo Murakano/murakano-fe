@@ -1,4 +1,5 @@
 import { ErrorMessage } from '@/constants/errorMessage';
+import { fetchAuthData } from '@/store/useAuthStore';
 
 export const apiHeaders = new Headers();
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -151,6 +152,10 @@ const handleResponse = async (res) => {
     const errorMessage = res.status === 404 ? ErrorMessage.BAD_REQUEST : await data;
     // throw new Error(errorMessage);
     console.log(errorMessage);
+    if (errorMessage === '토큰이 만료되었습니다.') {
+      fetchAuthData();
+    }
+
     return data;
   } catch (err) {
     if (typeof window !== 'undefined') {
