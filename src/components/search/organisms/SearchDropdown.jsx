@@ -1,29 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import RecentItems from '../molecules/RecentItems';
 import { RankItems } from '../molecules/RankItems';
 import { StyledSearchOutlined } from '@/styles/commonStyles';
-import api from '@/utils/api';
-import { debounce } from 'lodash';
+import { useSearchTermStore } from '@/store/useSearchTermStore';
 
-export default function SearchDropdown({ header, onItemClick, searchTerm, ranks }) {
-  const [relatedItems, setRelatedItems] = useState([]);
-
-  useEffect(() => {
-    if (searchTerm) {
-      // 검색어가 변경될 때마다 API 요청을 보내기 위해 debounce 적용 - 300ms
-      const fetchRelatedItems = debounce(async () => {
-        try {
-          const response = await api.get(`/words/search/related`, { searchTerm, limit: 10 });
-          response.data ? setRelatedItems(response.data) : setRelatedItems([searchTerm]);
-        } catch (error) {
-          console.error(error);
-        }
-      }, 300);
-
-      fetchRelatedItems();
-    }
-  }, [searchTerm]);
+export default function SearchDropdown({ header, onItemClick, ranks, relatedItems }) {
+  const { searchTerm } = useSearchTermStore();
 
   return (
     <DDContainer $header={header}>
@@ -80,12 +62,12 @@ const RelatedItem = styled.div`
   padding: 10px;
   display: flex;
   align-items: center;
-  font-size: ${(props) => (props.$header ? '14px' : '17px')};
+  font-size: ${(props) => (props.$header ? '14px' : '15px')};
   gap: 10px;
   color: #666;
   &:hover {
     color: #000;
-    font-size: ${(props) => (props.$header ? '15px' : '18px')};
+    font-size: ${(props) => (props.$header ? '15px' : '16px')};
     cursor: pointer;
     background-color: var(--secondary10);
   }
