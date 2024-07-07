@@ -9,12 +9,26 @@ import { useSearchTermStore } from '@/store/useSearchTermStore';
 
 export default function SearchBar({ header }) {
   const router = useRouter();
+
   const searchBarRef = useRef();
+  const debounceTimeoutRef = useRef(null);
+
+  const [relatedItems, setRelatedItems] = useState([]);
   const { searchTerm } = useSearchTermStore();
   // 검색어와 드롭다운 표시 여부를 관리하는 상태
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   // 인기검색어 props
   const [ranks, setRanks] = useState([]);
+
+  const fetchRelatedItems = async (term) => {
+    try {
+      const response = await api.get(`/words/search/related`, { searchTerm: term, limit: 10 });
+      response.data ? setRelatedItems(response.data) : setRelatedItems([]);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // 인기 검색어
   useEffect(() => {
@@ -28,6 +42,25 @@ export default function SearchBar({ header }) {
     };
     fetchRanks();
   }, []);
+
+  useEffect(() => {
+    if (searchTerm) {
+      // 새로운 타이머를 설정합니다.
+      debounceTimeoutRef.current = setTimeout(async () => {
+        const data = await fetchRelatedItems(searchTerm);
+        if (data.length) {
+          setDropdownVisible(true);
+        } else {
+          setDropdownVisible(false);
+        }
+      }, 300);
+
+      // cleanup 함수: 컴포넌트가 언마운트되거나 searchTerm이 변경될 때 실행됩니다.
+      return () => {
+        clearTimeout(debounceTimeoutRef.current);
+      };
+    }
+  }, [searchTerm]);
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
@@ -57,11 +90,13 @@ export default function SearchBar({ header }) {
   return (
     <Column ref={searchBarRef}>
       <SearchBox header={header} handleSearch={handleSearch} setDropdownVisible={setDropdownVisible} />
-      {isDropdownVisible && (
+      {dropdownVisible && (
         <SearchDropdown
           header={header}
           onItemClick={handleItemClick}
           ranks={ranks}
+          relatedItems={relatedItems}
+          dropdownVisible={dropdownVisible}
           setDropdownVisible={setDropdownVisible}
         />
       )}

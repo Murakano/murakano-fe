@@ -1,36 +1,11 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import RecentItems from '../molecules/RecentItems';
 import { RankItems } from '../molecules/RankItems';
 import { StyledSearchOutlined } from '@/styles/commonStyles';
-import api from '@/utils/api';
+import { useSearchTermStore } from '@/store/useSearchTermStore';
 
-export default function SearchDropdown({ header, onItemClick, searchTerm, ranks }) {
-  const [relatedItems, setRelatedItems] = useState([]);
-  const debounceTimeoutRef = useRef(null);
-
-  const fetchRelatedItems = async (term) => {
-    try {
-      const response = await api.get(`/words/search/related`, { searchTerm: term, limit: 10 });
-      response.data ? setRelatedItems(response.data) : setRelatedItems([term]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (searchTerm) {
-      // 새로운 타이머를 설정합니다.
-      debounceTimeoutRef.current = setTimeout(() => {
-        console.log('현재시간', new Date().toLocaleTimeString());
-        fetchRelatedItems(searchTerm);
-      }, 300);
-      // cleanup 함수: 컴포넌트가 언마운트되거나 searchTerm이 변경될 때 실행됩니다.
-      return () => {
-        clearTimeout(debounceTimeoutRef.current);
-      };
-    }
-  }, [searchTerm]);
+export default function SearchDropdown({ header, onItemClick, ranks, relatedItems }) {
+  const { searchTerm } = useSearchTermStore();
 
   return (
     <DDContainer $header={header}>
@@ -87,12 +62,12 @@ const RelatedItem = styled.div`
   padding: 10px;
   display: flex;
   align-items: center;
-  font-size: ${(props) => (props.$header ? '14px' : '17px')};
+  font-size: ${(props) => (props.$header ? '14px' : '15px')};
   gap: 10px;
   color: #666;
   &:hover {
     color: #000;
-    font-size: ${(props) => (props.$header ? '15px' : '18px')};
+    font-size: ${(props) => (props.$header ? '15px' : '16px')};
     cursor: pointer;
     background-color: var(--secondary10);
   }
