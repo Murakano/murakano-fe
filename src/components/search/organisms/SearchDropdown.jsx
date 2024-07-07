@@ -56,7 +56,6 @@ const fadeOut = keyframes`
     opacity: 0;
   }
 `;
-
 const DDContainer = styled.div`
   width: ${(props) => (props.$header ? '460px' : '580px')};
   height: ${(props) => (props.$header ? '335px' : '390px')};
@@ -68,8 +67,10 @@ const DDContainer = styled.div`
   background-color: #ffffff;
   position: ${(props) => (props.$header ? 'absolute' : 'static')};
   top: ${(props) => (props.$header ? '100px' : 'auto')};
-  opacity: ${(props) => (props.$dropdownVisible ? '1' : '0')};
-  transition: opacity 0.4s ease;
+  /* opacity: ${(props) => (props.$dropdownVisible ? '1' : '0')}; */
+  /* visibility: ${(props) => (props.$visible ? 'visible' : 'hidden')}; */
+  animation: ${(props) => (props.$dropdownVisible ? fadeIn : fadeOut)} 0.4s ease;
+  /* transition: visibility 0.5s ease; */
 `;
 
 const Divider = styled.div`
