@@ -42,7 +42,6 @@ export default function SearchBox({ header, handleSearch, setDropdownVisible, re
         }}
         onClick={() => {
           // 연관검색어가 있거나 검색어가 없는 경우 dropdown 표시
-          // if (relatedItems.length || !searchTerm) setDropdownVisible(true);
           checkSearchTerm();
         }}
         onKeyPress={handleSearch}
