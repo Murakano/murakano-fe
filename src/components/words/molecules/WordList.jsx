@@ -6,6 +6,7 @@ import WordItem from '../atoms/WordItem';
 import { useRouter } from 'next/router';
 import TopScrollBtn from '@/components/common/atoms/TopScrollBtn';
 import api from '@/utils/api';
+import { WordListScrollStore } from '@/store/WordListScrollStore';
 
 export default function WordList() {
   const router = useRouter();
@@ -14,6 +15,7 @@ export default function WordList() {
   const [loading, setLoading] = useState(false);
   const loaderRef = useRef(null);
   const observerRef = useRef(null);
+  const { scrollPosition, setScrollPosition } = WordListScrollStore();
 
   // 단어 목록 클릭 시 해당 단어 상세 페이지로 이동
   const handleWordClick = (name) => {
@@ -69,6 +71,22 @@ export default function WordList() {
     };
   }, [loading]);
 
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 스크롤 위치 복구
+    window.scrollTo(0, scrollPosition);
+
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+      console.log('Current scroll position:', window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrollPosition, setScrollPosition]);
+
   return (
     <WordListContainer>
       {words.map((word, index) => (
@@ -94,6 +112,7 @@ const WordListContainer = styled.div`
   width: 780px;
   height: auto;
   padding: 10px 44.5px;
+  cursor: pointer;
 `;
 
 const WordListDiv = styled.div`
