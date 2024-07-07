@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { React, useEffect } from 'react';
 import WordsPageName from '@/components/words/atoms/WordsPageName';
 import WordList from '@/components/words/molecules/WordList';
-import WordDropdown from '@/components/words/molecules/WordDropdown';
 import SortDropdown from '@/components/words/molecules/SortDropdown';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
 
@@ -17,7 +16,6 @@ export default function AllWords() {
     <Section>
       <WordsPageName />
       <DropdownContainer>
-        <WordDropdown />
         <SortDropdown />
       </DropdownContainer>
       <WordList />

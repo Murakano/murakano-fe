@@ -1,138 +1,94 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import WordItem from '../atoms/WordItem';
 import { useRouter } from 'next/router';
 import TopScrollBtn from '@/components/common/atoms/TopScrollBtn';
-
-const wordDirectory = [
-  { name: 'DOM', pron: '돔' },
-  { name: 'React', pron: '리액트' },
-  { name: 'yml', pron: '야믈' },
-  { name: 'Linux', pron: '리눅스' },
-  { name: 'PostgreSQL', pron: '포스트그래스, 포스트그래스큐엘' },
-  { name: 'GUI', pron: '구이' },
-  { name: 'deno', pron: '디노' },
-  { name: 'nginx', pron: '엔진엑스' },
-  { name: 'sudo', pron: '수두' },
-  { name: 'qt', pron: '큣' },
-  { name: 'DOM', pron: '돔' },
-  { name: 'React', pron: '리액트' },
-  { name: 'yml', pron: '야믈' },
-  { name: 'Linux', pron: '리눅스' },
-  { name: 'PostgreSQL', pron: '포스트그래스, 포스트그래스큐엘' },
-  { name: 'GUI', pron: '구이' },
-  { name: 'deno', pron: '디노' },
-  { name: 'nginx', pron: '엔진엑스' },
-  { name: 'sudo', pron: '수두' },
-  { name: 'qt', pron: '큣' },
-  { name: 'DOM', pron: '돔' },
-  { name: 'React', pron: '리액트' },
-  { name: 'yml', pron: '야믈' },
-  { name: 'Linux', pron: '리눅스' },
-  { name: 'PostgreSQL', pron: '포스트그래스, 포스트그래스큐엘' },
-  { name: 'GUI', pron: '구이' },
-  { name: 'deno', pron: '디노' },
-  { name: 'nginx', pron: '엔진엑스' },
-  { name: 'sudo', pron: '수두' },
-  { name: 'qt', pron: '큣' },
-];
-
-// 스크롤 위치를 로컬 스토리지에 저장
-const saveScrollPosition = () => {
-  localStorage.setItem('scrollPosition', window.scrollY);
-};
-
-// 로컬 스토리지에서 스크롤 위치를 불러오기
-const loadScrollPosition = () => {
-  return parseInt(localStorage.getItem('scrollPosition'), 10) || 0;
-};
+import api from '@/utils/api';
 
 export default function WordList() {
   const router = useRouter();
-  const [words, setWords] = useState([]);
   const [page, setPage] = useState(0);
-  const observer = useRef();
+  const [words, setWords] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부를 나타내는 상태
+  const loaderRef = useRef(null);
+  const observerRef = useRef(null);
 
   // 단어 목록 클릭 시 해당 단어 상세 페이지로 이동
   const handleWordClick = (name) => {
+    // 스크롤 위치 저장
+    sessionStorage.setItem('scrollPosition', window.scrollY);
     if (name) {
-      saveScrollPosition(); // 단어 항목 클릭시, 스크롤 위치 저장
       router.push(`/search/${name}`);
     }
   };
 
-  const lastWordElementRef = useCallback(
-    (node) => {
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setPage((prevPage) => prevPage + 1);
-        }
+  const fetchWords = async (page) => {
+    setLoading(true);
+    try {
+      const response = await api.get('/words', {
+        sort: 'recent',
+        page: page + 1,
+        limit: 10,
       });
-      if (node) observer.current.observe(node);
-    },
-    [page]
-  );
+
+      console.log(response);
+      const data = response.data;
+
+      if (data.length === 0) {
+        setHasMore(false); // 더 이상 불러올 데이터가 없음을 설정
+      } else {
+        setWords((prev) => [...prev, ...data]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const newWords = wordDirectory.slice(page * 10, (page + 1) * 10);
-    setWords((prev) => [...prev, ...newWords]);
-  }, [page]);
+    if (hasMore) {
+      fetchWords(page);
+    }
+  }, [page, hasMore]);
 
   useEffect(() => {
-    // 초기 단어 호출
-    if (words.length === 0) {
-      const initialWords = wordDirectory.slice(0, 10);
-      setWords(initialWords);
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !loading && hasMore) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    }, options);
+
+    observerRef.current = observer;
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
     }
 
-    // 스크롤 위치 복구
-    const savedScrollPosition = loadScrollPosition();
-    window.scrollTo(0, savedScrollPosition);
-
-    // 페이지 언로드 직전에 스크롤위치 저장
-    const savePositionHandler = () => saveScrollPosition();
-    window.addEventListener('beforeunload', savePositionHandler);
-
-    const popStateHandler = () => {
-      const savedScrollPosition = loadScrollPosition();
-      window.scrollTo(0, savedScrollPosition);
-    };
-    window.addEventListener('popstate', popStateHandler);
-
-    // visibility API , 페이지가 숨겨지거나 다시 보여질 때 스크롤 위치 저장 및 복구
-    const visiblitySaveHandler = () => {
-      if (document.visibilityState === 'hidden') {
-        saveScrollPosition();
-      } else {
-        const savedScrollPosition = loadScrollPosition();
-        window.scrollTo(0, savedScrollPosition);
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
       }
     };
-    document.addEventListener('visibilitychange', visiblitySaveHandler);
-
-    return () => {
-      window.removeEventListener('beforeunload', savePositionHandler);
-      window.removeEventListener('popstate', popStateHandler);
-      document.removeEventListener('visibilitychange', visiblitySaveHandler);
-    };
-  }, []);
-
-  useEffect(() => {
-    return () => {};
-  }, []);
+  }, [loading, hasMore]);
 
   return (
     <WordListContainer>
-      {wordDirectory.map((word, index) => (
-        <WordListDiv
-          key={index}
-          ref={index === words.length - 1 ? lastWordElementRef : null}
-          onClick={() => handleWordClick(word.name)}
-        >
-          <WordItem name={word.name} pron={word.pron} />
+      {words.map((word, index) => (
+        <WordListDiv key={word._id || index} onClick={() => handleWordClick(word.word)}>
+          <WordItem name={word.word} pron={word.comPron} />
         </WordListDiv>
       ))}
+      <div ref={loaderRef} id='loader' style={{ height: '50px', marginTop: '10px' }}>
+        {loading ? '불러오는 중' : !hasMore ? '마지막 페이지 입니다!' : ''}
+      </div>
       <ScrollContainer>
         <TopScrollBtn />
       </ScrollContainer>
@@ -148,6 +104,7 @@ const WordListContainer = styled.div`
   width: 780px;
   height: auto;
   padding: 10px 44.5px;
+  cursor: pointer;
 `;
 
 const WordListDiv = styled.div`
