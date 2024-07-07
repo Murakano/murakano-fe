@@ -29,6 +29,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
   const [buttonActive, setButtonActive] = useState(false);
   const [deleteRequest, setDeleteRequest] = useState(false);
   const [rejectRequest, setRejectRequest] = useState(false);
+  const isRequestCompleted = requestData?.status === '승인 완료' || requestData?.status === '반려';
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,20 +96,17 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       return;
     }
 
-    // word _id 값으로 바꾸기
     try {
       if (userRole === 'admin') {
         console.log("requestData", requestData)
-        const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'app', formData });
+        const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'app', formData, requestType: 'add' });
 
         if (response.message === '요청 상태 변경 성공') {
-          //요청 상태가 변경되면 단어 추가
           onClose();
           refreshRequests();
           alert("승인되었습니다!");
         }
       } else {
-        console.log("requestData.id", requestData._id)
         const response = await api.post(`/users/requests/${requestData._id}`, { formData });
 
         if (response.message === '요청 수정 성공') {
@@ -257,16 +256,16 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             </ModalButton>
             {userRole === 'admin' ? (
               <>
-                <ModalButton onClick={() => setRejectRequest(true)}>
+                <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted} >
                   반려
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled={isRequestCompleted}>
                   승인
                 </ModalButton>
               </>
             ) : (
               <>
-                <ModalButton onClick={() => setDeleteRequest(true)}>
+                <ModalButton onClick={() => setDeleteRequest(true)} >
                   삭제
                 </ModalButton>
                 <ModalButton onClick={handleSubmit} $active={buttonActive}>
@@ -437,13 +436,13 @@ const ModalButton = styled.button`
   cursor: ${(props) => (props.isClose || props.$active ? 'pointer' : 'not-allowed')};
   background-color: ${(props) => 
     props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
-    props.$active ? 'var(--primary)' : 'var(--primary60)'};
+    props.$active && !props.disabled ? 'var(--primary)' : 'var(--primary60)'};
   &:nth-child(2) {
     background: #FF6B8F;
-    cursor: pointer; 
+    cursor: ${(props) => (!props.disabled ? 'pointer' : 'not-allowed')};
     &:hover {
-      box-shadow: 0px 2px 8px 0px #FF0808A6;
-      background: #FF002E;
+      box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF0808A6' : 'none')};
+      background: ${(props) => (!props.disabled ? '#FF002E' : '#FF6B8F')};
     }
   }
 `;
