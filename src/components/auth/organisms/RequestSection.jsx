@@ -41,6 +41,7 @@ export default function RequestSection({requests = [], sectionTitle , userRole, 
   };
 
   useEffect(() => {
+    //드롭다운 요소 필터
     const filtered = requests.filter(({ status, type }) => {
       const stateMatch = selectedState === '전체' || 
         (selectedState === '승인완료' && status === 'app') ||
@@ -51,7 +52,18 @@ export default function RequestSection({requests = [], sectionTitle , userRole, 
         (selectedRequestType === '수정요청' && type === 'mod');
       return stateMatch && typeMatch;
     });
-    setFilteredRequests(filtered);
+
+    //요소 정렬
+    const sorted = filtered.sort((a, b) => {
+      if (a.status === 'pend' && (b.status === 'app' || b.status === 'rej')) return -1;
+      if ((a.status === 'app' || a.status === 'rej') && b.status === 'pend') return 1;
+      if ((a.status === 'app' || a.status === 'rej') && (b.status === 'app' || b.status === 'rej')) {
+        return new Date(b.updatedAt) - new Date(a.updatedAt); // 최신순 정렬
+      }
+      return 0;
+    });
+  
+    setFilteredRequests(sorted);
   }, [selectedState, selectedRequestType, requests]);
 
   return (
