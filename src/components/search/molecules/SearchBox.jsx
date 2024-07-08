@@ -26,6 +26,9 @@ export default function SearchBox({ header, handleSearch, setDropdownVisible, re
     // 경로가 /search/:word인 경우 검색어를 set
     if (query) {
       setSearchTerm(query);
+    } else {
+      // 경로가 /search/:word가 아닌 경우 검색어 초기화
+      setSearchTerm('');
     }
   }, [query]);
 
