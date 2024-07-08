@@ -23,7 +23,7 @@ export const validateNickname = (nickname) => {
 
 // 모달 인풋 유효성 검증
 export const validateLength = (input, maxLength) => {
-  return input.length <= maxLength;
+  return input?.length <= maxLength;
 };
 
 const duplicateNickname = async (nickname) => {
