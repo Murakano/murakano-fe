@@ -245,6 +245,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
               name='addInfo'
               value={formData.addInfo}
               onChange={handleChange}
+              valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
@@ -409,14 +410,16 @@ const TextArea = styled.textarea`
   width: 498px;
   height: 123px;
   border: 1px solid var(--secondary);
+  border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--secondary)')};
+
   border-radius: 10px;
   padding: 20px;
   &:focus {
-    border-color: var(--primary);
+    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
     outline: none;
   }
   &:hover {
-    border-color: var(--primary);
+    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
   }
   resize: none;
   overflow: auto;
