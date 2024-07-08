@@ -18,6 +18,7 @@ export default function SearchBox({ header, handleSearch, setDropdownVisible, re
   const checkSearchTerm = () => {
     // 검색어가 없거나 연관검색어가 있을 경우 dropdown 표시
     if (searchTerm === '' || relatedItems.length) {
+      console.log(10000);
       setDropdownVisible(true);
     }
   };

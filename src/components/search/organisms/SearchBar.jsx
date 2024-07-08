@@ -6,7 +6,7 @@ import SearchDropdown from '@/components/search/organisms/SearchDropdown';
 import SearchBox from '@/components/search/molecules/SearchBox';
 import api from '@/utils/api';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
-import { set } from 'lodash';
+import { first, set } from 'lodash';
 
 export default function SearchBar({ header }) {
   const router = useRouter();
@@ -47,8 +47,10 @@ export default function SearchBar({ header }) {
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
     }
+    console.log(firstRender);
     setFirstRender(false);
     if (rememberPath !== path) {
+      console.log(2);
       setDropdownVisible(false);
       setRememberPath(path);
       setFirstRender(true);
@@ -66,16 +68,19 @@ export default function SearchBar({ header }) {
 
   useEffect(() => {
     let path = router.pathname;
-
+    console.log(3);
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
     }
     let isInitialRender = firstRender;
+    console.log(4);
     setFirstRender(false);
+    console.log(rememberPath, path, isInitialRender, 33);
     if (rememberPath !== path) {
       setDropdownVisible(false);
       setRememberPath(path);
       isInitialRender = true;
+      console.log(5);
       setFirstRender(true);
     }
 
@@ -86,13 +91,12 @@ export default function SearchBar({ header }) {
         if (data?.length && !isInitialRender) {
           setDropdownVisible(true);
         } else {
+          console.log(6);
           setDropdownVisible(false);
           setFirstRender(false);
         }
-      }, 300);
-      if (router.pathname !== `/search/${searchTerm}`) {
-        setDropdownVisible(false);
-      }
+      }, 200);
+
       return () => {
         clearTimeout(debounceTimeoutRef.current);
       };
@@ -103,19 +107,24 @@ export default function SearchBar({ header }) {
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
+      setRememberPath(router.query.query);
       router.push(`/search/${encodeURIComponent(searchTerm)}`);
+      console.log(rememberPath, searchTerm, 1);
+      setFirstRender(true);
       setDropdownVisible(false);
     }
   };
 
   const handleItemClick = (searchTerm) => {
     router.push(`/search/${encodeURIComponent(searchTerm)}`);
+    setFirstRender(true);
     setDropdownVisible(false);
   };
 
   const handleClickOutside = (event) => {
     if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
       setDropdownVisible(false);
+      setFirstRender(true);
     }
   };
 
