@@ -23,12 +23,19 @@ export default function AgreementsBox({ agreements, setAgreements }) {
   return (
     <AgrBox>
       <PrimaryCheckboxContainer>
-        <PrimaryCheckbox type='checkbox' name='agreeAll' checked={agreeAll} onChange={handleAgreeAllChange} />
+        <PrimaryCheckbox
+          id='agreeAll'
+          type='checkbox'
+          name='agreeAll'
+          checked={agreeAll}
+          onChange={handleAgreeAllChange}
+        />
         <PrimaryLabel htmlFor='agreeAll'>모든 약관 사항에 전체 동의합니다.</PrimaryLabel>
       </PrimaryCheckboxContainer>
       <Line />
       <CheckboxContainer>
         <Checkbox
+          id='serviceAgree'
           type='checkbox'
           name='serviceAgree'
           checked={agreements.serviceAgree}
@@ -40,6 +47,7 @@ export default function AgreementsBox({ agreements, setAgreements }) {
 
       <CheckboxContainer>
         <Checkbox
+          id='privacyAgree'
           type='checkbox'
           name='privacyAgree'
           checked={agreements.privacyAgree}
@@ -51,7 +59,6 @@ export default function AgreementsBox({ agreements, setAgreements }) {
     </AgrBox>
   );
 }
-
 const AgrBox = styled.div`
   width: 100%;
   padding-top: 23px;

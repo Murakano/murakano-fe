@@ -1,8 +1,19 @@
 import styled from 'styled-components';
 import SocialLogin from '@/components/auth/organisms/SocialLogin';
 import LoginForm from '@/components/auth/organisms/LoginForm';
-
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 export default function Login() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.message) {
+      alert(router.query.message);
+      // URL에서 query parameter를 제거
+      router.replace(router.pathname, undefined, { shallow: true });
+    }
+  }, [router]);
+
   return (
     <Page>
       <Section>
