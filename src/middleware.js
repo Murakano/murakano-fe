@@ -1,20 +1,15 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { parse } from 'cookie';
+import { protectedRoutes, publicRoutes } from './constants/protectedRoutes';
 
 export const config = {
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico|fonts|images).*)'],
 };
 
-// 로그인이 필요한 페이지 목록
-const protectedRoutes = ['/auth/requests'];
-// 로그인이 되면 접근할 수 없는 페이지 목록
-const publicRoutes = ['/auth/login', '/auth/register'];
-
 export function middleware(request = NextRequest) {
   const cookies = parse(request.headers.get('cookie') || '');
   const token = cookies.refreshToken;
-  console.log(token);
 
   const currentPath = request.nextUrl.pathname;
 
