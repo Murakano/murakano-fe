@@ -30,10 +30,11 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
   const [deleteRequest, setDeleteRequest] = useState(false);
   const [rejectRequest, setRejectRequest] = useState(false);
   const isRequestCompleted = requestData.status === 'app' || requestData.status === 'rej';
-
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (isRequestCompleted) return;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -217,6 +218,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
+            readOnly = {isRequestCompleted}
+            $isRequestCompleted={isRequestCompleted} // 상태 전달
           />
           <StyledInputBox
             type='text'
@@ -227,6 +230,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'} 
+            readOnly = {isRequestCompleted}
+            $isRequestCompleted={isRequestCompleted} // 상태 전달
 
           />
           <StyledInputBox
@@ -238,6 +243,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
+            readOnly = {isRequestCompleted}
+            $isRequestCompleted={isRequestCompleted} // 상태 전달
           />
           <Item>
             <Label>추가정보</Label>
@@ -246,6 +253,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
               value={formData.addInfo}
               onChange={handleChange}
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
+              disabled = {isRequestCompleted}
+              $isRequestCompleted={isRequestCompleted} // 상태 전달
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
@@ -386,7 +395,17 @@ const StyledInputBox = styled(InputBox)`
     &:hover {
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
-    
+    ${(props) =>
+      props.$isRequestCompleted &&
+      `
+      &:hover {
+          border-color: var(--secondary); // 상태가 'rej' 또는 'app'이면 호버 시 색상 변경 안함
+      }
+      &:focus {
+        border-color: var(--secondary); // 포커스 시 색상 변경 안함
+        outline: none;
+      }
+  `}
   }
   Label {
     width: 498px;
@@ -411,7 +430,6 @@ const TextArea = styled.textarea`
   height: 123px;
   border: 1px solid var(--secondary);
   border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--secondary)')};
-
   border-radius: 10px;
   padding: 20px;
   &:focus {
@@ -427,6 +445,17 @@ const TextArea = styled.textarea`
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
+  ${(props) =>
+    props.$isRequestCompleted &&
+    `
+    &:hover {
+        border-color: var(--secondary); // 상태가 'rej' 또는 'app'이면 호버 시 색상 변경 안함
+    }
+    &:focus {
+        border-color: var(--secondary); // 상태가 'rej' 또는 'app'이면 포커스 시 색상 변경 안함
+        outline: none;
+    }
+  `}
 `;
 
 const ModalButton = styled.button`
