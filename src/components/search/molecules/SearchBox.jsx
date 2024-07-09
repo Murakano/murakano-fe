@@ -42,17 +42,20 @@ export default function SearchBox({
 
   const handleKeyDown = (e) => {
     if (relatedItems?.length) {
-      e.preventDefault();
       if (e.key === 'ArrowDown') {
+        e.preventDefault();
         setDropdownVisible(true);
         setFocusedIndex((prevIndex) => (prevIndex + 1) % relatedItems.length);
       } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
         setFocusedIndex((prevIndex) => (prevIndex - 1 + relatedItems.length) % relatedItems.length);
       } else if (e.key === 'Enter') {
+        e.preventDefault();
         const selectedTerm = focusedIndex === -1 ? searchTerm : relatedItems[focusedIndex];
         handleSearch(e, selectedTerm); // 포커스된 아이템을 handleSearch로 전달
       }
     } else if (e.key === 'Enter') {
+      e.preventDefault();
       handleSearch(e, searchTerm);
     }
   };
