@@ -37,7 +37,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: auto;
+  overflow-y: auto;
 `;
 
 // 검색아이콘
