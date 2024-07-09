@@ -27,10 +27,3 @@ const Section = styled.div`
   height: calc(100vh - 130px);
   max-width: 100vw;
 `;
-const DropdownContainer = styled.div`
-  display: flex;
-  width: 691px;
-  height: 35px;
-  gap: 20px;
-  margin-bottom: 10px;
-`;
