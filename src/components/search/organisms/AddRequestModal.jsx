@@ -98,20 +98,22 @@ export default function Modal({ onClose }) {
       return;
     }
 
-  
-
-
-    const type = 'add'; // 추가 요청
-    const requestData = { formData, type, nickname };
-  
+    const type = 'add';
+    const requestData = { 
+        word: formData.devTerm,
+        formData,
+        type, 
+        nickname 
+    };
+    
     console.log('Sending request data:', requestData);
     try {
-      const response = await api.post(`/users/requests/${nickname}/new`, requestData);
-      console.log('Response:', response);
-      alert('등록 요청이 제출되었습니다');
-      onClose();
+        const response = await api.post(`/users/requests/${nickname}/new`, requestData);
+        console.log('Response:', response);
+        alert('등록 요청이 제출되었습니다');
+        onClose();
     } catch (error) {
-      console.error('등록 요청 중 오류가 발생하였습니다:', error);
+        console.error('등록 요청 중 오류가 발생하였습니다:', error);
     }
   };
 
