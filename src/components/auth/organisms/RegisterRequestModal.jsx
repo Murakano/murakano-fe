@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import InputBox from '@/components/common/molecules/InputBox';
 import { HELPER_TEXT } from '@/constants/helperText';
 
-import { validateLength } from '@/utils/validate';
+import { validateLength, validateDevTerm } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
@@ -48,6 +48,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       validateLength(formData.commonPron, 100) &&
       validateLength(formData.awkPron, 100) &&
       validateLength(formData.addInfo, 1000) &&
+      validateDevTerm(formData.devTerm) &&
       formData.devTerm
     ) {
       setButtonActive(true);
@@ -68,8 +69,13 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     } else if (!validateLength(formData.devTerm, 50)) {
       updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
       hasError = true;
-    } else {
-      updateState('devTermHelper', '', setHelperText);
+    } 
+      else if (!validateDevTerm(formData.devTerm)) {
+        updateState('devTermHelper', HELPER_TEXT.INVALID_DEVTERM, setHelperText);
+        hasError = true;
+    }
+      else {
+        updateState('devTermHelper', '', setHelperText);
     }
 
     if (!validateLength(formData.commonPron, 100)) {
