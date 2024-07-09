@@ -40,7 +40,6 @@ const StyledContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   height: 100vh;
-  text-align: center;
   width: 780px;
   padding: 96px 0;
 `;
