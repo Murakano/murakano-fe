@@ -82,7 +82,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       updateState('commonPronHelper', '', setHelperText);
     }
 
-    if (!validateLength(formData.awkPron, 100)) {
+    if (formData.awkPron && !validateLength(formData.awkPron, 100)) {
       updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
