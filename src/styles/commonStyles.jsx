@@ -46,4 +46,8 @@ export const StyledSearchOutlined = styled(SearchOutlined)`
   height: ${(props) => (props.related ? '17px' : '32px')};
   font-size: 30px;
   color: #666666;
+  color: var(--primary60);
+  &:hover {
+    color: var(--primary);
+  }
 `;
