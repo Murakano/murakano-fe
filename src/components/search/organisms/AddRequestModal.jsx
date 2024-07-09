@@ -13,13 +13,13 @@ import useAuthStore from '@/store/useAuthStore';
 
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose }) {
+export default function Modal({ onClose,query }) {
   const modalRef = useRef();
   const { nickname } = useAuthStore();
 
 
   const [formData, setFormData] = useState({
-    devTerm: '',
+    devTerm: query ? query : '',
     commonPron: '',
     awkPron: '',
     addInfo: '',

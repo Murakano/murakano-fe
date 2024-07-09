@@ -19,7 +19,7 @@ const SorryComponent = ({ query }) => {
     <StyledContainer>
       <SorryText query={query} />
       <AddRequestBtn onClick={handleOpenModal}>등록 요청</AddRequestBtn>
-      {isModalOpen && <AddRequestModal onClose={handleCloseModal} />}
+      {isModalOpen && <AddRequestModal onClose={handleCloseModal} query={query}/>}
     </StyledContainer>
   );
   z;
