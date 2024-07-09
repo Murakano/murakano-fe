@@ -136,8 +136,7 @@ const SectionTitle = styled.h1`
   font-weight: 600;
   font-size: 20px;
   width: 447px;
-  height: 86px;
-  padding: 20px, 86px;
+  padding: 33px 86px;
   display: flex;
   align-items: center;
   justify-content: center;
