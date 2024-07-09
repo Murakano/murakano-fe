@@ -6,7 +6,6 @@ import SearchDropdown from '@/components/search/organisms/SearchDropdown';
 import SearchBox from '@/components/search/molecules/SearchBox';
 import api from '@/utils/api';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
-import { first, set } from 'lodash';
 
 export default function SearchBar({ header }) {
   const router = useRouter();
@@ -15,12 +14,13 @@ export default function SearchBar({ header }) {
 
   const [firstRender, setFirstRender] = useState(true);
   const [relatedItems, setRelatedItems] = useState([]);
-  const { searchTerm } = useSearchTermStore();
+  const { searchTerm, setSearchTerm } = useSearchTermStore();
   const [rememberPath, setRememberPath] = useState(router.pathname);
   // 검색어와 드롭다운 표시 여부를 관리하는 상태
   const [dropdownVisible, setDropdownVisible] = useState(false);
   // 인기검색어 props
   const [ranks, setRanks] = useState([]);
+  const [focusedIndex, setFocusedIndex] = useState(-1); // 포커스된 아이템의 인덱스
 
   const fetchRelatedItems = async (term) => {
     try {
@@ -90,7 +90,8 @@ export default function SearchBar({ header }) {
 
         if (data?.length && !isInitialRender) {
           setDropdownVisible(true);
-        } else {
+        } else if (router.pathname !== '/') {
+          console.log(data?.length, isInitialRender, 6);
           console.log(6);
           setDropdownVisible(false);
           setFirstRender(false);
@@ -105,17 +106,21 @@ export default function SearchBar({ header }) {
     }
   }, [searchTerm, router.pathname]);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e, term) => {
     if (e.key === 'Enter' || e.type === 'click') {
+      const searchTermToUse = term || searchTerm;
       setRememberPath(router.query.query);
-      router.push(`/search/${encodeURIComponent(searchTerm)}`);
-      console.log(rememberPath, searchTerm, 1);
+      setSearchTerm(searchTermToUse); // setSearchTerm 호출
+      setFocusedIndex(-1); // 포커스 인덱스 초기화
+      router.push(`/search/${encodeURIComponent(searchTermToUse)}`);
       setFirstRender(true);
       setDropdownVisible(false);
     }
   };
 
   const handleItemClick = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    setFocusedIndex(-1); // 포커스 인덱스 초기화
     router.push(`/search/${encodeURIComponent(searchTerm)}`);
     setFirstRender(true);
     setDropdownVisible(false);
@@ -135,6 +140,8 @@ export default function SearchBar({ header }) {
         handleSearch={handleSearch}
         setDropdownVisible={setDropdownVisible}
         relatedItems={relatedItems}
+        focusedIndex={focusedIndex} // 추가
+        setFocusedIndex={setFocusedIndex} // 추가
       />
       {dropdownVisible && (
         <SearchDropdown
@@ -143,6 +150,8 @@ export default function SearchBar({ header }) {
           ranks={ranks}
           relatedItems={relatedItems}
           dropdownVisible={dropdownVisible}
+          focusedIndex={focusedIndex} // 추가
+          setFocusedIndex={setFocusedIndex} // 추가
         />
       )}
     </Column>

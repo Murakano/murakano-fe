@@ -5,7 +5,7 @@ import { StyledSearchOutlined } from '@/styles/commonStyles';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
 import { useState, useEffect } from 'react';
 
-export default function SearchDropdown({ header, onItemClick, ranks, relatedItems, dropdownVisible }) {
+export default function SearchDropdown({ header, onItemClick, ranks, relatedItems, dropdownVisible, focusedIndex }) {
   const { searchTerm } = useSearchTermStore();
   const [visible, setVisible] = useState(false);
 
@@ -23,7 +23,12 @@ export default function SearchDropdown({ header, onItemClick, ranks, relatedItem
         <RelatedItems $header={header}>
           {relatedItems &&
             relatedItems.map((item, index) => (
-              <RelatedItem $header={header} key={index} onClick={() => onItemClick(item)}>
+              <RelatedItem
+                $header={header}
+                key={index}
+                onClick={() => onItemClick(item)}
+                $focused={index === focusedIndex} // 포커스된 아이템 스타일 적용
+              >
                 <StyledSearchOutlined related='true' />
                 {item}
               </RelatedItem>
@@ -56,7 +61,7 @@ const DDContainer = styled.div`
 const Divider = styled.div`
   width: 1px;
   background-color: rgba(184, 213, 255, 0.3);
-  height: 85%; /* 높이를 컨테이너 높이의 80%로 설정 */
+  height: 85%; /* 높이를 컨테이너 높이의 85%로 설정 */
   align-self: center; /* 세로 가운데 정렬 */
 `;
 
@@ -74,6 +79,7 @@ const RelatedItem = styled.div`
   display: flex;
   align-items: center;
   font-size: ${(props) => (props.$header ? '14px' : '15px')};
+  background-color: ${(props) => (props.$focused ? 'var(--secondary10)' : 'transparent')}; /* 포커스된 아이템 배경색 */
   gap: 10px;
   color: #666;
   &:hover {

@@ -6,7 +6,14 @@ import { useRouter } from 'next/router';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
 import { CloseOutlined } from '@ant-design/icons';
 
-export default function SearchBox({ header, handleSearch, setDropdownVisible, relatedItems }) {
+export default function SearchBox({
+  header,
+  handleSearch,
+  setDropdownVisible,
+  relatedItems,
+  focusedIndex,
+  setFocusedIndex,
+}) {
   const router = useRouter();
   const { query } = router.query;
   const { searchTerm, setSearchTerm } = useSearchTermStore();
@@ -33,6 +40,23 @@ export default function SearchBox({ header, handleSearch, setDropdownVisible, re
     }
   }, [query]);
 
+  const handleKeyDown = (e) => {
+    if (relatedItems?.length) {
+      e.preventDefault();
+      if (e.key === 'ArrowDown') {
+        setDropdownVisible(true);
+        setFocusedIndex((prevIndex) => (prevIndex + 1) % relatedItems.length);
+      } else if (e.key === 'ArrowUp') {
+        setFocusedIndex((prevIndex) => (prevIndex - 1 + relatedItems.length) % relatedItems.length);
+      } else if (e.key === 'Enter') {
+        const selectedTerm = focusedIndex === -1 ? searchTerm : relatedItems[focusedIndex];
+        handleSearch(e, selectedTerm); // 포커스된 아이템을 handleSearch로 전달
+      }
+    } else if (e.key === 'Enter') {
+      handleSearch(e, searchTerm);
+    }
+  };
+
   return (
     <SearchBarContainer $header={header}>
       <SearchInput
@@ -48,7 +72,7 @@ export default function SearchBox({ header, handleSearch, setDropdownVisible, re
           // 연관검색어가 있거나 검색어가 없는 경우 dropdown 표시
           checkSearchTerm();
         }}
-        onKeyPress={handleSearch}
+        onKeyDown={handleKeyDown}
         placeholder='발음이 궁금한 영어 개발 용어를 검색해보세요.'
       />
       {searchTerm && <CloseIcon onClick={handleeCloseIconClick} />}
