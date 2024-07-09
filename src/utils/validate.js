@@ -3,7 +3,7 @@ import { HELPER_TEXT } from '@/constants/helperText';
 
 export const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 export const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
-export const devTermPattern = /^[a-zA-Z!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|-]*$/;
+export const devTermPattern = /^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|-]*$/;
 
 // 이메일 유효성 검증
 export const validateEmail = (email) => {

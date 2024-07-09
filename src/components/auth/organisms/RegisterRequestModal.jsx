@@ -66,26 +66,24 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     if (!formData.devTerm) {
       updateState('devTermHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
       hasError = true;
+    } else if (!validateDevTerm(formData.devTerm)) {
+      updateState('devTermHelper', HELPER_TEXT.INVALID_DEVTERM, setHelperText);
+      hasError = true;
     } else if (!validateLength(formData.devTerm, 50)) {
       updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
       hasError = true;
-    } 
-      else if (!validateDevTerm(formData.devTerm)) {
-        updateState('devTermHelper', HELPER_TEXT.INVALID_DEVTERM, setHelperText);
-        hasError = true;
-    }
-      else {
-        updateState('devTermHelper', '', setHelperText);
+    } else {
+      updateState('devTermHelper', '', setHelperText);
     }
 
-    if (!validateLength(formData.commonPron, 100)) {
+    if (formData.commonPron && !validateLength(formData.commonPron, 100)) {
       updateState('commonPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
       updateState('commonPronHelper', '', setHelperText);
     }
 
-    if (!validateLength(formData.awkPron, 100)) {
+    if (formData.awkPron && !validateLength(formData.awkPron, 100)) {
       updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
