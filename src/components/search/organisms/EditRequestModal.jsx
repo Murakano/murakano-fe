@@ -163,6 +163,7 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
+            placeholder="개발 용어를 입력해주세요."
             disabled
             readOnly
           />
@@ -175,6 +176,7 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'} 
+            placeholder="일반적으로 쓰이는 발음을 입력해주세요."
 
           />
           <StyledInputBox
@@ -186,6 +188,7 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
+            placeholder="어색한 발음을 입력해주세요." 
           />
           <Item>
             <Label>추가정보</Label>
@@ -194,7 +197,7 @@ export default function Modal({ onClose, searchResult }) {
               value={formData.addInfo}
               onChange={handleChange}
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
-
+              placeholder="추가 정보를 입력해주세요."
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
