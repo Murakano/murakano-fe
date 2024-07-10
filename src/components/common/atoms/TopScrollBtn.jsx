@@ -28,6 +28,7 @@ const BtnContainer = styled.div`
   gap: 10px;
   align-items: right;
   justify-content: right;
+  position: fixed;
 `;
 
 const BtnDiv = styled.div`

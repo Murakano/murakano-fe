@@ -16,9 +16,11 @@ export default function WordItem({ name, pron }) {
             <div>{pron}</div>
           </WordPron>
         </WordContents>
-        <WordListIconDiv>
-          <WordListIcon />
-        </WordListIconDiv>
+        <WordListIconContainer>
+          <WordListIconDiv>
+            <WordListIcon />
+          </WordListIconDiv>
+        </WordListIconContainer>
       </ListInnerContainer>
     </ListContainer>
   );
@@ -59,6 +61,7 @@ const WordContents = styled.div`
 
 const WordName = styled.div`
   height: 17px;
+  width: 580px;
   margin: 5px 0 10px;
   font-size: 15px;
   font-weight: 600;
@@ -68,18 +71,29 @@ const WordName = styled.div`
 
 const WordPron = styled.div`
   height: 20px;
+  width: 580px;
   font-size: 13px;
   font-weight: 300;
   line-height: 19.5px;
   letter-spacing: -0.03em;
+  overflow: hidden;
 `;
 
-const WordListIconDiv = styled.div`
+const WordListIconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  item-align: center;
   width: 24px;
   height: 44px;
   margin: 17.5px 10px 17.5px 0;
   padding: 10px 0;
   position: relative;
-  top: -80px;
+  top: -88px;
   left: 590px;
+`;
+
+const WordListIconDiv = styled.div`
+  width: 24px;
+  height: 24px;
+  margin: 10px 0;
 `;

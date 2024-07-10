@@ -81,9 +81,6 @@ export default function WordsSection() {
         <SortDropdown onSelect={handleSortChange} />
       </DropdownContainer>
       <WordList words={words} handleWordClick={handleWordClick} lastWordElementRef={lastWordElementRef} />
-      <ScrollContainer>
-        <TopScrollBtn />
-      </ScrollContainer>
       {loading && <LoadingMessage>Loading...</LoadingMessage>}
     </WordBoardContainer>
   );
@@ -102,12 +99,6 @@ const DropdownContainer = styled.div`
   height: 35px;
   gap: 20px;
   margin-bottom: 10px;
-`;
-
-const ScrollContainer = styled.div`
-  position: fixed;
-  z-index: 999;
-  right: 275px;
 `;
 
 const LoadingMessage = styled.div`
