@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import InputBox from '@/components/common/molecules/InputBox';
 import { HELPER_TEXT } from '@/constants/helperText';
 
-import { validateLength } from '@/utils/validate';
+import { validateLength, validateDevTerm } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
@@ -50,6 +50,7 @@ export default function Modal({ onClose, searchResult }) {
       validateLength(formData.commonPron, 100) &&
       validateLength(formData.awkPron, 100) &&
       validateLength(formData.addInfo, 1000) &&
+      validateDevTerm(formData.devTerm) &&
       formData.devTerm &&
       formData.commonPron
     ) {
@@ -67,6 +68,9 @@ export default function Modal({ onClose, searchResult }) {
 
     if (!formData.devTerm) {
       updateState('devTermHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
+      hasError = true;
+    } else if (!validateDevTerm(formData.devTerm)) {
+      updateState('devTermHelper', HELPER_TEXT.INVALID_DEVTERM, setHelperText);
       hasError = true;
     } else if (!validateLength(formData.devTerm, 50)) {
       updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
@@ -104,7 +108,12 @@ export default function Modal({ onClose, searchResult }) {
     }
 
     const type = 'mod'; // 수정 요청
-    const requestData = { formData, type, nickname };
+    const requestData = { 
+      word: formData.devTerm,
+      formData,
+      type, 
+      nickname 
+  };
     
     console.log('Sending request data:', requestData);
     try {
@@ -184,6 +193,8 @@ export default function Modal({ onClose, searchResult }) {
               name='addInfo'
               value={formData.addInfo}
               onChange={handleChange}
+              valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
+
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
