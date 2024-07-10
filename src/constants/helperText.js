@@ -13,4 +13,5 @@ export const HELPER_TEXT = {
   NICKNAME_DUPLICATE: '* 중복된 닉네임 입니다.',
   REQUIRED_INPUT_EMPTY: '* 필수 입력 값입니다.',
   EXCEED_LENGTH: (maxLength) => `* ${maxLength}글자를 초과할 수 없습니다.`,
+  INVALID_DEVTERM: '* 개발용어는 영문, 숫자, 특수문자만 가능합니다.',
 };
