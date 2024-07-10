@@ -270,10 +270,10 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             </ModalButton>
             {userRole === 'admin' ? (
               <>
-                <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted} >
+                <ModalButton onClick={() => setRejectRequest(true)} disabled = {isRequestCompleted} >
                   반려
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled={isRequestCompleted}>
+                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled = {isRequestCompleted}>
                   승인
                 </ModalButton>
               </>
@@ -282,7 +282,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
                 <ModalButton onClick={() => setDeleteRequest(true)} >
                   삭제
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled = {isRequestCompleted}>
                   수정
                 </ModalButton>
               </>
