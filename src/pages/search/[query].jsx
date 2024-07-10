@@ -66,7 +66,7 @@ const StyledContainer = styled.div`
 
 const ResultWord = styled.div`
   color: #000;
-  width: 691px;
+  width: auto;
   height: 102px;
   padding: 10px;
   gap: 29px;

@@ -8,7 +8,7 @@ export function RankItems({ children, header, onItemClick, ranks }) {
     <DDSection>
       <SectionTitle $header={header}>인기 검색어</SectionTitle>
       <ColumnGap>
-        {ranks.map((item, index) => (
+        {ranks?.map((item, index) => (
           <RankItem key={`rank ${index}`} header={header} index={index} onItemClick={onItemClick}>
             {item}
           </RankItem>

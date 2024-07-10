@@ -6,7 +6,14 @@ import { useRouter } from 'next/router';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
 import { CloseOutlined } from '@ant-design/icons';
 
-export default function SearchBox({ header, handleSearch, setDropdownVisible, relatedItems }) {
+export default function SearchBox({
+  header,
+  handleSearch,
+  setDropdownVisible,
+  relatedItems,
+  focusedIndex,
+  setFocusedIndex,
+}) {
   const router = useRouter();
   const { query } = router.query;
   const { searchTerm, setSearchTerm } = useSearchTermStore();
@@ -18,6 +25,7 @@ export default function SearchBox({ header, handleSearch, setDropdownVisible, re
   const checkSearchTerm = () => {
     // 검색어가 없거나 연관검색어가 있을 경우 dropdown 표시
     if (searchTerm === '' || relatedItems.length) {
+      console.log(10000);
       setDropdownVisible(true);
     }
   };
@@ -26,8 +34,31 @@ export default function SearchBox({ header, handleSearch, setDropdownVisible, re
     // 경로가 /search/:word인 경우 검색어를 set
     if (query) {
       setSearchTerm(query);
+    } else {
+      // 경로가 /search/:word가 아닌 경우 검색어 초기화
+      setSearchTerm('');
     }
   }, [query]);
+
+  const handleKeyDown = (e) => {
+    if (relatedItems?.length) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setDropdownVisible(true);
+        setFocusedIndex((prevIndex) => (prevIndex + 1) % relatedItems.length);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setFocusedIndex((prevIndex) => (prevIndex - 1 + relatedItems.length) % relatedItems.length);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const selectedTerm = focusedIndex === -1 ? searchTerm : relatedItems[focusedIndex];
+        handleSearch(e, selectedTerm); // 포커스된 아이템을 handleSearch로 전달
+      }
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch(e, searchTerm);
+    }
+  };
 
   return (
     <SearchBarContainer $header={header}>
@@ -44,7 +75,7 @@ export default function SearchBox({ header, handleSearch, setDropdownVisible, re
           // 연관검색어가 있거나 검색어가 없는 경우 dropdown 표시
           checkSearchTerm();
         }}
-        onKeyPress={handleSearch}
+        onKeyDown={handleKeyDown}
         placeholder='발음이 궁금한 영어 개발 용어를 검색해보세요.'
       />
       {searchTerm && <CloseIcon onClick={handleeCloseIconClick} />}

@@ -24,7 +24,7 @@ export default function TopScrollBtn() {
 const BtnContainer = styled.div`
   width: 40px;
   height: 40px;
-  padding : 10px
+  padding: 10px;
   gap: 10px;
   align-items: right;
   justify-content: right;
