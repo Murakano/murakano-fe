@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import InputBox from '@/components/common/molecules/InputBox';
 import { HELPER_TEXT } from '@/constants/helperText';
 
-import { validateLength } from '@/utils/validate';
+import { validateLength, validateDevTerm } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
@@ -30,10 +30,11 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
   const [deleteRequest, setDeleteRequest] = useState(false);
   const [rejectRequest, setRejectRequest] = useState(false);
   const isRequestCompleted = requestData.status === 'app' || requestData.status === 'rej';
-
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (isRequestCompleted) return;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -47,6 +48,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       validateLength(formData.commonPron, 100) &&
       validateLength(formData.awkPron, 100) &&
       validateLength(formData.addInfo, 1000) &&
+      validateDevTerm(formData.devTerm) &&
       formData.devTerm
     ) {
       setButtonActive(true);
@@ -64,6 +66,9 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     if (!formData.devTerm) {
       updateState('devTermHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
       hasError = true;
+    } else if (!validateDevTerm(formData.devTerm)) {
+      updateState('devTermHelper', HELPER_TEXT.INVALID_DEVTERM, setHelperText);
+      hasError = true;
     } else if (!validateLength(formData.devTerm, 50)) {
       updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
       hasError = true;
@@ -71,14 +76,14 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       updateState('devTermHelper', '', setHelperText);
     }
 
-    if (!validateLength(formData.commonPron, 100)) {
+    if (formData.commonPron && !validateLength(formData.commonPron, 100)) {
       updateState('commonPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
       updateState('commonPronHelper', '', setHelperText);
     }
 
-    if (!validateLength(formData.awkPron, 100)) {
+    if (formData.awkPron && !validateLength(formData.awkPron, 100)) {
       updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
@@ -217,6 +222,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
+            readOnly = {isRequestCompleted}
+            $isRequestCompleted={isRequestCompleted} // 상태 전달
           />
           <StyledInputBox
             type='text'
@@ -227,6 +234,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'} 
+            readOnly = {isRequestCompleted}
+            $isRequestCompleted={isRequestCompleted} // 상태 전달
 
           />
           <StyledInputBox
@@ -238,6 +247,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
+            readOnly = {isRequestCompleted}
+            $isRequestCompleted={isRequestCompleted} // 상태 전달
           />
           <Item>
             <Label>추가정보</Label>
@@ -245,6 +256,9 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
               name='addInfo'
               value={formData.addInfo}
               onChange={handleChange}
+              valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
+              disabled = {isRequestCompleted}
+              $isRequestCompleted={isRequestCompleted} // 상태 전달
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
@@ -256,10 +270,10 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             </ModalButton>
             {userRole === 'admin' ? (
               <>
-                <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted} >
+                <ModalButton onClick={() => setRejectRequest(true)} disabled = {isRequestCompleted} >
                   반려
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled={isRequestCompleted}>
+                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled = {isRequestCompleted}>
                   승인
                 </ModalButton>
               </>
@@ -268,7 +282,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
                 <ModalButton onClick={() => setDeleteRequest(true)} >
                   삭제
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled = {isRequestCompleted}>
                   수정
                 </ModalButton>
               </>
@@ -385,7 +399,17 @@ const StyledInputBox = styled(InputBox)`
     &:hover {
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
-    
+    ${(props) =>
+      props.$isRequestCompleted &&
+      `
+      &:hover {
+          border-color: var(--secondary); // 상태가 'rej' 또는 'app'이면 호버 시 색상 변경 안함
+      }
+      &:focus {
+        border-color: var(--secondary); // 포커스 시 색상 변경 안함
+        outline: none;
+      }
+  `}
   }
   Label {
     width: 498px;
@@ -409,14 +433,15 @@ const TextArea = styled.textarea`
   width: 498px;
   height: 123px;
   border: 1px solid var(--secondary);
+  border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--secondary)')};
   border-radius: 10px;
   padding: 20px;
   &:focus {
-    border-color: var(--primary);
+    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
     outline: none;
   }
   &:hover {
-    border-color: var(--primary);
+    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
   }
   resize: none;
   overflow: auto;
@@ -424,6 +449,17 @@ const TextArea = styled.textarea`
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
+  ${(props) =>
+    props.$isRequestCompleted &&
+    `
+    &:hover {
+        border-color: var(--secondary); // 상태가 'rej' 또는 'app'이면 호버 시 색상 변경 안함
+    }
+    &:focus {
+        border-color: var(--secondary); // 상태가 'rej' 또는 'app'이면 포커스 시 색상 변경 안함
+        outline: none;
+    }
+  `}
 `;
 
 const ModalButton = styled.button`

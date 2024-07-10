@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { React, useEffect } from 'react';
 import WordsPageName from '@/components/words/atoms/WordsPageName';
-import WordList from '@/components/words/molecules/WordList';
-import SortDropdown from '@/components/words/molecules/SortDropdown';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
+import WordsSection from '@/components/words/organisms/WordsSection';
+import TopScrollBtn from '@/components/common/atoms/TopScrollBtn';
 
 export default function AllWords() {
   const { setSearchTerm } = useSearchTermStore();
@@ -15,10 +15,10 @@ export default function AllWords() {
   return (
     <Section>
       <WordsPageName />
-      <DropdownContainer>
-        <SortDropdown />
-      </DropdownContainer>
-      <WordList />
+      <ScrollContainer>
+        <TopScrollBtn />
+      </ScrollContainer>
+      <WordsSection />
     </Section>
   );
 }
@@ -30,11 +30,12 @@ const Section = styled.div`
   box-sizing: border-box;
   height: calc(100vh - 130px);
   max-width: 100vw;
+  position: relative;
 `;
-const DropdownContainer = styled.div`
-  display: flex;
-  width: 691px;
-  height: 35px;
-  gap: 20px;
-  margin-bottom: 10px;
+
+const ScrollContainer = styled.div`
+  position: absolute;
+  z-index: 10;
+  right: 15%;
+  bottom: 10%;
 `;

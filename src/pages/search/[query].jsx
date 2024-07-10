@@ -35,7 +35,7 @@ export default function SearchResults() {
   return (
     <Section>
       {loading ? null : !query || !searchResult ? (
-        <SorryComponent query={query} />
+        <SorryComponent query={query}/>
       ) : (
         <StyledContainer>
           <CategoryDate searchResult={searchResult} />

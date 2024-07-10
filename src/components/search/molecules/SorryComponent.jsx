@@ -19,7 +19,7 @@ const SorryComponent = ({ query }) => {
     <StyledContainer>
       <SorryText query={query} />
       <AddRequestBtn onClick={handleOpenModal}>등록 요청</AddRequestBtn>
-      {isModalOpen && <AddRequestModal onClose={handleCloseModal} />}
+      {isModalOpen && <AddRequestModal onClose={handleCloseModal} query={query}/>}
     </StyledContainer>
   );
   z;
@@ -40,7 +40,6 @@ const StyledContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   height: 100vh;
-  text-align: center;
   width: 780px;
   padding: 96px 0;
 `;
