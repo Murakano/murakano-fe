@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import InputBox from '@/components/common/molecules/InputBox';
 import { HELPER_TEXT } from '@/constants/helperText';
 
-import { validateLength } from '@/utils/validate';
+import { validateLength, validateDevTerm } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
@@ -13,13 +13,13 @@ import useAuthStore from '@/store/useAuthStore';
 
 
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose }) {
+export default function Modal({ onClose, query }) {
   const modalRef = useRef();
   const { nickname } = useAuthStore();
 
 
   const [formData, setFormData] = useState({
-    devTerm: '',
+    devTerm: query ? query : '',
     commonPron: '',
     awkPron: '',
     addInfo: '',
@@ -49,6 +49,7 @@ export default function Modal({ onClose }) {
       validateLength(formData.commonPron, 100) &&
       validateLength(formData.awkPron, 100) &&
       validateLength(formData.addInfo, 1000) &&
+      validateDevTerm(formData.devTerm) &&
       formData.devTerm
     ) {
       setButtonActive(true);
@@ -65,6 +66,9 @@ export default function Modal({ onClose }) {
 
     if (!formData.devTerm) {
       updateState('devTermHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
+      hasError = true;
+    } else if (!validateDevTerm(formData.devTerm)) {
+      updateState('devTermHelper', HELPER_TEXT.INVALID_DEVTERM, setHelperText);
       hasError = true;
     } else if (!validateLength(formData.devTerm, 50)) {
       updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
@@ -98,20 +102,22 @@ export default function Modal({ onClose }) {
       return;
     }
 
-  
-
-
-    const type = 'add'; // 추가 요청
-    const requestData = { formData, type, nickname };
-  
+    const type = 'add';
+    const requestData = { 
+        word: formData.devTerm,
+        formData,
+        type, 
+        nickname 
+    };
+    
     console.log('Sending request data:', requestData);
     try {
-      const response = await api.post(`/users/requests/${nickname}/new`, requestData);
-      console.log('Response:', response);
-      alert('등록 요청이 제출되었습니다');
-      onClose();
+        const response = await api.post(`/users/requests/${nickname}/new`, requestData);
+        console.log('Response:', response);
+        alert('등록 요청이 제출되었습니다');
+        onClose();
     } catch (error) {
-      console.error('등록 요청 중 오류가 발생하였습니다:', error);
+        console.error('등록 요청 중 오류가 발생하였습니다:', error);
     }
   };
 
@@ -178,6 +184,8 @@ export default function Modal({ onClose }) {
               name='addInfo'
               value={formData.addInfo}
               onChange={handleChange}
+              valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
+
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
@@ -326,14 +334,15 @@ const TextArea = styled.textarea`
   width: 498px;
   height: 123px;
   border: 1px solid var(--secondary);
+  border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--secondary)')};
   border-radius: 10px;
   padding: 20px;
   &:focus {
-    border-color: var(--primary);
+    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
     outline: none;
   }
   &:hover {
-    border-color: var(--primary);
+    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
   }
   resize: none;
   overflow: auto;
