@@ -363,6 +363,12 @@ const ModalButton = styled.button`
   background-color: ${(props) => 
     props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
     props.$active ? 'var(--primary)' : 'var(--primary60)'};
+  &:hover {
+    box-shadow: ${(props) => 
+      props.isClose ? '0px 2px 4px 0px #00000026' : // 닫기 버튼에 새로운 그림자 색상
+      props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 등록 버튼에 설정된 그림자 색상
+      'none'};
+  }
 `;
 
 const HelperText = styled.p`
