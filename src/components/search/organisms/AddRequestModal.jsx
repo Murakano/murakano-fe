@@ -11,12 +11,13 @@ import api from '@/utils/api';
 import useAuthStore from '@/store/useAuthStore';
 
 
-
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
 export default function Modal({ onClose, query }) {
   const modalRef = useRef();
   const { nickname } = useAuthStore();
-
+  const [hasError, setHasError] = useState(false);
+  const [isDuplicate, setIsDuplicate] = useState(false);
+  const [buttonActive, setButtonActive] = useState(false);
 
   const [formData, setFormData] = useState({
     devTerm: query ? query : '',
@@ -32,7 +33,7 @@ export default function Modal({ onClose, query }) {
     addInfoHelper: '',
   });
 
-  const [buttonActive, setButtonActive] = useState(false);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,26 +43,9 @@ export default function Modal({ onClose, query }) {
     }));
   };
 
-  // 모든 유효성 검사
-  useEffect(() => {
-    if (
-      validateLength(formData.devTerm, 50) &&
-      validateLength(formData.commonPron, 100) &&
-      validateLength(formData.awkPron, 100) &&
-      validateLength(formData.addInfo, 1000) &&
-      validateDevTerm(formData.devTerm) &&
-      formData.devTerm
-    ) {
-      setButtonActive(true);
-    } else {
-      setButtonActive(false);
-    }
-  }, [formData]);
-
-  // 제출 시 유효성 검사
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleBlur = async (e) => {
+    const { name, value } = e.target;
+    
     let hasError = false;
 
     if (!formData.devTerm) {
@@ -77,14 +61,14 @@ export default function Modal({ onClose, query }) {
       updateState('devTermHelper', '', setHelperText);
     }
 
-    if (!validateLength(formData.commonPron, 100)) {
+    if (formData.commonPron && !validateLength(formData.commonPron, 100)) {
       updateState('commonPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
       updateState('commonPronHelper', '', setHelperText);
     }
 
-    if (!validateLength(formData.awkPron, 100)) {
+    if (formData.awkPron && !validateLength(formData.awkPron, 100)) {
       updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
@@ -97,6 +81,49 @@ export default function Modal({ onClose, query }) {
     } else {
       updateState('addInfoHelper', '', setHelperText);
     }
+
+    if (name === 'devTerm') {
+      try {
+        const response = await api.post('/words/checkDuplicateWord', { word: formData.devTerm });
+         // Handle the response as needed
+        console.log("단어 중복 요청 검사 결과:", response); // Handle the response as needed
+        if (response.data.isDataExist !== null) { 
+          updateState('devTermHelper', HELPER_TEXT.DUPLICATE_WORD, setHelperText);
+          hasError = true;
+          setIsDuplicate(true);
+        } else {
+          setIsDuplicate(false);
+        }
+      } catch (error) {
+        console.error('단어 중복 검사 중 오류 발생:', error);
+      }
+    }
+    console.log("isDuplicate: ", isDuplicate)
+    setHasError(hasError);
+  };
+
+  // 모든 유효성 검사
+  useEffect(() => {
+    if (
+      validateLength(formData.devTerm, 50) &&
+      validateLength(formData.commonPron, 100) &&
+      validateLength(formData.awkPron, 100) &&
+      validateLength(formData.addInfo, 1000) &&
+      validateDevTerm(formData.devTerm) &&
+      formData.devTerm &&
+      !isDuplicate
+    ) {
+      setButtonActive(true);
+    } else {
+      setButtonActive(false);
+    }
+  }, [formData]);
+
+
+  // 제출 시 유효성 검사
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("hasError", hasError)
 
     if (hasError) {
       return;
@@ -156,6 +183,8 @@ export default function Modal({ onClose, query }) {
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
+            onBlur={handleBlur}
+
           />
           <StyledInputBox
             type='text'
@@ -166,7 +195,7 @@ export default function Modal({ onClose, query }) {
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'} 
-
+            onBlur={handleBlur}
           />
           <StyledInputBox
             type='text'
@@ -177,6 +206,7 @@ export default function Modal({ onClose, query }) {
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
+            onBlur={handleBlur}
           />
           <Item>
             <Label>추가정보</Label>
@@ -185,7 +215,7 @@ export default function Modal({ onClose, query }) {
               value={formData.addInfo}
               onChange={handleChange}
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
-
+              onBlur={handleBlur}
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>

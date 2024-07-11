@@ -30,6 +30,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
   const [deleteRequest, setDeleteRequest] = useState(false);
   const [rejectRequest, setRejectRequest] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [isDuplicate, setIsDuplicate] = useState(false);
   const isRequestCompleted = requestData.status === 'app' || requestData.status === 'rej';
 
   const handleChange = (e) => {
@@ -41,7 +42,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     }));
   };
 
-  const handleBlur = (e) => {
+  const handleBlur = async (e) => {
     const { name, value } = e.target;
     if (isRequestCompleted) return;
     
@@ -81,7 +82,27 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       updateState('addInfoHelper', '', setHelperText);
     }
 
+    if (name === 'devTerm') {
+      try {
+        const response = await api.post('/words/checkDuplicateWord', { word: formData.devTerm });
+         // Handle the response as needed
+        console.log("단어 중복 요청 검사 결과:", response); // Handle the response as needed
+        if (response.data.isDataExist !== null) { 
+          updateState('devTermHelper', HELPER_TEXT.DUPLICATE_WORD, setHelperText);
+          hasError = true;
+          setIsDuplicate(true);
+        } else {
+          setIsDuplicate(false);
+        }
+      } catch (error) {
+        console.error('단어 중복 검사 중 오류 발생:', error);
+      }
+    }
+    console.log("isDuplicate: ", isDuplicate)
+    
+
     setHasError(hasError);
+
   };
   // 모든 유효성 검사
   useEffect(() => {
@@ -91,7 +112,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       validateLength(formData.awkPron, 100) &&
       validateLength(formData.addInfo, 1000) &&
       validateDevTerm(formData.devTerm) &&
-      formData.devTerm
+      formData.devTerm &&
+      !isDuplicate
     ) {
       setButtonActive(true);
     } else {
@@ -103,9 +125,11 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("hasError", hasError)
+
     if (hasError) {
       return;
     } 
+
     try {
       if (userRole === 'admin') {
         console.log("requestData", requestData)
