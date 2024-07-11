@@ -218,10 +218,16 @@ export default function Modal({ onClose, searchResult }) {
   );
 }
 
+const StyledIcon = styled(EditQuestionMarkIcon)`  // 아이콘 스타일 추가
+  width: 15px;
+  height: 14px;
+`;
+
 // 추가된 스타일 컴포넌트
 const LabelWithIcon = styled.label`
   display: flex;
   align-items: center;
+  gap: 3px; // 간격 조정
 `;
 
 const ModalContainer = styled.div`
