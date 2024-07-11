@@ -6,7 +6,6 @@ import SearchDropdown from '@/components/search/organisms/SearchDropdown';
 import SearchBox from '@/components/search/molecules/SearchBox';
 import api from '@/utils/api';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
-import { set } from 'lodash';
 
 export default function SearchBar({ header }) {
   const router = useRouter();
@@ -15,12 +14,13 @@ export default function SearchBar({ header }) {
 
   const [firstRender, setFirstRender] = useState(true);
   const [relatedItems, setRelatedItems] = useState([]);
-  const { searchTerm } = useSearchTermStore();
+  const { searchTerm, setSearchTerm } = useSearchTermStore();
   const [rememberPath, setRememberPath] = useState(router.pathname);
   // 검색어와 드롭다운 표시 여부를 관리하는 상태
   const [dropdownVisible, setDropdownVisible] = useState(false);
   // 인기검색어 props
   const [ranks, setRanks] = useState([]);
+  const [focusedIndex, setFocusedIndex] = useState(-1); // 포커스된 아이템의 인덱스
 
   const fetchRelatedItems = async (term) => {
     try {
@@ -47,8 +47,10 @@ export default function SearchBar({ header }) {
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
     }
+    console.log(firstRender);
     setFirstRender(false);
     if (rememberPath !== path) {
+      console.log(2);
       setDropdownVisible(false);
       setRememberPath(path);
       setFirstRender(true);
@@ -66,16 +68,19 @@ export default function SearchBar({ header }) {
 
   useEffect(() => {
     let path = router.pathname;
-
+    console.log(3);
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
     }
     let isInitialRender = firstRender;
+    console.log(4);
     setFirstRender(false);
+    console.log(rememberPath, path, isInitialRender, 33);
     if (rememberPath !== path) {
       setDropdownVisible(false);
       setRememberPath(path);
       isInitialRender = true;
+      console.log(5);
       setFirstRender(true);
     }
 
@@ -85,14 +90,14 @@ export default function SearchBar({ header }) {
 
         if (data?.length && !isInitialRender) {
           setDropdownVisible(true);
-        } else {
+        } else if (router.pathname !== '/') {
+          console.log(data?.length, isInitialRender, 6);
+          console.log(6);
           setDropdownVisible(false);
           setFirstRender(false);
         }
-      }, 300);
-      if (router.pathname !== `/search/${searchTerm}`) {
-        setDropdownVisible(false);
-      }
+      }, 200);
+
       return () => {
         clearTimeout(debounceTimeoutRef.current);
       };
@@ -101,21 +106,30 @@ export default function SearchBar({ header }) {
     }
   }, [searchTerm, router.pathname]);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e, term) => {
     if (e.key === 'Enter' || e.type === 'click') {
-      router.push(`/search/${encodeURIComponent(searchTerm)}`);
+      const searchTermToUse = term || searchTerm;
+      setRememberPath(router.query.query);
+      setSearchTerm(searchTermToUse); // setSearchTerm 호출
+      setFocusedIndex(-1); // 포커스 인덱스 초기화
+      router.push(`/search/${encodeURIComponent(searchTermToUse)}`);
+      setFirstRender(true);
       setDropdownVisible(false);
     }
   };
 
   const handleItemClick = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    setFocusedIndex(-1); // 포커스 인덱스 초기화
     router.push(`/search/${encodeURIComponent(searchTerm)}`);
+    setFirstRender(true);
     setDropdownVisible(false);
   };
 
   const handleClickOutside = (event) => {
     if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
       setDropdownVisible(false);
+      setFirstRender(true);
     }
   };
 
@@ -126,6 +140,8 @@ export default function SearchBar({ header }) {
         handleSearch={handleSearch}
         setDropdownVisible={setDropdownVisible}
         relatedItems={relatedItems}
+        focusedIndex={focusedIndex} // 추가
+        setFocusedIndex={setFocusedIndex} // 추가
       />
       {dropdownVisible && (
         <SearchDropdown
@@ -134,6 +150,8 @@ export default function SearchBar({ header }) {
           ranks={ranks}
           relatedItems={relatedItems}
           dropdownVisible={dropdownVisible}
+          focusedIndex={focusedIndex} // 추가
+          setFocusedIndex={setFocusedIndex} // 추가
         />
       )}
     </Column>

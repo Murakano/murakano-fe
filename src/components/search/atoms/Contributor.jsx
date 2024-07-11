@@ -11,10 +11,9 @@ const Contributor = ({ searchResult }) => {
 };
 
 const Text = styled.div`
-  width: 110px;
+  width: auto;
   height: 20px;
   font-size: 13px;
-  letter-spacing: -0.03em;
   margin-right: auto;
 `;
 

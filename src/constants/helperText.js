@@ -14,4 +14,5 @@ export const HELPER_TEXT = {
   REQUIRED_INPUT_EMPTY: '* 필수 입력 값입니다.',
   EXCEED_LENGTH: (maxLength) => `* ${maxLength}글자를 초과할 수 없습니다.`,
   INVALID_DEVTERM: '* 개발용어는 영문, 숫자, 특수문자만 가능합니다.',
+  DUPLICATE_WORD: '* 중복된 단어가 존재합니다.',
 };
