@@ -22,15 +22,15 @@ export default function AllWords() {
     </Section>
   );
 }
+
+//   height: calc(100vh - 130px);
 const Section = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   box-sizing: border-box;
-  height: calc(100vh - 130px);
   max-width: 100vw;
-  position: relative;
 `;
 
 const ScrollContainer = styled.div`
