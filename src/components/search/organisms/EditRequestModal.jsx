@@ -8,6 +8,7 @@ import { validateLength, validateDevTerm } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
+import EditQuestionMarkIcon from '@/components/search/atoms/QuestionMark.svg';
 
 import useAuthStore from '@/store/useAuthStore';
 
@@ -157,7 +158,7 @@ export default function Modal({ onClose, searchResult }) {
           <StyledInputBox
             type='text'
             name='devTerm'
-            labelText='개발 용어 (영어)'
+            labelText={<LabelWithIcon>개발 용어 (영어) <EditQuestionMarkIcon /></LabelWithIcon>} // 수정된 부분
             input={formData.devTerm}
             setInput={setFormData}
             valid={helperText.devTermHelper ? false : true}
@@ -216,6 +217,13 @@ export default function Modal({ onClose, searchResult }) {
     </ModalContainer>
   );
 }
+
+// 추가된 스타일 컴포넌트
+const LabelWithIcon = styled.label`
+  display: flex;
+  align-items: center;
+`;
+
 const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -343,13 +351,6 @@ const StyledInputBox = styled(InputBox)`
     letter-spacing: -0.03em;
     text-align: left;
     position: relative;
-    &::after {
-      content: ${(props) => (props.name === 'devTerm' || props.name === 'commonPron' ? "' *'" : "''")};
-      color: #ff0808;
-      position: aboslute;
-      right: 5%;
-      top: 0;
-    }
   }
 `;
 
