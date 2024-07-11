@@ -29,8 +29,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
   const [buttonActive, setButtonActive] = useState(false);
   const [deleteRequest, setDeleteRequest] = useState(false);
   const [rejectRequest, setRejectRequest] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const isRequestCompleted = requestData.status === 'app' || requestData.status === 'rej';
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,26 +41,10 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     }));
   };
 
-  // 모든 유효성 검사
-  useEffect(() => {
-    if (
-      validateLength(formData.devTerm, 50) &&
-      validateLength(formData.commonPron, 100) &&
-      validateLength(formData.awkPron, 100) &&
-      validateLength(formData.addInfo, 1000) &&
-      validateDevTerm(formData.devTerm) &&
-      formData.devTerm
-    ) {
-      setButtonActive(true);
-    } else {
-      setButtonActive(false);
-    }
-  }, [formData]);
-
-  // 제출 시 유효성 검사
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    if (isRequestCompleted) return;
+    
     let hasError = false;
 
     if (!formData.devTerm) {
@@ -97,10 +81,31 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       updateState('addInfoHelper', '', setHelperText);
     }
 
+    setHasError(hasError);
+  };
+  // 모든 유효성 검사
+  useEffect(() => {
+    if (
+      validateLength(formData.devTerm, 50) &&
+      validateLength(formData.commonPron, 100) &&
+      validateLength(formData.awkPron, 100) &&
+      validateLength(formData.addInfo, 1000) &&
+      validateDevTerm(formData.devTerm) &&
+      formData.devTerm
+    ) {
+      setButtonActive(true);
+    } else {
+      setButtonActive(false);
+    }
+  }, [formData]);
+
+  // 제출 시 유효성 검사
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("hasError", hasError)
     if (hasError) {
       return;
-    }
-
+    } 
     try {
       if (userRole === 'admin') {
         console.log("requestData", requestData)
@@ -224,6 +229,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             className={'Box'}
             readOnly = {isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
+            onBlur={handleBlur}
           />
           <StyledInputBox
             type='text'
@@ -236,7 +242,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             className={'Box'} 
             readOnly = {isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
-
+            onBlur={handleBlur}
           />
           <StyledInputBox
             type='text'
@@ -249,6 +255,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             className={'Box'}
             readOnly = {isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
+            onBlur={handleBlur}
           />
           <Item>
             <Label>추가정보</Label>
@@ -259,6 +266,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
               disabled = {isRequestCompleted}
               $isRequestCompleted={isRequestCompleted} // 상태 전달
+              onBlur={handleBlur}
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>

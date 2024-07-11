@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import InputBox from '@/components/common/molecules/InputBox';
 import { HELPER_TEXT } from '@/constants/helperText';
 
-import { validateLength } from '@/utils/validate';
+import { validateLength, validateDevTerm } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
@@ -29,6 +29,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
   const [buttonActive, setButtonActive] = useState(false);
   const [deleteRequest, setDeleteRequest] = useState(false);
   const [rejectRequest, setRejectRequest] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const isRequestCompleted = requestData.status === 'app' || requestData.status === 'rej';
 
   const handleChange = (e) => {
@@ -39,31 +40,17 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       [name]: value,
     }));
   };
-
-  // 모든 유효성 검사
-  useEffect(() => {
-    if (
-      validateLength(formData.devTerm, 50) &&
-      validateLength(formData.commonPron, 100) &&
-      validateLength(formData.awkPron, 100) &&
-      validateLength(formData.addInfo, 1000) &&
-      formData.devTerm &&
-      formData.commonPron
-    ) {
-      setButtonActive(true);
-    } else {
-      setButtonActive(false);
-    }    
-  }, [formData]);
-
-  // 제출 시 유효성 검사
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    if (isRequestCompleted) return;
+    
     let hasError = false;
 
     if (!formData.devTerm) {
       updateState('devTermHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
+      hasError = true;
+    } else if (!validateDevTerm(formData.devTerm)) {
+      updateState('devTermHelper', HELPER_TEXT.INVALID_DEVTERM, setHelperText);
       hasError = true;
     } else if (!validateLength(formData.devTerm, 50)) {
       updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
@@ -72,10 +59,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       updateState('devTermHelper', '', setHelperText);
     }
 
-    if (!formData.commonPron) {
-      updateState('commonPronHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
-      hasError = true;
-    } else if (!validateLength(formData.commonPron, 100)) {
+    if (formData.commonPron && !validateLength(formData.commonPron, 100)) {
       updateState('commonPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
       hasError = true;
     } else {
@@ -96,6 +80,29 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       updateState('addInfoHelper', '', setHelperText);
     }
 
+    setHasError(hasError);
+  };
+  // 모든 유효성 검사
+  useEffect(() => {
+    if (
+      validateLength(formData.devTerm, 50) &&
+      validateLength(formData.commonPron, 100) &&
+      validateLength(formData.awkPron, 100) &&
+      validateLength(formData.addInfo, 1000) &&
+      validateDevTerm(formData.devTerm) &&
+      formData.devTerm &&
+      formData.commonPron
+    ) {
+      setButtonActive(true);
+    } else {
+      setButtonActive(false);
+    }    
+  }, [formData]);
+
+  // 제출 시 유효성 검사
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("hasError", hasError)
     if (hasError) {
       return;
     }
@@ -225,6 +232,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             className={'Box'}
             disabled={userRole !== 'admin'} // admin이 아닐 때 disabled
             readOnly={userRole !== 'admin'}
+            onBlur={handleBlur}
           />
           <StyledInputBox
             type='text'
@@ -237,6 +245,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             className={'Box'}
             readOnly = {isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
+            onBlur={handleBlur}
           />
           <StyledInputBox
             type='text'
@@ -249,7 +258,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             className={'Box'}
             readOnly = {isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
-
+            onBlur={handleBlur}
           />
           <Item>
             <Label>추가정보</Label>
@@ -260,6 +269,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
               disabled = {isRequestCompleted}
               $isRequestCompleted={isRequestCompleted} // 상태 전달
+              onBlur={handleBlur}
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
