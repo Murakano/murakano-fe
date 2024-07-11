@@ -8,7 +8,7 @@ export default function WordList({ words = [], handleWordClick, lastWordElementR
       {words.map((word, index) => (
         <WordListDiv
           key={word._id || index}
-          onClick={() => handleWordClick(word.word)}
+          onClick={() => handleWordClick(word.word)} // 인덱스를 전달
           ref={words.length === index + 1 ? lastWordElementRef : null}
         >
           <WordItem name={word.word} pron={word.comPron} />
@@ -24,11 +24,10 @@ const WordListContainer = styled.div`
   flex-direction: column;
   position: relative;
   width: 780px;
-  height: auto;
+  height: 100%;
   padding: 10px 44.5px;
 `;
 
 const WordListDiv = styled.div`
   width: 691px;
-  height: auto;
 `;
