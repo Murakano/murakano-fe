@@ -223,8 +223,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
-            disabled
-            readOnly
+            disabled={userRole !== 'admin'} // admin이 아닐 때 disabled
+            readOnly={userRole !== 'admin'}
           />
           <StyledInputBox
             type='text'
