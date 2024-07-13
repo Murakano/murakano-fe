@@ -10,7 +10,7 @@ import { useSearchTermStore } from '@/store/useSearchTermStore';
 
 export default function SearchResults() {
   const router = useRouter();
-  const { query } = router.query;
+  const { query = "" } = router.query;
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(true);
   const { searchTerm } = useSearchTermStore();
@@ -25,7 +25,8 @@ export default function SearchResults() {
         console.error(error);
       }
     };
-    if (query) fetchSearchResult();
+    fetchSearchResult();
+    // console.log(query);
   }, [query]);
 
   if (loading) {
