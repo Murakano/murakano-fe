@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SorryText from '../atoms/SorryText';
 import AddRequestModal from '@/components/search/organisms/AddRequestModal';
@@ -6,6 +6,7 @@ import ActionBtn from '@/components/common/atoms/ActionBtn';
 
 const SorryComponent = ({ query }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isValidQuery, setIsValidQuery] = useState(false);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -15,10 +16,25 @@ const SorryComponent = ({ query }) => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    const checkIsValidQuery = (query) => {
+      // 한글을 포함한 정규식 패턴
+      const koreanPattern = /[가-힣]/;
+      console.log(query);
+      // 쿼리가 undefined인지 또는 한글을 포함하는지 확인
+      if (query === undefined || koreanPattern.test(query)) {
+          return setIsValidQuery(false);
+      }
+      
+      return setIsValidQuery(true);
+    }
+    checkIsValidQuery(query);
+  }, [query])
+
   return (
     <StyledContainer>
       <SorryText query={query} />
-      <AddRequestBtn onClick={handleOpenModal}>등록 요청</AddRequestBtn>
+      {isValidQuery ? <AddRequestBtn onClick={handleOpenModal}>등록 요청</AddRequestBtn> : null}
       {isModalOpen && <AddRequestModal onClose={handleCloseModal} query={query}/>}
     </StyledContainer>
   );
