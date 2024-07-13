@@ -7,15 +7,9 @@ import api from '@/utils/api';
 import { useRouter } from 'next/router';
 import useAuthStore from '@/store/useAuthStore';
 
-export default function HeaderBtn({ pathname }) {
+export default function HeaderBtn() {
   const router = useRouter();
-  const { clearAuthData, accessToken, nickname, fetchAuthData } = useAuthStore();
-
-  useEffect(() => {
-    if (!accessToken) {
-      fetchAuthData();
-    }
-  }, [pathname]);
+  const { clearAuthData, nickname } = useAuthStore();
 
   const logout = async () => {
     try {

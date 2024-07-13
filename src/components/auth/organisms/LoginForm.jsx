@@ -93,7 +93,8 @@ export default function LoginForm() {
     router.push('/auth/login');
   };
 
-  const handleRegisterButtonClick = () => {
+  const handleRegisterButtonClick = (e) => {
+    e.preventDefault();
     router.push('/auth/register');
   };
 
