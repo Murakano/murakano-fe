@@ -158,7 +158,7 @@ export default function Modal({ onClose, searchResult }) {
           <StyledInputBox
             type='text'
             name='devTerm'
-            labelText={<LabelWithIcon>개발 용어 (영어) <EditQuestionMarkIcon /></LabelWithIcon>} // 수정된 부분
+            labelText={<LabelWithTooltip />} // 수정된 부분
             input={formData.devTerm}
             setInput={setFormData}
             valid={helperText.devTermHelper ? false : true}
@@ -218,16 +218,53 @@ export default function Modal({ onClose, searchResult }) {
   );
 }
 
-const StyledIcon = styled(EditQuestionMarkIcon)`  // 아이콘 스타일 추가
-  width: 15px;
-  height: 14px;
-`;
 
-// 추가된 스타일 컴포넌트
 const LabelWithIcon = styled.label`
   display: flex;
   align-items: center;
   gap: 3px; // 간격 조정
+`;
+
+const LabelWithTooltip = () => (
+  <LabelWithIcon>
+    개발 용어 (영어)
+    <IconContainer>
+      <StyledIcon />
+      <Tooltip>개발 용어 표기 수정을 원하는 경우, 추가 정보에 입력해주세요.</Tooltip>
+    </IconContainer>
+  </LabelWithIcon>
+);
+
+
+const Tooltip = styled.div`
+  visibility: hidden;
+  color: #FF0808; /* 글자 색상 */
+  text-align: left;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  left: 100%; /* 아이콘 오른쪽에 나타나도록 위치 설정 */
+  margin-left: 3px; /* 아이콘과의 간격 */
+  font-size: 9px; /* 글자 크기 */
+  line-height: 13.5px; /* 줄 간격 */
+  white-space: nowrap; /* 일렬로 표시 */
+`;
+
+const IconContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center; /* 중앙 정렬 */
+  &:hover ${Tooltip} {
+    visibility: visible;
+  }
+`;
+
+
+const StyledIcon = styled(EditQuestionMarkIcon)`  // 아이콘 스타일 추가
+  width: 15px;
+  height: 14px;
+  display: inline-flex; /* 아이콘을 인라인 블록으로 설정 */ /* 정렬수정 */
+  align-items: center; /* 중앙 정렬 */ /* 정렬수정 */
 `;
 
 const ModalContainer = styled.div`
