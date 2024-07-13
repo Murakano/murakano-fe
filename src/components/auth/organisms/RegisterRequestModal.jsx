@@ -29,8 +29,9 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
   const [buttonActive, setButtonActive] = useState(false);
   const [deleteRequest, setDeleteRequest] = useState(false);
   const [rejectRequest, setRejectRequest] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [isDuplicate, setIsDuplicate] = useState(false);
   const isRequestCompleted = requestData.status === 'app' || requestData.status === 'rej';
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,26 +42,10 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     }));
   };
 
-  // 모든 유효성 검사
-  useEffect(() => {
-    if (
-      validateLength(formData.devTerm, 50) &&
-      validateLength(formData.commonPron, 100) &&
-      validateLength(formData.awkPron, 100) &&
-      validateLength(formData.addInfo, 1000) &&
-      validateDevTerm(formData.devTerm) &&
-      formData.devTerm
-    ) {
-      setButtonActive(true);
-    } else {
-      setButtonActive(false);
-    }
-  }, [formData]);
-
-  // 제출 시 유효성 검사
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleBlur = async (e) => {
+    const { name, value } = e.target;
+    if (isRequestCompleted) return;
+    
     let hasError = false;
 
     if (!formData.devTerm) {
@@ -97,9 +82,53 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       updateState('addInfoHelper', '', setHelperText);
     }
 
+    if (name === 'devTerm') {
+      try {
+        const response = await api.post('/words/checkDuplicateWord', { word: formData.devTerm });
+         // Handle the response as needed
+        console.log("단어 중복 요청 검사 결과:", response); // Handle the response as needed
+        if (response.data.isDataExist !== null) { 
+          updateState('devTermHelper', HELPER_TEXT.DUPLICATE_WORD, setHelperText);
+          hasError = true;
+          setIsDuplicate(true);
+        } else {
+          setIsDuplicate(false);
+        }
+      } catch (error) {
+        console.error('단어 중복 검사 중 오류 발생:', error);
+      }
+    }
+    console.log("isDuplicate: ", isDuplicate)
+    
+
+    setHasError(hasError);
+
+  };
+  // 모든 유효성 검사
+  useEffect(() => {
+    if (
+      validateLength(formData.devTerm, 50) &&
+      validateLength(formData.commonPron, 100) &&
+      validateLength(formData.awkPron, 100) &&
+      validateLength(formData.addInfo, 1000) &&
+      validateDevTerm(formData.devTerm) &&
+      formData.devTerm &&
+      !isDuplicate
+    ) {
+      setButtonActive(true);
+    } else {
+      setButtonActive(false);
+    }
+  }, [formData]);
+
+  // 제출 시 유효성 검사
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("hasError", hasError)
+
     if (hasError) {
       return;
-    }
+    } 
 
     try {
       if (userRole === 'admin') {
@@ -224,6 +253,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             className={'Box'}
             readOnly = {isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
+            onBlur={handleBlur}
           />
           <StyledInputBox
             type='text'
@@ -236,7 +266,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             className={'Box'} 
             readOnly = {isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
-
+            onBlur={handleBlur}
           />
           <StyledInputBox
             type='text'
@@ -249,6 +279,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             className={'Box'}
             readOnly = {isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
+            onBlur={handleBlur}
           />
           <Item>
             <Label>추가정보</Label>
@@ -259,6 +290,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
               disabled = {isRequestCompleted}
               $isRequestCompleted={isRequestCompleted} // 상태 전달
+              onBlur={handleBlur}
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
@@ -270,10 +302,10 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             </ModalButton>
             {userRole === 'admin' ? (
               <>
-                <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted} >
+                <ModalButton onClick={() => setRejectRequest(true)} disabled = {isRequestCompleted} >
                   반려
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled={isRequestCompleted}>
+                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled = {isRequestCompleted}>
                   승인
                 </ModalButton>
               </>
@@ -282,7 +314,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
                 <ModalButton onClick={() => setDeleteRequest(true)} >
                   삭제
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled = {isRequestCompleted}>
                   수정
                 </ModalButton>
               </>
