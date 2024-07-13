@@ -28,7 +28,7 @@ export default function Header() {
     return (
       <MainContainer $isHome={isHome} $isCallback={isCallback}>
         <Inner>
-          <HeaderBtn pathname={pathname} />
+          <HeaderBtn />
         </Inner>
       </MainContainer>
     );
@@ -37,7 +37,7 @@ export default function Header() {
   return (
     <MainContainer $isHome={isHome}>
       <Inner>
-        <HeaderBtn pathname={pathname} />
+        <HeaderBtn />
         {!isHome && (
           <HeaderRow>
             <SmallLogoText>
