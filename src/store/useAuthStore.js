@@ -22,10 +22,15 @@ const useAuthStore = create(
       fetchAuthData: async () => {
         try {
           const response = await api.post('/users/refresh');
-          if (response.message === 'refresh token이 존재하지 않습니다.') return;
-          else if (response.message === 'refresh token 검증중 오류가 발생하였습니다.') {
+          if (response.message === '비로그인 상태입니다.') return;
+          else if (response.message === '유효하지 않은 Refresh Token입니다.') {
+            console.log('refresh token 공격 감지하여 무효화');
+            get().clearAuthData();
             alert('다시 로그인해주세요.');
-            router.push('/auth/login');
+            return;
+          } else if (response.message === 'refresh token 검증중 오류가 발생하였습니다.') {
+            alert('다시 로그인해주세요.');
+            return;
           }
           const newAccessToken = response.data.accessToken;
           get().setAuthData(newAccessToken);
