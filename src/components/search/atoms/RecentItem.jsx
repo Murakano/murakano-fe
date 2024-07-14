@@ -40,7 +40,7 @@ const DDItems = styled.li`
   align-items: center;
   height: ${(props) => (props.$header ? '23px' : '28px')};
   color: #666666;
-  overflow: hidden;
+  white-space: nowrap;
   font-size: ${(props) => (props.$header ? '13px' : '15px')};
   font-weight: 400;
   width: 100%;
