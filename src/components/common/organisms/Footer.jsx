@@ -23,7 +23,6 @@ export default function Footer() {
 }
 
 const FooterContainer = styled.footer`
-  /* background-color: #f5f5f5; */
   width: 780px;
   padding: 20px;
   display: flex;

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 export default function AgreementsBox({ agreements, setAgreements }) {
   const agreeAll = agreements.serviceAgree && agreements.privacyAgree;
@@ -42,7 +43,7 @@ export default function AgreementsBox({ agreements, setAgreements }) {
           onChange={handleAgreementChange}
         />
         <Label htmlFor='serviceAgree'>서비스 이용 약관 동의 (필수)</Label>
-        <Details>자세히</Details>
+        <Details href={'/policy'}>자세히</Details>
       </CheckboxContainer>
 
       <CheckboxContainer>
@@ -54,7 +55,7 @@ export default function AgreementsBox({ agreements, setAgreements }) {
           onChange={handleAgreementChange}
         />
         <Label htmlFor='privacyAgree'>개인정보 수집 및 이용 동의 (필수)</Label>
-        <Details>자세히</Details>
+        <Details href='/policy/privacy'>자세히</Details>
       </CheckboxContainer>
     </AgrBox>
   );
@@ -115,7 +116,8 @@ const PrimaryLabel = styled.label`
   color: #666666;
 `;
 
-const Details = styled.div`
+const Details = styled(Link)`
+  text-decoration: none;
   color: #666666;
   font-weight: 400;
   font-size: 15px;
