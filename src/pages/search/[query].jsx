@@ -10,7 +10,7 @@ import { useSearchTermStore } from '@/store/useSearchTermStore';
 
 export default function SearchResults() {
   const router = useRouter();
-  const { query = "" } = router.query;
+  const { query = '' } = router.query;
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(true);
   const { searchTerm } = useSearchTermStore();
@@ -36,7 +36,7 @@ export default function SearchResults() {
   return (
     <Section>
       {loading ? null : !query || !searchResult ? (
-        <SorryComponent query={query}/>
+        <SorryComponent query={query} />
       ) : (
         <StyledContainer>
           <CategoryDate searchResult={searchResult} />
@@ -56,7 +56,8 @@ const Section = styled.div`
   justify-content: flex-start;
   padding-top: 40px;
   box-sizing: border-box;
-  height: calc(100vh - 130px);
+  min-height: calc(100vh - 195px);
+  height: 100%;
 `;
 
 const StyledContainer = styled.div`
