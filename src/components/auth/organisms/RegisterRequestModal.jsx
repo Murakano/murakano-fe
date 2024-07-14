@@ -505,15 +505,22 @@ const ModalButton = styled.button`
   background-color: ${(props) => 
     props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
     props.$active && !props.disabled ? 'var(--primary)' : 'var(--primary60)'};
+  &:hover {
+    box-shadow: ${(props) => 
+      props.isClose ? '0px 2px 4px 0px #00000026' : // 닫기 버튼에 15% 투명도 그림자
+      props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 등록 버튼에 60% 투명도 그림자
+      'none'};
+  }
   &:nth-child(2) {
     background: #FF6B8F;
     cursor: ${(props) => (!props.disabled ? 'pointer' : 'not-allowed')};
     &:hover {
-      box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF0808A6' : 'none')};
+      box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF080899' : 'none')}; // 두 번째 자식 버튼에 60% 투명도 그림자
       background: ${(props) => (!props.disabled ? '#FF002E' : '#FF6B8F')};
     }
   }
 `;
+
 
 const HelperText = styled.p`
   font-size: 12px;

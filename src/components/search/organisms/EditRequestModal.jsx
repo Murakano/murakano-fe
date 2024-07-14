@@ -8,6 +8,7 @@ import { validateLength, validateDevTerm } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
+import EditQuestionMarkIcon from '@/components/search/atoms/QuestionMark.svg';
 
 import useAuthStore from '@/store/useAuthStore';
 
@@ -157,12 +158,13 @@ export default function Modal({ onClose, searchResult }) {
           <StyledInputBox
             type='text'
             name='devTerm'
-            labelText='개발 용어 (영어)'
+            labelText={<LabelWithTooltip />} // 수정된 부분
             input={formData.devTerm}
             setInput={setFormData}
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
+            placeholder="개발 용어를 입력해주세요."
             disabled
             readOnly
           />
@@ -175,6 +177,7 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'} 
+            placeholder="일반적으로 쓰이는 발음을 입력해주세요."
 
           />
           <StyledInputBox
@@ -186,6 +189,7 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
+            placeholder="어색한 발음을 입력해주세요." 
           />
           <Item>
             <Label>추가정보</Label>
@@ -194,7 +198,7 @@ export default function Modal({ onClose, searchResult }) {
               value={formData.addInfo}
               onChange={handleChange}
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
-
+              placeholder="추가 정보를 입력해주세요."
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
@@ -213,6 +217,56 @@ export default function Modal({ onClose, searchResult }) {
     </ModalContainer>
   );
 }
+
+
+const LabelWithIcon = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 3px; // 간격 조정
+`;
+
+const LabelWithTooltip = () => (
+  <LabelWithIcon>
+    개발 용어 (영어)
+    <IconContainer>
+      <StyledIcon />
+      <Tooltip>개발 용어 표기 수정을 원하는 경우, 추가 정보에 입력해주세요.</Tooltip>
+    </IconContainer>
+  </LabelWithIcon>
+);
+
+
+const Tooltip = styled.div`
+  visibility: hidden;
+  color: #FF0808; /* 글자 색상 */
+  text-align: left;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  left: 100%; /* 아이콘 오른쪽에 나타나도록 위치 설정 */
+  margin-left: 3px; /* 아이콘과의 간격 */
+  font-size: 9px; /* 글자 크기 */
+  line-height: 13.5px; /* 줄 간격 */
+  white-space: nowrap; /* 일렬로 표시 */
+`;
+
+const IconContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center; /* 중앙 정렬 */
+  &:hover ${Tooltip} {
+    visibility: visible;
+  }
+`;
+
+
+const StyledIcon = styled(EditQuestionMarkIcon)`  // 아이콘 스타일 추가
+  width: 15px;
+  height: 14px;
+  display: inline-flex; /* 아이콘을 인라인 블록으로 설정 */ /* 정렬수정 */
+  align-items: center; /* 중앙 정렬 */ /* 정렬수정 */
+`;
+
 const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -340,13 +394,6 @@ const StyledInputBox = styled(InputBox)`
     letter-spacing: -0.03em;
     text-align: left;
     position: relative;
-    &::after {
-      content: ${(props) => (props.name === 'devTerm' || props.name === 'commonPron' ? "' *'" : "''")};
-      color: #ff0808;
-      position: aboslute;
-      right: 5%;
-      top: 0;
-    }
   }
 `;
 
@@ -372,7 +419,7 @@ const TextArea = styled.textarea`
 `;
 
 const ModalButton = styled.button`
-  width: 88px;
+   width: 88px;
   height: 40px;
   border: none;
   border-radius: 30px;
@@ -382,6 +429,12 @@ const ModalButton = styled.button`
   background-color: ${(props) => 
     props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
     props.$active ? 'var(--primary)' : 'var(--primary60)'};
+  &:hover {
+    box-shadow: ${(props) => 
+      props.isClose ? '0px 2px 4px 0px #00000026' : // 닫기 버튼에 새로운 그림자 색상
+      props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 등록 버튼에 설정된 그림자 색상
+      'none'};
+  }
 `;
 
 const HelperText = styled.p`
