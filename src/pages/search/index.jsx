@@ -10,7 +10,7 @@ import { useSearchTermStore } from '@/store/useSearchTermStore';
 
 export default function SearchResults() {
   const router = useRouter();
-  const { query } = router.query;
+  const { query = "" } = router.query;
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(true);
   const { searchTerm } = useSearchTermStore();
@@ -18,6 +18,7 @@ export default function SearchResults() {
   useEffect(() => {
     const fetchSearchResult = async () => {
       try {
+        // console.log(query);
         const response = await api.post(`/words/search/${encodeURIComponent(query)}`);
         setSearchResult(response.data);
         setLoading(false);
@@ -25,7 +26,7 @@ export default function SearchResults() {
         console.error(error);
       }
     };
-    if (query) fetchSearchResult();
+    fetchSearchResult();
   }, [query]);
 
   if (loading) {
@@ -35,7 +36,7 @@ export default function SearchResults() {
   return (
     <Section>
       {loading ? null : !query || !searchResult ? (
-        <SorryComponent query={query} />
+        <SorryComponent query={query}/>
       ) : (
         <StyledContainer>
           <CategoryDate searchResult={searchResult} />
@@ -66,7 +67,7 @@ const StyledContainer = styled.div`
 
 const ResultWord = styled.div`
   color: #000;
-  width: 691px;
+  width: auto;
   height: 102px;
   padding: 10px;
   gap: 29px;
