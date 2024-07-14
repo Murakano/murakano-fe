@@ -178,7 +178,6 @@ export default function Modal({ onClose, searchResult }) {
             helperText={helperText.commonPronHelper}
             className={'Box'} 
             placeholder="일반적으로 쓰이는 발음을 입력해주세요."
-
           />
           <StyledInputBox
             type='text'
@@ -205,7 +204,7 @@ export default function Modal({ onClose, searchResult }) {
         </ModalContent>
         <ModalFooter>
           <ButtonGroup>
-            <ModalButton isClose onClick={onClose}>
+            <ModalButton $isClose onClick={onClose}>
               닫기
             </ModalButton>
             <ModalButton onClick={handleSubmit} $active={buttonActive}>
@@ -419,23 +418,24 @@ const TextArea = styled.textarea`
 `;
 
 const ModalButton = styled.button`
-   width: 88px;
+  width: 88px;
   height: 40px;
   border: none;
   border-radius: 30px;
   padding: 8px 30px;
   color: #fff;
-  cursor: ${(props) => (props.isClose || props.$active ? 'pointer' : 'not-allowed')};
+  cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')}; // 프리픽스 적용
   background-color: ${(props) => 
-    props.isClose ? 'rgba(0, 0, 0, 0.25)' : 
-    props.$active ? 'var(--primary)' : 'var(--primary60)'};
+    props.$isClose ? 'rgba(0, 0, 0, 0.25)' : // 프리픽스 적용
+    props.$active ? 'var(--primary)' : 'var(--primary60)'}; // 프리픽스 적용
   &:hover {
     box-shadow: ${(props) => 
-      props.isClose ? '0px 2px 4px 0px #00000026' : // 닫기 버튼에 새로운 그림자 색상
-      props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 등록 버튼에 설정된 그림자 색상
+      props.$isClose ? '0px 2px 4px 0px #00000026' : // 프리픽스 적용
+      props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 프리픽스 적용
       'none'};
   }
 `;
+
 
 const HelperText = styled.p`
   font-size: 12px;
