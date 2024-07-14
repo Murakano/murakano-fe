@@ -4,6 +4,7 @@ import { Container } from '@/styles/commonStyles';
 import { useRouter } from 'next/router';
 
 import useAuthStore from '@/store/useAuthStore';
+import Footer from '@/components/common/organisms/Footer';
 
 export default function BaseLayout({ children }) {
   const { accessToken, silentRefresh, fetchAuthData } = useAuthStore();
@@ -26,6 +27,7 @@ export default function BaseLayout({ children }) {
     <Container $marginTop={marginTop}>
       <Header />
       {children}
+      <Footer />
     </Container>
   );
 }
