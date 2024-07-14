@@ -96,7 +96,7 @@ export default function SearchBar({ header }) {
           setDropdownVisible(false);
           setFirstRender(false);
         }
-      }, 200);
+      }, 300);
 
       return () => {
         clearTimeout(debounceTimeoutRef.current);
