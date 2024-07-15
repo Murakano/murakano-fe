@@ -26,7 +26,6 @@ export default function SearchResults() {
       }
     };
     fetchSearchResult();
-    // console.log(query);
   }, [query]);
 
   if (loading) {

@@ -34,8 +34,11 @@ export default function Footer() {
 }
 
 const FooterContainer = styled.footer`
-  width: 780px;
+  min-width: 780px;
+  width: 100%;
+  margin-top: 10px;
   padding: 20px;
+  box-sizing: border-box;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -55,8 +58,8 @@ const FooterLogo = styled.div`
 `;
 
 const Logo = styled.div`
-  width: 25px;
-  height: 25px;
+  width: 15px;
+  height: 15px;
   background-image: url('/murak-logo-removebg.png');
   background-size: cover;
   background-position: center;
