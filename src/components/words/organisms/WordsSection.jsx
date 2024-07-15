@@ -14,10 +14,14 @@ export default function WordsSection() {
   const [hasMore, setHasMore] = useState(true); // 데이터 호출 여부
   const observer = useRef();
 
-  // 단어 클릭 시 검색 결과 페이지로 이동
+  // 단어 클릭 시 검색 결과 페이지로 이동 (URL 인코딩으ㄹ 통해 특수문자 처리)
   const handleWordClick = (name) => {
     if (name) {
-      router.push(`/search/${name}`);
+      // 공백 및 불필요한 슬래시 제거
+      const trimmedName = name.trim();
+      // URL 인코딩하여 특수문자가 포함된 단어도 안전하게 처리
+      const encodedName = encodeURIComponent(trimmedName);
+      router.push(`/search/${encodedName}`);
     }
   };
 
