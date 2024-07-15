@@ -1,27 +1,33 @@
-import { Container as MuiContainer } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 
 const SorryText = ({ query }) => {
   return (
     <StyledContainer>
-      <MuiContainer>
+      <StyledSorryTexts>
         <StyledSorryText>
           죄송합니다.
           <br />"{query}"<br /> 검색 결과가 없습니다.
         </StyledSorryText>
-      </MuiContainer>
+      </StyledSorryTexts>
     </StyledContainer>
   );
 };
 
-const StyledSorryText = styled.h1`
+const StyledSorryTexts = styled.div`
   color: #000;
   font-size: 33px;
   font-weight: 600;
-  text-align: center;
   line-height: 50px;
   padding: 12.46px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledSorryText = styled.div`
+  text-align: center;
 `;
 
 const StyledContainer = styled.div`

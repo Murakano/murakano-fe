@@ -21,7 +21,6 @@ export default function Login() {
         <Main>
           <LoginForm />
           <SocialLogin />
-          <Inc>© Murak, Inc.</Inc>
         </Main>
       </Section>
     </Page>
@@ -56,10 +55,4 @@ const Main = styled.div`
   justify-content: center;
   width: 540px;
   padding: 11.5px 46px 74px;
-`;
-
-const Inc = styled.div`
-  font-size: 14.5px;
-  font-weight: 400;
-  padding-top: 10px;
 `;
