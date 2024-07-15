@@ -5,7 +5,15 @@ import { StyledSearchOutlined } from '@/styles/commonStyles';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
 import { useState, useEffect } from 'react';
 
-export default function SearchDropdown({ header, onItemClick, ranks, relatedItems, dropdownVisible, focusedIndex }) {
+export default function SearchDropdown({
+  header,
+  onItemClick,
+  ranks,
+  relatedItems,
+  dropdownVisible,
+  focusedIndex,
+  setDropdownVisible,
+}) {
   const { searchTerm } = useSearchTermStore();
   const [visible, setVisible] = useState(false);
 
@@ -36,7 +44,7 @@ export default function SearchDropdown({ header, onItemClick, ranks, relatedItem
         </RelatedItems>
       ) : (
         <>
-          <RecentItems header={header} onItemClick={onItemClick} />
+          <RecentItems header={header} onItemClick={onItemClick} setDropdownVisible={setDropdownVisible} />
           <Divider />
           <RankItems header={header} onItemClick={onItemClick} ranks={ranks} />
         </>
@@ -56,6 +64,7 @@ const DDContainer = styled.div`
   background-color: #ffffff;
   position: ${(props) => (props.$header ? 'absolute' : 'static')};
   top: ${(props) => (props.$header ? '100px' : 'auto')};
+  z-index: 10;
 `;
 
 const Divider = styled.div`
