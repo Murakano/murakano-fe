@@ -81,7 +81,10 @@ const RelatedItem = styled.div`
   font-size: ${(props) => (props.$header ? '14px' : '15px')};
   background-color: ${(props) => (props.$focused ? 'var(--secondary10)' : 'transparent')}; /* 포커스된 아이템 배경색 */
   gap: 10px;
-  color: #666;
+  color: ${(props) => (props.$focused ? '#000' : '#666')};
+  font-size: ${(props) => (props.$focused ? (props.$header ? '15px' : '16px') : props.$header ? '14px' : '15px')};
+  cursor: ${(props) => (props.$focused ? 'pointer' : 'default')};
+
   &:hover {
     color: #000;
     font-size: ${(props) => (props.$header ? '15px' : '16px')};
