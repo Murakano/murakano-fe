@@ -1,7 +1,15 @@
-import styled from 'styled-components';
 import Link from 'next/link';
+import { useState } from 'react';
+
+import useAuthStore from '@/store/useAuthStore';
+
+import styled from 'styled-components';
+import UserDeleteModal from '@/components/auth/molecules/UserDeleteModal';
 
 export default function Footer() {
+  const { nickname } = useAuthStore();
+  const [isModalOpen, setModalOpen] = useState(false);
+
   return (
     <FooterContainer>
       <FooterContent>
@@ -16,7 +24,10 @@ export default function Footer() {
         <FooterLink href='/policy'>
           <FooterBtn>이용약관</FooterBtn>
         </FooterLink>
-        <FooterBtn>회원탈퇴</FooterBtn>
+        {nickname && <FooterBtn onClick={() => setModalOpen(true)}>회원탈퇴</FooterBtn>}
+        {isModalOpen && (
+          <UserDeleteModal onClick={() => isModalOpen(true)} onClose={() => setModalOpen(false)}></UserDeleteModal>
+        )}
       </FooterContent>
     </FooterContainer>
   );
