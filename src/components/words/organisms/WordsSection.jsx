@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+
 import api from '@/utils/api';
+
+import styled from 'styled-components';
 import WordList from '../molecules/WordList';
 import SortDropdown from '../molecules/SortDropdown';
 
-export default function WordsSection() {
+export default function WordsSection({ referer }) {
   const router = useRouter();
+
   const [page, setPage] = useState(1);
   const [words, setWords] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -55,8 +58,8 @@ export default function WordsSection() {
     fetchWords(sort, page);
   }, [page, sort, fetchWords]);
 
-  // 스크롤 위치 복원
   useEffect(() => {
+    // 스크롤 위치 복원
     const handleBeforeUnload = (event) => {
       const isReload = event.currentTarget.performance
         .getEntriesByType('navigation')
@@ -71,17 +74,24 @@ export default function WordsSection() {
         sessionStorage.setItem('scrollPosition', window.scrollY);
       }
     };
-
     window.addEventListener('beforeunload', handleBeforeUnload);
+
+    const handleClick = () => {
+      console.log('Saving scroll position on click:', window.scrollY);
+      sessionStorage.setItem('scrollPosition', window.scrollY);
+    };
+
+    document.addEventListener('click', handleClick);
+
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('click', handleClick);
     };
   }, []);
 
   useEffect(() => {
     const savedScrollPosition = sessionStorage.getItem('scrollPosition');
-    console.log('Restoring scroll position:', savedScrollPosition);
-    if (savedScrollPosition && savedScrollPosition !== '0') {
+    if (savedScrollPosition && savedScrollPosition !== '0' && referer == 'http://localhost:3000/words') {
       setTimeout(() => {
         window.scrollTo(0, parseInt(savedScrollPosition, 10));
       }, 10); // 10ms 딜레이
@@ -100,19 +110,6 @@ export default function WordsSection() {
       router.events.off('routeChangeStart', handleRouteChange);
     };
   }, [router.events]);
-
-  // 클릭 시 스크롤 위치 저장
-  useEffect(() => {
-    const handleClick = () => {
-      console.log('Saving scroll position on click:', window.scrollY);
-      sessionStorage.setItem('scrollPosition', window.scrollY);
-    };
-
-    document.addEventListener('click', handleClick);
-    return () => {
-      document.removeEventListener('click', handleClick);
-    };
-  }, []);
 
   // 무한 스크롤
   const lastWordElementRef = useCallback(
@@ -133,7 +130,6 @@ export default function WordsSection() {
   const handleSortChange = (sortValue) => {
     setSort(sortValue);
   };
-
   return (
     <WordBoardContainer>
       <DropdownContainer>
