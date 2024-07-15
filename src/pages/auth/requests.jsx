@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import RequestSection from '@/components/auth/organisms/RequestSection';
 import api from '@/utils/api';
 import useAuthStore from '@/store/useAuthStore';
+import TopScrollBtn from '@/components/common/atoms/TopScrollBtn';
+import styled from 'styled-components';
 
 export default function Requests() {
   const [requests, setRequests] = useState([]);
@@ -53,5 +55,20 @@ export default function Requests() {
   if (loading) return <div>Loading...</div>; //로딩중일 때 loading...
   if (error) return <div>Error: {error}</div>;
 
-  return <RequestSection requests={requests} sectionTitle={sectionTitle} userRole={userRole} refreshRequests={refreshRequests} />;
+  return (
+  <section >
+    <RequestSection requests={requests} sectionTitle={sectionTitle} userRole={userRole} refreshRequests={refreshRequests} />
+    <ScrollContainer>
+        <TopScrollBtn />
+    </ScrollContainer>
+  </section>
+  );
 }
+
+
+const ScrollContainer = styled.div`
+  position: absolute;
+  z-index: 10;
+  right: 15%;
+  bottom: 10%;
+`;
