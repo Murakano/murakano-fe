@@ -17,6 +17,9 @@ export default function WordsSection({ referer }) {
   const [hasMore, setHasMore] = useState(true); // 데이터 호출 여부
   const observer = useRef();
 
+  const refererParts = referer.split('/');
+  const isWordsPage = refererParts[refererParts.length - 1] === 'words';
+
   // 단어 클릭 시 검색 결과 페이지로 이동
   const handleWordClick = (name) => {
     if (name) {
@@ -91,7 +94,8 @@ export default function WordsSection({ referer }) {
 
   useEffect(() => {
     const savedScrollPosition = sessionStorage.getItem('scrollPosition');
-    if (savedScrollPosition && savedScrollPosition !== '0' && referer == 'http://localhost:3000/words') {
+    console.log(referer.split('/'));
+    if (savedScrollPosition && savedScrollPosition !== '0' && isWordsPage) {
       setTimeout(() => {
         window.scrollTo(0, parseInt(savedScrollPosition, 10));
       }, 10); // 10ms 딜레이
