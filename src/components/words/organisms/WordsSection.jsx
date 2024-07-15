@@ -46,6 +46,7 @@ export default function WordsSection() {
 
   // 정렬 변경시 페이지 초기화
   useEffect(() => {
+    setWords([]);
     setPage(1);
   }, [sort]);
 
