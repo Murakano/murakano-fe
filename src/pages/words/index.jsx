@@ -1,11 +1,22 @@
-import styled from 'styled-components';
 import { React, useEffect } from 'react';
-import WordsPageName from '@/components/words/atoms/WordsPageName';
+
 import { useSearchTermStore } from '@/store/useSearchTermStore';
+
+import styled from 'styled-components';
+import WordsPageName from '@/components/words/atoms/WordsPageName';
 import WordsSection from '@/components/words/organisms/WordsSection';
 import TopScrollBtn from '@/components/common/atoms/TopScrollBtn';
 
-export default function AllWords() {
+export const getServerSideProps = async (context) => {
+  const referer = context.req.headers.referer || null;
+  return {
+    props: {
+      referer,
+    },
+  };
+};
+
+export default function AllWords({ referer }) {
   const { setSearchTerm } = useSearchTermStore();
 
   useEffect(() => {
@@ -18,7 +29,7 @@ export default function AllWords() {
       <ScrollContainer>
         <TopScrollBtn />
       </ScrollContainer>
-      <WordsSection />
+      <WordsSection referer={referer} />
     </Section>
   );
 }
