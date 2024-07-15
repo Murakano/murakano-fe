@@ -84,7 +84,8 @@ export default function SearchBar({ header }) {
 
         if (data?.length && !isInitialRender) {
           setDropdownVisible(true);
-        } else if (router.pathname !== '/') {
+          // } else if (router.pathname !== '/') {
+        } else {
           setDropdownVisible(false);
           setFirstRender(false);
         }
