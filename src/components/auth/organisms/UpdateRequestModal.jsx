@@ -290,12 +290,14 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
               </>
             ) : (
               <>
-                <ModalButton onClick={() => setDeleteRequest(true)}>
+                <ModalButton onClick={() => setDeleteRequest(true)} >
                   삭제
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled={isRequestCompleted}>
-                  수정
-                </ModalButton>
+                {!isRequestCompleted && (
+                  <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                    수정
+                  </ModalButton>
+                )}
               </>
             )}
           </ButtonGroup>
