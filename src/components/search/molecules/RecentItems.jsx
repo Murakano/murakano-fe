@@ -6,7 +6,7 @@ import api from '@/utils/api';
 import useAuthStore from '@/store/useAuthStore';
 import useRecentTermStore from '@/store/useRecentTermStore';
 
-export default function RecentItems({ header, onItemClick }) {
+export default function RecentItems({ header, onItemClick, setDropdownVisible }) {
   const [recentSearches, setRecentSearches] = useState();
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const [login, setLogin] = useState(true); // 로그인 상태 추가
@@ -41,6 +41,10 @@ export default function RecentItems({ header, onItemClick }) {
     const termToRemove = recentSearches[index];
     try {
       await api.delete(`/users/${termToRemove}`);
+      if (recentSearches.length === 1) {
+        // 검색어가 하나만 남은 경우, 드롭다운 창 닫기
+        setDropdownVisible(false);
+      }
       setRecentSearches((prevSearches) => prevSearches.filter((_, i) => i !== index));
     } catch (error) {
       console.error(error);

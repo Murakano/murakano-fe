@@ -151,7 +151,8 @@ export default function SearchBar({ header }) {
           relatedItems={relatedItems}
           dropdownVisible={dropdownVisible}
           focusedIndex={focusedIndex} // 추가
-          setFocusedIndex={setFocusedIndex} // 추가
+          setFocusedIndex={setFocusedIndex}
+          setDropdownVisible={setDropdownVisible} // 추가
         />
       )}
     </Column>
