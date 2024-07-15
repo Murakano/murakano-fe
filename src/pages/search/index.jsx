@@ -18,7 +18,6 @@ export default function SearchResults() {
   useEffect(() => {
     const fetchSearchResult = async () => {
       try {
-        // console.log(query);
         const response = await api.post(`/words/search/${encodeURIComponent(query)}`);
         setSearchResult(response.data);
         setLoading(false);

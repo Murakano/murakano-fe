@@ -22,7 +22,7 @@ const SorryComponent = ({ query }) => {
       const koreanPattern = /[가-힣]/;
       console.log(query);
       // 쿼리가 undefined인지 또는 한글을 포함하는지 확인
-      if (query === undefined || koreanPattern.test(query)) {
+      if (!query || koreanPattern.test(query)) {
           return setIsValidQuery(false);
       }
       
