@@ -57,7 +57,11 @@ export default function Requests() {
 
   return (
   <section >
+    {requests.length === 0 ? (
+        <NoRequestsMessage>요청 내역이 없습니다.</NoRequestsMessage>
+      ) : (
     <RequestSection requests={requests} sectionTitle={sectionTitle} userRole={userRole} refreshRequests={refreshRequests} />
+    )}
     <ScrollContainer>
         <TopScrollBtn />
     </ScrollContainer>
@@ -65,6 +69,13 @@ export default function Requests() {
   );
 }
 
+const NoRequestsMessage = styled.div`
+  text-align: center;
+  margin-top: 20px;
+  font-size: 30px;
+  font-weight: 600;
+  color: #888;
+`;
 
 const ScrollContainer = styled.div`
   position: absolute;
