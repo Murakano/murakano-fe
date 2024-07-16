@@ -96,14 +96,19 @@ export default function WordsSection({ referer }) {
     };
   }, []);
 
+  // 데이터 불러온 후 스크롤 위치 복원
   useEffect(() => {
     const savedScrollPosition = sessionStorage.getItem('scrollPosition');
     if (savedScrollPosition && savedScrollPosition !== '0' && isWordsPage) {
       setTimeout(() => {
+        console.log('Restoring scroll position:', savedScrollPosition);
         window.scrollTo(0, parseInt(savedScrollPosition, 10));
-      }, 10); // 10ms 딜레이
+      }, 0);
+      if (window.scrollY > parseInt(savedScrollPosition)) {
+        sessionStorage.setItem('scrollPosition', '0');
+      }
     }
-  }, [words]); // 데이터를 불러온 후에 스크롤 위치를 복원
+  }, [words]);
 
   // 페이지 이동 시 스크롤 위치 저장
   useEffect(() => {
