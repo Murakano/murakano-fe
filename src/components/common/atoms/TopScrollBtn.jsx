@@ -22,13 +22,14 @@ export default function TopScrollBtn() {
 }
 
 const BtnContainer = styled.div`
+  position: fixed;
+  top: 88%;
   width: 40px;
   height: 40px;
   padding: 10px;
   gap: 10px;
   align-items: right;
   justify-content: right;
-  position: fixed;
 `;
 
 const BtnDiv = styled.div`
