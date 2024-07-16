@@ -22,7 +22,6 @@ export default function SearchResults() {
     const fetchSearchResult = async () => {
       try {
         const response = await api.post(`/words/search/${encodeURIComponent(query)}`);
-        console.log(response);
         setSearchResult(response.data);
         setLoading(false);
       } catch (error) {
