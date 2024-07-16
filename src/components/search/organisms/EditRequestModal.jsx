@@ -12,12 +12,10 @@ import LabelWithTooltip from '@/components/search/organisms/LabelWithTooltip';
 
 import useAuthStore from '@/store/useAuthStore';
 
-
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
 export default function Modal({ onClose, searchResult }) {
   const modalRef = useRef();
   const { nickname } = useAuthStore();
-
 
   const [formData, setFormData] = useState({
     devTerm: searchResult ? searchResult.word : '',
@@ -136,8 +134,7 @@ export default function Modal({ onClose, searchResult }) {
     }
   };
 
-
-
+    
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
     (event) => {
@@ -156,7 +153,6 @@ export default function Modal({ onClose, searchResult }) {
     };
   }, []);
 
-
   return (
     <ModalContainer>
       <ModalBody ref={modalRef}>
@@ -173,7 +169,7 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
-            placeholder="개발 용어를 입력해주세요."
+            placeholder='개발 용어를 입력해주세요.'
             disabled
             readOnly
           />
@@ -186,7 +182,7 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'}
-            placeholder="일반적으로 쓰이는 발음을 입력해주세요."
+            placeholder='일반적으로 쓰이는 발음을 입력해주세요.'
           />
           <StyledInputBox
             type='text'
@@ -197,7 +193,7 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
-            placeholder="어색한 발음을 입력해주세요."
+            placeholder='어색한 발음을 입력해주세요.'
           />
           <Item>
             <Label>추가정보</Label>
@@ -206,7 +202,7 @@ export default function Modal({ onClose, searchResult }) {
               value={formData.addInfo}
               onChange={handleChange}
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
-              placeholder="추가 정보를 입력해주세요."
+              placeholder='추가 정보를 입력해주세요.'
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
@@ -343,7 +339,6 @@ const StyledInputBox = styled(InputBox)`
           outline: none;
       }
   `}
-    
   }
   Label {
     width: 498px;
@@ -395,7 +390,6 @@ const ModalButton = styled.button`
         'none'};
   }
 `;
-
 
 const HelperText = styled.p`
   font-size: 12px;

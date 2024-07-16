@@ -10,7 +10,6 @@ import api from '@/utils/api';
 
 import useAuthStore from '@/store/useAuthStore';
 
-
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
 export default function Modal({ onClose, query }) {
   const modalRef = useRef();
@@ -32,8 +31,6 @@ export default function Modal({ onClose, query }) {
     awkPronHelper: '',
     addInfoHelper: '',
   });
-
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -86,7 +83,7 @@ export default function Modal({ onClose, query }) {
       try {
         const response = await api.post('/words/checkDuplicateWord', { word: formData.devTerm });
         // Handle the response as needed
-        console.log("단어 중복 요청 검사 결과:", response); // Handle the response as needed
+        console.log('단어 중복 요청 검사 결과:', response); // Handle the response as needed
         if (response.data.isDataExist !== null) {
           updateState('devTermHelper', HELPER_TEXT.DUPLICATE_WORD, setHelperText);
           hasError = true;
@@ -98,7 +95,7 @@ export default function Modal({ onClose, query }) {
         console.error('단어 중복 검사 중 오류 발생:', error);
       }
     }
-    console.log("isDuplicate: ", isDuplicate)
+    console.log('isDuplicate: ', isDuplicate);
     setHasError(hasError);
   };
 
@@ -119,11 +116,10 @@ export default function Modal({ onClose, query }) {
     }
   }, [formData]);
 
-
   // 제출 시 유효성 검사
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("hasError", hasError)
+    console.log('hasError', hasError);
 
     if (hasError) {
       return;
@@ -134,7 +130,7 @@ export default function Modal({ onClose, query }) {
       word: formData.devTerm,
       formData,
       type,
-      nickname
+      nickname,
     };
 
     console.log('Sending request data:', requestData);
@@ -156,7 +152,6 @@ export default function Modal({ onClose, query }) {
       alert('등록 요청 중 오류가 발생했습니다.');
     }
   };
-
 
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
@@ -192,7 +187,7 @@ export default function Modal({ onClose, query }) {
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
-            placeholder="개발 용어를 입력해주세요."
+            placeholder='개발 용어를 입력해주세요.'
             onBlur={handleBlur}
           />
           <StyledInputBox
@@ -204,7 +199,7 @@ export default function Modal({ onClose, query }) {
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'}
-            placeholder="일반적으로 쓰이는 발음을 입력해주세요."
+            placeholder='일반적으로 쓰이는 발음을 입력해주세요.'
             onBlur={handleBlur}
           />
           <StyledInputBox
@@ -216,7 +211,7 @@ export default function Modal({ onClose, query }) {
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
-            placeholder="어색한 발음을 입력해주세요."
+            placeholder='어색한 발음을 입력해주세요.'
             onBlur={handleBlur}
           />
           <Item>
@@ -226,7 +221,7 @@ export default function Modal({ onClose, query }) {
               value={formData.addInfo}
               onChange={handleChange}
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
-              placeholder="추가 정보를 입력해주세요."
+              placeholder='추가 정보를 입력해주세요.'
               onBlur={handleBlur}
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
@@ -353,7 +348,6 @@ const StyledInputBox = styled(InputBox)`
     &:hover {
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
-    
   }
   Label {
     width: 498px;
@@ -381,11 +375,13 @@ const TextArea = styled.textarea`
   border-radius: 10px;
   padding: 20px;
   &:focus {
-    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
+    border-color: ${(props) =>
+      !props.valid ? '#ff0808' : 'var(--primary)'}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
     outline: none;
   }
   &:hover {
-    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
+    border-color: ${(props) =>
+      !props.valid ? '#ff0808' : 'var(--primary)'}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
   }
   resize: none;
   overflow: auto;
