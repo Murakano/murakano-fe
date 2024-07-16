@@ -251,8 +251,8 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
-            disabled={userRole !== 'admin'} // admin이 아닐 때 disabled
-            readOnly={userRole !== 'admin'}
+            readOnly = {isRequestCompleted}
+            $isRequestCompleted={isRequestCompleted} // 상태 전달
             onBlur={handleBlur}
           />
           <StyledInputBox
@@ -263,7 +263,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             setInput={setFormData}
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
-            className={'Box'}
+            className={'Box'} 
             readOnly = {isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
             onBlur={handleBlur}
@@ -297,26 +297,28 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
         </ModalContent>
         <ModalFooter>
           <ButtonGroup>
-            <ModalButton $isClose onClick={onClose}>
+            <ModalButton isClose onClick={onClose}>
               닫기
             </ModalButton>
             {userRole === 'admin' ? (
               <>
-                <ModalButton onClick={() => setRejectRequest(true)} $disabled={isRequestCompleted}>
+                <ModalButton onClick={() => setRejectRequest(true)} disabled = {isRequestCompleted} >
                   반려
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive} $disabled={isRequestCompleted}>
+                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled = {isRequestCompleted}>
                   승인
                 </ModalButton>
               </>
             ) : (
               <>
-                <ModalButton onClick={() => setDeleteRequest(true)}>
+                <ModalButton onClick={() => setDeleteRequest(true)} >
                   삭제
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive} $disabled={isRequestCompleted}>
-                  수정
-                </ModalButton>
+                {!isRequestCompleted && (
+                  <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                    수정
+                  </ModalButton>
+                )}
               </>
             )}
           </ButtonGroup>
@@ -324,7 +326,6 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       </ModalBody>
     </ModalContainer>
   );
-  
 }
 const ModalContainer = styled.div`
   width: 100%;
@@ -503,24 +504,36 @@ const ModalButton = styled.button`
   padding: 8px 30px;
   color: #fff;
   cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')};
-  background-color: ${(props) =>
-    props.$isClose ? 'rgba(0, 0, 0, 0.25)' :
-    props.$active && !props.$disabled ? 'var(--primary)' : 'var(--primary60)'};
+  background-color: ${(props) => 
+    props.$isClose ? 'rgba(0, 0, 0, 0.25)' : 
+    props.$active && !props.disabled ? 'var(--primary)' : 'var(--primary60)'};
   &:hover {
-    box-shadow: ${(props) =>
-      props.$isClose ? '0px 2px 4px 0px #00000026' :
-      props.$active ? '0px 2px 6px 0px #3C8BFF99' :
-      'none'};
+    box-shadow: ${(props) => 
+      props.$isClose ? '0px 2px 4px 0px #00000026' : // 닫기 버튼에 15% 투명도 그림자
+      props.$active ? '0px 2px 6px 0px #3C8BFF99' : 'none'};
+    ${(props) =>
+      props.disabled &&`box-shadow: none;`}
   }
   &:nth-child(2) {
+<<<<<<< HEAD
     background: #FF002E;
     cursor: ${(props) => (!props.$disabled ? 'pointer' : 'not-allowed')};
     &:hover {
       box-shadow: ${(props) => (!props.$disabled ? '0px 2px 8px 0px #FF080899' : 'none')};
       background: ${(props) => (!props.$disabled ? '#FF002E' : '#FF002E')};
+=======
+    background: #FF6B8F;
+    cursor: ${(props) => (!props.disabled ? 'pointer' : 'not-allowed')};
+    &:hover {
+      box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF080899' : 'none')}; // 두 번째 자식 버튼에 60% 투명도 그림자
+      background: ${(props) => (!props.disabled ? '#FF002E' : '#FF6B8F')};
+    ${(props) =>
+      props.disabled &&`box-shadow: none`}
+>>>>>>> dev
     }
   }
 `;
+
 
 const HelperText = styled.p`
   font-size: 12px;
