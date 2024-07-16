@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import TouchIcon from '../../../../public/murak_list_icon.svg';
 import Image from 'next/image';
-import RegisterRequestModal from './RegisterRequestModal';
-import UpdateRequestModal from './UpdateRequestModal';
 import React, { use, useState, useEffect } from 'react';
 import StateDropdown from '../molecules/StateDropdown';
 import RequestDropdown from '../molecules/RequestDropdown';
+import RegisterRequestModal from './RegisterRequestModal';
+import ModifyRequestModal from './ModifyRequestModal';
 
 export default function RequestSection({ requests = [], sectionTitle, userRole, refreshRequests }) {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -14,6 +14,7 @@ export default function RequestSection({ requests = [], sectionTitle, userRole, 
   const [selectedState, setSelectedState] = useState('전체');
   const [selectedRequestType, setSelectedRequestType] = useState('전체');
   const [filteredRequests, setFilteredRequests] = useState(requests);
+
 
   const handleRequestItemClick = (type, data) => (e) => {
     e.stopPropagation(); // 이벤트 캡쳐링 방지
@@ -111,7 +112,7 @@ export default function RequestSection({ requests = [], sectionTitle, userRole, 
             refreshRequests={refreshRequests}
           />
         ) : (
-          <UpdateRequestModal
+          <ModifyRequestModal
             onClose={closeModal}
             requestData={selectedRequestData}
             userRole={userRole}

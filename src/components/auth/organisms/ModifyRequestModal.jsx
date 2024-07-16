@@ -5,7 +5,7 @@ import api from '@/utils/api';
 
 // cop
 
-export default function RegisterRequestModal({ onClose, requestData, userRole, refreshRequests }) {
+export default function ModifyRequestModal({ onClose, requestData, userRole, refreshRequests }) {
     const [deleteRequest, setDeleteRequest] = useState(false);
     const [rejectRequest, setRejectRequest] = useState(false);
     const isRequestCompleted = requestData.status === 'app' || requestData.status === 'rej';
@@ -20,19 +20,18 @@ export default function RegisterRequestModal({ onClose, requestData, userRole, r
         setFormData,
     } = useRequestForm(requestData);
 
+    //제출 버튼
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (hasError) return;
 
-        console.log("등록요청모달");
-        console.log("requestType: ", requestData.type);
-
         try {
+            // 관리자
             if (userRole === 'admin') {
                 const response = await api.post(`/users/requests/${requestData._id}/status`, {
                     status: 'app',
                     formData,
-                    requestType: 'add',
+                    requestType: 'mod',
                 });
 
                 if (response.message === '요청 상태 변경 성공') {
@@ -41,6 +40,7 @@ export default function RegisterRequestModal({ onClose, requestData, userRole, r
                     alert('승인되었습니다!');
                 }
             } else {
+            // 일반 유저
                 const response = await api.post(`/users/requests/${requestData._id}`, { formData });
 
                 if (response.message === '요청 수정 성공') {
@@ -55,6 +55,7 @@ export default function RegisterRequestModal({ onClose, requestData, userRole, r
         }
     };
 
+    // 삭제버튼
     useEffect(() => {
         if (!deleteRequest && !rejectRequest) return;
 
@@ -119,7 +120,7 @@ export default function RegisterRequestModal({ onClose, requestData, userRole, r
 
     return (
         <RequestModal
-            title="등록 요청"
+            title="수정 요청"
             onClose={onClose}
             requestData={requestData}
             userRole={userRole}
