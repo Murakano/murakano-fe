@@ -22,9 +22,12 @@ const useAuthStore = create(
       fetchAuthData: async () => {
         try {
           const response = await api.post('/users/refresh');
-          if (response.message === '비로그인 상태입니다.') return;
+          if (response.message === '비로그인 상태입니다.'){
+            get().clearAuthData();
+            return;
+          } 
+          // user RT와 redis RT가 다른 경우
           else if (response.message === '유효하지 않은 Refresh Token입니다.') {
-            console.log('refresh token 공격 감지하여 무효화');
             get().clearAuthData();
             alert('다시 로그인해주세요.');
             return;
@@ -43,7 +46,7 @@ const useAuthStore = create(
 
       silentRefresh: () => {
         // 만료 1분 전
-        const silentRefreshTime = get().expiresAt - Date.now() - 60 * 1000;
+        const silentRefreshTime = get().expiresAt - Date.now() - 595 * 1000;
         if (silentRefreshTime > 0) {
           setTimeout(() => {
             get().fetchAuthData();
