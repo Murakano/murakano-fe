@@ -43,7 +43,9 @@ export default function AgreementsBox({ agreements, setAgreements }) {
           onChange={handleAgreementChange}
         />
         <Label htmlFor='serviceAgree'>서비스 이용 약관 동의 (필수)</Label>
-        <Details href={'/policy'}>자세히</Details>
+        <Details href='/policy' target='_blank' rel='noopener noreferrer'>
+          자세히
+        </Details>
       </CheckboxContainer>
 
       <CheckboxContainer>
@@ -55,7 +57,9 @@ export default function AgreementsBox({ agreements, setAgreements }) {
           onChange={handleAgreementChange}
         />
         <Label htmlFor='privacyAgree'>개인정보 수집 및 이용 동의 (필수)</Label>
-        <Details href='/policy/privacy'>자세히</Details>
+        <Details href='/policy/privacy' target='_blank' rel='noopener noreferrer'>
+          자세히
+        </Details>
       </CheckboxContainer>
     </AgrBox>
   );

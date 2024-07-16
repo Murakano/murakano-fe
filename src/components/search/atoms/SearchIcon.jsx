@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { StyledSearchOutlined } from '@/styles/commonStyles';
 
 export function SearchIcon({ searchTerm, handleSearch }) {
+  const encodedSearchTerm = encodeURIComponent(searchTerm);
   return (
-    <Link href={`/search/${searchTerm}`}>
+    <Link href={`/search/${encodedSearchTerm}`}>
       <Icon onClick={handleSearch}>
         <StyledSearchOutlined />
       </Icon>

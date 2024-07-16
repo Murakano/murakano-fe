@@ -43,7 +43,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
   const handleBlur = (e) => {
     const { name, value } = e.target;
     if (isRequestCompleted) return;
-    
+
     let hasError = false;
 
     if (!formData.devTerm) {
@@ -96,7 +96,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       setButtonActive(true);
     } else {
       setButtonActive(false);
-    }    
+    }
   }, [formData]);
 
   // 제출 시 유효성 검사
@@ -130,7 +130,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       console.error('처리 중 오류 발생:', error);
       alert('처리 중 오류가 발생했습니다.');
     }
-};
+  };
 
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
@@ -141,7 +141,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     },
     [onClose]
   );
-  
+
   //클릭감지, mousedown이 click보다 먼 감지
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -163,7 +163,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
 
       try {
         const response = await api.delete(`/users/requests/${requestData.word}`);
-        
+
         console.log("프론트 삭제 response", response.message)
 
         if (response.message === '요청 삭제 성공') {
@@ -210,9 +210,9 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
     } else if (rejectRequest) {
       handleReject();
     }
-    
+
   }, [deleteRequest, rejectRequest, onClose, requestData.word, refreshRequests]);
-  
+
 
   return (
     <ModalContainer>
@@ -243,7 +243,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'}
-            readOnly = {isRequestCompleted}
+            readOnly={isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
             onBlur={handleBlur}
           />
@@ -256,7 +256,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
-            readOnly = {isRequestCompleted}
+            readOnly={isRequestCompleted}
             $isRequestCompleted={isRequestCompleted} // 상태 전달
             onBlur={handleBlur}
           />
@@ -267,7 +267,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
               value={formData.addInfo}
               onChange={handleChange}
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
-              disabled = {isRequestCompleted}
+              disabled={isRequestCompleted}
               $isRequestCompleted={isRequestCompleted} // 상태 전달
               onBlur={handleBlur}
             />
@@ -281,21 +281,23 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
             </ModalButton>
             {userRole === 'admin' ? (
               <>
-                <ModalButton onClick={() => setRejectRequest(true)} $disabled={isRequestCompleted}>
+                <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted}>
                   반려
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive} $disabled={isRequestCompleted}>
+                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled={isRequestCompleted}>
                   승인
                 </ModalButton>
               </>
             ) : (
               <>
-                <ModalButton onClick={() => setDeleteRequest(true)}>
+                <ModalButton onClick={() => setDeleteRequest(true)} >
                   삭제
                 </ModalButton>
-                <ModalButton onClick={handleSubmit} $active={buttonActive} $disabled={isRequestCompleted}>
-                  수정
-                </ModalButton>
+                {!isRequestCompleted && (
+                  <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                    수정
+                  </ModalButton>
+                )}
               </>
             )}
           </ButtonGroup>
@@ -303,7 +305,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
       </ModalBody>
     </ModalContainer>
   );
-  
+
 }
 const ModalContainer = styled.div`
   width: 100%;
@@ -412,8 +414,8 @@ const StyledInputBox = styled(InputBox)`
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
     ${(props) =>
-      props.name === 'devTerm' &&
-      `
+    props.name === 'devTerm' &&
+    `
       &:hover {
           border-color: var(--secondary); // 호버 시 색상 변경 안함
       }
@@ -423,8 +425,8 @@ const StyledInputBox = styled(InputBox)`
       }
   `}
   ${(props) =>
-      props.$isRequestCompleted &&
-      `
+    props.$isRequestCompleted &&
+    `
       &:hover {
           border-color: var(--secondary); // 상태가 'rej' 또는 'app'이면 호버 시 색상 변경 안함
       }
@@ -474,8 +476,8 @@ const TextArea = styled.textarea`
     display: none; /* Chrome, Safari, Opera */
   }
   ${(props) =>
-      props.$isRequestCompleted &&
-      `
+    props.$isRequestCompleted &&
+    `
       &:hover {
           border-color: var(--secondary); // 상태가 'rej' 또는 'app'이면 호버 시 색상 변경 안함
       }
@@ -496,21 +498,25 @@ const ModalButton = styled.button`
   cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')};
   background-color: ${(props) =>
     props.$isClose ? 'rgba(0, 0, 0, 0.25)' :
-    props.$active && !props.$disabled ? 'var(--primary)' : 'var(--primary60)'};
+      props.$active && !props.disabled ? 'var(--primary)' : 'var(--primary60)'};
   &:hover {
     box-shadow: ${(props) =>
-      props.$isClose ? '0px 2px 4px 0px #00000026' :
-      props.$active ? '0px 2px 6px 0px #3C8BFF99' :
-      'none'};
+    props.$isClose ? '0px 2px 4px 0px #00000026' :
+      props.$active ? '0px 2px 6px 0px #3C8BFF99' : 'none'};
+    ${(props) =>
+    props.disabled && `box-shadow: none;`}
   }
   &:nth-child(2) {
-    background: #FF6B8F;
-    cursor: ${(props) => (!props.$disabled ? 'pointer' : 'not-allowed')};
+    background: #FF002E;
+    cursor: ${(props) => (!props.disabled ? 'pointer' : 'not-allowed')};
     &:hover {
-      box-shadow: ${(props) => (!props.$disabled ? '0px 2px 8px 0px #FF080899' : 'none')};
-      background: ${(props) => (!props.$disabled ? '#FF002E' : '#FF6B8F')};
+      box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF080899' : 'none')};
+      background: ${(props) => (!props.disabled ? '#FF002E' : '#FF002E')};
     }
+    ${(props) =>
+    props.disabled && `box-shadow: none;`}
   }
+  
 `;
 
 const HelperText = styled.p`
