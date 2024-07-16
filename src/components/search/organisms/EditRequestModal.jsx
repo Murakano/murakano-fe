@@ -34,7 +34,7 @@ export default function Modal({ onClose, searchResult }) {
   });
 
   const [buttonActive, setButtonActive] = useState(false);
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'devTerm') return;
@@ -58,7 +58,7 @@ export default function Modal({ onClose, searchResult }) {
       setButtonActive(true);
     } else {
       setButtonActive(false);
-    }    
+    }
   }, [formData]);
 
   // 제출 시 유효성 검사
@@ -109,23 +109,32 @@ export default function Modal({ onClose, searchResult }) {
     }
 
     const type = 'mod'; // 수정 요청
-    const requestData = { 
+    const requestData = {
       word: formData.devTerm,
       formData,
-      type, 
-      nickname 
-  };
-    
+      type,
+      nickname
+    };
+
     console.log('Sending request data:', requestData);
     try {
-        const response = await api.post(`/users/requests/${nickname}/new`, requestData);
-        console.log('Response:', response);
+      const response = await api.post(`/users/requests/${nickname}/new`, requestData);
+      console.log('Response:', response);
+
+      if (response.message === '등록 요청 성공') {
         alert('수정 요청이 제출되었습니다');
-        onClose();
+      } else if (response === '같은 단어의 대한 요청이 존재합니다.') {
+        alert('같은 단어의 대한 요청이 존재합니다.');
+      } else {
+        alert('수정 요청 중 오류가 발생했습니다.');
+      }
+
+      onClose();
     } catch (error) {
-        console.error('수정 요청 중 오류가 발생하였습니다:', error);
+      console.error('수정 요청 중 오류가 발생하였습니다:', error);
+      alert('수정 요청 중 오류가 발생했습니다.');
     }
-    };
+  };
 
 
 
@@ -138,7 +147,7 @@ export default function Modal({ onClose, searchResult }) {
     },
     [onClose]
   );
-  
+
   //클릭감지, mousedown이 click보다 먼 감지
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -176,7 +185,7 @@ export default function Modal({ onClose, searchResult }) {
             setInput={setFormData}
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
-            className={'Box'} 
+            className={'Box'}
             placeholder="일반적으로 쓰이는 발음을 입력해주세요."
           />
           <StyledInputBox
@@ -188,7 +197,7 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
-            placeholder="어색한 발음을 입력해주세요." 
+            placeholder="어색한 발음을 입력해주세요."
           />
           <Item>
             <Label>추가정보</Label>
@@ -324,8 +333,8 @@ const StyledInputBox = styled(InputBox)`
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
     ${(props) =>
-      props.name === 'devTerm' &&
-      `
+    props.name === 'devTerm' &&
+    `
       &:hover {
           border-color: var(--secondary); // 호버 시 색상 변경 안함
       }
@@ -376,14 +385,14 @@ const ModalButton = styled.button`
   padding: 8px 30px;
   color: #fff;
   cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')}; // 프리픽스 적용
-  background-color: ${(props) => 
+  background-color: ${(props) =>
     props.$isClose ? 'rgba(0, 0, 0, 0.25)' : // 프리픽스 적용
-    props.$active ? 'var(--primary)' : 'var(--primary60)'}; // 프리픽스 적용
+      props.$active ? 'var(--primary)' : 'var(--primary60)'}; // 프리픽스 적용
   &:hover {
-    box-shadow: ${(props) => 
-      props.$isClose ? '0px 2px 4px 0px #00000026' : // 프리픽스 적용
+    box-shadow: ${(props) =>
+    props.$isClose ? '0px 2px 4px 0px #00000026' : // 프리픽스 적용
       props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 프리픽스 적용
-      'none'};
+        'none'};
   }
 `;
 
