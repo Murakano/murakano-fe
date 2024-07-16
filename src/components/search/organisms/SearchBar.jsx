@@ -11,8 +11,6 @@ export default function SearchBar({ header }) {
   const router = useRouter();
   const searchBarRef = useRef();
   const debounceTimeoutRef = useRef(null);
-
-  const [firstRender, setFirstRender] = useState(true);
   const [relatedItems, setRelatedItems] = useState([]);
   const { searchTerm, setSearchTerm } = useSearchTermStore();
   const [rememberPath, setRememberPath] = useState(router.pathname);
@@ -48,11 +46,9 @@ export default function SearchBar({ header }) {
       path = `/search/${router.query.query}`;
       setDropdownVisible(false);
     }
-    setFirstRender(false);
     if (rememberPath !== path) {
       setDropdownVisible(false);
       setRememberPath(path);
-      setFirstRender(true);
     }
   }, []);
 
@@ -69,21 +65,19 @@ export default function SearchBar({ header }) {
     let path = router.pathname;
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
-      setFirstRender(false);
       if (rememberPath !== path) {
         setDropdownVisible(false);
         setRememberPath(path);
-        setFirstRender(true);
       }
     }
     if (searchTerm) {
       debounceTimeoutRef.current = setTimeout(async () => {
+        console.log(searchTerm);
         const data = await fetchRelatedItems(searchTerm);
-        if (data?.length && !firstRender) {
-          setDropdownVisible(true);
+        if (data?.length) {
+          // setDropdownVisible(true);
         } else {
           setDropdownVisible(false);
-          setFirstRender(false);
         }
       }, 300);
     }
@@ -100,7 +94,6 @@ export default function SearchBar({ header }) {
       setSearchTerm(searchTermToUse); // setSearchTerm 호출
       setFocusedIndex(-1); // 포커스 인덱스 초기화
       router.push(`/search/${encodeURIComponent(searchTermToUse)}`);
-      setFirstRender(true);
       setDropdownVisible(false);
     }
   };
@@ -109,14 +102,12 @@ export default function SearchBar({ header }) {
     setSearchTerm(searchTerm);
     setFocusedIndex(-1); // 포커스 인덱스 초기화
     router.push(`/search/${encodeURIComponent(searchTerm)}`);
-    setFirstRender(true);
     setDropdownVisible(false);
   };
 
   const handleClickOutside = (event) => {
     if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
       setDropdownVisible(false);
-      setFirstRender(true);
     }
   };
 
