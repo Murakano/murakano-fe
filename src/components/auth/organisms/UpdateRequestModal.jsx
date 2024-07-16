@@ -507,11 +507,11 @@ const ModalButton = styled.button`
     props.disabled && `box-shadow: none;`}
   }
   &:nth-child(2) {
-    background: #FF6B8F;
+    background: #FF002E;
     cursor: ${(props) => (!props.disabled ? 'pointer' : 'not-allowed')};
     &:hover {
       box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF080899' : 'none')};
-      background: ${(props) => (!props.disabled ? '#FF002E' : '#FF6B8F')};
+      background: ${(props) => (!props.disabled ? '#FF002E' : '#FF002E')};
     }
     ${(props) =>
     props.disabled && `box-shadow: none;`}

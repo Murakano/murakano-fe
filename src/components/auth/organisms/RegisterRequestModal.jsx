@@ -297,7 +297,7 @@ export default function Modal({ onClose, requestData, userRole, refreshRequests 
         </ModalContent>
         <ModalFooter>
           <ButtonGroup>
-            <ModalButton isClose onClick={onClose}>
+            <ModalButton $isClose onClick={onClose}>
               닫기
             </ModalButton>
             {userRole === 'admin' ? (
@@ -509,21 +509,22 @@ const ModalButton = styled.button`
       props.$active && !props.disabled ? 'var(--primary)' : 'var(--primary60)'};
   &:hover {
     box-shadow: ${(props) =>
-    props.$isClose ? '0px 2px 4px 0px #00000026' : // 닫기 버튼에 15% 투명도 그림자
+    props.$isClose ? '0px 2px 4px 0px #00000026' :
       props.$active ? '0px 2px 6px 0px #3C8BFF99' : 'none'};
     ${(props) =>
     props.disabled && `box-shadow: none;`}
   }
   &:nth-child(2) {
-    background: #FF6B8F;
+    background: #FF002E;
     cursor: ${(props) => (!props.disabled ? 'pointer' : 'not-allowed')};
     &:hover {
-      box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF080899' : 'none')}; // 두 번째 자식 버튼에 60% 투명도 그림자
-      background: ${(props) => (!props.disabled ? '#FF002E' : '#FF6B8F')};
-    ${(props) =>
-    props.disabled && `box-shadow: none`}
+      box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF080899' : 'none')};
+      background: ${(props) => (!props.disabled ? '#FF002E' : '#FF002E')};
     }
+    ${(props) =>
+    props.disabled && `box-shadow: none;`}
   }
+  
 `;
 
 
