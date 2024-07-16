@@ -46,6 +46,7 @@ export default function SearchBar({ header }) {
 
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
+      setDropdownVisible(false);
     }
     setFirstRender(false);
     if (rememberPath !== path) {
@@ -66,23 +67,25 @@ export default function SearchBar({ header }) {
 
   useEffect(() => {
     let path = router.pathname;
+    console.log(router.query.query);
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
+      console.log(path, 999, rememberPath);
+      console.log(999);
+      // let isInitialRender = firstRender;
+      setFirstRender(false);
+      if (rememberPath !== path) {
+        setDropdownVisible(false);
+        setRememberPath(path);
+        // isInitialRender = true;
+        setFirstRender(true);
+      }
     }
-    let isInitialRender = firstRender;
-    setFirstRender(false);
-    if (rememberPath !== path) {
-      setDropdownVisible(false);
-      setRememberPath(path);
-      isInitialRender = true;
-      setFirstRender(true);
-    }
-
     if (searchTerm) {
       debounceTimeoutRef.current = setTimeout(async () => {
         const data = await fetchRelatedItems(searchTerm);
-
-        if (data?.length && !isInitialRender) {
+        console.log(firstRender, 111);
+        if (data?.length && !firstRender) {
           setDropdownVisible(true);
           // } else if (router.pathname !== '/') {
         } else {
@@ -90,14 +93,14 @@ export default function SearchBar({ header }) {
           setFirstRender(false);
         }
       }, 300);
-
-      return () => {
-        clearTimeout(debounceTimeoutRef.current);
-      };
-    } else if (!isInitialRender) {
-      setDropdownVisible(true);
     }
-  }, [searchTerm, router.pathname]);
+
+    return () => {
+      clearTimeout(debounceTimeoutRef.current);
+    };
+    // } else if (!isInitialRender) {
+    // setDropdownVisible(true);
+  }, [searchTerm, router.query.query]);
 
   const handleSearch = (e, term) => {
     if (e.key === 'Enter' || e.type === 'click') {
