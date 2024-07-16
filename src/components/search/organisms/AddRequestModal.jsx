@@ -33,7 +33,7 @@ export default function Modal({ onClose, query }) {
     addInfoHelper: '',
   });
 
-  
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +45,7 @@ export default function Modal({ onClose, query }) {
 
   const handleBlur = async (e) => {
     const { name, value } = e.target;
-    
+
     let hasError = false;
 
     if (!formData.devTerm) {
@@ -85,9 +85,9 @@ export default function Modal({ onClose, query }) {
     if (name === 'devTerm') {
       try {
         const response = await api.post('/words/checkDuplicateWord', { word: formData.devTerm });
-         // Handle the response as needed
+        // Handle the response as needed
         console.log("단어 중복 요청 검사 결과:", response); // Handle the response as needed
-        if (response.data.isDataExist !== null) { 
+        if (response.data.isDataExist !== null) {
           updateState('devTermHelper', HELPER_TEXT.DUPLICATE_WORD, setHelperText);
           hasError = true;
           setIsDuplicate(true);
@@ -130,21 +130,30 @@ export default function Modal({ onClose, query }) {
     }
 
     const type = 'add';
-    const requestData = { 
-        word: formData.devTerm,
-        formData,
-        type, 
-        nickname 
+    const requestData = {
+      word: formData.devTerm,
+      formData,
+      type,
+      nickname
     };
-    
+
     console.log('Sending request data:', requestData);
     try {
-        const response = await api.post(`/users/requests/${nickname}/new`, requestData);
-        console.log('Response:', response);
+      const response = await api.post(`/users/requests/${nickname}/new`, requestData);
+      console.log('Response:', response);
+
+      if (response.message === '등록 요청 성공') {
         alert('등록 요청이 제출되었습니다');
-        onClose();
+      } else if (response === '같은 단어의 대한 요청이 존재합니다.') {
+        alert('같은 단어의 대한 요청이 존재합니다.');
+      } else {
+        alert('등록 요청 중 오류가 발생했습니다.');
+      }
+
+      onClose();
     } catch (error) {
-        console.error('등록 요청 중 오류가 발생하였습니다:', error);
+      console.error('등록 요청 중 오류가 발생하였습니다:', error);
+      alert('등록 요청 중 오류가 발생했습니다.');
     }
   };
 
@@ -158,7 +167,7 @@ export default function Modal({ onClose, query }) {
     },
     [onClose]
   );
-  
+
   //클릭감지, mousedown이 click보다 먼 감지
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -235,7 +244,7 @@ export default function Modal({ onClose, query }) {
         </ModalFooter>
       </ModalBody>
     </ModalContainer>
-  );  
+  );
 }
 
 const ModalContainer = styled.div`
@@ -394,14 +403,14 @@ const ModalButton = styled.button`
   padding: 8px 30px;
   color: #fff;
   cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')}; // 프리픽스 적용
-  background-color: ${(props) => 
+  background-color: ${(props) =>
     props.$isClose ? 'rgba(0, 0, 0, 0.25)' : // 프리픽스 적용
-    props.$active ? 'var(--primary)' : 'var(--primary60)'}; // 프리픽스 적용
+      props.$active ? 'var(--primary)' : 'var(--primary60)'}; // 프리픽스 적용
   &:hover {
-    box-shadow: ${(props) => 
-      props.$isClose ? '0px 2px 4px 0px #00000026' : // 프리픽스 적용
+    box-shadow: ${(props) =>
+    props.$isClose ? '0px 2px 4px 0px #00000026' : // 프리픽스 적용
       props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 프리픽스 적용
-      'none'};
+        'none'};
   }
 `;
 
