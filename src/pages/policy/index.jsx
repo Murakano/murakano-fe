@@ -70,7 +70,7 @@ export default function Policy() {
       </Section>
 
       <Section>
-        <SectionTitle>5. 정보주체와 법정대리인의 권리·의무 및 그 행사방법</SectionTitle>
+        <SectionTitle>4. 정보주체와 법정대리인의 권리·의무 및 그 행사방법</SectionTitle>
         <Paragraph>이용자는 개인정보주체로써 다음과 같은 권리를 행사할 수 있습니다.</Paragraph>
         <List>
           <ListItem>
@@ -101,7 +101,7 @@ export default function Policy() {
       </Section>
 
       <Section>
-        <SectionTitle>6. 처리하는 개인정보의 항목 작성</SectionTitle>
+        <SectionTitle>5. 처리하는 개인정보의 항목 작성</SectionTitle>
         <Paragraph>① &lt;머라카노&gt;은(는) 다음의 개인정보 항목을 처리하고 있습니다.</Paragraph>
         <List>
           <ListItem>1.홈페이지 회원가입 및 관리</ListItem>
@@ -110,7 +110,7 @@ export default function Policy() {
       </Section>
 
       <Section>
-        <SectionTitle>7. 개인정보의 파기</SectionTitle>
+        <SectionTitle>6. 개인정보의 파기</SectionTitle>
         <Paragraph>
           &lt;머라카노&gt;은(는) 원칙적으로 개인정보 처리목적이 달성된 경우에는 지체없이 해당 개인정보를 파기합니다.
           파기의 절차, 기한 및 방법은 다음과 같습니다.
@@ -136,7 +136,7 @@ export default function Policy() {
       </Section>
 
       <Section>
-        <SectionTitle>8. 개인정보 자동 수집 장치의 설치·운영 및 거부에 관한 사항</SectionTitle>
+        <SectionTitle>7. 개인정보 자동 수집 장치의 설치·운영 및 거부에 관한 사항</SectionTitle>
         <List>
           <ListItem>
             ① &lt;머라카노&gt; 은 개별적인 맞춤서비스를 제공하기 위해 이용정보를 저장하고 수시로 불러오는
