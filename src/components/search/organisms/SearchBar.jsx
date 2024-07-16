@@ -67,27 +67,20 @@ export default function SearchBar({ header }) {
 
   useEffect(() => {
     let path = router.pathname;
-    console.log(router.query.query);
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
-      console.log(path, 999, rememberPath);
-      console.log(999);
-      // let isInitialRender = firstRender;
       setFirstRender(false);
       if (rememberPath !== path) {
         setDropdownVisible(false);
         setRememberPath(path);
-        // isInitialRender = true;
         setFirstRender(true);
       }
     }
     if (searchTerm) {
       debounceTimeoutRef.current = setTimeout(async () => {
         const data = await fetchRelatedItems(searchTerm);
-        console.log(firstRender, 111);
         if (data?.length && !firstRender) {
           setDropdownVisible(true);
-          // } else if (router.pathname !== '/') {
         } else {
           setDropdownVisible(false);
           setFirstRender(false);
@@ -98,8 +91,6 @@ export default function SearchBar({ header }) {
     return () => {
       clearTimeout(debounceTimeoutRef.current);
     };
-    // } else if (!isInitialRender) {
-    // setDropdownVisible(true);
   }, [searchTerm, router.query.query]);
 
   const handleSearch = (e, term) => {
