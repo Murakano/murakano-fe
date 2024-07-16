@@ -135,7 +135,7 @@ export default function Modal({ onClose, query }) {
 
     console.log('Sending request data:', requestData);
     try {
-      const response = await api.post(`/users/requests/${nickname}/new`, requestData);
+      const response = await api.post(`/users/requests/new`, requestData);
       console.log('Response:', response);
 
       if (response.message === '등록 요청 성공') {
@@ -376,12 +376,12 @@ const TextArea = styled.textarea`
   padding: 20px;
   &:focus {
     border-color: ${(props) =>
-      !props.valid ? '#ff0808' : 'var(--primary)'}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
+    !props.valid ? '#ff0808' : 'var(--primary)'}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
     outline: none;
   }
   &:hover {
     border-color: ${(props) =>
-      !props.valid ? '#ff0808' : 'var(--primary)'}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
+    !props.valid ? '#ff0808' : 'var(--primary)'}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
   }
   resize: none;
   overflow: auto;
