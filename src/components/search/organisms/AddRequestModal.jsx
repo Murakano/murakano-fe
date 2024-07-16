@@ -135,12 +135,21 @@ export default function Modal({ onClose, query }) {
 
     console.log('Sending request data:', requestData);
     try {
-      const response = await api.post(`/users/requests/new`, requestData);
+      const response = await api.post(`/users/requests/${nickname}/new`, requestData);
       console.log('Response:', response);
-      alert('등록 요청이 제출되었습니다');
+
+      if (response.message === '등록 요청 성공') {
+        alert('등록 요청이 제출되었습니다');
+      } else if (response === '같은 단어의 대한 요청이 존재합니다.') {
+        alert('같은 단어의 대한 요청이 존재합니다.');
+      } else {
+        alert('등록 요청 중 오류가 발생했습니다.');
+      }
+
       onClose();
     } catch (error) {
       console.error('등록 요청 중 오류가 발생하였습니다:', error);
+      alert('등록 요청 중 오류가 발생했습니다.');
     }
   };
 
@@ -391,18 +400,13 @@ const ModalButton = styled.button`
   color: #fff;
   cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')}; // 프리픽스 적용
   background-color: ${(props) =>
-    props.$isClose
-      ? 'rgba(0, 0, 0, 0.25)' // 프리픽스 적용
-      : props.$active
-      ? 'var(--primary)'
-      : 'var(--primary60)'}; // 프리픽스 적용
+    props.$isClose ? 'rgba(0, 0, 0, 0.25)' : // 프리픽스 적용
+      props.$active ? 'var(--primary)' : 'var(--primary60)'}; // 프리픽스 적용
   &:hover {
     box-shadow: ${(props) =>
-      props.$isClose
-        ? '0px 2px 4px 0px #00000026' // 프리픽스 적용
-        : props.$active
-        ? '0px 2px 6px 0px #3C8BFF99' // 프리픽스 적용
-        : 'none'};
+    props.$isClose ? '0px 2px 4px 0px #00000026' : // 프리픽스 적용
+      props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 프리픽스 적용
+        'none'};
   }
 `;
 

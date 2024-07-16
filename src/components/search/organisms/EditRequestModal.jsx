@@ -111,20 +111,30 @@ export default function Modal({ onClose, searchResult }) {
       word: formData.devTerm,
       formData,
       type,
-      nickname,
+      nickname
     };
 
     console.log('Sending request data:', requestData);
     try {
-      const response = await api.post(`/users/requests/new`, requestData);
+      const response = await api.post(`/users/requests/${nickname}/new`, requestData);
       console.log('Response:', response);
-      alert('수정 요청이 제출되었습니다');
+
+      if (response.message === '등록 요청 성공') {
+        alert('수정 요청이 제출되었습니다');
+      } else if (response === '같은 단어의 대한 요청이 존재합니다.') {
+        alert('같은 단어의 대한 요청이 존재합니다.');
+      } else {
+        alert('수정 요청 중 오류가 발생했습니다.');
+      }
+
       onClose();
     } catch (error) {
       console.error('수정 요청 중 오류가 발생하였습니다:', error);
+      alert('수정 요청 중 오류가 발생했습니다.');
     }
   };
 
+    
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
     (event) => {
@@ -319,8 +329,8 @@ const StyledInputBox = styled(InputBox)`
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
     ${(props) =>
-      props.name === 'devTerm' &&
-      `
+    props.name === 'devTerm' &&
+    `
       &:hover {
           border-color: var(--secondary); // 호버 시 색상 변경 안함
       }
@@ -371,18 +381,13 @@ const ModalButton = styled.button`
   color: #fff;
   cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')}; // 프리픽스 적용
   background-color: ${(props) =>
-    props.$isClose
-      ? 'rgba(0, 0, 0, 0.25)' // 프리픽스 적용
-      : props.$active
-      ? 'var(--primary)'
-      : 'var(--primary60)'}; // 프리픽스 적용
+    props.$isClose ? 'rgba(0, 0, 0, 0.25)' : // 프리픽스 적용
+      props.$active ? 'var(--primary)' : 'var(--primary60)'}; // 프리픽스 적용
   &:hover {
     box-shadow: ${(props) =>
-      props.$isClose
-        ? '0px 2px 4px 0px #00000026' // 프리픽스 적용
-        : props.$active
-        ? '0px 2px 6px 0px #3C8BFF99' // 프리픽스 적용
-        : 'none'};
+    props.$isClose ? '0px 2px 4px 0px #00000026' : // 프리픽스 적용
+      props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 프리픽스 적용
+        'none'};
   }
 `;
 
