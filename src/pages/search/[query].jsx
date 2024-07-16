@@ -10,15 +10,19 @@ import { useSearchTermStore } from '@/store/useSearchTermStore';
 
 export default function SearchResults() {
   const router = useRouter();
-  const { query = '' } = router.query;
+  const { query } = router.query;
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { searchTerm } = useSearchTermStore();
 
   useEffect(() => {
+    if (!query) {
+      setLoading(false);
+      return;
+    }
     const fetchSearchResult = async () => {
       try {
         const response = await api.post(`/words/search/${encodeURIComponent(query)}`);
+        console.log(response);
         setSearchResult(response.data);
         setLoading(false);
       } catch (error) {
