@@ -47,10 +47,8 @@ export default function SearchBar({ header }) {
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
     }
-    console.log(firstRender);
     setFirstRender(false);
     if (rememberPath !== path) {
-      console.log(2);
       setDropdownVisible(false);
       setRememberPath(path);
       setFirstRender(true);
@@ -68,19 +66,15 @@ export default function SearchBar({ header }) {
 
   useEffect(() => {
     let path = router.pathname;
-    console.log(3);
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
     }
     let isInitialRender = firstRender;
-    console.log(4);
     setFirstRender(false);
-    console.log(rememberPath, path, isInitialRender, 33);
     if (rememberPath !== path) {
       setDropdownVisible(false);
       setRememberPath(path);
       isInitialRender = true;
-      console.log(5);
       setFirstRender(true);
     }
 
@@ -91,8 +85,6 @@ export default function SearchBar({ header }) {
         if (data?.length && !isInitialRender) {
           setDropdownVisible(true);
         } else if (router.pathname !== '/') {
-          console.log(data?.length, isInitialRender, 6);
-          console.log(6);
           setDropdownVisible(false);
           setFirstRender(false);
         }

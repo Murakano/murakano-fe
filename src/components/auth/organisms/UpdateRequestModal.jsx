@@ -8,20 +8,15 @@ import { validateLength, validateDevTerm } from '@/utils/validate';
 import { updateState } from '@/utils/stateUtils';
 import api from '@/utils/api';
 
-import LabelWithTooltip from '@/components/search/organisms/LabelWithTooltip';
-
-import useAuthStore from '@/store/useAuthStore';
-
 //useRef -> 모달 본체 (modalbody) 참조, 클릭이벤트가 모달 내부인지 외부인지 확인
-export default function Modal({ onClose, searchResult }) {
+export default function Modal({ onClose, requestData, userRole, refreshRequests }) {
   const modalRef = useRef();
-  const { nickname } = useAuthStore();
 
   const [formData, setFormData] = useState({
-    devTerm: searchResult ? searchResult.word : '',
-    commonPron: searchResult ? searchResult.comPron : '',
-    awkPron: searchResult ? searchResult.awkPron : '',
-    addInfo: searchResult ? searchResult.info : '',
+    devTerm: requestData ? requestData.word : '',
+    commonPron: requestData ? requestData.compron : '',
+    awkPron: requestData ? requestData.awkpron : '',
+    addInfo: requestData ? requestData.addinfo : '',
   });
 
   const [helperText, setHelperText] = useState({
@@ -32,16 +27,61 @@ export default function Modal({ onClose, searchResult }) {
   });
 
   const [buttonActive, setButtonActive] = useState(false);
+  const [deleteRequest, setDeleteRequest] = useState(false);
+  const [rejectRequest, setRejectRequest] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const isRequestCompleted = requestData.status === 'app' || requestData.status === 'rej';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'devTerm') return;
+    if (name === 'devTerm' || isRequestCompleted) return;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    if (isRequestCompleted) return;
 
+    let hasError = false;
+
+    if (!formData.devTerm) {
+      updateState('devTermHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
+      hasError = true;
+    } else if (!validateDevTerm(formData.devTerm)) {
+      updateState('devTermHelper', HELPER_TEXT.INVALID_DEVTERM, setHelperText);
+      hasError = true;
+    } else if (!validateLength(formData.devTerm, 50)) {
+      updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
+      hasError = true;
+    } else {
+      updateState('devTermHelper', '', setHelperText);
+    }
+
+    if (formData.commonPron && !validateLength(formData.commonPron, 100)) {
+      updateState('commonPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
+      hasError = true;
+    } else {
+      updateState('commonPronHelper', '', setHelperText);
+    }
+
+    if (formData.awkPron && !validateLength(formData.awkPron, 100)) {
+      updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
+      hasError = true;
+    } else {
+      updateState('awkPronHelper', '', setHelperText);
+    }
+
+    if (!validateLength(formData.addInfo, 1000)) {
+      updateState('addInfoHelper', HELPER_TEXT.EXCEED_LENGTH(1000), setHelperText);
+      hasError = true;
+    } else {
+      updateState('addInfoHelper', '', setHelperText);
+    }
+
+    setHasError(hasError);
+  };
   // 모든 유효성 검사
   useEffect(() => {
     if (
@@ -62,79 +102,36 @@ export default function Modal({ onClose, searchResult }) {
   // 제출 시 유효성 검사
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    let hasError = false;
-
-    if (!formData.devTerm) {
-      updateState('devTermHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
-      hasError = true;
-    } else if (!validateDevTerm(formData.devTerm)) {
-      updateState('devTermHelper', HELPER_TEXT.INVALID_DEVTERM, setHelperText);
-      hasError = true;
-    } else if (!validateLength(formData.devTerm, 50)) {
-      updateState('devTermHelper', HELPER_TEXT.EXCEED_LENGTH(50), setHelperText);
-      hasError = true;
-    } else {
-      updateState('devTermHelper', '', setHelperText);
-    }
-
-    if (!formData.commonPron) {
-      updateState('commonPronHelper', HELPER_TEXT.REQUIRED_INPUT_EMPTY, setHelperText);
-      hasError = true;
-    } else if (!validateLength(formData.commonPron, 100)) {
-      updateState('commonPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
-      hasError = true;
-    } else {
-      updateState('commonPronHelper', '', setHelperText);
-    }
-
-    if (!validateLength(formData.awkPron, 100)) {
-      updateState('awkPronHelper', HELPER_TEXT.EXCEED_LENGTH(100), setHelperText);
-      hasError = true;
-    } else {
-      updateState('awkPronHelper', '', setHelperText);
-    }
-
-    if (!validateLength(formData.addInfo, 1000)) {
-      updateState('addInfoHelper', HELPER_TEXT.EXCEED_LENGTH(1000), setHelperText);
-      hasError = true;
-    } else {
-      updateState('addInfoHelper', '', setHelperText);
-    }
-
+    console.log("hasError", hasError)
     if (hasError) {
       return;
     }
 
-    const type = 'mod'; // 수정 요청
-    const requestData = {
-      word: formData.devTerm,
-      formData,
-      type,
-      nickname
-    };
-
-    console.log('Sending request data:', requestData);
     try {
-      const response = await api.post(`/users/requests/${nickname}/new`, requestData);
-      console.log('Response:', response);
+      if (userRole === 'admin') {
+        console.log("변경하려는 요청의 userid", requestData)
 
-      if (response.message === '등록 요청 성공') {
-        alert('수정 요청이 제출되었습니다');
-      } else if (response === '같은 단어의 대한 요청이 존재합니다.') {
-        alert('같은 단어의 대한 요청이 존재합니다.');
+        const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'app', formData, requestType: 'mod' });
+        if (response.message === '요청 상태 변경 성공') {
+          onClose();
+          refreshRequests();
+          alert("승인되었습니다!");
+        }
       } else {
-        alert('수정 요청 중 오류가 발생했습니다.');
-      }
+        const response = await api.post(`/users/requests/${requestData._id}`, { formData });
 
-      onClose();
+        if (response.message === '요청 수정 성공') {
+          onClose();
+          refreshRequests();
+          alert("수정되었습니다!");
+        }
+      }
     } catch (error) {
-      console.error('수정 요청 중 오류가 발생하였습니다:', error);
-      alert('수정 요청 중 오류가 발생했습니다.');
+      console.error('처리 중 오류 발생:', error);
+      alert('처리 중 오류가 발생했습니다.');
     }
   };
 
-    
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
     (event) => {
@@ -153,6 +150,70 @@ export default function Modal({ onClose, searchResult }) {
     };
   }, []);
 
+  //삭제버튼 클릭 및 반려버튼
+  useEffect(() => {
+    if (!deleteRequest && !rejectRequest) return;
+
+    const handleDelete = async () => {
+      const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+      if (!confirmDelete) {
+        setDeleteRequest(false);
+        return;
+      }
+
+      try {
+        const response = await api.delete(`/users/requests/${requestData.word}`);
+
+        console.log("프론트 삭제 response", response.message)
+
+        if (response.message === '요청 삭제 성공') {
+          onClose();
+          refreshRequests();
+          alert("삭제됐습니다");
+        }
+
+
+      } catch (error) {
+        console.error("삭제 중 오류 발생:", error);
+
+      } finally {
+        setDeleteRequest(false);
+      }
+    };
+    //반려
+    const handleReject = async () => {
+      const confirmReject = window.confirm("정말 반려하시겠습니까?");
+      if (!confirmReject) {
+        setRejectRequest(false);
+        return;
+      }
+
+      try {
+        const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'rej' });
+
+        if (response.message === '요청 상태 변경 성공') {
+          onClose();
+          refreshRequests();
+          alert("반려되었습니다");
+        }
+
+      } catch (error) {
+        console.error("반려 중 오류 발생:", error);
+        alert('반려 중 오류가 발생했습니다.');
+      } finally {
+        setRejectRequest(false);
+      }
+    };
+
+    if (deleteRequest) {
+      handleDelete();
+    } else if (rejectRequest) {
+      handleReject();
+    }
+
+  }, [deleteRequest, rejectRequest, onClose, requestData.word, refreshRequests]);
+
+
   return (
     <ModalContainer>
       <ModalBody ref={modalRef}>
@@ -163,15 +224,15 @@ export default function Modal({ onClose, searchResult }) {
           <StyledInputBox
             type='text'
             name='devTerm'
-            labelText={<LabelWithTooltip />} // 수정된 부분
+            labelText='개발 용어 (영어)'
             input={formData.devTerm}
             setInput={setFormData}
             valid={helperText.devTermHelper ? false : true}
             helperText={helperText.devTermHelper}
             className={'Box'}
-            placeholder='개발 용어를 입력해주세요.'
-            disabled
-            readOnly
+            disabled={userRole !== 'admin'} // admin이 아닐 때 disabled
+            readOnly={userRole !== 'admin'}
+            onBlur={handleBlur}
           />
           <StyledInputBox
             type='text'
@@ -182,7 +243,9 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.commonPronHelper ? false : true}
             helperText={helperText.commonPronHelper}
             className={'Box'}
-            placeholder='일반적으로 쓰이는 발음을 입력해주세요.'
+            readOnly={isRequestCompleted}
+            $isRequestCompleted={isRequestCompleted} // 상태 전달
+            onBlur={handleBlur}
           />
           <StyledInputBox
             type='text'
@@ -193,7 +256,9 @@ export default function Modal({ onClose, searchResult }) {
             valid={helperText.awkPronHelper ? false : true}
             helperText={helperText.awkPronHelper}
             className={'Box'}
-            placeholder='어색한 발음을 입력해주세요.'
+            readOnly={isRequestCompleted}
+            $isRequestCompleted={isRequestCompleted} // 상태 전달
+            onBlur={handleBlur}
           />
           <Item>
             <Label>추가정보</Label>
@@ -202,7 +267,9 @@ export default function Modal({ onClose, searchResult }) {
               value={formData.addInfo}
               onChange={handleChange}
               valid={helperText.addInfoHelper ? false : true} // 유효성 검사 결과에 따라 valid prop 설정추가
-              placeholder='추가 정보를 입력해주세요.'
+              disabled={isRequestCompleted}
+              $isRequestCompleted={isRequestCompleted} // 상태 전달
+              onBlur={handleBlur}
             />
             <HelperText>{helperText.addInfoHelper}</HelperText>
           </Item>
@@ -212,16 +279,34 @@ export default function Modal({ onClose, searchResult }) {
             <ModalButton $isClose onClick={onClose}>
               닫기
             </ModalButton>
-            <ModalButton onClick={handleSubmit} $active={buttonActive}>
-              제출
-            </ModalButton>
+            {userRole === 'admin' ? (
+              <>
+                <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted}>
+                  반려
+                </ModalButton>
+                <ModalButton onClick={handleSubmit} $active={buttonActive} disabled={isRequestCompleted}>
+                  승인
+                </ModalButton>
+              </>
+            ) : (
+              <>
+                <ModalButton onClick={() => setDeleteRequest(true)} >
+                  삭제
+                </ModalButton>
+                {!isRequestCompleted && (
+                  <ModalButton onClick={handleSubmit} $active={buttonActive}>
+                    수정
+                  </ModalButton>
+                )}
+              </>
+            )}
           </ButtonGroup>
         </ModalFooter>
       </ModalBody>
     </ModalContainer>
   );
-}
 
+}
 const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -339,6 +424,18 @@ const StyledInputBox = styled(InputBox)`
           outline: none;
       }
   `}
+  ${(props) =>
+    props.$isRequestCompleted &&
+    `
+      &:hover {
+          border-color: var(--secondary); // 상태가 'rej' 또는 'app'이면 호버 시 색상 변경 안함
+      }
+      &:focus {
+          border-color: var(--secondary); // 포커스 시 색상 변경 안함
+          outline: none;
+      }
+  `}
+    
   }
   Label {
     width: 498px;
@@ -348,6 +445,13 @@ const StyledInputBox = styled(InputBox)`
     letter-spacing: -0.03em;
     text-align: left;
     position: relative;
+    &::after {
+      content: ${(props) => (props.name === 'devTerm' || props.name === 'commonPron' ? "' *'" : "''")};
+      color: #ff0808;
+      position: aboslute;
+      right: 5%;
+      top: 0;
+    }
   }
 `;
 
@@ -355,14 +459,15 @@ const TextArea = styled.textarea`
   width: 498px;
   height: 123px;
   border: 1px solid var(--secondary);
+  border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--secondary)')};
   border-radius: 10px;
   padding: 20px;
   &:focus {
-    border-color: var(--primary);
+    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     outline: none;
   }
   &:hover {
-    border-color: var(--primary);
+    border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
   }
   resize: none;
   overflow: auto;
@@ -370,6 +475,17 @@ const TextArea = styled.textarea`
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
+  ${(props) =>
+    props.$isRequestCompleted &&
+    `
+      &:hover {
+          border-color: var(--secondary); // 상태가 'rej' 또는 'app'이면 호버 시 색상 변경 안함
+      }
+      &:focus {
+        border-color: var(--secondary); // 포커스 시 색상 변경 안함
+        outline: none;
+      }
+  `}
 `;
 
 const ModalButton = styled.button`
@@ -379,16 +495,28 @@ const ModalButton = styled.button`
   border-radius: 30px;
   padding: 8px 30px;
   color: #fff;
-  cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')}; // 프리픽스 적용
+  cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')};
   background-color: ${(props) =>
-    props.$isClose ? 'rgba(0, 0, 0, 0.25)' : // 프리픽스 적용
-      props.$active ? 'var(--primary)' : 'var(--primary60)'}; // 프리픽스 적용
+    props.$isClose ? 'rgba(0, 0, 0, 0.25)' :
+      props.$active && !props.disabled ? 'var(--primary)' : 'var(--primary60)'};
   &:hover {
     box-shadow: ${(props) =>
-    props.$isClose ? '0px 2px 4px 0px #00000026' : // 프리픽스 적용
-      props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 프리픽스 적용
-        'none'};
+    props.$isClose ? '0px 2px 4px 0px #00000026' :
+      props.$active ? '0px 2px 6px 0px #3C8BFF99' : 'none'};
+    ${(props) =>
+    props.disabled && `box-shadow: none;`}
   }
+  &:nth-child(2) {
+    background: #FF002E;
+    cursor: ${(props) => (!props.disabled ? 'pointer' : 'not-allowed')};
+    &:hover {
+      box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF080899' : 'none')};
+      background: ${(props) => (!props.disabled ? '#FF002E' : '#FF002E')};
+    }
+    ${(props) =>
+    props.disabled && `box-shadow: none;`}
+  }
+  
 `;
 
 const HelperText = styled.p`

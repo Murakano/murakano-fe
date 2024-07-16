@@ -17,7 +17,6 @@
     "babel-plugin-styled-components": "^2.1.4",
     "cookie": "^0.6.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^9.1.0",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
@@ -32,7 +31,13 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.4"
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react": "^7.34.4",
+    "prettier": "^3.3.3"
   }
 }
