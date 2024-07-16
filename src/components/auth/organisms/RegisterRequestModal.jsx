@@ -24,8 +24,6 @@ export default function RegisterRequestModal({ onClose, requestData, userRole, r
         e.preventDefault();
         if (hasError) return;
 
-        console.log("등록요청모달");
-        console.log("requestType: ", requestData.type);
 
         try {
             if (userRole === 'admin') {
@@ -59,54 +57,54 @@ export default function RegisterRequestModal({ onClose, requestData, userRole, r
         if (!deleteRequest && !rejectRequest) return;
 
         const handleDelete = async () => {
-        const confirmDelete = window.confirm('정말 삭제하시겠습니까?');
-        if (!confirmDelete) {
-            setDeleteRequest(false);
-            return;
-        }
-
-        try {
-            const response = await api.delete(`/users/requests/${requestData.word}`);
-
-            if (response.message === '요청 삭제 성공') {
-            onClose();
-            refreshRequests();
-            alert('삭제됐습니다');
+            const confirmDelete = window.confirm('정말 삭제하시겠습니까?');
+            if (!confirmDelete) {
+                setDeleteRequest(false);
+                return;
             }
-        } catch (error) {
-            console.error('삭제 중 오류 발생:', error);
-        } finally {
-            setDeleteRequest(false);
-        }
+
+            try {
+                const response = await api.delete(`/users/requests/${requestData.word}`);
+
+                if (response.message === '요청 삭제 성공') {
+                    onClose();
+                    refreshRequests();
+                    alert('삭제됐습니다');
+                }
+            } catch (error) {
+                console.error('삭제 중 오류 발생:', error);
+            } finally {
+                setDeleteRequest(false);
+            }
         };
 
         const handleReject = async () => {
-        const confirmReject = window.confirm('정말 반려하시겠습니까?');
-        if (!confirmReject) {
-            setRejectRequest(false);
-            return;
-        }
-
-        try {
-            const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'rej' });
-
-            if (response.message === '요청 상태 변경 성공') {
-            onClose();
-            refreshRequests();
-            alert('반려되었습니다');
+            const confirmReject = window.confirm('정말 반려하시겠습니까?');
+            if (!confirmReject) {
+                setRejectRequest(false);
+                return;
             }
-        } catch (error) {
-            console.error('반려 중 오류 발생:', error);
-            alert('반려 중 오류가 발생했습니다.');
-        } finally {
-            setRejectRequest(false);
-        }
+
+            try {
+                const response = await api.post(`/users/requests/${requestData._id}/status`, { status: 'rej' });
+
+                if (response.message === '요청 상태 변경 성공') {
+                    onClose();
+                    refreshRequests();
+                    alert('반려되었습니다');
+                }
+            } catch (error) {
+                console.error('반려 중 오류 발생:', error);
+                alert('반려 중 오류가 발생했습니다.');
+            } finally {
+                setRejectRequest(false);
+            }
         };
 
         if (deleteRequest) {
-        handleDelete();
+            handleDelete();
         } else if (rejectRequest) {
-        handleReject();
+            handleReject();
         }
     }, [deleteRequest, rejectRequest, onClose, requestData.word, refreshRequests]);
 
