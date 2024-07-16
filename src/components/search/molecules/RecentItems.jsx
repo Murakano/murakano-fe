@@ -40,7 +40,7 @@ export default function RecentItems({ header, onItemClick, setDropdownVisible })
   const removeSearchTerm = async (index) => {
     const termToRemove = recentSearches[index];
     try {
-      await api.delete(`/users/${termToRemove}`);
+      await api.delete(`/users/recent/${termToRemove}`);
       if (recentSearches.length === 1) {
         // 검색어가 하나만 남은 경우, 드롭다운 창 닫기
         setDropdownVisible(false);
