@@ -20,10 +20,10 @@ import Button from '@/components/common/atoms/Button';
 import InputBox from '@/components/common/molecules/InputBox';
 
 // store
-import useAuthStore from '@/store/useAuthStore';
+import useAuthStore from '@/store/useAuthStore'; // 수정: useAuthStore를 임포트하여 사용
 
 export default function LoginForm() {
-  const { setAuthData } = useAuthStore();
+  const { setAuthData } = useAuthStore(); // 수정: 로그인 상태를 업데이트하기 위해 useAuthStore에서 setAuthData를 가져옴
   const router = useRouter();
 
   // state
@@ -86,7 +86,7 @@ export default function LoginForm() {
 
     const response = await api.post('/users/local/login', data);
     if (response?.message == '로그인 성공') {
-      setAuthData(response.data.accessToken);
+      setAuthData(response.data.accessToken); // 수정: 로그인 성공 시 인증 데이터를 설정하여 로그인 상태를 업데이트
       return router.push('/');
     }
     alert(ErrorMessage.LOGIN_ERROR);
