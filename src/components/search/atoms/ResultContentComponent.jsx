@@ -13,6 +13,11 @@ const ResultContent = styled.span`
   display: flex;
   align-items: center; // 텍스트 수직 정렬
   word-break: break-all;
+  -ms-user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  user-select: text;
 `;
 
 export default function ResultContentComponent({ children, ...props }) {

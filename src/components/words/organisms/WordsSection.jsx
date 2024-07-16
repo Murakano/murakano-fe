@@ -6,6 +6,7 @@ import api from '@/utils/api';
 import styled from 'styled-components';
 import WordList from '../molecules/WordList';
 import SortDropdown from '../molecules/SortDropdown';
+import { useSortStore } from '@/store/useSortStore';
 
 export default function WordsSection({ referer }) {
   const router = useRouter();
@@ -13,8 +14,8 @@ export default function WordsSection({ referer }) {
   const [page, setPage] = useState(1);
   const [words, setWords] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [sort, setSort] = useState('recent'); // 정렬 (asc, desc, popularity, recent)
   const [hasMore, setHasMore] = useState(true); // 데이터 호출 여부
+  const { sortType, setSortType } = useSortStore();
   const observer = useRef();
 
   const refererParts = referer?.split('/') || '';
@@ -32,11 +33,11 @@ export default function WordsSection({ referer }) {
   };
 
   // 단어 데이터 요청
-  const fetchWords = useCallback(async (sort, page) => {
+  const fetchWords = useCallback(async (sortType, page) => {
     setLoading(true);
     try {
       const response = await api.get('/words', {
-        sort,
+        sort: sortType,
         page,
         limit: 10,
       });
@@ -58,12 +59,12 @@ export default function WordsSection({ referer }) {
   useEffect(() => {
     setWords([]);
     setPage(1);
-  }, [sort]);
+  }, [sortType]);
 
   // 상태 변경시 단어 데이터 호출
   useEffect(() => {
-    fetchWords(sort, page);
-  }, [page, sort, fetchWords]);
+    fetchWords(sortType, page);
+  }, [page, sortType, fetchWords]);
 
   useEffect(() => {
     // 스크롤 위치 복원
@@ -74,18 +75,17 @@ export default function WordsSection({ referer }) {
         .includes('reload');
 
       if (isReload) {
-        console.log('Clearing scroll position on reload');
         sessionStorage.removeItem('scrollPosition');
       } else {
-        console.log('Saving scroll position on before unload:', window.scrollY);
         sessionStorage.setItem('scrollPosition', window.scrollY);
+        // setSortType(sort);
       }
     };
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     const handleClick = () => {
-      console.log('Saving scroll position on click:', window.scrollY);
       sessionStorage.setItem('scrollPosition', window.scrollY);
+      // setSortType(sort);
     };
 
     document.addEventListener('click', handleClick);
@@ -96,20 +96,24 @@ export default function WordsSection({ referer }) {
     };
   }, []);
 
+  // 데이터 불러온 후 스크롤 위치 복원
   useEffect(() => {
     const savedScrollPosition = sessionStorage.getItem('scrollPosition');
     if (savedScrollPosition && savedScrollPosition !== '0' && isWordsPage) {
       setTimeout(() => {
         window.scrollTo(0, parseInt(savedScrollPosition, 10));
-      }, 10); // 10ms 딜레이
+      }, 0);
+      if (window.scrollY > parseInt(savedScrollPosition)) {
+        sessionStorage.setItem('scrollPosition', '0');
+      }
     }
-  }, [words]); // 데이터를 불러온 후에 스크롤 위치를 복원
+  }, [words]);
 
   // 페이지 이동 시 스크롤 위치 저장
   useEffect(() => {
     const handleRouteChange = () => {
-      console.log('Saving scroll position on route change:', window.scrollY);
       sessionStorage.setItem('scrollPosition', window.scrollY);
+      // setSortType(sort);
     };
 
     router.events.on('routeChangeStart', handleRouteChange);
@@ -135,8 +139,9 @@ export default function WordsSection({ referer }) {
 
   // 정렬 변경시 새로운 정렬 값으로 상태 변경
   const handleSortChange = (sortValue) => {
-    setSort(sortValue);
+    setSortType(sortValue);
   };
+
   return (
     <WordBoardContainer>
       <DropdownContainer>

@@ -34,19 +34,22 @@ export default function AllWords({ referer }) {
   );
 }
 
-//   height: calc(100vh - 130px);
 const Section = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   box-sizing: border-box;
-  max-width: 100vw;
+  width: 780px;
+  position: relative;
 `;
 
 const ScrollContainer = styled.div`
   position: absolute;
+  align-items: flex-end;
+  justify-content: flex-end;
   z-index: 10;
-  right: 15%;
-  bottom: 10%;
+  right: 10px;
+  width: 40px;
+  height: 40px;
 `;

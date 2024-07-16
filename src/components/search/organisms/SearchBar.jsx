@@ -46,6 +46,7 @@ export default function SearchBar({ header }) {
 
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
+      setDropdownVisible(false);
     }
     setFirstRender(false);
     if (rememberPath !== path) {
@@ -68,35 +69,29 @@ export default function SearchBar({ header }) {
     let path = router.pathname;
     if (/^\/search\/[^\/]+$/.test(router.pathname)) {
       path = `/search/${router.query.query}`;
+      setFirstRender(false);
+      if (rememberPath !== path) {
+        setDropdownVisible(false);
+        setRememberPath(path);
+        setFirstRender(true);
+      }
     }
-    let isInitialRender = firstRender;
-    setFirstRender(false);
-    if (rememberPath !== path) {
-      setDropdownVisible(false);
-      setRememberPath(path);
-      isInitialRender = true;
-      setFirstRender(true);
-    }
-
     if (searchTerm) {
       debounceTimeoutRef.current = setTimeout(async () => {
         const data = await fetchRelatedItems(searchTerm);
-
-        if (data?.length && !isInitialRender) {
+        if (data?.length && !firstRender) {
           setDropdownVisible(true);
-        } else if (router.pathname !== '/') {
+        } else {
           setDropdownVisible(false);
           setFirstRender(false);
         }
       }, 300);
-
-      return () => {
-        clearTimeout(debounceTimeoutRef.current);
-      };
-    } else if (!isInitialRender) {
-      setDropdownVisible(true);
     }
-  }, [searchTerm, router.pathname]);
+
+    return () => {
+      clearTimeout(debounceTimeoutRef.current);
+    };
+  }, [searchTerm, router.query.query]);
 
   const handleSearch = (e, term) => {
     if (e.key === 'Enter' || e.type === 'click') {
