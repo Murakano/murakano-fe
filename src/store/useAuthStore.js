@@ -22,10 +22,10 @@ const useAuthStore = create(
       fetchAuthData: async () => {
         try {
           const response = await api.post('/users/refresh');
-          if (response.message === '비로그인 상태입니다.'){
+          if (response.message === '비로그인 상태입니다.') {
             get().clearAuthData();
             return;
-          } 
+          }
           // user RT와 redis RT가 다른 경우
           else if (response.message === '유효하지 않은 Refresh Token입니다.') {
             get().clearAuthData();

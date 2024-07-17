@@ -400,13 +400,18 @@ const ModalButton = styled.button`
   color: #fff;
   cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')}; // 프리픽스 적용
   background-color: ${(props) =>
-    props.$isClose ? 'rgba(0, 0, 0, 0.25)' : // 프리픽스 적용
-      props.$active ? 'var(--primary)' : 'var(--primary60)'}; // 프리픽스 적용
+    props.$isClose
+      ? 'rgba(0, 0, 0, 0.25)' // 프리픽스 적용
+      : props.$active
+        ? 'var(--primary)'
+        : 'var(--primary60)'}; // 프리픽스 적용
   &:hover {
     box-shadow: ${(props) =>
-    props.$isClose ? '0px 2px 4px 0px #00000026' : // 프리픽스 적용
-      props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 프리픽스 적용
-        'none'};
+      props.$isClose
+        ? '0px 2px 4px 0px #00000026' // 프리픽스 적용
+        : props.$active
+          ? '0px 2px 6px 0px #3C8BFF99' // 프리픽스 적용
+          : 'none'};
   }
 `;
 

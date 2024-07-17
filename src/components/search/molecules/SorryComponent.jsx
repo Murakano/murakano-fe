@@ -11,7 +11,8 @@ const SorryComponent = ({ query }) => {
   const isLoggedIn = useAuthStore((state) => !!state.accessToken); // 수정: 로그인 상태를 가져옴
 
   const handleOpenModal = () => {
-    if (!isLoggedIn) { // 수정: 로그인 여부 확인
+    if (!isLoggedIn) {
+      // 수정: 로그인 여부 확인
       alert('로그인이 필요한 기능입니다.');
       return;
     }
@@ -29,19 +30,19 @@ const SorryComponent = ({ query }) => {
       console.log(query);
       // 쿼리가 undefined인지 또는 한글을 포함하는지 확인
       if (!query || koreanPattern.test(query)) {
-          return setIsValidQuery(false);
+        return setIsValidQuery(false);
       }
-      
+
       return setIsValidQuery(true);
-    }
+    };
     checkIsValidQuery(query);
-  }, [query])
+  }, [query]);
 
   return (
     <StyledContainer>
       <SorryText query={query} />
       {isValidQuery ? <AddRequestBtn onClick={handleOpenModal}>등록 요청</AddRequestBtn> : null}
-      {isModalOpen && <AddRequestModal onClose={handleCloseModal} query={query}/>}
+      {isModalOpen && <AddRequestModal onClose={handleCloseModal} query={query} />}
     </StyledContainer>
   );
   z;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Tooltip = styled.div`
   visibility: hidden;
-  color: #FF0808; /* 글자 색상 */
+  color: #ff0808; /* 글자 색상 */
   text-align: left;
   padding: 0;
   position: absolute;
