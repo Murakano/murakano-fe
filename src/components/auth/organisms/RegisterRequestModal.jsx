@@ -17,9 +17,6 @@ export default function RegisterRequestModal({ onClose, requestData, userRole, r
     e.preventDefault();
     if (hasError) return;
 
-    console.log('등록요청모달');
-    console.log('requestType: ', requestData.type);
-
     try {
       if (userRole === 'admin') {
         const response = await api.post(`/users/requests/${requestData._id}/status`, {
