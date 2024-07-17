@@ -78,7 +78,7 @@ export const useRequestForm = (requestData) => {
 
         if (name === 'devTerm' && requestType === 'add') {
         try {
-            const response = await api.post('/words/checkDuplicateWord', { word: formData.devTerm });
+            const response = await api.post('/words/duplicate', { word: formData.devTerm });
             if (response.data.isDataExist !== null) {
             updateState('devTermHelper', HELPER_TEXT.DUPLICATE_WORD, setHelperText);
             hasError = true;

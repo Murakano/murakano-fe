@@ -4,7 +4,7 @@ import ModalTitle from '@/components/auth/atoms/ModalTitle';
 import ModalInputBox from '@/components/auth/molecules/ModalInputBox';
 import ModalButton from '@/components/auth/atoms/ModalButton';
 
-const RequestModal = ({ title, onClose, requestData, userRole, refreshRequests, inputFieldConfigs, formData, helperText, handleBlur, handleChange, setFormData, isRequestCompleted, handleSubmit, buttonActive, setRejectRequest, setDeleteRequest }) => {
+const RequestModal = ({ title, onClose, requestData = {}, userRole, refreshRequests, inputFieldConfigs, formData, helperText, handleBlur, handleChange, setFormData, isRequestCompleted, handleSubmit, buttonActive, setRejectRequest, setDeleteRequest, customButtons }) => {
     const modalRef = useRef();
 
     const handleClickOutside = useCallback(
@@ -40,7 +40,7 @@ const RequestModal = ({ title, onClose, requestData, userRole, refreshRequests, 
                             setInput={setFormData}
                             valid={!helperText[`${config.name}Helper`]}
                             helperText={helperText[`${config.name}Helper`]}
-                            readOnly={isRequestCompleted || (config.name === 'devTerm' && requestData.type === 'mod' && userRole !== 'admin')}
+                            readOnly={isRequestCompleted || (config.name === 'devTerm' && requestData.type === 'mod'&& userRole !== 'admin')}
                             disabled={isRequestCompleted || (config.name === 'devTerm' && requestData.type === 'mod' && userRole !== 'admin')}
                             onBlur={(e) => handleBlur(e, isRequestCompleted)}
                             $isRequestCompleted={isRequestCompleted}
@@ -66,24 +66,26 @@ const RequestModal = ({ title, onClose, requestData, userRole, refreshRequests, 
                         <ModalButton isClose onClick={onClose}>
                             닫기
                         </ModalButton>
-                        {userRole === 'admin' ? (
-                            <>
-                                <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted}>
-                                    반려
-                                </ModalButton>
-                                <ModalButton onClick={handleSubmit} active={buttonActive} disabled={isRequestCompleted}>
-                                    승인
-                                </ModalButton>
-                            </>
-                        ) : (
-                            <>
-                                <ModalButton onClick={() => setDeleteRequest(true)}>삭제</ModalButton>
-                                {!isRequestCompleted && (
-                                    <ModalButton onClick={handleSubmit} active={buttonActive}>
-                                        수정
+                        { customButtons ? customButtons : (
+                                userRole === 'admin' ? (
+                                <>
+                                    <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted}>
+                                        반려
                                     </ModalButton>
-                                )}
-                            </>
+                                    <ModalButton onClick={handleSubmit} active={buttonActive} disabled={isRequestCompleted}>
+                                        승인
+                                    </ModalButton>
+                                </>
+                            ) : (
+                                <>
+                                    <ModalButton onClick={() => setDeleteRequest(true)}>삭제</ModalButton>
+                                    {!isRequestCompleted && (
+                                        <ModalButton onClick={handleSubmit} active={buttonActive}>
+                                            수정
+                                        </ModalButton>
+                                    )}
+                                </>
+                            )
                         )}
                     </ButtonGroup>
                 </ModalFooter>
