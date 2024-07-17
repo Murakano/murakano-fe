@@ -15,7 +15,6 @@ export default function RequestSection({ requests = [], sectionTitle, userRole, 
   const [selectedRequestType, setSelectedRequestType] = useState('전체');
   const [filteredRequests, setFilteredRequests] = useState(requests);
 
-
   const handleRequestItemClick = (type, data) => (e) => {
     e.stopPropagation(); // 이벤트 캡쳐링 방지
     setModalType(type === '등록 요청' ? 'register' : 'update'); // 모달 타입 설정
