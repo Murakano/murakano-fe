@@ -24,7 +24,7 @@ const Button = styled.button`
     ${(props) => props.disabled && `box-shadow: none;`}
   }
   &:nth-child(2) {
-    background: #ff002e;
+    background: #ff6b8f;
     cursor: ${(props) => (!props.disabled ? 'pointer' : 'not-allowed')};
     &:hover {
       box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF080899' : 'none')};
