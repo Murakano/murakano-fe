@@ -111,7 +111,7 @@ export default function Modal({ onClose, searchResult }) {
       word: formData.devTerm,
       formData,
       type,
-      nickname
+      nickname,
     };
 
     console.log('Sending request data:', requestData);
@@ -133,8 +133,6 @@ export default function Modal({ onClose, searchResult }) {
       alert('수정 요청 중 오류가 발생했습니다.');
     }
   };
-
-
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
     (event) => {
@@ -329,8 +327,8 @@ const StyledInputBox = styled(InputBox)`
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
     ${(props) =>
-    props.name === 'devTerm' &&
-    `
+      props.name === 'devTerm' &&
+      `
       &:hover {
           border-color: var(--secondary); // 호버 시 색상 변경 안함
       }
@@ -381,13 +379,18 @@ const ModalButton = styled.button`
   color: #fff;
   cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')}; // 프리픽스 적용
   background-color: ${(props) =>
-    props.$isClose ? 'rgba(0, 0, 0, 0.25)' : // 프리픽스 적용
-      props.$active ? 'var(--primary)' : 'var(--primary60)'}; // 프리픽스 적용
+    props.$isClose
+      ? 'rgba(0, 0, 0, 0.25)' // 프리픽스 적용
+      : props.$active
+        ? 'var(--primary)'
+        : 'var(--primary60)'}; // 프리픽스 적용
   &:hover {
     box-shadow: ${(props) =>
-    props.$isClose ? '0px 2px 4px 0px #00000026' : // 프리픽스 적용
-      props.$active ? '0px 2px 6px 0px #3C8BFF99' : // 프리픽스 적용
-        'none'};
+      props.$isClose
+        ? '0px 2px 4px 0px #00000026' // 프리픽스 적용
+        : props.$active
+          ? '0px 2px 6px 0px #3C8BFF99' // 프리픽스 적용
+          : 'none'};
   }
 `;
 

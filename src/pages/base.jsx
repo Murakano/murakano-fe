@@ -7,7 +7,7 @@ import useAuthStore from '@/store/useAuthStore';
 import Footer from '@/components/common/organisms/Footer';
 
 export default function BaseLayout({ children }) {
-  const { accessToken, silentRefresh, fetchAuthData,expiresAt,clearAuthData } = useAuthStore();
+  const { accessToken, silentRefresh, fetchAuthData, expiresAt, clearAuthData } = useAuthStore();
   const router = useRouter();
   const marginTop = router.pathname === '/' ? '38px' : '130px';
 

@@ -9,7 +9,8 @@ const ResultEditBtn = ({ searchResult }) => {
   const isLoggedIn = useAuthStore((state) => !!state.accessToken); // 수정: 로그인 상태를 가져옴
 
   const handleOpenModal = () => {
-    if (!isLoggedIn) { // 수정: 로그인 여부 확인
+    if (!isLoggedIn) {
+      // 수정: 로그인 여부 확인
       alert('로그인이 필요한 기능입니다.');
       return;
     }

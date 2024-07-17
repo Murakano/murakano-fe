@@ -10,7 +10,7 @@ const LabelWithTooltip = () => (
     개발 용어 (영어)
     <IconContainer>
       <StyledIcon />
-      <Tooltip className="tooltip">개발 용어 표기 수정을 원하는 경우, 추가 정보에 입력해주세요.</Tooltip>
+      <Tooltip className='tooltip'>개발 용어 표기 수정을 원하는 경우, 추가 정보에 입력해주세요.</Tooltip>
     </IconContainer>
   </LabelWithIcon>
 );
