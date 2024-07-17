@@ -116,7 +116,7 @@ export default function Modal({ onClose, searchResult }) {
 
     console.log('Sending request data:', requestData);
     try {
-      const response = await api.post(`/users/requests/${nickname}/new`, requestData);
+      const response = await api.post(`/users/requests/new`, requestData);
       console.log('Response:', response);
 
       if (response.message === '등록 요청 성공') {
@@ -134,7 +134,7 @@ export default function Modal({ onClose, searchResult }) {
     }
   };
 
-    
+
   //외부 클릭 모달창 닫기
   const handleClickOutside = useCallback(
     (event) => {

@@ -17,16 +17,16 @@ const Button = styled.button`
     color: #fff;
     cursor: ${(props) => (props.$isClose || props.$active ? 'pointer' : 'not-allowed')};
     background-color: ${(props) =>
-    props.$isClose ? 'rgba(0, 0, 0, 0.25)' :
-    props.$active && !props.disabled ? 'var(--primary)' : 'var(--primary60)'};
+        props.$isClose ? 'rgba(0, 0, 0, 0.25)' :
+            props.$active && !props.disabled ? 'var(--primary)' : 'var(--primary60)'};
     &:hover {
         box-shadow: ${(props) =>
         props.$isClose ? '0px 2px 4px 0px #00000026' :
-        props.$active ? '0px 2px 6px 0px #3C8BFF99' : 'none'};
+            props.$active ? '0px 2px 6px 0px #3C8BFF99' : 'none'};
     ${(props) => props.disabled && `box-shadow: none;`}
     }
     &:nth-child(2) {
-    background: #FF6B8F;
+    background: #FF002E;
     cursor: ${(props) => (!props.disabled ? 'pointer' : 'not-allowed')};
     &:hover {
             box-shadow: ${(props) => (!props.disabled ? '0px 2px 8px 0px #FF080899' : 'none')};
