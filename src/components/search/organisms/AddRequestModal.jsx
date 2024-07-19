@@ -166,8 +166,10 @@ export default function Modal({ onClose, query }) {
   //클릭감지, mousedown이 click보다 먼 감지
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
+    document.body.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'auto';
     };
   }, []);
 

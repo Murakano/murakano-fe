@@ -18,11 +18,11 @@ const RequestModal = ({ title, onClose, requestData = {}, userRole, refreshReque
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
-    document.body.style.overflow = 'hidden'; // 모달이 열릴 때 스크롤 막기
+    document.body.style.overflow = 'hidden';
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      document.body.style.overflow = 'auto'; // 모달이 닫힐 때 스크롤 허용
+      document.body.style.overflow = 'auto';
     };
   }, [handleClickOutside]);
 
