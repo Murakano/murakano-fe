@@ -62,6 +62,11 @@ const RequestModal = ({ title, onClose, requestData = {}, userRole, refreshReque
                     </Item>
                 </ModalContent>
                 <ModalFooter>
+                  {userRole === 'admin' && (
+                      <AdminInfo>
+                        <Label>작성자: {requestData.suggestedBy}</Label>
+                      </AdminInfo>
+                    )}
                     <ButtonGroup>
                         <ModalButton isClose onClick={onClose}>
                             닫기
@@ -137,22 +142,24 @@ const ModalContent = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex-grow: 1;
+  height: 600px; /* 고정된 높이 설정 */
+  overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
 `;
 
 const ModalFooter = styled.footer`
   display: flex;
-  height: 80px;
-  justify-content: center;
-  padding: 0 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0px 31px;
+  height: auto;
 `;
 
 const ButtonGroup = styled.div`
-  width: 100%;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
-  margin-right: 17px;
+  margin-left: auto;
 `;
 
 const Item = styled.div`
@@ -162,6 +169,7 @@ const Item = styled.div`
   justify-content: center;
   gap: 5px;
   margin-bottom: 31.5px;
+  position: relative; /* 부모 요소를 기준으로 하위 요소 위치 고정 */
 `;
 
 const Label = styled.label`
@@ -210,4 +218,11 @@ const HelperText = styled.p`
   font-size: 12px;
   color: #ff0808;
   margin-top: 4px;
+`;
+
+const AdminInfo = styled.div`
+  font-size: 16px;
+  font-weight: 100;
+  color: #666666;
+  margin-top: 10px;
 `;
