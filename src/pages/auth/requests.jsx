@@ -58,7 +58,13 @@ export default function Requests() {
   return (
     <section>
       {requests.length === 0 ? (
-        <NoRequestsMessage>요청 내역이 없습니다.</NoRequestsMessage>
+        <>
+        <SectionTitle>{sectionTitle}</SectionTitle>
+        <NoRequestsContainer>
+          <Logo />
+          <NoRequestsMessage>요청한 내역이 없습니다.</NoRequestsMessage>
+        </NoRequestsContainer>
+      </>
       ) : (
         <RequestSection
           requests={requests}
@@ -74,12 +80,38 @@ export default function Requests() {
   );
 }
 
+const Logo = styled.div`
+width: 35px;
+height: 35px;
+background-image: url('/murak-logo-removebg.png');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+margin-right: 10px;
+`;
+
+const NoRequestsContainer = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+margin-top: 30px;
+margin-bottom: 760px;
+`;
+
+const SectionTitle = styled.h1`
+text-align: center;
+font-weight: 600;
+font-size: 20px;
+margin-top: 63px;
+margin-bottom: 180px;
+`;
+
 const NoRequestsMessage = styled.div`
-  text-align: center;
-  margin-top: 20px;
-  font-size: 30px;
-  font-weight: 600;
-  color: #888;
+font-size: 36px;
+font-weight: 600;
+color: #555252;
+display: flex;
+align-items: center;
 `;
 
 const ScrollContainer = styled.div`
