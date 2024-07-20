@@ -46,7 +46,7 @@ const useAuthStore = create(
 
       silentRefresh: () => {
         // 만료 1분 전
-        const silentRefreshTime = get().expiresAt - Date.now() - 595 * 1000;
+        const silentRefreshTime = get().expiresAt - Date.now() - 60 * 1000;
         if (silentRefreshTime > 0) {
           setTimeout(() => {
             get().fetchAuthData();
