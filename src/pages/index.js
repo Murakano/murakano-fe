@@ -37,7 +37,8 @@ const Section = styled.div`
   padding-top: 100px;
   justify-content: flex-start;
   box-sizing: border-box;
-  height: calc(100vh - 103px);
+  min-height: calc(100vh - 103px);
+  height: 100%;
   max-width: 100vw;
 `;
 
