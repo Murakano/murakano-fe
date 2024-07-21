@@ -121,8 +121,8 @@ export default function Modal({ onClose, searchResult }) {
 
       if (response.message === '등록 요청 성공') {
         alert('수정 요청이 제출되었습니다');
-      } else if (response === '같은 단어의 대한 요청이 존재합니다.') {
-        alert('같은 단어의 대한 요청이 존재합니다.');
+      } else if (response === '같은 단어에 대한 요청이 존재합니다.') {
+        alert('같은 단어에 대한 요청이 존재합니다.');
       } else {
         alert('수정 요청 중 오류가 발생했습니다.');
       }

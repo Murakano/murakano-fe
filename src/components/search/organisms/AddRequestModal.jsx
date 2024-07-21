@@ -140,8 +140,8 @@ export default function Modal({ onClose, query }) {
 
       if (response.message === '등록 요청 성공') {
         alert('등록 요청이 제출되었습니다');
-      } else if (response === '같은 단어의 대한 요청이 존재합니다.') {
-        alert('같은 단어의 대한 요청이 존재합니다.');
+      } else if (response === '같은 단어에 대한 요청이 존재합니다.') {
+        alert('같은 단어에 대한 요청이 존재합니다.');
       } else {
         alert('등록 요청 중 오류가 발생했습니다.');
       }
@@ -378,12 +378,12 @@ const TextArea = styled.textarea`
   padding: 20px;
   &:focus {
     border-color: ${(props) =>
-    !props.valid ? '#ff0808' : 'var(--primary)'}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
+      !props.valid ? '#ff0808' : 'var(--primary)'}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
     outline: none;
   }
   &:hover {
     border-color: ${(props) =>
-    !props.valid ? '#ff0808' : 'var(--primary)'}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
+      !props.valid ? '#ff0808' : 'var(--primary)'}; // 포커스 시 유효성 검사 실패 시 빨간색 테두리
   }
   resize: none;
   overflow: auto;
