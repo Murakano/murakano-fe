@@ -24,10 +24,8 @@ export default function WordsSection({ referer }) {
   // 단어 클릭 시 검색 결과 페이지로 이동
   const handleWordClick = (name) => {
     if (name) {
-      // 공백 및 불필요한 슬래시 제거
-      const trimmedName = name.trim();
       // URL 인코딩하여 특수문자가 포함된 단어도 안전하게 처리
-      const encodedName = encodeURIComponent(trimmedName);
+      const encodedName = encodeURIComponent(name);
       router.push(`/search/${encodedName}`);
     }
   };
