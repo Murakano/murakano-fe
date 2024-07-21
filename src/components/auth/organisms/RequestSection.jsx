@@ -56,6 +56,7 @@ export default function RequestSection({ requests = [], sectionTitle, userRole, 
     const sorted = filtered.sort((a, b) => {
       if (a.status === 'pend' && (b.status === 'app' || b.status === 'rej')) return -1;
       if ((a.status === 'app' || a.status === 'rej') && b.status === 'pend') return 1;
+      if (a.status === 'pend' && b.status === 'pend') return new Date(a.updatedAt) - new Date(b.updatedAt); // 오래된 요청이 위로
       if ((a.status === 'app' || a.status === 'rej') && (b.status === 'app' || b.status === 'rej')) {
         return new Date(b.updatedAt) - new Date(a.updatedAt); // 최신순 정렬
       }
