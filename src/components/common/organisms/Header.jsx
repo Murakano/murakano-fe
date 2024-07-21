@@ -72,8 +72,11 @@ const Inner = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  width: 780px;
+  max-width: 780px;
+  width: 100%;
   height: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
 `;
 
 const SmallLogoText = styled(LogoText)`

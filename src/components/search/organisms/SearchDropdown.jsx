@@ -65,6 +65,9 @@ const DDContainer = styled.div`
   position: ${(props) => (props.$header ? 'absolute' : 'static')};
   top: ${(props) => (props.$header ? '100px' : 'auto')};
   z-index: 10;
+  @media (max-width: 600px) {
+    width: ${(props) => (props.$header ? '460px' : '350px')};
+  }
 `;
 
 const Divider = styled.div`

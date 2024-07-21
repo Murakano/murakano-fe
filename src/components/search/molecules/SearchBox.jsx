@@ -95,6 +95,9 @@ export const SearchBarContainer = styled.div`
   border-radius: 50px;
   padding-right: 20px;
   gap: 5px;
+  @media (max-width: 600px) {
+    width: ${(props) => (props.$header ? '460px' : '350px')};
+  }
 `;
 
 export const SearchInput = styled.input`
