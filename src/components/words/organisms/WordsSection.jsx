@@ -145,7 +145,7 @@ export default function WordsSection({ referer }) {
   return (
     <WordBoardContainer>
       <DropdownContainer>
-        <SortDropdown onSelect={handleSortChange} />
+        <SortDropdown onSelect={handleSortChange} sortType={sortType}/>
       </DropdownContainer>
       <WordList words={words} handleWordClick={handleWordClick} lastWordElementRef={lastWordElementRef} />
       {loading && <LoadingMessage></LoadingMessage>}
