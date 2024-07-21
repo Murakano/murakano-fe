@@ -27,14 +27,10 @@ export default function Requests() {
       } else if (role === 'admin') {
         setSectionTitle('모든 요청 페이지');
         requestsResponse = await api.get('/users/requests/all');
-        console.log(
-          '모든 요청 정보',
-          requestsResponse.data.requests.map((request) => request._id)
-        );
+        
       } else {
         throw new Error('Invalid user role');
       }
-      console.log('API Raw Response:', requestsResponse.data.requests);
       setRequests(requestsResponse.data.requests);
     } catch (err) {
       setError(err.message);
