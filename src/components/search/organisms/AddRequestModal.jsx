@@ -140,7 +140,7 @@ export default function Modal({ onClose, query }) {
 
       if (response.message === '등록 요청 성공') {
         alert('등록 요청이 제출되었습니다');
-      } else if (response === '같은 단어의 대한 요청이 존재합니다.') {
+      } else if (response === '같은 단어에 대한 요청이 존재합니다.') {
         alert('같은 단어의 대한 요청이 존재합니다.');
       } else {
         alert('등록 요청 중 오류가 발생했습니다.');
@@ -271,7 +271,13 @@ const ModalBody = styled.main`
   padding: 66.5px 0;
   border-radius: 20px;
   border: 1px solid var(--secondary);
+  @media (max-width: 600px) {
+    width: 90%; // 반응형 정렬 수정
+    height: auto;
+    padding: 20px;
+  }
 `;
+
 const ModalHeader = styled.header`
   width: 100%;
   display: flex;
@@ -286,12 +292,20 @@ const ModalTitle = styled.h1`
   line-height: 60px;
   letter-spacing: -0.03em;
   text-align: center;
+  @media (max-width: 600px) {
+    font-size: 24px; // 반응형 정렬 수정
+    width: auto;
+    height: auto;
+  }
 `;
 const ModalContent = styled.section`
   padding: 10px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 600px) {
+    padding: 10px 0; // 반응형 정렬 수정
+  }
 `;
 
 const ModalFooter = styled.footer`
@@ -299,6 +313,10 @@ const ModalFooter = styled.footer`
   height: 80px;
   justify-content: center;
   padding: 0 12px;
+  @media (max-width: 600px) {
+    height: auto; // 반응형 정렬 수정
+    padding: 10px 0;
+  }
 `;
 
 const ButtonGroup = styled.div`
@@ -308,6 +326,11 @@ const ButtonGroup = styled.div`
   align-items: center;
   gap: 10px;
   margin-right: 17px;
+  @media (max-width: 600px) {
+    justify-content: center; // 반응형 정렬 수정
+    margin-right: 0;
+  }
+
 `;
 
 const Item = styled.div`
@@ -317,6 +340,10 @@ const Item = styled.div`
   justify-content: center;
   gap: 5px;
   margin-bottom: 31.5px;
+  @media (max-width: 600px) {
+    width: 100%; // 반응형 정렬 수정
+    margin-bottom: 20px;
+  }
 `;
 
 const Label = styled.label`
@@ -326,6 +353,10 @@ const Label = styled.label`
   letter-spacing: -0.03em;
   text-align: left;
   position: relative;
+  @media (max-width: 600px) {
+    font-size: 14px; // 반응형 정렬 수정
+  }
+
 `;
 
 const StyledInputBox = styled(InputBox)`
@@ -350,6 +381,9 @@ const StyledInputBox = styled(InputBox)`
     &:hover {
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
+    @media (max-width: 600px) {
+      width: 100%; // 반응형 정렬 수정
+    }
   }
   Label {
     width: 498px;
@@ -359,6 +393,9 @@ const StyledInputBox = styled(InputBox)`
     letter-spacing: -0.03em;
     text-align: left;
     position: relative;
+    @media (max-width: 600px) {
+      width: 100%; // 반응형 정렬 수정
+    }
     &::after {
       content: ${(props) => (props.name === 'devTerm' ? "' *'" : "''")};
       color: #ff0808;
@@ -391,6 +428,9 @@ const TextArea = styled.textarea`
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
+  @media (max-width: 600px) {
+    width: 100%; // 반응형 정렬 수정
+  }
 `;
 
 const ModalButton = styled.button`
@@ -409,11 +449,15 @@ const ModalButton = styled.button`
         : 'var(--primary60)'}; // 프리픽스 적용
   &:hover {
     box-shadow: ${(props) =>
-      props.$isClose
-        ? '0px 2px 4px 0px #00000026' // 프리픽스 적용
-        : props.$active
-          ? '0px 2px 6px 0px #3C8BFF99' // 프리픽스 적용
-          : 'none'};
+    props.$isClose
+      ? '0px 2px 4px 0px #00000026' // 프리픽스 적용
+      : props.$active
+        ? '0px 2px 6px 0px #3C8BFF99' // 프리픽스 적용
+        : 'none'};
+  }
+  @media (max-width: 600px) {
+    width: 100px; // 반응형 정렬 수정
+    height: 44px;
   }
 `;
 
@@ -421,4 +465,9 @@ const HelperText = styled.p`
   font-size: 12px;
   color: #ff0808;
   margin-top: 4px;
+  @media (max-width: 600px) {
+    font-size: 11px;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
 `;

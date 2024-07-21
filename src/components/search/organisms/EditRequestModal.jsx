@@ -121,7 +121,7 @@ export default function Modal({ onClose, searchResult }) {
 
       if (response.message === '등록 요청 성공') {
         alert('수정 요청이 제출되었습니다');
-      } else if (response === '같은 단어의 대한 요청이 존재합니다.') {
+      } else if (response === '같은 단어에 대한 요청이 존재합니다.') {
         alert('같은 단어의 대한 요청이 존재합니다.');
       } else {
         alert('수정 요청 중 오류가 발생했습니다.');
@@ -329,8 +329,8 @@ const StyledInputBox = styled(InputBox)`
       border-color: ${(props) => (!props.valid ? '#ff0808' : 'var(--primary)')};
     }
     ${(props) =>
-      props.name === 'devTerm' &&
-      `
+    props.name === 'devTerm' &&
+    `
       &:hover {
           border-color: var(--secondary); // 호버 시 색상 변경 안함
       }
@@ -388,11 +388,11 @@ const ModalButton = styled.button`
         : 'var(--primary60)'}; // 프리픽스 적용
   &:hover {
     box-shadow: ${(props) =>
-      props.$isClose
-        ? '0px 2px 4px 0px #00000026' // 프리픽스 적용
-        : props.$active
-          ? '0px 2px 6px 0px #3C8BFF99' // 프리픽스 적용
-          : 'none'};
+    props.$isClose
+      ? '0px 2px 4px 0px #00000026' // 프리픽스 적용
+      : props.$active
+        ? '0px 2px 6px 0px #3C8BFF99' // 프리픽스 적용
+        : 'none'};
   }
 `;
 
