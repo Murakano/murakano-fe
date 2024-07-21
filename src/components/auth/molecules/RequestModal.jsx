@@ -18,8 +18,11 @@ const RequestModal = ({ title, onClose, requestData = {}, userRole, refreshReque
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
+    document.body.style.overflow = 'hidden';
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'auto';
     };
   }, [handleClickOutside]);
 
@@ -143,8 +146,8 @@ const ModalContent = styled.section`
   flex-direction: column;
   width: 100%;
   flex-grow: 1;
-  height: 600px; /* 고정된 높이 설정 */
-  overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+  height: 600px;
+  overflow: hidden;
 `;
 
 const ModalFooter = styled.footer`
@@ -169,7 +172,7 @@ const Item = styled.div`
   justify-content: center;
   gap: 5px;
   margin-bottom: 31.5px;
-  position: relative; /* 부모 요소를 기준으로 하위 요소 위치 고정 */
+  position: relative;
 `;
 
 const Label = styled.label`
