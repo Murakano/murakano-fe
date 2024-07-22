@@ -49,6 +49,10 @@ const Logo = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  @media (max-width: 600px) {
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 const Title = styled.div`
@@ -57,6 +61,9 @@ const Title = styled.div`
   justify-content: center;
   margin-bottom: 20px;
   cursor: pointer;
+  @media (max-width: 600px) {
+    align-items: flex-end;
+  }
 `;
 
 const SubText = styled.div`
@@ -65,4 +72,7 @@ const SubText = styled.div`
   text-align: center;
   color: #666666;
   margin-bottom: 20px;
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
