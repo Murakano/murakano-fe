@@ -75,6 +75,10 @@
 
 ![14](https://github.com/user-attachments/assets/878275e6-901c-4db8-95b5-ef12c0f542b1)
 
+### [전체 요청 목록]
+
+![전체요청목록](https://github.com/user-attachments/assets/d6b86292-5a5b-4d98-98eb-b5db1ed64ed1)
+
 ### [로그인]
 
 ![15](https://github.com/user-attachments/assets/121957db-939c-488b-a5cd-eb309ede9e4b)
@@ -161,14 +165,11 @@ MongoDB는 기본적으로 JSON 데이터를 저장하도록 설계 되었기 �
 
 ### DB 설계
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/8d39320e-a91b-4092-a64b-36b1d3c51690/7131e45e-2e93-42e2-822d-70a8849d532e/Untitled.png)
+![디비설계](https://github.com/user-attachments/assets/69b30a5b-20ae-4256-ae89-0cfcf462f783)
 
 ### API 문서 - notion
+
 ![노션api문서](https://github.com/user-attachments/assets/06fffc85-bcfb-48a6-8b5a-ba3be6edb635)
-
-
-
-
 
 ### API 문서 - swagger
 
