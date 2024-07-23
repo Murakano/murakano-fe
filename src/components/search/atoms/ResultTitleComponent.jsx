@@ -13,6 +13,7 @@ const ResultTitle = styled.span`
   padding-top: 3px;
   @media (max-width: 600px) {
     width: 100%; // 반응형 정렬 수정
+    font-size: 12px;
   }
 `;
 

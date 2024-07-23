@@ -95,6 +95,11 @@ export const SearchBarContainer = styled.div`
   border-radius: 50px;
   padding-right: 20px;
   gap: 5px;
+  @media (max-width: 600px) {
+    width: ${(props) => (props.$header ? '100%' : '330px')};
+    height: ${(props) => (props.$header ? '36px' : '48px')};
+    padding-right: ${(props) => (props.$header ? '10px' : '20px')};
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -107,6 +112,10 @@ export const SearchInput = styled.input`
   background-color: transparent;
   border: none;
   outline: none;
+  @media (max-width: 600px) {
+    font-size: ${(props) => (props.$header ? '10px' : '13px')};
+    padding: ${(props) => (props.$header ? '0 20px' : '0 10px 0 30px')};
+  }
 `;
 
 export const ResetLink = styled(Link)`
@@ -121,8 +130,7 @@ const CloseIcon = styled(CloseOutlined)`
   &:hover {
     color: #000000;
   }
-  /* color: var(--secondary);
-  &:hover {
-    color: var(--primary60);
-  } */
+  @media (max-width: 600px) {
+    font-size: 15px;
+  }
 `;

@@ -15,6 +15,9 @@ const Text = styled.div`
   height: 20px;
   font-size: 13px;
   margin-right: auto;
+  @media (max-width: 600px) {
+    font-size: 10px;
+  }
 `;
 
 const StyledContainer = styled.div`

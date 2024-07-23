@@ -112,12 +112,18 @@ const Label = styled.label`
   line-height: 22px;
   color: #666666;
   flex-grow: 1;
+  @media (max-width: 600px) {
+    font-size: 13px;
+  }
 `;
 
 const PrimaryLabel = styled.label`
   font-weight: 700;
   font-size: 18px;
   color: #666666;
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 
 const Details = styled(Link)`
@@ -130,6 +136,9 @@ const Details = styled(Link)`
 
   &:hover {
     text-decoration: underline;
+  }
+  @media (max-width: 600px) {
+    font-size: 13px;
   }
 `;
 

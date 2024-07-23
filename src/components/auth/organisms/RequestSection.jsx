@@ -132,6 +132,10 @@ const MainContainer = styled.main`
   height: 100%;
   padding-top: 30px;
   box-sizing: border-box;
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 20px;
+  }
 `;
 
 const Inner = styled.section`
@@ -140,6 +144,9 @@ const Inner = styled.section`
   align-items: center;
   width: 780px;
   height: 100%;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const SectionTitle = styled.h1`
@@ -151,6 +158,10 @@ const SectionTitle = styled.h1`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 10px 0;
+  }
 `;
 
 const RequestList = styled.section`
@@ -159,6 +170,9 @@ const RequestList = styled.section`
   width: 691px;
   flex-direction: column;
   gap: 0px;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const RequestItem = styled.div`
@@ -172,12 +186,19 @@ const RequestItem = styled.div`
     background-color: var(--secondary10);
     cursor: pointer;
   }
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const RequestItemInner = styled.div`
   width: 617px;
   display: flex;
   justify-content: space-between;
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 0 36px;
+  }
 `;
 
 const RequestContent = styled.div`
@@ -239,4 +260,8 @@ const DropdownContainer = styled.div`
   height: 35px;
   gap: 20px;
   margin-bottom: 20px;
+  @media (max-width: 600px) {
+    width: 100%;
+    gap: 10px;
+  }
 `;

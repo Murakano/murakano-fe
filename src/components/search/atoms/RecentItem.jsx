@@ -5,9 +5,9 @@ import { HistoryIcon } from './HistoryIcon';
 
 export function RecentItem({ children, onRemove, header, onItemClick }) {
   const router = useRouter();
-  const isMessage = children === '로그인이 필요한 기능입니다' || children === '최근 검색어가 없습니다.';
+  const isMessage = children === '로그인이 필요한 기능입니다.' || children === '최근 검색어가 없습니다.';
   const handleClick = () => {
-    if (isMessage && children === '로그인이 필요한 기능입니다') {
+    if (isMessage && children === '로그인이 필요한 기능입니다.') {
       router.push('/auth/login');
     } else if (!isMessage) {
       onItemClick(children);
@@ -44,6 +44,9 @@ const DDItems = styled.li`
   font-size: ${(props) => (props.$header ? '13px' : '15px')};
   font-weight: 400;
   width: 100%;
+  @media (max-width: 600px) {
+    height: 20px;
+  }
 `;
 
 const DDItem = styled.div`
@@ -60,7 +63,6 @@ const DDItem = styled.div`
 
 const Icon = styled(HistoryIcon)`
   stroke: #767676;
-
   ${DDItem}:hover & {
     stroke: #000000;
   }
@@ -90,6 +92,14 @@ const DDText = styled.div`
   ${DDItem}:hover & {
     color: #000000;
     font-size: ${(props) => (props.$header ? '14px' : '16px')};
+  }
+
+  @media (max-width: 600px) {
+    font-size: 11px;
+    height: ${(props) => (props.$header ? '23px' : '20px')};
+    ${DDItem}:hover & {
+      font-size: ${(props) => (props.$header ? '12px' : '13px')};
+    }
   }
 `;
 

@@ -20,6 +20,7 @@ const ResultContent = styled.span`
   user-select: text;
   @media (max-width: 600px) {
     width: 100%; // 반응형 정렬 수정
+    font-size: 11px;
   }
 `;
 

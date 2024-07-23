@@ -67,15 +67,15 @@ export default function Requests() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <section>
+    <Section>
       {requests.length === 0 ? (
         <>
-        <SectionTitle>{sectionTitle}</SectionTitle>
-        <NoRequestsContainer>
-          <Logo />
-          <NoRequestsMessage>요청한 내역이 없습니다.</NoRequestsMessage>
-        </NoRequestsContainer>
-      </>
+          <SectionTitle>{sectionTitle}</SectionTitle>
+          <NoRequestsContainer>
+            <Logo />
+            <NoRequestsMessage>요청한 내역이 없습니다.</NoRequestsMessage>
+          </NoRequestsContainer>
+        </>
       ) : (
         <RequestSection
           requests={requests}
@@ -87,42 +87,55 @@ export default function Requests() {
       <ScrollContainer>
         <TopScrollBtn />
       </ScrollContainer>
-    </section>
+    </Section>
   );
 }
 
+const Section = styled.div`
+  height: calc(100vh - 195px);
+  @media (max-width: 600px) {
+    height: calc(100vh - 165px);
+    width: 100%;
+  }
+`;
+
 const Logo = styled.div`
-width: 35px;
-height: 35px;
-background-image: url('/murak-logo-removebg.png');
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-margin-right: 10px;
+  width: 35px;
+  height: 35px;
+  background-image: url('/murak-logo-removebg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-right: 10px;
 `;
 
 const NoRequestsContainer = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-margin-top: 30px;
-margin-bottom: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 340px;
 `;
 
 const SectionTitle = styled.h1`
-text-align: center;
-font-weight: 600;
-font-size: 20px;
-margin-top: 63px;
-margin-bottom: 180px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 63px 0 180px;
+  @media (max-width: 600px) {
+    margin: 40px 0 50px;
+  }
 `;
 
 const NoRequestsMessage = styled.div`
-font-size: 26px;
-font-weight: 600;
-color: #555252;
-display: flex;
-align-items: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: #555252;
+  display: flex;
+  align-items: center;
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
 
 const ScrollContainer = styled.div`
