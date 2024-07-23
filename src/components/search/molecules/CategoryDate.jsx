@@ -19,4 +19,8 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 600px) {
+    width: ${(props) => (props.$header ? '460px' : '350px')};
+    
+  }
 `;

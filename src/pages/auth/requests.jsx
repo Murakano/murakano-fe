@@ -48,6 +48,17 @@ export default function Requests() {
     fetchRequests();
   }, [accessToken]);
 
+  useEffect(() => {
+    if (requests.length === 0) {
+      document.body.style.overflow = 'hidden'; // 요청 내역이 없을 때 스크롤 막기
+    } else {
+      document.body.style.overflow = 'auto'; // 요청 내역이 있을 때 스크롤 허용
+    }
+    return () => {
+      document.body.style.overflow = 'auto'; // 컴포넌트 언마운트 시 스크롤 허용
+    };
+  }, [requests]);
+
   const refreshRequests = () => {
     fetchRequests();
   };
@@ -95,7 +106,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 margin-top: 30px;
-margin-bottom: 760px;
+margin-bottom: 340px;
 `;
 
 const SectionTitle = styled.h1`
@@ -107,7 +118,7 @@ margin-bottom: 180px;
 `;
 
 const NoRequestsMessage = styled.div`
-font-size: 36px;
+font-size: 26px;
 font-weight: 600;
 color: #555252;
 display: flex;
