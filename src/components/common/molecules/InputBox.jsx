@@ -66,7 +66,8 @@ const HelperBox = styled.div`
   height: 25px;
   @media (max-width: 600px) {
     width: 100%; // 반응형 정렬 수정
-    height: auto;
+    min-width: 320px;
+    height: 25px;
   }
 `;
 

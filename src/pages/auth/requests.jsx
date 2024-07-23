@@ -95,6 +95,7 @@ const Section = styled.div`
   height: calc(100vh - 195px);
   @media (max-width: 600px) {
     height: calc(100vh - 165px);
+    width: 100%;
   }
 `;
 

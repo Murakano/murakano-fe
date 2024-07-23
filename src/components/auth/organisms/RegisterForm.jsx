@@ -197,6 +197,11 @@ const EyeBox = styled.div`
   position: relative;
   left: 195px;
   top: -51px;
+  @media (max-width: 600px) {
+    margin-top: -17px;
+    left: 130px;
+    top: -49px;
+  }
 `;
 
 const EyeIcon = styled.div`
@@ -212,6 +217,11 @@ const CheckIconBox = styled.div`
   position: relative;
   left: 195px;
   top: -50px;
+  @media (max-width: 600px) {
+    margin-top: -12px;
+    left: 130px;
+    top: -53px;
+  }
 `;
 
 const CheckIcon = styled.div`

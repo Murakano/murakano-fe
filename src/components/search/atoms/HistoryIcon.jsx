@@ -1,6 +1,5 @@
 export const HistoryIcon = ({ header = false, stroke = '#767676' }) => {
-  const size = header ? '20' : '17'; // header가 true일 때 크기를 14로, 아니면 17로 설정
-
+  const size = header === true ? '20' : '17'; // header가 true일 때 크기를 14로, 아니면 17로 설정
   return (
     <svg width={size} height={size} viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path

@@ -98,7 +98,7 @@ export const SearchBarContainer = styled.div`
   @media (max-width: 600px) {
     width: ${(props) => (props.$header ? '100%' : '330px')};
     height: ${(props) => (props.$header ? '36px' : '48px')};
-    padding-right: 20px;
+    padding-right: ${(props) => (props.$header ? '10px' : '20px')};
   }
 `;
 
@@ -130,8 +130,7 @@ const CloseIcon = styled(CloseOutlined)`
   &:hover {
     color: #000000;
   }
-  /* color: var(--secondary);
-  &:hover {
-    color: var(--primary60);
-  } */
+  @media (max-width: 600px) {
+    font-size: 15px;
+  }
 `;

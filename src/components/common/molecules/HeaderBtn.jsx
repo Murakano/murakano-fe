@@ -160,7 +160,7 @@ const HeaderRow = styled(Row)`
   @media (max-width: 600px) {
     order: 1;
     width: auto;
-    padding: 10px;
+    padding: 10px 10px 10px 20px;
     /* display: none; */
   }
 `;

@@ -107,7 +107,7 @@ const HeaderRow = styled(Row)`
   @media (max-width: 600px) {
     flex-grow: 1;
     padding: 0px;
-    gap: 10px;
+    gap: 15px;
     justify-content: flex-start;
   }
 `;

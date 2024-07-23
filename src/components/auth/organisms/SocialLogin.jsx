@@ -28,16 +28,30 @@ export default function SocialLogin() {
 }
 const SocialLoginBox = styled(Column)`
   padding-bottom: 30px;
+  @media (max-width: 600px) {
+    padding: 0;
+    width: 100%;
+  }
 `;
 
 const ContinueText = styled.div`
   font-size: 13px;
   font-weight: 400;
   padding: 30px 0px;
+  @media (max-width: 600px) {
+    font-size: 11px;
+    padding: 20px 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const ContinueBox = styled(Row)`
   gap: 72px;
+  @media (max-width: 600px) {
+    gap: 10px;
+  }
 `;
 
 const ContinueLine = styled.div`

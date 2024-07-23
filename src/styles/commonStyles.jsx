@@ -56,4 +56,8 @@ export const StyledSearchOutlined = styled(SearchOutlined)`
   &:hover {
     color: var(--primary);
   }
+
+  @media (max-width: 600px) {
+    font-size: 23px;
+  }
 `;

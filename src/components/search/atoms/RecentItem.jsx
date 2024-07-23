@@ -45,8 +45,7 @@ const DDItems = styled.li`
   font-weight: 400;
   width: 100%;
   @media (max-width: 600px) {
-    font-size: 11px;
-    height: ${(props) => (props.$header ? '23px' : '20px')};
+    height: 20px;
   }
 `;
 
@@ -64,7 +63,6 @@ const DDItem = styled.div`
 
 const Icon = styled(HistoryIcon)`
   stroke: #767676;
-
   ${DDItem}:hover & {
     stroke: #000000;
   }

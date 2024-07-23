@@ -22,6 +22,5 @@ const StyledContainer = styled.div`
   margin-top: 10px;
   @media (max-width: 600px) {
     width: ${(props) => (props.$header ? '460px' : '350px')};
-    
   }
 `;

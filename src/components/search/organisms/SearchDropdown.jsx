@@ -66,8 +66,8 @@ const DDContainer = styled.div`
   top: ${(props) => (props.$header ? '100px' : 'auto')};
   z-index: 10;
   @media (max-width: 600px) {
-    width: ${(props) => (props.$header ? 'calc(100% - 125px)' : '330px')};
-    height: ${(props) => (props.$header ? '320px' : '300px')};
+    width: ${(props) => (props.$header ? 'calc(100% - 145px)' : '330px')};
+    height: 300px;
     top: ${(props) => (props.$header ? '65px' : 'auto')};
   }
 `;
@@ -89,7 +89,8 @@ const RelatedItems = styled.div`
   flex-direction: column;
   gap: ${(props) => (props.$header ? '1px' : '7px')};
   @media (max-width: 600px) {
-    padding: 20px 20px;
+    padding: 20px;
+    gap: 7px;
   }
 `;
 
@@ -113,12 +114,12 @@ const RelatedItem = styled.div`
   }
 
   @media (max-width: 600px) {
-    font-size: ${(props) => (props.$header ? '13px' : '11px')};
+    font-size: 11px;
     padding: 5px;
     height: 20px;
     &:hover {
       color: #000;
-      font-size: ${(props) => (props.$header ? '14px' : '12px')};
+      font-size: 12px;
     }
   }
 `;
