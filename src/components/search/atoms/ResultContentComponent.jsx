@@ -18,6 +18,9 @@ const ResultContent = styled.span`
   -webkit-user-select: text;
   -khtml-user-select: text;
   user-select: text;
+  @media (max-width: 600px) {
+    width: 100%; // 반응형 정렬 수정
+  }
 `;
 
 export default function ResultContentComponent({ children, ...props }) {
