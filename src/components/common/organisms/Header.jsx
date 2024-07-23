@@ -43,9 +43,7 @@ export default function Header() {
             <SmallLogoText>
               <StyledLink href='/'>머라카노</StyledLink>
             </SmallLogoText>
-            <Bar>
-              <SearchBar header />
-            </Bar>
+            <SearchBar header />
           </HeaderRow>
         )}
       </Inner>
@@ -95,15 +93,14 @@ const SmallLogoText = styled(LogoText)`
   font-size: 30px;
   align-items: center;
   @media (max-width: 600px) {
-    min-width: 55px;
+    /* flex: 1; */
     width: 55px;
     font-size: 15px;
-
-    /* display: none; */
   }
 `;
 
 const HeaderRow = styled(Row)`
+  display: flex;
   height: 51px;
   padding: 10px;
   gap: 35px;
@@ -112,14 +109,6 @@ const HeaderRow = styled(Row)`
     padding: 0px;
     gap: 10px;
     justify-content: flex-start;
-  }
-`;
-
-const Bar = styled.div`
-  @media (max-width: 600px) {
-    flex-grow: 1;
-    width: 100%;
-    height: 38px;
   }
 `;
 

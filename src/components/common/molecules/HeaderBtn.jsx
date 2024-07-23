@@ -161,7 +161,6 @@ const HeaderRow = styled(Row)`
     order: 1;
     width: auto;
     padding: 10px;
-    background-color: pink;
     /* display: none; */
   }
 `;

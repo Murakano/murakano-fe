@@ -143,7 +143,7 @@ export default function WordsSection({ referer }) {
   return (
     <WordBoardContainer>
       <DropdownContainer>
-        <SortDropdown onSelect={handleSortChange} sortType={sortType}/>
+        <SortDropdown onSelect={handleSortChange} sortType={sortType} />
       </DropdownContainer>
       <WordList words={words} handleWordClick={handleWordClick} lastWordElementRef={lastWordElementRef} />
       {loading && <LoadingMessage></LoadingMessage>}
@@ -157,6 +157,10 @@ const WordBoardContainer = styled.div`
   align-items: center;
   width: 691px;
   height: 100%;
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 0 10px;
+  }
 `;
 
 const DropdownContainer = styled.div`
@@ -165,6 +169,10 @@ const DropdownContainer = styled.div`
   height: 35px;
   gap: 20px;
   margin-bottom: 10px;
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 10px;
+  }
 `;
 
 const LoadingMessage = styled.div`
@@ -172,4 +180,7 @@ const LoadingMessage = styled.div`
   height: 99px;
   padding: 10.5px 36px;
   background: var(--secondary10);
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;

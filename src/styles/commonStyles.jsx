@@ -41,6 +41,9 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   overflow-y: auto;
+  @media (max-width: 600px) {
+    margin: ${(props) => (props.$marginTop === '38px' ? '38px' : '70px')} 0 0;
+  }
 `;
 
 // 검색아이콘

@@ -96,9 +96,8 @@ export const SearchBarContainer = styled.div`
   padding-right: 20px;
   gap: 5px;
   @media (max-width: 600px) {
-    flex-grow: 1;
-    width: ${(props) => (props.$header ? '240px' : '330px')};
-    height: ${(props) => (props.$header ? '38px' : '48px')};
+    width: ${(props) => (props.$header ? '100%' : '330px')};
+    height: ${(props) => (props.$header ? '36px' : '48px')};
     padding-right: 20px;
   }
 `;
@@ -114,7 +113,7 @@ export const SearchInput = styled.input`
   border: none;
   outline: none;
   @media (max-width: 600px) {
-    font-size: ${(props) => (props.$header ? '14px' : '13px')};
+    font-size: ${(props) => (props.$header ? '10px' : '13px')};
     padding: ${(props) => (props.$header ? '0 20px' : '0 10px 0 30px')};
   }
 `;

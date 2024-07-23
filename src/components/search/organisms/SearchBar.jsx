@@ -7,6 +7,7 @@ import SearchBox from '@/components/search/molecules/SearchBox';
 import api from '@/utils/api';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
 import jsLevenshtein from 'js-levenshtein';
+import styled from 'styled-components';
 
 export default function SearchBar({ header }) {
   const router = useRouter();
@@ -151,7 +152,7 @@ export default function SearchBar({ header }) {
   };
 
   return (
-    <Column ref={searchBarRef}>
+    <SearchColumn ref={searchBarRef}>
       <SearchBox
         header={header}
         handleSearch={handleSearch}
@@ -172,6 +173,10 @@ export default function SearchBar({ header }) {
           setDropdownVisible={setDropdownVisible} // 추가
         />
       )}
-    </Column>
+    </SearchColumn>
   );
 }
+const SearchColumn = styled(Column)`
+  flex-grow: 1;
+  justify-content: flex-start;
+`;

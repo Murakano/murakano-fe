@@ -35,7 +35,7 @@ const SectionTitle = styled.div`
   height: ${(props) => (props.$header ? '12px' : '18px')};
   line-height: 18px;
   @media (max-width: 600px) {
-    font-size: ${(props) => (props.$header ? '13px' : '14px')};
+    font-size: 13px;
   }
 `;
 

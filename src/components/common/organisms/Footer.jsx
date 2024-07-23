@@ -83,4 +83,7 @@ const FooterBtn = styled.div`
     text-decoration: underline;
     color: #000;
   }
+  @media (max-width: 600px) {
+    font-size: 10px;
+  }
 `;

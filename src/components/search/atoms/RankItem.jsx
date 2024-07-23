@@ -33,6 +33,9 @@ const DDItem = styled.li`
     font-size: ${(props) => (props.$header ? '13px' : '11px')};
     height: ${(props) => (props.$header ? '23px' : '20px')};
     gap: ${(props) => (props.$header ? '4px' : '0px')};
+    &:hover {
+      font-size: ${(props) => (props.$header ? '14px' : '12px')};
+    }
   }
 `;
 

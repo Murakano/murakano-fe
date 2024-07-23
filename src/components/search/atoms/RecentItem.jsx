@@ -99,6 +99,9 @@ const DDText = styled.div`
   @media (max-width: 600px) {
     font-size: 11px;
     height: ${(props) => (props.$header ? '23px' : '20px')};
+    ${DDItem}:hover & {
+      font-size: ${(props) => (props.$header ? '12px' : '13px')};
+    }
   }
 `;
 

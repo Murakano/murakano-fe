@@ -15,17 +15,23 @@ export default function WordsPageName() {
 }
 
 const NameContainer = styled.div`
-  width: 447px;
+  width: 100%;
   height: 86px;
   padding: 20px 86px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 30px 166.5px 10px 166.5px;
+  @media (max-width: 600px) {
+    margin: 0;
+    padding: 20px 0 10px;
+    height: 70px;
+  }
 `;
 
 const PageName = styled.div`
-  width: 275.03px;
+  min-width: 115px;
+  width: auto;
   height: 40px;
   font-size: 20px;
   font-weight: 600;

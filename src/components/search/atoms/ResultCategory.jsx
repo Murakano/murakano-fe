@@ -16,11 +16,7 @@ const Container = styled.div`
   height: 29px;
   padding: 10px 0;
   gap: 10px;
-  @media (max-width: 600px) {
-    width: auto; // 반응형 정렬 수정
-  }
 `;
-
 
 const Text = styled.div`
   width: auto;
@@ -29,9 +25,6 @@ const Text = styled.div`
   margin-right: auto;
   border-bottom: 1px solid #ccc;
   white-space: nowrap; // 텍스트가 한 줄로 유지되도록 함
-  @media (max-width: 600px) {
-    width: auto; // 반응형 정렬 수정
-  }
 `;
 
 export default ResultCategory;
