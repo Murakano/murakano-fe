@@ -43,7 +43,9 @@ export default function Header() {
             <SmallLogoText>
               <StyledLink href='/'>머라카노</StyledLink>
             </SmallLogoText>
-            <SearchBar header />
+            <Bar>
+              <SearchBar header />
+            </Bar>
           </HeaderRow>
         )}
       </Inner>
@@ -65,6 +67,10 @@ const MainContainer = styled.div`
   padding: 0;
   height: ${(props) => (props.$isHome ? '38px' : '130px')};
   width: 100%;
+  @media (max-width: 600px) {
+    flex-direction: row;
+    height: ${(props) => (props.$isHome ? '38px' : '70px')};
+  }
 `;
 
 const Inner = styled.div`
@@ -77,24 +83,48 @@ const Inner = styled.div`
   height: 100%;
   box-sizing: border-box;
   padding: 0 10px;
+  @media (max-width: 600px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 
 const SmallLogoText = styled(LogoText)`
   width: 130px;
   font-size: 30px;
   align-items: center;
+  @media (max-width: 600px) {
+    min-width: 55px;
+    width: 55px;
+    font-size: 15px;
+
+    /* display: none; */
+  }
 `;
 
 const HeaderRow = styled(Row)`
   height: 51px;
   padding: 10px;
   gap: 35px;
+  @media (max-width: 600px) {
+    flex-grow: 1;
+    padding: 0px;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+`;
+
+const Bar = styled.div`
+  @media (max-width: 600px) {
+    flex-grow: 1;
+    width: 100%;
+    height: 38px;
+  }
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: var(--primary);
   text-shadow: 2px 2px 1px rgba(118, 118, 118, 0.2);
-  &:hover {
-  }
 `;

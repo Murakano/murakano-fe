@@ -45,7 +45,7 @@ export default function SearchDropdown({
       ) : (
         <>
           <RecentItems header={header} onItemClick={onItemClick} setDropdownVisible={setDropdownVisible} />
-          <Divider />
+          <Divider $header={header} />
           <RankItems header={header} onItemClick={onItemClick} ranks={ranks} />
         </>
       )}
@@ -66,7 +66,9 @@ const DDContainer = styled.div`
   top: ${(props) => (props.$header ? '100px' : 'auto')};
   z-index: 10;
   @media (max-width: 600px) {
-    width: ${(props) => (props.$header ? '460px' : '350px')};
+    width: ${(props) => (props.$header ? '240px' : '330px')};
+    height: ${(props) => (props.$header ? '320px' : '300px')};
+    top: ${(props) => (props.$header ? '60px' : 'auto')};
   }
 `;
 
@@ -75,6 +77,9 @@ const Divider = styled.div`
   background-color: rgba(184, 213, 255, 0.3);
   height: 85%; /* 높이를 컨테이너 높이의 85%로 설정 */
   align-self: center; /* 세로 가운데 정렬 */
+  @media (max-width: 600px) {
+    display: ${(props) => (props.$header ? 'none' : 'block')};
+  }
 `;
 
 const RelatedItems = styled.div`
@@ -83,6 +88,9 @@ const RelatedItems = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${(props) => (props.$header ? '1px' : '7px')};
+  @media (max-width: 600px) {
+    padding: 20px 20px;
+  }
 `;
 
 const RelatedItem = styled.div`
@@ -102,5 +110,11 @@ const RelatedItem = styled.div`
     font-size: ${(props) => (props.$header ? '15px' : '16px')};
     cursor: pointer;
     background-color: var(--secondary10);
+  }
+
+  @media (max-width: 600px) {
+    font-size: ${(props) => (props.$header ? '13px' : '11px')};
+    padding: 5px;
+    height: 20px;
   }
 `;

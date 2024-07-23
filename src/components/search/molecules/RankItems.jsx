@@ -5,7 +5,7 @@ import { RankItem } from '../atoms/RankItem';
 
 export function RankItems({ children, header, onItemClick, ranks }) {
   return (
-    <DDSection>
+    <DDSection $header={header}>
       <SectionTitle $header={header}>인기 검색어</SectionTitle>
       <ColumnGap>
         {ranks?.map((item, index) => (
@@ -22,6 +22,10 @@ const DDSection = styled.div`
   padding: 25px 30px;
   border-right: ${(props) => (props.$borderRight ? '1px solid var(--secondary)' : 'none')};
   width: 50%;
+  @media (max-width: 600px) {
+    padding: 20px 25px;
+    display: ${(props) => (props.$header ? 'none' : 'block')};
+  }
 `;
 
 const SectionTitle = styled.div`
@@ -30,6 +34,9 @@ const SectionTitle = styled.div`
   margin-bottom: ${(props) => (props.$header ? '13px' : '15px')};
   height: ${(props) => (props.$header ? '12px' : '18px')};
   line-height: 18px;
+  @media (max-width: 600px) {
+    font-size: ${(props) => (props.$header ? '13px' : '14px')};
+  }
 `;
 
 const ColumnGap = styled(Column)`

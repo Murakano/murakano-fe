@@ -28,6 +28,12 @@ const DDItem = styled.li`
     background-color: var(--secondary10);
     font-size: ${(props) => (props.$header ? '14px' : '16px')};
   }
+
+  @media (max-width: 600px) {
+    font-size: ${(props) => (props.$header ? '13px' : '11px')};
+    height: ${(props) => (props.$header ? '23px' : '20px')};
+    gap: ${(props) => (props.$header ? '4px' : '0px')};
+  }
 `;
 
 const RankLink = styled.div`

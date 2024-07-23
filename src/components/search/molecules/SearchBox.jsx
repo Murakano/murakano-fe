@@ -96,7 +96,10 @@ export const SearchBarContainer = styled.div`
   padding-right: 20px;
   gap: 5px;
   @media (max-width: 600px) {
-    width: ${(props) => (props.$header ? '460px' : '350px')};
+    flex-grow: 1;
+    width: ${(props) => (props.$header ? '240px' : '330px')};
+    height: ${(props) => (props.$header ? '38px' : '48px')};
+    padding-right: 20px;
   }
 `;
 
@@ -110,6 +113,10 @@ export const SearchInput = styled.input`
   background-color: transparent;
   border: none;
   outline: none;
+  @media (max-width: 600px) {
+    font-size: ${(props) => (props.$header ? '14px' : '13px')};
+    padding: ${(props) => (props.$header ? '0 20px' : '0 10px 0 30px')};
+  }
 `;
 
 export const ResetLink = styled(Link)`

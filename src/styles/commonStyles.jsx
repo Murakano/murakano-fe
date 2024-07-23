@@ -15,7 +15,7 @@ export const LogoText = styled.div`
   margin-left: 10px;
   font-size: 50px;
   @media (max-width: 600px) {
-    font-size: 40px;
+    font-size: 36px;
   }
 `;
 

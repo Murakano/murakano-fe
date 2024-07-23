@@ -40,6 +40,9 @@ const Section = styled.div`
   min-height: calc(100vh - 103px);
   height: 100%;
   max-width: 100vw;
+  @media (max-width: 600px) {
+    padding-top: 40px;
+  }
 `;
 
 const Logo = styled.div`
@@ -50,8 +53,8 @@ const Logo = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   @media (max-width: 600px) {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
 `;
 

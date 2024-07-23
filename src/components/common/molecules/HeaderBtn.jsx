@@ -6,6 +6,7 @@ import { Dropdown } from 'antd';
 import api from '@/utils/api';
 import { useRouter } from 'next/router';
 import useAuthStore from '@/store/useAuthStore';
+import { MenuOutlined } from '@ant-design/icons';
 
 export default function HeaderBtn() {
   const router = useRouter();
@@ -36,6 +37,36 @@ export default function HeaderBtn() {
     },
   ];
 
+  const mobileNotLoggedInItems = [
+    {
+      key: '1',
+      label: <StyledLink href='/words'>전체용어</StyledLink>,
+    },
+    {
+      key: '2',
+      label: <StyledLink href='/auth/login'>로그인</StyledLink>,
+    },
+    {
+      key: '3',
+      label: <StyledLink href='/auth/register'>회원가입</StyledLink>,
+    },
+  ];
+
+  const mobileLoggedInItems = [
+    {
+      key: '1',
+      label: <StyledLink href='/words'>전체용어</StyledLink>,
+    },
+    {
+      key: '2',
+      label: <StyledLink href='/auth/requests'>요청 페이지</StyledLink>,
+    },
+    {
+      key: '3',
+      label: <Logout onClick={logout}>로그아웃</Logout>,
+    },
+  ];
+
   return (
     <HeaderRow>
       <Btn>
@@ -52,6 +83,16 @@ export default function HeaderBtn() {
           >
             <Btn>{nickname}님</Btn>
           </Dropdown>
+          <MobileBtn>
+            <Dropdown
+              menu={{
+                items: mobileLoggedInItems,
+              }}
+              placement='bottom'
+            >
+              <MenuOutlined />
+            </Dropdown>
+          </MobileBtn>
         </>
       ) : (
         <>
@@ -62,6 +103,16 @@ export default function HeaderBtn() {
           <Btn>
             <StyledLink href='/auth/register'>회원가입</StyledLink>
           </Btn>
+          <MobileBtn>
+            <Dropdown
+              menu={{
+                items: mobileNotLoggedInItems,
+              }}
+              placement='bottom'
+            >
+              <MenuOutlined />
+            </Dropdown>
+          </MobileBtn>
         </>
       )}
     </HeaderRow>
@@ -81,6 +132,23 @@ const Btn = styled.div`
   &:hover {
     color: #000000;
   }
+  @media (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const MobileBtn = styled.div`
+  display: none;
+  @media (max-width: 600px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    color: #666666;
+    font-size: 20px;
+    font-weight: 200;
+    cursor: pointer;
+  }
 `;
 
 const HeaderRow = styled(Row)`
@@ -89,6 +157,13 @@ const HeaderRow = styled(Row)`
   justify-content: flex-end;
   height: 38px;
   gap: 10px;
+  @media (max-width: 600px) {
+    order: 1;
+    width: auto;
+    padding: 10px;
+    background-color: pink;
+    /* display: none; */
+  }
 `;
 
 const StyledLink = styled(Link)`
