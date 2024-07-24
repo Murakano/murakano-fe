@@ -161,6 +161,7 @@ const SectionTitle = styled.h1`
   @media (max-width: 600px) {
     width: 100%;
     padding: 10px 0;
+    margin-bottom: 10px;
   }
 `;
 

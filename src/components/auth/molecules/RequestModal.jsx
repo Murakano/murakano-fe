@@ -4,8 +4,26 @@ import ModalTitle from '@/components/auth/atoms/ModalTitle';
 import ModalInputBox from '@/components/auth/molecules/ModalInputBox';
 import ModalButton from '@/components/auth/atoms/ModalButton';
 
-const RequestModal = ({ title, onClose, requestData = {}, userRole, refreshRequests, inputFieldConfigs, formData, helperText, handleBlur, handleChange, setFormData, isRequestCompleted, handleSubmit, buttonActive, setRejectRequest, setDeleteRequest, customButtons }) => {
-    const modalRef = useRef();
+const RequestModal = ({
+  title,
+  onClose,
+  requestData = {},
+  userRole,
+  refreshRequests,
+  inputFieldConfigs,
+  formData,
+  helperText,
+  handleBlur,
+  handleChange,
+  setFormData,
+  isRequestCompleted,
+  handleSubmit,
+  buttonActive,
+  setRejectRequest,
+  setDeleteRequest,
+  customButtons,
+}) => {
+  const modalRef = useRef();
 
   const handleClickOutside = useCallback(
     (event) => {
@@ -26,80 +44,84 @@ const RequestModal = ({ title, onClose, requestData = {}, userRole, refreshReque
     };
   }, [handleClickOutside]);
 
-    return (
-        <ModalContainer>
-            <ModalBody ref={modalRef}>
-                <ModalHeader>
-                    <ModalTitle title={title} />
-                </ModalHeader>
-                <ModalContent>
-                    {inputFieldConfigs.map((config, index) => (
-                        <ModalInputBox
-                            key={index}
-                            type="text"
-                            name={config.name}
-                            labelText={config.labelText}
-                            input={formData[config.name]}
-                            setInput={setFormData}
-                            valid={!helperText[`${config.name}Helper`]}
-                            helperText={helperText[`${config.name}Helper`]}
-                            readOnly={isRequestCompleted || (config.name === 'devTerm' && requestData.type === 'mod'&& userRole !== 'admin')}
-                            disabled={isRequestCompleted || (config.name === 'devTerm' && requestData.type === 'mod' && userRole !== 'admin')}
-                            onBlur={(e) => handleBlur(e, isRequestCompleted)}
-                            $isRequestCompleted={isRequestCompleted}
-                            requestType={requestData.type}
-                        />
-                    ))}
-                    <Item>
-                        <Label>추가정보</Label>
-                        <TextArea
-                            name="addInfo"
-                            value={formData.addInfo}
-                            onChange={handleChange}
-                            valid={helperText.addInfoHelper ? false : true}
-                            disabled={isRequestCompleted}
-                            $isRequestCompleted={isRequestCompleted}
-                            onBlur={(e) => handleBlur(e, isRequestCompleted)}
-                        />
-                        <HelperText>{helperText.addInfoHelper}</HelperText>
-                    </Item>
-                </ModalContent>
-                <ModalFooter>
-                  {userRole === 'admin' && (
-                      <AdminInfo>
-                        <Label>작성자: {requestData.suggestedBy}</Label>
-                      </AdminInfo>
-                    )}
-                    <ButtonGroup>
-                        <ModalButton isClose onClick={onClose}>
-                            닫기
-                        </ModalButton>
-                        { customButtons ? customButtons : (
-                                userRole === 'admin' ? (
-                                <>
-                                    <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted}>
-                                        반려
-                                    </ModalButton>
-                                    <ModalButton onClick={handleSubmit} active={buttonActive} disabled={isRequestCompleted}>
-                                        승인
-                                    </ModalButton>
-                                </>
-                            ) : (
-                                <>
-                                    <ModalButton onClick={() => setDeleteRequest(true)}>삭제</ModalButton>
-                                    {!isRequestCompleted && (
-                                        <ModalButton onClick={handleSubmit} active={buttonActive}>
-                                            수정
-                                        </ModalButton>
-                                    )}
-                                </>
-                            )
-                        )}
-                    </ButtonGroup>
-                </ModalFooter>
-            </ModalBody>
-        </ModalContainer>
-    );
+  return (
+    <ModalContainer>
+      <ModalBody ref={modalRef}>
+        <ModalHeader>
+          <ModalTitle title={title} />
+        </ModalHeader>
+        <ModalContent>
+          {inputFieldConfigs.map((config, index) => (
+            <ModalInputBox
+              key={index}
+              type='text'
+              name={config.name}
+              labelText={config.labelText}
+              input={formData[config.name]}
+              setInput={setFormData}
+              valid={!helperText[`${config.name}Helper`]}
+              helperText={helperText[`${config.name}Helper`]}
+              readOnly={
+                isRequestCompleted || (config.name === 'devTerm' && requestData.type === 'mod' && userRole !== 'admin')
+              }
+              disabled={
+                isRequestCompleted || (config.name === 'devTerm' && requestData.type === 'mod' && userRole !== 'admin')
+              }
+              onBlur={(e) => handleBlur(e, isRequestCompleted)}
+              $isRequestCompleted={isRequestCompleted}
+              requestType={requestData.type}
+            />
+          ))}
+          <Item>
+            <Label>추가정보</Label>
+            <TextArea
+              name='addInfo'
+              value={formData.addInfo}
+              onChange={handleChange}
+              valid={helperText.addInfoHelper ? false : true}
+              disabled={isRequestCompleted}
+              $isRequestCompleted={isRequestCompleted}
+              onBlur={(e) => handleBlur(e, isRequestCompleted)}
+            />
+            <HelperText>{helperText.addInfoHelper}</HelperText>
+          </Item>
+        </ModalContent>
+        <ModalFooter>
+          {userRole === 'admin' && (
+            <AdminInfo>
+              <Label>작성자: {requestData.suggestedBy}</Label>
+            </AdminInfo>
+          )}
+          <ButtonGroup>
+            <ModalButton isClose onClick={onClose}>
+              닫기
+            </ModalButton>
+            {customButtons ? (
+              customButtons
+            ) : userRole === 'admin' ? (
+              <>
+                <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted}>
+                  반려
+                </ModalButton>
+                <ModalButton onClick={handleSubmit} active={buttonActive} disabled={isRequestCompleted}>
+                  승인
+                </ModalButton>
+              </>
+            ) : (
+              <>
+                <ModalButton onClick={() => setDeleteRequest(true)}>삭제</ModalButton>
+                {!isRequestCompleted && (
+                  <ModalButton onClick={handleSubmit} active={buttonActive}>
+                    수정
+                  </ModalButton>
+                )}
+              </>
+            )}
+          </ButtonGroup>
+        </ModalFooter>
+      </ModalBody>
+    </ModalContainer>
+  );
 };
 
 export default RequestModal;
@@ -131,6 +153,12 @@ const ModalBody = styled.main`
   padding: 66.5px 0;
   border-radius: 20px;
   border: 1px solid var(--secondary);
+  @media (max-width: 600px) {
+    width: 90%;
+    padding: 20px;
+    height: auto;
+    /* height: calc(100% - 40px); */
+  }
 `;
 
 const ModalHeader = styled.header`
@@ -148,6 +176,10 @@ const ModalContent = styled.section`
   flex-grow: 1;
   height: 600px;
   overflow: hidden;
+  @media (max-width: 600px) {
+    padding: 0;
+    height: auto;
+  }
 `;
 
 const ModalFooter = styled.footer`
@@ -215,6 +247,9 @@ const TextArea = styled.textarea`
             outline: none;
         }
     `}
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const HelperText = styled.p`
