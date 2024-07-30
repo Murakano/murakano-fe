@@ -24,6 +24,7 @@ const Text = styled.div`
   font-size: 12px;
   margin-right: auto;
   border-bottom: 1px solid #ccc;
+  white-space: nowrap; // 텍스트가 한 줄로 유지되도록 함
 `;
 
 export default ResultCategory;

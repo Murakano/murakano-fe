@@ -26,8 +26,15 @@ const WordListContainer = styled.div`
   width: 780px;
   height: 100%;
   padding: 10px 44.5px;
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 10px 0;
+  }
 `;
 
 const WordListDiv = styled.div`
   width: 691px;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;

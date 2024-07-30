@@ -85,6 +85,12 @@ const StyledInputBox = styled(InputBox)`
       top: 0;
     }
   }
+
+  @media (max-width: 600px) {
+    Input {
+      width: 100%;
+    }
+  }
 `;
 
 export default ModalInputBox;

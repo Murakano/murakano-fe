@@ -37,8 +37,12 @@ const Section = styled.div`
   padding-top: 100px;
   justify-content: flex-start;
   box-sizing: border-box;
-  height: calc(100vh - 103px);
+  min-height: calc(100vh - 103px);
+  height: 100%;
   max-width: 100vw;
+  @media (max-width: 600px) {
+    padding-top: 40px;
+  }
 `;
 
 const Logo = styled.div`
@@ -48,6 +52,10 @@ const Logo = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  @media (max-width: 600px) {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const Title = styled.div`
@@ -56,6 +64,9 @@ const Title = styled.div`
   justify-content: center;
   margin-bottom: 20px;
   cursor: pointer;
+  @media (max-width: 600px) {
+    align-items: flex-end;
+  }
 `;
 
 const SubText = styled.div`
@@ -64,4 +75,7 @@ const SubText = styled.div`
   text-align: center;
   color: #666666;
   margin-bottom: 20px;
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;

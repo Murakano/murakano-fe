@@ -30,11 +30,13 @@ const ListContainer = styled.div`
   width: 691px;
   height: 99px;
   padding: 10.5px 36px;
-
   border-bottom: 1px solid rgba(204, 204, 204, 0.3);
 
   &:hover {
     background: var(--secondary10);
+  }
+  @media (max-width: 600px) {
+    width: 100%;
   }
 `;
 
@@ -46,6 +48,9 @@ const ListInnerContainer = styled.div`
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const WordContents = styled.div`
@@ -67,6 +72,9 @@ const WordName = styled.div`
   font-weight: 600;
   line-height: 22.5px;
   letter-spacing: -0.03em;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const WordPron = styled.div`
@@ -77,12 +85,14 @@ const WordPron = styled.div`
   line-height: 19.5px;
   letter-spacing: -0.03em;
   overflow: hidden;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const WordListIconContainer = styled.div`
   display: flex;
   justify-content: center;
-  item-align: center;
   width: 24px;
   height: 44px;
   margin: 17.5px 10px 17.5px 0;
@@ -90,6 +100,11 @@ const WordListIconContainer = styled.div`
   position: relative;
   top: -88px;
   left: 590px;
+  @media (max-width: 600px) {
+    margin: 0;
+    top: -70px;
+    left: 90%;
+  }
 `;
 
 const WordListIconDiv = styled.div`

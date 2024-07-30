@@ -20,10 +20,3 @@ export const Icon = styled.div`
   height: 32px;
   cursor: pointer;
 `;
-
-// export const StyledSearchOutlined = styled(SearchOutlined)`
-//   width: 32px;
-//   height: 32px;
-//   font-size: 30px;
-//   color: #666666;
-// `;

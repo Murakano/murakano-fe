@@ -55,6 +55,9 @@ const AddRequestBtn = styled(ActionBtn)`
   &:hover {
     background-color: var(--primary);
   }
+  @media (max-width: 600px) {
+    margin-top: 0px;
+  }
 `;
 
 const StyledContainer = styled.div`
@@ -65,6 +68,11 @@ const StyledContainer = styled.div`
   height: 100vh;
   width: 780px;
   padding: 96px 0;
+  @media (max-width: 600px) {
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
 `;
 
 export default SorryComponent;

@@ -19,4 +19,10 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 600px) {
+    max-width: 350px;
+    width: 100%;
+    padding: 0;
+    /* display: none; */
+  }
 `;

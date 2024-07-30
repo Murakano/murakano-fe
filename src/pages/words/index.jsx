@@ -42,6 +42,9 @@ const Section = styled.div`
   box-sizing: border-box;
   width: 780px;
   position: relative;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const ScrollContainer = styled.div`
@@ -52,4 +55,7 @@ const ScrollContainer = styled.div`
   right: 10px;
   width: 40px;
   height: 40px;
+  @media (max-width: 600px) {
+    right: 13%;
+  }
 `;

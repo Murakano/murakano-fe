@@ -34,10 +34,10 @@ export default function Footer() {
 }
 
 const FooterContainer = styled.footer`
-  min-width: 780px;
+  max-width: 780px;
   width: 100%;
   margin-top: 10px;
-  padding: 20px;
+  padding: 20px 10px;
   box-sizing: border-box;
   display: flex;
   justify-content: flex-end;
@@ -82,5 +82,8 @@ const FooterBtn = styled.div`
   &:hover {
     text-decoration: underline;
     color: #000;
+  }
+  @media (max-width: 600px) {
+    font-size: 10px;
   }
 `;

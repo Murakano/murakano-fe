@@ -65,6 +65,10 @@ const MainContainer = styled.div`
   padding: 0;
   height: ${(props) => (props.$isHome ? '38px' : '130px')};
   width: 100%;
+  @media (max-width: 600px) {
+    flex-direction: row;
+    height: ${(props) => (props.$isHome ? '38px' : '70px')};
+  }
 `;
 
 const Inner = styled.div`
@@ -72,26 +76,44 @@ const Inner = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  width: 780px;
+  max-width: 780px;
+  width: 100%;
   height: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
+  @media (max-width: 600px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 
 const SmallLogoText = styled(LogoText)`
   width: 130px;
   font-size: 30px;
   align-items: center;
+  @media (max-width: 600px) {
+    /* flex: 1; */
+    width: 55px;
+    font-size: 15px;
+  }
 `;
 
 const HeaderRow = styled(Row)`
+  display: flex;
   height: 51px;
   padding: 10px;
   gap: 35px;
+  @media (max-width: 600px) {
+    flex-grow: 1;
+    padding: 0px;
+    gap: 15px;
+    justify-content: flex-start;
+  }
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: var(--primary);
   text-shadow: 2px 2px 1px rgba(118, 118, 118, 0.2);
-  &:hover {
-  }
 `;

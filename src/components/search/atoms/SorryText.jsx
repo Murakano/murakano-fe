@@ -24,6 +24,10 @@ const StyledSorryTexts = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media (max-width: 600px) {
+    font-size: 20px;
+    line-height: 30px;
+  }
 `;
 
 const StyledSorryText = styled.div`
