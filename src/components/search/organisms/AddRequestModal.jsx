@@ -81,9 +81,7 @@ export default function Modal({ onClose, query }) {
 
     if (name === 'devTerm') {
       try {
-        const response = await api.post('/words/checkDuplicateWord', { word: formData.devTerm });
-        // Handle the response as needed
-        console.log('단어 중복 요청 검사 결과:', response); // Handle the response as needed
+        const response = await api.post('/words/duplicate', { word: formData.devTerm });
         if (response.data.isDataExist !== null) {
           updateState('devTermHelper', HELPER_TEXT.DUPLICATE_WORD, setHelperText);
           hasError = true;
@@ -330,7 +328,6 @@ const ButtonGroup = styled.div`
     justify-content: center; // 반응형 정렬 수정
     margin-right: 0;
   }
-
 `;
 
 const Item = styled.div`
@@ -356,7 +353,6 @@ const Label = styled.label`
   @media (max-width: 600px) {
     font-size: 14px; // 반응형 정렬 수정
   }
-
 `;
 
 const StyledInputBox = styled(InputBox)`
@@ -449,11 +445,11 @@ const ModalButton = styled.button`
         : 'var(--primary60)'}; // 프리픽스 적용
   &:hover {
     box-shadow: ${(props) =>
-    props.$isClose
-      ? '0px 2px 4px 0px #00000026' // 프리픽스 적용
-      : props.$active
-        ? '0px 2px 6px 0px #3C8BFF99' // 프리픽스 적용
-        : 'none'};
+      props.$isClose
+        ? '0px 2px 4px 0px #00000026' // 프리픽스 적용
+        : props.$active
+          ? '0px 2px 6px 0px #3C8BFF99' // 프리픽스 적용
+          : 'none'};
   }
   @media (max-width: 600px) {
     width: 100px; // 반응형 정렬 수정
