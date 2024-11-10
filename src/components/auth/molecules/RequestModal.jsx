@@ -7,7 +7,7 @@ import ModalButton from '@/components/auth/atoms/ModalButton';
 const RequestModal = ({
   title,
   onClose,
-  requestData,
+  requestData = {},
   userRole,
   refreshRequests,
   inputFieldConfigs,
@@ -21,6 +21,7 @@ const RequestModal = ({
   buttonActive,
   setRejectRequest,
   setDeleteRequest,
+  customButtons,
 }) => {
   const modalRef = useRef();
 
@@ -35,8 +36,11 @@ const RequestModal = ({
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
+    document.body.style.overflow = 'hidden';
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'auto';
     };
   }, [handleClickOutside]);
 
@@ -83,11 +87,18 @@ const RequestModal = ({
           </Item>
         </ModalContent>
         <ModalFooter>
+          {userRole === 'admin' && (
+            <AdminInfo>
+              <Label>작성자: {requestData.suggestedBy}</Label>
+            </AdminInfo>
+          )}
           <ButtonGroup>
             <ModalButton isClose onClick={onClose}>
               닫기
             </ModalButton>
-            {userRole === 'admin' ? (
+            {customButtons ? (
+              customButtons
+            ) : userRole === 'admin' ? (
               <>
                 <ModalButton onClick={() => setRejectRequest(true)} disabled={isRequestCompleted}>
                   반려
@@ -142,6 +153,12 @@ const ModalBody = styled.main`
   padding: 66.5px 0;
   border-radius: 20px;
   border: 1px solid var(--secondary);
+  @media (max-width: 600px) {
+    width: 90%;
+    padding: 20px;
+    height: auto;
+    /* height: calc(100% - 40px); */
+  }
 `;
 
 const ModalHeader = styled.header`
@@ -156,22 +173,28 @@ const ModalContent = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex-grow: 1;
+  height: 600px;
+  overflow: hidden;
+  @media (max-width: 600px) {
+    padding: 0;
+    height: auto;
+  }
 `;
 
 const ModalFooter = styled.footer`
   display: flex;
-  height: 80px;
-  justify-content: center;
-  padding: 0 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0px 31px;
+  height: auto;
 `;
 
 const ButtonGroup = styled.div`
-  width: 100%;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
-  margin-right: 17px;
+  margin-left: auto;
 `;
 
 const Item = styled.div`
@@ -181,6 +204,7 @@ const Item = styled.div`
   justify-content: center;
   gap: 5px;
   margin-bottom: 31.5px;
+  position: relative;
 `;
 
 const Label = styled.label`
@@ -223,10 +247,20 @@ const TextArea = styled.textarea`
             outline: none;
         }
     `}
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const HelperText = styled.p`
   font-size: 12px;
   color: #ff0808;
   margin-top: 4px;
+`;
+
+const AdminInfo = styled.div`
+  font-size: 16px;
+  font-weight: 100;
+  color: #666666;
+  margin-top: 10px;
 `;

@@ -14,6 +14,9 @@ export const LogoText = styled.div`
   color: var(--primary);
   margin-left: 10px;
   font-size: 50px;
+  @media (max-width: 600px) {
+    font-size: 36px;
+  }
 `;
 
 // flex-direction: row
@@ -38,6 +41,9 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   overflow-y: auto;
+  @media (max-width: 600px) {
+    margin: ${(props) => (props.$marginTop === '38px' ? '38px' : '70px')} 0 0;
+  }
 `;
 
 // 검색아이콘
@@ -49,5 +55,9 @@ export const StyledSearchOutlined = styled(SearchOutlined)`
   color: var(--primary60);
   &:hover {
     color: var(--primary);
+  }
+
+  @media (max-width: 600px) {
+    font-size: 23px;
   }
 `;

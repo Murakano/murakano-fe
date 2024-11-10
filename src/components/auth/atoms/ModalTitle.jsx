@@ -12,6 +12,9 @@ const Title = styled.h1`
   line-height: 60px;
   letter-spacing: -0.03em;
   text-align: center;
+  @media (max-width: 600px) {
+    font-size: 24px;
+  }
 `;
 
 export default ModalTitle;

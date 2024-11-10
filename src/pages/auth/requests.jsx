@@ -48,6 +48,17 @@ export default function Requests() {
     fetchRequests();
   }, [accessToken]);
 
+  useEffect(() => {
+    if (requests.length === 0) {
+      document.body.style.overflow = 'hidden'; // 요청 내역이 없을 때 스크롤 막기
+    } else {
+      document.body.style.overflow = 'auto'; // 요청 내역이 있을 때 스크롤 허용
+    }
+    return () => {
+      document.body.style.overflow = 'auto'; // 컴포넌트 언마운트 시 스크롤 허용
+    };
+  }, [requests]);
+
   const refreshRequests = () => {
     fetchRequests();
   };
@@ -56,9 +67,15 @@ export default function Requests() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <section>
+    <Section>
       {requests.length === 0 ? (
-        <NoRequestsMessage>요청 내역이 없습니다.</NoRequestsMessage>
+        <>
+          <SectionTitle>{sectionTitle}</SectionTitle>
+          <NoRequestsContainer>
+            <Logo />
+            <NoRequestsMessage>요청한 내역이 없습니다.</NoRequestsMessage>
+          </NoRequestsContainer>
+        </>
       ) : (
         <RequestSection
           requests={requests}
@@ -70,16 +87,55 @@ export default function Requests() {
       <ScrollContainer>
         <TopScrollBtn />
       </ScrollContainer>
-    </section>
+    </Section>
   );
 }
 
-const NoRequestsMessage = styled.div`
+const Section = styled.div`
+  height: calc(100vh - 195px);
+  @media (max-width: 600px) {
+    height: calc(100vh - 165px);
+    width: 100%;
+  }
+`;
+
+const Logo = styled.div`
+  width: 35px;
+  height: 35px;
+  background-image: url('/murak-logo-removebg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-right: 10px;
+`;
+
+const NoRequestsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 340px;
+`;
+
+const SectionTitle = styled.h1`
   text-align: center;
-  margin-top: 20px;
-  font-size: 30px;
   font-weight: 600;
-  color: #888;
+  font-size: 20px;
+  margin: 63px 0 180px;
+  @media (max-width: 600px) {
+    margin: 40px 0 50px;
+  }
+`;
+
+const NoRequestsMessage = styled.div`
+  font-size: 26px;
+  font-weight: 600;
+  color: #555252;
+  display: flex;
+  align-items: center;
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
 
 const ScrollContainer = styled.div`

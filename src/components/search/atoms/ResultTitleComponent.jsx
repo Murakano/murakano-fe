@@ -11,6 +11,10 @@ const ResultTitle = styled.span`
   display: flex;
   align-items: center; // 텍스트 수직 정렬
   padding-top: 3px;
+  @media (max-width: 600px) {
+    width: 100%; // 반응형 정렬 수정
+    font-size: 12px;
+  }
 `;
 
 export default function ResultTitleComponent({ children, ...props }) {

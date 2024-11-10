@@ -6,6 +6,8 @@ import SearchDropdown from '@/components/search/organisms/SearchDropdown';
 import SearchBox from '@/components/search/molecules/SearchBox';
 import api from '@/utils/api';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
+import jsLevenshtein from 'js-levenshtein';
+import styled from 'styled-components';
 
 export default function SearchBar({ header }) {
   const router = useRouter();
@@ -23,8 +25,46 @@ export default function SearchBar({ header }) {
   const fetchRelatedItems = async (term) => {
     try {
       const response = await api.get(`/words/search/related`, { searchTerm: term, limit: 10 });
-      response.data ? setRelatedItems(response.data) : setRelatedItems([]);
-      return response.data;
+      const words = response.data;
+      const primaryMatch = [];
+      const otherMatches = [];
+
+      words.forEach((word) => {
+        if (word.toLowerCase().startsWith(term[0])) {
+          primaryMatch.push(word);
+        } else {
+          otherMatches.push(word);
+        }
+      });
+
+      // primaryMatch를 Levenshtein 거리와 기존 인덱스로 정렬
+      // term과의 유사성을 우선으로 하되, 유사성이 같은 경우에는 기존의 조회순(낮은 인덱스가 높은 조회수)을 유지하여 단어를 정렬
+      // 1.각 단어에 대해 term과의 Levenshtein 거리를 계산
+      // 2.Levenshtein 거리가 다른 경우, 거리가 더 작은 단어가 앞에 오도록 정렬합니다.
+      // 3.Levenshtein 거리가 같은 경우, 기존 인덱스를 기준으로 정렬하여 기존 순서를 유지
+      primaryMatch.sort((a, b) => {
+        const distanceA = jsLevenshtein(term, a);
+        const distanceB = jsLevenshtein(term, b);
+        if (distanceA !== distanceB) {
+          return distanceA - distanceB;
+        }
+        return words.indexOf(a) - words.indexOf(b);
+      });
+      console.log('primaryMatch: ' + primaryMatch);
+
+      // otherMatches를 Levenshtein 거리와 기존 인덱스로 정렬
+      otherMatches.sort((a, b) => {
+        const distanceA = jsLevenshtein(term, a);
+        const distanceB = jsLevenshtein(term, b);
+        if (distanceA !== distanceB) {
+          return distanceA - distanceB;
+        }
+        return words.indexOf(a) - words.indexOf(b);
+      });
+
+      // 최종 정렬된 배열
+      setRelatedItems([...primaryMatch, ...otherMatches]);
+      return [...primaryMatch, ...otherMatches];
     } catch (error) {
       console.error(error);
     }
@@ -112,7 +152,7 @@ export default function SearchBar({ header }) {
   };
 
   return (
-    <Column ref={searchBarRef}>
+    <SearchColumn ref={searchBarRef}>
       <SearchBox
         header={header}
         handleSearch={handleSearch}
@@ -133,6 +173,10 @@ export default function SearchBar({ header }) {
           setDropdownVisible={setDropdownVisible} // 추가
         />
       )}
-    </Column>
+    </SearchColumn>
   );
 }
+const SearchColumn = styled(Column)`
+  flex-grow: 1;
+  justify-content: flex-start;
+`;

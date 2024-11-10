@@ -34,9 +34,17 @@ const Container = styled.div`
   border-radius: 30px;
   background-color: var(--secondary10);
   gap: 8px;
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 10px 30px;
+    gap: 4px;
+  }
 `;
 
 const StyledContainer = styled.div`
   width: 691px;
   height: auto;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;

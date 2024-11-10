@@ -6,7 +6,6 @@ import SorryComponent from '@/components/search/molecules/SorryComponent';
 import ContributorEditBtn from '@/components/search/molecules/ContributorEditBtn';
 import api from '@/utils/api';
 import { useEffect, useState } from 'react';
-import { useSearchTermStore } from '@/store/useSearchTermStore';
 
 export default function SearchResults() {
   const router = useRouter();
@@ -58,8 +57,12 @@ const Section = styled.div`
   justify-content: flex-start;
   padding-top: 40px;
   box-sizing: border-box;
-  min-height: calc(100vh - 195px);
+  min-height: calc(100vh - 165px);
   height: 100%;
+
+  @media (max-width: 600px) {
+    padding: 40px 20px;
+  }
 `;
 
 const StyledContainer = styled.div`

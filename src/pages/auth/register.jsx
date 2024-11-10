@@ -22,6 +22,9 @@ const Page = styled.div`
   align-items: center;
   justify-content: center;
   padding: 100.5px 0;
+  @media (max-width: 600px) {
+    padding: 20px 0;
+  }
 `;
 
 const Section = styled.div`
@@ -30,11 +33,18 @@ const Section = styled.div`
   align-items: center;
   width: 780px;
   justify-content: center;
+  @media (max-width: 600px) {
+    width: 100%; // 반응형 정렬 수정
+    height: auto;
+  }
 `;
 const PageTitle = styled.div`
   font-size: 40px;
   font-weight: 700;
   line-height: 60px;
+  @media (max-width: 600px) {
+    font-size: 25px;
+  }
 `;
 
 const Main = styled.div`
@@ -44,4 +54,8 @@ const Main = styled.div`
   justify-content: center;
   width: 540px;
   padding: 11.5px 46px 74px;
+  @media (max-width: 600px) {
+    width: 100%; // 반응형 정렬 수정
+    height: auto;
+  }
 `;
