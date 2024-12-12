@@ -5,6 +5,7 @@ import SearchBar from '@/components/search/organisms/SearchBar';
 import router from 'next/router';
 import { useEffect } from 'react';
 import { useSearchTermStore } from '@/store/useSearchTermStore';
+import Image from 'next/image';
 
 export default function Search() {
   const { setSearchTerm } = useSearchTermStore();
@@ -21,7 +22,17 @@ export default function Search() {
   return (
     <Section>
       <Title onClick={redirectToHome}>
-        <Logo />
+        <LogoContainer>
+          <Image
+            src='/murak-logo-removebg.png'
+            alt='머라카노 로고'
+            width={70}
+            height={70}
+            priority
+            quality={75}
+            sizes='(max-width: 600px) 40px, 70px'
+          />
+        </LogoContainer>
         <LogoText>머라카노</LogoText>
       </Title>
       <SubText>개발자들을 위한 한국어 발음 검색 서비스</SubText>
@@ -45,13 +56,10 @@ const Section = styled.div`
   }
 `;
 
-const Logo = styled.div`
+const LogoContainer = styled.div`
+  position: relative;
   width: 70px;
   height: 70px;
-  background-image: url('/murak-logo-removebg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   @media (max-width: 600px) {
     width: 40px;
     height: 40px;
